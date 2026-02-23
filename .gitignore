@@ -20,3 +20,5 @@ data/
 # OS Files
 .DS_Store
 Thumbs.db
+mostly/
+old/
