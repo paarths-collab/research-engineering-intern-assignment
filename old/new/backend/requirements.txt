@@ -1,0 +1,9 @@
+pandas
+duckdb
+tqdm
+emoji
+sentence-transformers 
+chromadb 
+spacy
+spacy-transformers
+matplotlib

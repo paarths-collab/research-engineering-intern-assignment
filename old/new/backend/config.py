@@ -1,0 +1,7 @@
+DB_NAME = "social_lab.duckdb"
+DATASET_NAME = "reddit_data"
+CHROMA_PATH = "./chroma_db"
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+SPACY_MODEL = "en_core_web_trf"
+RAW_DATA_PATH = "data/data.jsonl"
+CHROMA_COLLECTION = "reddit_collection"

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shock Response Analyzer - Reddit Event Impact</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .tagline {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            font-style: italic;
+            color: #444;
+        }
+
+        .upload-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .upload-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .file-input-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            display: block;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            display: block;
+        }
+
+        .timeline {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .timeline.active {
+            display: block;
+        }
+
+        .timeline h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .event-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .event-card .date {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .event-card .title {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .event-card .description {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .control-group input {
+            padding: 8px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            width: 80px;
+            font-size: 1em;
+        }
+
+        .analyze-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: transform 0.2s;
+        }
+
+        .analyze-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .analyze-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .results-header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .results-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .date-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            margin-top: 15px;
+            align-items: center;
+        }
+
+        .date-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .date-box .label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .date-box .count {
+            font-size: 2em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .date-box .subtext {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .vs {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #999;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .chart-header {
+            margin-bottom: 20px;
+        }
+
+        .chart-header h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-header .icon {
+            font-size: 1.3em;
+        }
+
+        .metric-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .metric-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .metric-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .metric-change {
+            font-size: 0.9em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .metric-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .metric-change.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .metric-change.neutral {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .interpretation {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-weight: 500;
+            color: #856404;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .keyword-list {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .keyword-list h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .keyword-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .keyword-item:last-child {
+            border-bottom: none;
+        }
+
+        .keyword-word {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .keyword-count {
+            color: #667eea;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🔬 Shock Response Analyzer</h1>
+            <p>Detecting structural shifts in online communities after real-world events</p>
+            <div class="tagline">
+                <strong>Core Principle:</strong> Models real-world events as external shocks and quantifies how online communities reorganize structurally across activity, interaction, attention, and semantic dimensions.
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <h2>📁 Load Dataset</h2>
+            <div class="file-input-wrapper">
+                <div class="file-input-button">Choose JSONL File</div>
+                <input type="file" id="fileInput" accept=".jsonl">
+            </div>
+            <div id="status" class="status"></div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div id="timeline" class="timeline">
+            <h2>📅 Select Global Event</h2>
+            <div id="eventsGrid" class="events-grid"></div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Days Before:</label>
+                    <input type="number" id="daysBefore" value="7" min="1" max="30">
+                </div>
+                <div class="control-group">
+                    <label>Days After:</label>
+                    <input type="number" id="daysAfter" value="7" min="1" max="30">
+                </div>
+                <button id="analyzeButton" class="analyze-button" disabled>Analyze Event</button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Analyzing community response...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="results">
+            <!-- Results Header -->
+            <div class="results-header">
+                <h2 id="resultsTitle"></h2>
+                <div class="date-comparison">
+                    <div class="date-box">
+                        <div class="label">BEFORE EVENT</div>
+                        <div class="count" id="beforeCount">0</div>
+                        <div class="subtext" id="beforeRange"></div>
+                    </div>
+                    <div class="vs">VS</div>
+                    <div class="date-box">
+                        <div class="label">AFTER EVENT</div>
+                        <div class="count" id="afterCount">0</div>
+                        <div class="subtext" id="afterRange"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- Chart 1: Activity Shock -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><span class="icon">📊</span> Activity Shock</h3>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-row">
+                            <span class="metric-label">Before Rate:</span>
+                            <span class="metric-value" id="beforeRate">0</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">After Rate:</span>
+                            <span class="metric-value" id="afterRate">0</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Change:</span>
+                            <span class="metric-change" id="activityChange">0%</span>
+                        </div>
+                    </div>
+                    <div id="activityChart"></div>
+                    <div class="interpretation" id="activityInterpretation"></div>
+                </div>
+
+                <!-- Chart 2: Discussion Intensity -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><span class="icon">💬</span> Discussion Intensity</h3>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-row">
+                            <span class="metric-label">Before Median:</span>
+                            <span class="metric-value" id="beforeMedian">0</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">After Median:</span>
+                            <span class="metric-value" id="afterMedian">0</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Change:</span>
+                            <span class="metric-change" id="discussionChange">0%</span>
+                        </div>
+                    </div>
+                    <div id="discussionChart"></div>
+                    <div class="interpretation" id="discussionInterpretation"></div>
+                </div>
+
+                <!-- Chart 3: Attention Redistribution -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><span class="icon">🎯</span> Attention Redistribution</h3>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-row">
+                            <span class="metric-label">Before Gini:</span>
+                            <span class="metric-value" id="beforeGini">0</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">After Gini:</span>
+                            <span class="metric-value" id="afterGini">0</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Δ Gini:</span>
+                            <span class="metric-change" id="giniChange">0</span>
+                        </div>
+                    </div>
+                    <div id="attentionChart"></div>
+                    <div class="interpretation" id="attentionInterpretation"></div>
+                </div>
+
+                <!-- Chart 4: Topic Shift -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><span class="icon">🔄</span> Topic Shift</h3>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-row">
+                            <span class="metric-label">Cosine Similarity:</span>
+                            <span class="metric-value" id="cosineSimilarity">0</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Cosine Distance:</span>
+                            <span class="metric-value" id="cosineDistance">0</span>
+                        </div>
+                    </div>
+                    <div class="keywords-grid">
+                        <div class="keyword-list">
+                            <h4>BEFORE Keywords</h4>
+                            <div id="beforeKeywords"></div>
+                        </div>
+                        <div class="keyword-list">
+                            <h4>AFTER Keywords</h4>
+                            <div id="afterKeywords"></div>
+                        </div>
+                    </div>
+                    <div class="interpretation" id="topicInterpretation"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        let selectedEvent = null;
+        let events = [];
+
+        // File upload handler
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = 'Uploading and processing data...';
+            statusEl.className = 'status';
+
+            try {
+                const response = await fetch(`${API_URL}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusEl.textContent = `✓ Successfully loaded ${result.total_posts} posts from ${result.date_range.start} to ${result.date_range.end}`;
+                    statusEl.className = 'status success';
+                    
+                    // Load events
+                    await loadEvents();
+                    document.getElementById('timeline').classList.add('active');
+                } else {
+                    throw new Error('Upload failed');
+                }
+            } catch (error) {
+                statusEl.textContent = `✗ Error: ${error.message}`;
+                statusEl.className = 'status error';
+            }
+        });
+
+        // Load events
+        async function loadEvents() {
+            try {
+                const response = await fetch(`${API_URL}/events`);
+                const data = await response.json();
+                events = data.events;
+
+                const grid = document.getElementById('eventsGrid');
+                grid.innerHTML = events.map(event => `
+                    <div class="event-card" data-event-id="${event.id}">
+                        <div class="date">${formatDate(event.date)}</div>
+                        <div class="title">${event.title}</div>
+                        <div class="description">${event.description}</div>
+                    </div>
+                `).join('');
+
+                // Add click handlers
+                document.querySelectorAll('.event-card').forEach(card => {
+                    card.addEventListener('click', () => selectEvent(card));
+                });
+            } catch (error) {
+                console.error('Error loading events:', error);
+            }
+        }
+
+        // Select event
+        function selectEvent(card) {
+            document.querySelectorAll('.event-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedEvent = parseInt(card.dataset.eventId);
+            document.getElementById('analyzeButton').disabled = false;
+        }
+
+        // Analyze button
+        document.getElementById('analyzeButton').addEventListener('click', analyzeEvent);
+
+        // Analyze event
+        async function analyzeEvent() {
+            if (!selectedEvent) return;
+
+            const daysBefore = parseInt(document.getElementById('daysBefore').value);
+            const daysAfter = parseInt(document.getElementById('daysAfter').value);
+
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('results').classList.remove('active');
+
+            try {
+                const response = await fetch(`${API_URL}/analyze`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event_id: selectedEvent,
+                        days_before: daysBefore,
+                        days_after: daysAfter
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    alert(data.error);
+                    document.getElementById('loading').classList.remove('active');
+                    return;
+                }
+
+                displayResults(data);
+            } catch (error) {
+                console.error('Error analyzing event:', error);
+                alert('Error analyzing event: ' + error.message);
+            } finally {
+                document.getElementById('loading').classList.remove('active');
+            }
+        }
+
+        // Display results
+        function displayResults(data) {
+            // Header
+            document.getElementById('resultsTitle').textContent = data.event.title;
+            document.getElementById('beforeCount').textContent = data.date_ranges.before.post_count;
+            document.getElementById('afterCount').textContent = data.date_ranges.after.post_count;
+            document.getElementById('beforeRange').textContent = 
+                `${formatDateShort(data.date_ranges.before.start)} - ${formatDateShort(data.date_ranges.before.end)}`;
+            document.getElementById('afterRange').textContent = 
+                `${formatDateShort(data.date_ranges.after.start)} - ${formatDateShort(data.date_ranges.after.end)}`;
+
+            const analysis = data.analysis;
+
+            // 1. Activity Shock
+            displayActivityShock(analysis.activity_shock);
+
+            // 2. Discussion Intensity
+            displayDiscussionIntensity(analysis.discussion_intensity);
+
+            // 3. Attention Redistribution
+            displayAttentionRedistribution(analysis.attention_redistribution);
+
+            // 4. Topic Shift
+            displayTopicShift(analysis.topic_shift);
+
+            document.getElementById('results').classList.add('active');
+        }
+
+        // Display Activity Shock
+        function displayActivityShock(data) {
+            document.getElementById('beforeRate').textContent = data.before_rate + ' posts/day';
+            document.getElementById('afterRate').textContent = data.after_rate + ' posts/day';
+            
+            const changeEl = document.getElementById('activityChange');
+            changeEl.textContent = (data.percent_change > 0 ? '+' : '') + data.percent_change + '%';
+            changeEl.className = 'metric-change ' + (data.percent_change > 0 ? 'positive' : data.percent_change < 0 ? 'negative' : 'neutral');
+
+            document.getElementById('activityInterpretation').textContent = data.interpretation;
+
+            // Chart: Mirrored histogram
+            const beforeDates = Object.keys(data.before_daily).sort();
+            const afterDates = Object.keys(data.after_daily).sort();
+
+            const trace1 = {
+                x: beforeDates,
+                y: beforeDates.map(d => data.before_daily[d]),
+                type: 'bar',
+                name: 'Before Event',
+                marker: { color: '#667eea' }
+            };
+
+            const trace2 = {
+                x: afterDates,
+                y: afterDates.map(d => data.after_daily[d]),
+                type: 'bar',
+                name: 'After Event',
+                marker: { color: '#764ba2' }
+            };
+
+            const layout = {
+                title: 'Daily Posting Activity',
+                xaxis: { title: 'Date' },
+                yaxis: { title: 'Number of Posts' },
+                barmode: 'group',
+                height: 300
+            };
+
+            Plotly.newPlot('activityChart', [trace1, trace2], layout, {responsive: true});
+        }
+
+        // Display Discussion Intensity
+        function displayDiscussionIntensity(data) {
+            document.getElementById('beforeMedian').textContent = data.before_median + ' comments';
+            document.getElementById('afterMedian').textContent = data.after_median + ' comments';
+            
+            const changeEl = document.getElementById('discussionChange');
+            changeEl.textContent = (data.percent_change > 0 ? '+' : '') + data.percent_change + '%';
+            changeEl.className = 'metric-change ' + (data.percent_change > 0 ? 'positive' : data.percent_change < 0 ? 'negative' : 'neutral');
+
+            document.getElementById('discussionInterpretation').textContent = data.interpretation;
+
+            // Chart: Comment distribution
+            const ranges = data.before_distribution.map(d => d.range);
+            
+            const trace1 = {
+                x: ranges,
+                y: data.before_distribution.map(d => d.count),
+                type: 'bar',
+                name: 'Before Event',
+                marker: { color: '#667eea' }
+            };
+
+            const trace2 = {
+                x: ranges,
+                y: data.after_distribution.map(d => d.count),
+                type: 'bar',
+                name: 'After Event',
+                marker: { color: '#764ba2' }
+            };
+
+            const layout = {
+                title: 'Comments per Post Distribution',
+                xaxis: { title: 'Comment Range' },
+                yaxis: { title: 'Number of Posts' },
+                barmode: 'group',
+                height: 300
+            };
+
+            Plotly.newPlot('discussionChart', [trace1, trace2], layout, {responsive: true});
+        }
+
+        // Display Attention Redistribution
+        function displayAttentionRedistribution(data) {
+            document.getElementById('beforeGini').textContent = data.before_gini;
+            document.getElementById('afterGini').textContent = data.after_gini;
+            
+            const changeEl = document.getElementById('giniChange');
+            changeEl.textContent = (data.delta_gini > 0 ? '+' : '') + data.delta_gini;
+            changeEl.className = 'metric-change ' + (Math.abs(data.delta_gini) < 0.05 ? 'neutral' : 
+                                                     data.delta_gini > 0 ? 'positive' : 'negative');
+
+            document.getElementById('attentionInterpretation').textContent = data.interpretation;
+
+            // Chart: Lorenz curve
+            const trace1 = {
+                x: data.before_lorenz.map(p => p.x),
+                y: data.before_lorenz.map(p => p.y),
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Before Event',
+                line: { color: '#667eea', width: 3 }
+            };
+
+            const trace2 = {
+                x: data.after_lorenz.map(p => p.x),
+                y: data.after_lorenz.map(p => p.y),
+                type: 'scatter',
+                mode: 'lines',
+                name: 'After Event',
+                line: { color: '#764ba2', width: 3 }
+            };
+
+            // Perfect equality line
+            const trace3 = {
+                x: [0, 100],
+                y: [0, 100],
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Perfect Equality',
+                line: { color: '#999', width: 1, dash: 'dash' }
+            };
+
+            const layout = {
+                title: 'Lorenz Curve (Attention Distribution)',
+                xaxis: { title: 'Cumulative % of Posts' },
+                yaxis: { title: 'Cumulative % of Total Score' },
+                height: 300
+            };
+
+            Plotly.newPlot('attentionChart', [trace3, trace1, trace2], layout, {responsive: true});
+        }
+
+        // Display Topic Shift
+        function displayTopicShift(data) {
+            document.getElementById('cosineSimilarity').textContent = data.cosine_similarity;
+            document.getElementById('cosineDistance').textContent = data.cosine_distance;
+            document.getElementById('topicInterpretation').textContent = data.interpretation;
+
+            // Display keywords
+            const beforeKeywordsEl = document.getElementById('beforeKeywords');
+            beforeKeywordsEl.innerHTML = data.before_keywords.map(kw => `
+                <div class="keyword-item">
+                    <span class="keyword-word">${kw.word}</span>
+                    <span class="keyword-count">${kw.count}</span>
+                </div>
+            `).join('');
+
+            const afterKeywordsEl = document.getElementById('afterKeywords');
+            afterKeywordsEl.innerHTML = data.after_keywords.map(kw => `
+                <div class="keyword-item">
+                    <span class="keyword-word">${kw.word}</span>
+                    <span class="keyword-count">${kw.count}</span>
+                </div>
+            `).join('');
+        }
+
+        // Utility functions
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function formatDateShort(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+    </script>
+</body>
+</html>

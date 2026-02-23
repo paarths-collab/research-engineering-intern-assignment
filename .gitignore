@@ -1,0 +1,22 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Databases and Big Data Files (DuckDB / SQLite / CSV)
+data/
+*.db
+*.sqlite3
+*.csv
+*.npy
+
+# OS Files
+.DS_Store
+Thumbs.db
