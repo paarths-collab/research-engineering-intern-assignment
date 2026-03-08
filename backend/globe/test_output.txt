@@ -1,0 +1,80 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.0.2, pluggy-1.6.0 -- C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\backend\globe
+configfile: pytest.ini
+plugins: anyio-4.12.1, asyncio-1.3.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 59 items
+
+tests/test_api.py::TestHealthEndpoints::test_health_ok PASSED            [  1%]
+tests/test_api.py::TestHealthEndpoints::test_root_returns_app_info PASSED [  3%]
+tests/test_api.py::TestEventsEndpoints::test_events_no_data_returns_404 PASSED [  5%]
+tests/test_api.py::TestEventsEndpoints::test_events_returns_data PASSED  [  6%]
+tests/test_api.py::TestEventsEndpoints::test_events_filter_by_risk PASSED [  8%]
+tests/test_api.py::TestEventsEndpoints::test_map_endpoint PASSED         [ 10%]
+tests/test_api.py::TestEventsEndpoints::test_summary_endpoint PASSED     [ 11%]
+tests/test_api.py::TestPipelineEndpoints::test_pipeline_status_idle PASSED [ 13%]
+tests/test_api.py::TestPipelineEndpoints::test_pipeline_trigger PASSED   [ 15%]
+tests/test_clustering.py::TestHelpers::test_dominant_sentiment_negative PASSED [ 16%]
+tests/test_clustering.py::TestHelpers::test_dominant_sentiment_empty PASSED [ 18%]
+tests/test_clustering.py::TestHelpers::test_escalation_high_risk PASSED  [ 20%]
+tests/test_clustering.py::TestHelpers::test_escalation_high_impact PASSED [ 22%]
+tests/test_clustering.py::TestHelpers::test_escalation_medium PASSED     [ 23%]
+tests/test_clustering.py::TestHelpers::test_escalation_emerging PASSED   [ 25%]
+tests/test_clustering.py::TestHelpers::test_location_key_city_country PASSED [ 27%]
+tests/test_clustering.py::TestHelpers::test_location_key_country_only PASSED [ 28%]
+tests/test_clustering.py::TestClusterEvents::test_cluster_returns_list PASSED [ 30%]
+tests/test_clustering.py::TestClusterEvents::test_clusters_sorted_by_impact PASSED [ 32%]
+tests/test_clustering.py::TestClusterEvents::test_empty_events_returns_empty PASSED [ 33%]
+tests/test_geo_filter.py::TestVagueTermDetection::test_vague_global PASSED [ 35%]
+tests/test_geo_filter.py::TestVagueTermDetection::test_vague_middle_east PASSED [ 37%]
+tests/test_geo_filter.py::TestVagueTermDetection::test_vague_europe PASSED [ 38%]
+tests/test_geo_filter.py::TestVagueTermDetection::test_specific_country_not_vague PASSED [ 40%]
+tests/test_geo_filter.py::TestVagueTermDetection::test_city_not_vague PASSED [ 42%]
+tests/test_geo_filter.py::TestGeoFilter::test_pass_specific_country PASSED [ 44%]
+tests/test_geo_filter.py::TestGeoFilter::test_pass_city_mention PASSED   [ 45%]
+tests/test_geo_filter.py::TestGeoFilter::test_drop_vague_only PASSED     [ 47%]
+tests/test_geo_filter.py::TestGeoFilter::test_drop_abstract_regional PASSED [ 49%]
+tests/test_geo_filter.py::TestGeoFilter::test_pass_abbreviation_us PASSED [ 50%]
+tests/test_geo_filter.py::TestGeoFilter::test_multiple_countries PASSED  [ 52%]
+tests/test_geo_filter.py::TestGeoFilter::test_mixed_batch PASSED         [ 54%]
+tests/test_geo_filter.py::TestGeoFilter::test_empty_input PASSED         [ 55%]
+tests/test_geo_filter.py::TestGeoFilter::test_detected_terms_populated PASSED [ 57%]
+tests/test_impact_scorer.py::TestRiskWeights::test_high_risk_weight_is_greatest PASSED [ 59%]
+tests/test_impact_scorer.py::TestComputeImpactScore::test_high_news_high_engagement_high_score PASSED [ 61%]
+tests/test_impact_scorer.py::TestComputeImpactScore::test_no_news_low_score PASSED [ 62%]
+tests/test_impact_scorer.py::TestComputeImpactScore::test_impact_value_in_range PASSED [ 64%]
+tests/test_impact_scorer.py::TestComputeImpactScore::test_medium_confidence_threshold PASSED [ 66%]
+tests/test_impact_scorer.py::TestScoreAllEvents::test_score_all_returns_correct_count PASSED [ 67%]
+tests/test_impact_scorer.py::TestScoreAllEvents::test_all_scores_valid PASSED [ 69%]
+tests/test_ingestion.py::TestEngagementScoring::test_high_engagement PASSED [ 71%]
+tests/test_ingestion.py::TestEngagementScoring::test_zero_engagement PASSED [ 72%]
+tests/test_ingestion.py::TestEngagementScoring::test_score_weighted_more_than_comments PASSED [ 74%]
+tests/test_ingestion.py::TestVelocityScoring::test_recent_post_high_velocity PASSED [ 76%]
+tests/test_ingestion.py::TestVelocityScoring::test_old_post_low_velocity PASSED [ 77%]
+tests/test_ingestion.py::TestPersistRawPosts::test_persist_empty_list PASSED [ 79%]
+tests/test_ingestion.py::TestPersistRawPosts::test_persist_sample_posts PASSED [ 81%]
+tests/test_ingestion.py::TestEngagementThreshold::test_low_engagement_post PASSED [ 83%]
+tests/test_ingestion.py::TestEngagementThreshold::test_all_sample_posts_above_threshold PASSED [ 84%]
+tests/test_news_correlator.py::TestTrustedDomains::test_reuters_trusted PASSED [ 86%]
+tests/test_news_correlator.py::TestTrustedDomains::test_bbc_trusted PASSED [ 88%]
+tests/test_news_correlator.py::TestTrustedDomains::test_unknown_source_not_trusted PASSED [ 89%]
+tests/test_news_correlator.py::TestTrustedDomains::test_apnews_trusted PASSED [ 91%]
+tests/test_news_correlator.py::TestArticleId::test_same_inputs_same_id PASSED [ 93%]
+tests/test_news_correlator.py::TestArticleId::test_different_url_different_id PASSED [ 94%]
+tests/test_news_correlator.py::TestArticleId::test_id_length_16 PASSED   [ 96%]
+tests/test_news_correlator.py::TestCorrelateNewsForEvent::test_no_api_keys_returns_empty_bundle PASSED [ 98%]
+tests/test_news_correlator.py::TestCorrelateNewsForEvent::test_deduplication PASSED [100%]
+
+============================== warnings summary ===============================
+..\..\.venv\Lib\site-packages\pydantic\_internal\_config.py:291
+  C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\.venv\Lib\site-packages\pydantic\_internal\_config.py:291: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/test_api.py::TestHealthEndpoints::test_health_ok
+  C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\.venv\Lib\site-packages\crewai\tools\base_tool.py:30: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("args_schema", always=True, pre=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 59 passed, 2 warnings in 37.75s =======================

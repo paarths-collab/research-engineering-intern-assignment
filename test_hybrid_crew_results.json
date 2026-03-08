@@ -1,0 +1,48 @@
+{
+    "SQL_SIMPLE": {
+        "query": "Which author has the highest final_influence_score?",
+        "route": "sql_only",
+        "status": "PASS",
+        "time_seconds": 10.28,
+        "answer": "The author with the highest final_influence_score is thenationmagazine, achieving a score of 3536.0. This prominent author has made a significant impact with a total of 4 posts and has successfully transported 2 narratives. Their influence has resulted in a substantial amplification of 353200.0.",
+        "reviewer_issues": [
+            "Numbers in the answer: do they appear in evidence? If not → flag."
+        ],
+        "validator_passed": true
+    },
+    "VECTOR_ONLY": {
+        "query": "What narratives discuss conservative politics themes?",
+        "route": "vector_only",
+        "status": "PASS",
+        "time_seconds": 31.16,
+        "answer": "The narratives discussing conservative politics themes are represented by topic labels such as 'Conservative' and 'Republican'. Relevant titles include 'Conservatives on Reddit' and 'Conservative news', which also convey conservative politics themes. Additionally, subreddits like r/Conservative and r/Republican contain conservative politics themes.",
+        "reviewer_issues": [
+            "Author names in the answer: do they appear in evidence? If not → flag."
+        ],
+        "validator_passed": true
+    },
+    "HYBRID": {
+        "query": "Return the top 2 narratives by spread_strength and the author with highest amplification.",
+        "route": "hybrid",
+        "status": "PASS",
+        "time_seconds": 58.6,
+        "answer": "Unfortunately, the necessary data is not currently available for analysis. This lack of data prevents us from proceeding with the analysis.",
+        "reviewer_issues": [
+            "Hallucinated data not in evidence: 'Data is not available for analysis.'",
+            "Numbers in the answer: 'Data' and 'analysis' do not appear in evidence.",
+            "Author names in the answer: 'Data' and 'analysis' do not appear in evidence."
+        ],
+        "validator_passed": true
+    },
+    "HALLUCINATION": {
+        "query": "What narrative corresponds to cluster 999?",
+        "route": "sql_only",
+        "status": "FAIL (hallucinated)",
+        "time_seconds": 58.07,
+        "answer": "Unfortunately, the necessary data is not currently available. This lack of information prevents us from making any informed decisions or conclusions.",
+        "reviewer_issues": [
+            "cluster_id 999 not found in evidence."
+        ],
+        "validator_passed": true
+    }
+}

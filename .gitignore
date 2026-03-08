@@ -22,3 +22,8 @@ data/
 Thumbs.db
 mostly/
 old/
+
+# Markdown
+*.md
+node_modules/
+.next/

@@ -1,0 +1,59 @@
+Loading .env from C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\backend\.env
+2026-03-03 20:00:59 | INFO     | app.database.connection | DuckDB connected: outputs/globe.duckdb
+2026-03-03 20:00:59 | INFO     | app.database.connection | Database schema initialised
+2026-03-03 20:00:59 | INFO     | app.pipeline.orchestrator | [790a7d9e] Layer 1 ù Checking for existing data
+2026-03-03 20:00:59 | INFO     | app.pipeline.orchestrator | [790a7d9e] Reusing 88 posts from database
+2026-03-03 20:00:59 | INFO     | app.pipeline.orchestrator | [790a7d9e] Layer 2 ù Fast Geo Filter
+2026-03-03 20:00:59 | INFO     | app.pipeline.geo_filter | Geo filter: 67/88 posts passed
+2026-03-03 20:00:59 | INFO     | app.pipeline.orchestrator | [790a7d9e] Layer 3 ù LLM Geo Resolution
+2026-03-03 20:02:06 | INFO     | app.pipeline.geo_resolver | Geo resolution: 36/67 resolved (36 from cache)
+2026-03-03 20:02:07 | INFO     | app.pipeline.orchestrator | [790a7d9e] Layer 4 ù Event Structuring
+2026-03-03 20:02:08 | INFO     | app.pipeline.event_structurer | Event structuring: 36/36 events built (36 from cache)
+2026-03-03 20:02:08 | INFO     | app.pipeline.orchestrator | [790a7d9e] Layer 5 ù News Correlation
+2026-03-03 20:02:34 | INFO     | app.pipeline.news_correlator | News correlation complete ù 36 bundles
+2026-03-03 20:02:34 | INFO     | app.pipeline.orchestrator | [790a7d9e] Layer 6 ù Intelligence Analysis (CrewAI)
+Overriding of current TracerProvider is not allowed
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99992, Requested 672. Please try again in 9m33.696s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99992, Requested 672. Please try again in 9m33.696s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99992, Requested 672. Please try again in 9m33.696s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+2026-03-03 20:02:45 | WARNING  | app.pipeline.intelligence | TPM limit, waiting 20.0s (attempt 1/3)
+WARNING:app.pipeline.intelligence:TPM limit, waiting 20.0s (attempt 1/3)
+WARNING:opentelemetry.trace:Overriding of current TracerProvider is not allowed
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99967, Requested 672. Please try again in 9m12.096s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99967, Requested 672. Please try again in 9m12.096s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99967, Requested 672. Please try again in 9m12.096s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+2026-03-03 20:03:06 | WARNING  | app.pipeline.intelligence | TPM limit, waiting 40.0s (attempt 2/3)
+WARNING:app.pipeline.intelligence:TPM limit, waiting 40.0s (attempt 2/3)
+WARNING:opentelemetry.trace:Overriding of current TracerProvider is not allowed
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99919, Requested 672. Please try again in 8m30.624s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99919, Requested 672. Please try again in 8m30.624s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99919, Requested 672. Please try again in 8m30.624s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+2026-03-03 20:03:48 | WARNING  | app.pipeline.intelligence | TPM limit, waiting 60.0s (attempt 3/3)
+WARNING:app.pipeline.intelligence:TPM limit, waiting 60.0s (attempt 3/3)
+WARNING:opentelemetry.trace:Overriding of current TracerProvider is not allowed
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99849, Requested 673. Please try again in 7m31.008s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99848, Requested 673. Please try again in 7m30.144s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99848, Requested 673. Please try again in 7m30.144s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+2026-03-03 20:04:49 | WARNING  | app.pipeline.intelligence | TPM limit, waiting 20.0s (attempt 1/3)
+WARNING:app.pipeline.intelligence:TPM limit, waiting 20.0s (attempt 1/3)
+WARNING:opentelemetry.trace:Overriding of current TracerProvider is not allowed
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99824, Requested 673. Please try again in 7m9.407999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99824, Requested 673. Please try again in 7m9.407999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+ERROR:root:LiteLLM call failed: litellm.RateLimitError: RateLimitError: GroqException - {"error":{"message":"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01k3t91z4mevwsa3yadsvp5009` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99824, Requested 673. Please try again in 7m9.407999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing","type":"tokens","code":"rate_limit_exceeded"}}
+
+2026-03-03 20:05:10 | WARNING  | app.pipeline.intelligence | TPM limit, waiting 40.0s (attempt 2/3)
+WARNING:app.pipeline.intelligence:TPM limit, waiting 40.0s (attempt 2/3)

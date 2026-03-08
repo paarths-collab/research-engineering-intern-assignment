@@ -1,0 +1,68 @@
+2026-03-03 18:46:02 | INFO     | app.pipeline.orchestrator | [18180bca] Layer 1 — Reddit Ingestion
+2026-03-03 18:46:03 | INFO     | app.pipeline.ingestion | Scanning r/worldnews ...
+2026-03-03 18:46:03 | WARNING  | app.pipeline.ingestion | Error fetching r/worldnews: received 401 HTTP response
+2026-03-03 18:46:03 | INFO     | app.pipeline.ingestion | Scanning r/news ...
+2026-03-03 18:46:04 | WARNING  | app.pipeline.ingestion | Error fetching r/news: received 401 HTTP response
+2026-03-03 18:46:04 | INFO     | app.pipeline.ingestion | Scanning r/geopolitics ...
+2026-03-03 18:46:04 | WARNING  | app.pipeline.ingestion | Error fetching r/geopolitics: received 401 HTTP response
+2026-03-03 18:46:04 | INFO     | app.pipeline.ingestion | Scanning r/europe ...
+2026-03-03 18:46:04 | WARNING  | app.pipeline.ingestion | Error fetching r/europe: received 401 HTTP response
+2026-03-03 18:46:04 | INFO     | app.pipeline.ingestion | Scanning r/asia ...
+2026-03-03 18:46:05 | WARNING  | app.pipeline.ingestion | Error fetching r/asia: received 401 HTTP response
+2026-03-03 18:46:05 | INFO     | app.pipeline.ingestion | Scanning r/MiddleEast ...
+2026-03-03 18:46:05 | WARNING  | app.pipeline.ingestion | Error fetching r/MiddleEast: received 401 HTTP response
+2026-03-03 18:46:05 | INFO     | app.pipeline.ingestion | Scanning r/worldpolitics ...
+2026-03-03 18:46:05 | WARNING  | app.pipeline.ingestion | Error fetching r/worldpolitics: received 401 HTTP response
+2026-03-03 18:46:06 | INFO     | app.pipeline.ingestion | Ingestion complete — 0 posts collected
+2026-03-03 18:46:06 | INFO     | app.database.connection | DuckDB connected: :memory:
+2026-03-03 18:46:06 | WARNING  | app.pipeline.orchestrator | [18180bca] No posts ingested. Exiting.
+2026-03-03 18:46:06 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 18:46:23 | INFO     | app.pipeline.clustering | Sentence transformer loaded
+2026-03-03 18:46:23 | INFO     | app.pipeline.clustering | Clustering complete — 1 clusters from 2 events
+2026-03-03 18:46:23 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 18:46:23 | INFO     | app.pipeline.clustering | Clustering complete — 1 clusters from 2 events
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 0/1 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 0/1 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 3/4 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 0/0 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:46:23 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 18:46:23 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 18:47:38 | INFO     | app.pipeline.orchestrator | [ec5c5ca6] Layer 1 — Reddit Ingestion
+2026-03-03 18:47:38 | INFO     | app.pipeline.ingestion | Scanning r/worldnews ...
+2026-03-03 18:47:38 | WARNING  | app.pipeline.ingestion | Error fetching r/worldnews: received 401 HTTP response
+2026-03-03 18:47:38 | INFO     | app.pipeline.ingestion | Scanning r/news ...
+2026-03-03 18:47:39 | WARNING  | app.pipeline.ingestion | Error fetching r/news: received 401 HTTP response
+2026-03-03 18:47:39 | INFO     | app.pipeline.ingestion | Scanning r/geopolitics ...
+2026-03-03 18:47:39 | WARNING  | app.pipeline.ingestion | Error fetching r/geopolitics: received 401 HTTP response
+2026-03-03 18:47:39 | INFO     | app.pipeline.ingestion | Scanning r/europe ...
+2026-03-03 18:47:40 | WARNING  | app.pipeline.ingestion | Error fetching r/europe: received 401 HTTP response
+2026-03-03 18:47:40 | INFO     | app.pipeline.ingestion | Scanning r/asia ...
+2026-03-03 18:47:40 | WARNING  | app.pipeline.ingestion | Error fetching r/asia: received 401 HTTP response
+2026-03-03 18:47:40 | INFO     | app.pipeline.ingestion | Scanning r/MiddleEast ...
+2026-03-03 18:47:40 | WARNING  | app.pipeline.ingestion | Error fetching r/MiddleEast: received 401 HTTP response
+2026-03-03 18:47:40 | INFO     | app.pipeline.ingestion | Scanning r/worldpolitics ...
+2026-03-03 18:47:40 | WARNING  | app.pipeline.ingestion | Error fetching r/worldpolitics: received 401 HTTP response
+2026-03-03 18:47:41 | INFO     | app.pipeline.ingestion | Ingestion complete — 0 posts collected
+2026-03-03 18:47:41 | INFO     | app.database.connection | DuckDB connected: :memory:
+2026-03-03 18:47:41 | WARNING  | app.pipeline.orchestrator | [ec5c5ca6] No posts ingested. Exiting.
+2026-03-03 18:47:41 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 18:47:51 | INFO     | app.pipeline.clustering | Sentence transformer loaded
+2026-03-03 18:47:51 | INFO     | app.pipeline.clustering | Clustering complete — 1 clusters from 2 events
+2026-03-03 18:47:51 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 18:47:51 | INFO     | app.pipeline.clustering | Clustering complete — 1 clusters from 2 events
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 0/1 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 0/1 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 3/4 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 0/0 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 18:47:51 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 18:47:51 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores

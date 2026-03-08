@@ -1,0 +1,388 @@
+{
+  "run_id": "f8d95c98",
+  "generated_at": "2026-03-03T13:38:11.277305+00:00",
+  "event_count": 6,
+  "events": [
+    {
+      "id": "9ee85550-58ba-4be5-b234-b03e534de3e9",
+      "title": "Tel Aviv, Israel \u2014 Escalating",
+      "locations": [
+        {
+          "name": "Tel Aviv, Israel",
+          "lat": 32.0852997,
+          "lon": 34.7818064,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "impact_score": 0.7183,
+      "sentiment": "negative",
+      "risk_level": "High",
+      "reddit_metrics": {
+        "total_score": 10116,
+        "total_comments": 3419,
+        "post_count": 4,
+        "subreddits": [
+          "news",
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "2026 Update Russia-Ukraine Energy War - Conflict Of Electricity Vs. Oil",
+          "url": "https://www.forbes.com/sites/scottmontgomery/2026/02/24/2026-update-on-ukraine-energy-wara-conflict-of-electricity-vs-oil/",
+          "source": "Forbes",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 1-Kremlin says Ukraine conflict has evolved into a much wider confrontation with the West",
+          "url": "https://www.devdiscourse.com/article/law-order/3815738-update-1-kremlin-says-ukraine-conflict-has-evolved-into-a-much-wider-confrontation-with-the-west",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 2-Zelenskiy marks war anniversary vowing to fight on, with Ukraine's allies divided",
+          "url": "https://www.devdiscourse.com/article/politics/3815596-update-2-zelenskiy-marks-war-anniversary-vowing-to-fight-on-with-ukraines-allies-divided",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "Vivek Oberoi Pens Powerful Message To UAE Residents Amid Israel-US-Iran Conflict; Tells Indians, 'Don\u2019t Be Bridge For Panic'",
+          "url": "https://www.republicworld.com/entertainment/celebrities/vivek-oberoi-pens-powerful-message-to-uae-residents-amid-israel-us-iran-conflict-tells-indians-dont-be-bridge-for-panic",
+          "source": "Republic World",
+          "trusted": false
+        },
+        {
+          "title": "US tells citizens to leave Gulf as drone strike hits Riyadh embassy; Indian missions issue travel advisories",
+          "url": "https://www.onmanorama.com/news/world/2026/03/03/israel-iran-conflict-escalation-us-embassy-saudi-arabia-india-travel-advisory-live.html",
+          "source": "Malayala Manorama",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A fire broke out at the US embassy complex in Riyadh, Saudi Arabia, following a blast, with sources indicating a potential drone attack. The incident has escalated tensions in the region, with the US Department of State confirming the attack and President Trump hinting at retaliation. The situation has prompted travel warnings for Americans in the Middle East, with airspace closures and flight disruptions reported. The attack is believed to be linked to the ongoing conflict between the US and Iran, with Israel also involved. The Reddit community is actively discussing the event, with a high engagement score and over 500 comments on the r/worldnews subreddit.",
+      "strategic_implications": [
+        "Escalation of US-Iran conflict, potentially drawing in other regional actors",
+        "Increased risk of terrorist attacks on US interests and personnel in the Middle East",
+        "Potential disruption to global oil markets and trade, given the strategic location of Saudi Arabia and the involvement of major oil-producing nations"
+      ],
+      "last_updated": "2026-03-03T13:38:11.274830+00:00"
+    },
+    {
+      "id": "87e7c9c5-6834-44e1-a5ac-7cca82043009",
+      "title": "Tehran, Iran \u2014 Escalating",
+      "locations": [
+        {
+          "name": "Tehran, Iran",
+          "lat": 35.6892523,
+          "lon": 51.3896004,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "impact_score": 0.686,
+      "sentiment": "neutral",
+      "risk_level": "High",
+      "reddit_metrics": {
+        "total_score": 1627,
+        "total_comments": 236,
+        "post_count": 2,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "2026 Update Russia-Ukraine Energy War - Conflict Of Electricity Vs. Oil",
+          "url": "https://www.forbes.com/sites/scottmontgomery/2026/02/24/2026-update-on-ukraine-energy-wara-conflict-of-electricity-vs-oil/",
+          "source": "Forbes",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 1-Kremlin says Ukraine conflict has evolved into a much wider confrontation with the West",
+          "url": "https://www.devdiscourse.com/article/law-order/3815738-update-1-kremlin-says-ukraine-conflict-has-evolved-into-a-much-wider-confrontation-with-the-west",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 2-Zelenskiy marks war anniversary vowing to fight on, with Ukraine's allies divided",
+          "url": "https://www.devdiscourse.com/article/politics/3815596-update-2-zelenskiy-marks-war-anniversary-vowing-to-fight-on-with-ukraines-allies-divided",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "Vivek Oberoi Pens Powerful Message To UAE Residents Amid Israel-US-Iran Conflict; Tells Indians, 'Don\u2019t Be Bridge For Panic'",
+          "url": "https://www.republicworld.com/entertainment/celebrities/vivek-oberoi-pens-powerful-message-to-uae-residents-amid-israel-us-iran-conflict-tells-indians-dont-be-bridge-for-panic",
+          "source": "Republic World",
+          "trusted": false
+        },
+        {
+          "title": "US tells citizens to leave Gulf as drone strike hits Riyadh embassy; Indian missions issue travel advisories",
+          "url": "https://www.onmanorama.com/news/world/2026/03/03/israel-iran-conflict-escalation-us-embassy-saudi-arabia-india-travel-advisory-live.html",
+          "source": "Malayala Manorama",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "President Trump's call to Kurdish leaders in the context of the Iran war effort signifies a strategic diplomatic move, potentially aiming to bolster alliances and leverage regional influence. The event has garnered significant attention on social media platforms, with a Reddit engagement score of 1453 and 197 comments on the r/worldnews subreddit. Corroborating news articles from reputable sources such as Brookings and the Boston Globe highlight the uncertainty and potential for significant change in Iran, following the death of Ayatollah Ali Khamenei. The situation is complex, with multiple factors at play, including the acknowledgment of potential US casualties in the conflict. Overall, the development suggests an escalation of diplomatic efforts in the region, with implications for international relations and regional stability.",
+      "strategic_implications": [
+        "Potential escalation of US-Iran conflict, with increased risk of military engagement and casualties",
+        "Shifts in regional alliances, with Kurdish leaders potentially playing a key role in the conflict",
+        "Uncertainty and potential for significant change in Iran, following the death of Ayatollah Ali Khamenei, which could impact global energy markets and international relations"
+      ],
+      "last_updated": "2026-03-03T13:38:11.274830+00:00"
+    },
+    {
+      "id": "177a29fd-205e-4488-bb58-f4e50c0f8a95",
+      "title": "Kyiv, Ukraine \u2014 Escalating",
+      "locations": [
+        {
+          "name": "Kyiv, Ukraine",
+          "lat": 50.4500336,
+          "lon": 30.5241361,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "impact_score": 0.6003,
+      "sentiment": "negative",
+      "risk_level": "High",
+      "reddit_metrics": {
+        "total_score": 33514,
+        "total_comments": 3253,
+        "post_count": 13,
+        "subreddits": [
+          "news",
+          "europe",
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "2026 Update Russia-Ukraine Energy War - Conflict Of Electricity Vs. Oil",
+          "url": "https://www.forbes.com/sites/scottmontgomery/2026/02/24/2026-update-on-ukraine-energy-wara-conflict-of-electricity-vs-oil/",
+          "source": "Forbes",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 1-Kremlin says Ukraine conflict has evolved into a much wider confrontation with the West",
+          "url": "https://www.devdiscourse.com/article/law-order/3815738-update-1-kremlin-says-ukraine-conflict-has-evolved-into-a-much-wider-confrontation-with-the-west",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 2-Zelenskiy marks war anniversary vowing to fight on, with Ukraine's allies divided",
+          "url": "https://www.devdiscourse.com/article/politics/3815596-update-2-zelenskiy-marks-war-anniversary-vowing-to-fight-on-with-ukraines-allies-divided",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "Vivek Oberoi Pens Powerful Message To UAE Residents Amid Israel-US-Iran Conflict; Tells Indians, 'Don\u2019t Be Bridge For Panic'",
+          "url": "https://www.republicworld.com/entertainment/celebrities/vivek-oberoi-pens-powerful-message-to-uae-residents-amid-israel-us-iran-conflict-tells-indians-dont-be-bridge-for-panic",
+          "source": "Republic World",
+          "trusted": false
+        },
+        {
+          "title": "US tells citizens to leave Gulf as drone strike hits Riyadh embassy; Indian missions issue travel advisories",
+          "url": "https://www.onmanorama.com/news/world/2026/03/03/israel-iran-conflict-escalation-us-embassy-saudi-arabia-india-travel-advisory-live.html",
+          "source": "Malayala Manorama",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The recent surge in private jet prices in Dubai is attributed to the wealthy attempting to leave the city due to the escalating conflict between the US, Israel, and Iran, with Iranian attacks on Dubai and the closure of its airport exacerbating the situation. This development has significant implications for the regional economy and global geopolitics. The Reddit engagement score of 7647 and 322 comments on the r/worldnews subreddit indicate a high level of interest and concern among the public. Corroborating news articles from various sources, including AP News, suggest that the conflict is far from over, with warnings of potential further casualties. The situation in Dubai is increasingly unstable, with the wealthy seeking to exit the city, potentially leading to economic and social instability.",
+      "strategic_implications": [
+        "Potential economic instability in Dubai and the wider region due to the exodus of wealthy individuals",
+        "Escalating conflict between the US, Israel, and Iran could lead to further destabilization of the Middle East",
+        "Increased private jet prices may be a precursor to a larger-scale evacuation, potentially straining global air travel infrastructure"
+      ],
+      "last_updated": "2026-03-03T13:38:11.276391+00:00"
+    },
+    {
+      "id": "cb341b23-cad6-4dc1-8d8c-f8dcc289e389",
+      "title": "Tehran, Iran \u2014 Active",
+      "locations": [
+        {
+          "name": "Tehran, Iran",
+          "lat": 35.6892523,
+          "lon": 51.3896004,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "impact_score": 0.5012,
+      "sentiment": "neutral",
+      "risk_level": "Low",
+      "reddit_metrics": {
+        "total_score": 26215,
+        "total_comments": 6427,
+        "post_count": 3,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "2026 Update Russia-Ukraine Energy War - Conflict Of Electricity Vs. Oil",
+          "url": "https://www.forbes.com/sites/scottmontgomery/2026/02/24/2026-update-on-ukraine-energy-wara-conflict-of-electricity-vs-oil/",
+          "source": "Forbes",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 1-Kremlin says Ukraine conflict has evolved into a much wider confrontation with the West",
+          "url": "https://www.devdiscourse.com/article/law-order/3815738-update-1-kremlin-says-ukraine-conflict-has-evolved-into-a-much-wider-confrontation-with-the-west",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 2-Zelenskiy marks war anniversary vowing to fight on, with Ukraine's allies divided",
+          "url": "https://www.devdiscourse.com/article/politics/3815596-update-2-zelenskiy-marks-war-anniversary-vowing-to-fight-on-with-ukraines-allies-divided",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "Vivek Oberoi Pens Powerful Message To UAE Residents Amid Israel-US-Iran Conflict; Tells Indians, 'Don\u2019t Be Bridge For Panic'",
+          "url": "https://www.republicworld.com/entertainment/celebrities/vivek-oberoi-pens-powerful-message-to-uae-residents-amid-israel-us-iran-conflict-tells-indians-dont-be-bridge-for-panic",
+          "source": "Republic World",
+          "trusted": false
+        },
+        {
+          "title": "US tells citizens to leave Gulf as drone strike hits Riyadh embassy; Indian missions issue travel advisories",
+          "url": "https://www.onmanorama.com/news/world/2026/03/03/israel-iran-conflict-escalation-us-embassy-saudi-arabia-india-travel-advisory-live.html",
+          "source": "Malayala Manorama",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Analysis unavailable: litellm.RateLimitError: RateLimitError: GroqException - {\"error\":{\"message\":\"Rate limit reached for ",
+      "strategic_implications": [],
+      "last_updated": "2026-03-03T13:38:11.277305+00:00"
+    },
+    {
+      "id": "de4b8baa-cf73-4c29-ad79-440269eae0bf",
+      "title": "Gaza, Palestine \u2014 Escalating",
+      "locations": [
+        {
+          "name": "Gaza, Palestine",
+          "lat": 31.4662109,
+          "lon": 34.3995428,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "impact_score": 0.4108,
+      "sentiment": "negative",
+      "risk_level": "High",
+      "reddit_metrics": {
+        "total_score": 985,
+        "total_comments": 176,
+        "post_count": 2,
+        "subreddits": [
+          "news",
+          "geopolitics"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "2026 Update Russia-Ukraine Energy War - Conflict Of Electricity Vs. Oil",
+          "url": "https://www.forbes.com/sites/scottmontgomery/2026/02/24/2026-update-on-ukraine-energy-wara-conflict-of-electricity-vs-oil/",
+          "source": "Forbes",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 1-Kremlin says Ukraine conflict has evolved into a much wider confrontation with the West",
+          "url": "https://www.devdiscourse.com/article/law-order/3815738-update-1-kremlin-says-ukraine-conflict-has-evolved-into-a-much-wider-confrontation-with-the-west",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 2-Zelenskiy marks war anniversary vowing to fight on, with Ukraine's allies divided",
+          "url": "https://www.devdiscourse.com/article/politics/3815596-update-2-zelenskiy-marks-war-anniversary-vowing-to-fight-on-with-ukraines-allies-divided",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "Vivek Oberoi Pens Powerful Message To UAE Residents Amid Israel-US-Iran Conflict; Tells Indians, 'Don\u2019t Be Bridge For Panic'",
+          "url": "https://www.republicworld.com/entertainment/celebrities/vivek-oberoi-pens-powerful-message-to-uae-residents-amid-israel-us-iran-conflict-tells-indians-dont-be-bridge-for-panic",
+          "source": "Republic World",
+          "trusted": false
+        },
+        {
+          "title": "US tells citizens to leave Gulf as drone strike hits Riyadh embassy; Indian missions issue travel advisories",
+          "url": "https://www.onmanorama.com/news/world/2026/03/03/israel-iran-conflict-escalation-us-embassy-saudi-arabia-india-travel-advisory-live.html",
+          "source": "Malayala Manorama",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The current conflict between Israel and Iran has led to a severe shortage of fuel and food supplies in Gaza, with Israel closing its borders and blockading essential goods. This has resulted in a critical humanitarian crisis, with hospitals and essential services at risk. The situation is exacerbated by the lack of access to basic necessities, and the ongoing military tensions between Israel and Iran. The Reddit engagement score of 869 and 126 comments on the r/news subreddit indicate a high level of public interest and concern. The corroboration of this event by multiple news articles from Devdiscourse further supports the assessment of a critical situation in Gaza.",
+      "strategic_implications": [
+        "The humanitarian crisis in Gaza may lead to increased instability and violence in the region, potentially drawing in other countries and escalating the conflict.",
+        "The blockade of Gaza by Israel may lead to a deterioration of relations between Israel and the Palestinian Authority, as well as with other countries in the region.",
+        "The conflict between Israel and Iran may have broader regional and global implications, including the potential for increased tensions between other countries and the risk of a wider conflict."
+      ],
+      "last_updated": "2026-03-03T13:38:11.277305+00:00"
+    },
+    {
+      "id": "d2d8ffb1-4d1c-4138-89b7-48330907a2d9",
+      "title": "Akrotiri, Cyprus \u2014 Active",
+      "locations": [
+        {
+          "name": "Akrotiri, Cyprus",
+          "lat": 34.6008434,
+          "lon": 32.9561709,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "impact_score": 0.3856,
+      "sentiment": "neutral",
+      "risk_level": "Low",
+      "reddit_metrics": {
+        "total_score": 2725,
+        "total_comments": 666,
+        "post_count": 2,
+        "subreddits": [
+          "news",
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "2026 Update Russia-Ukraine Energy War - Conflict Of Electricity Vs. Oil",
+          "url": "https://www.forbes.com/sites/scottmontgomery/2026/02/24/2026-update-on-ukraine-energy-wara-conflict-of-electricity-vs-oil/",
+          "source": "Forbes",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 1-Kremlin says Ukraine conflict has evolved into a much wider confrontation with the West",
+          "url": "https://www.devdiscourse.com/article/law-order/3815738-update-1-kremlin-says-ukraine-conflict-has-evolved-into-a-much-wider-confrontation-with-the-west",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "UPDATE 2-Zelenskiy marks war anniversary vowing to fight on, with Ukraine's allies divided",
+          "url": "https://www.devdiscourse.com/article/politics/3815596-update-2-zelenskiy-marks-war-anniversary-vowing-to-fight-on-with-ukraines-allies-divided",
+          "source": "Devdiscourse",
+          "trusted": false
+        },
+        {
+          "title": "Vivek Oberoi Pens Powerful Message To UAE Residents Amid Israel-US-Iran Conflict; Tells Indians, 'Don\u2019t Be Bridge For Panic'",
+          "url": "https://www.republicworld.com/entertainment/celebrities/vivek-oberoi-pens-powerful-message-to-uae-residents-amid-israel-us-iran-conflict-tells-indians-dont-be-bridge-for-panic",
+          "source": "Republic World",
+          "trusted": false
+        },
+        {
+          "title": "US tells citizens to leave Gulf as drone strike hits Riyadh embassy; Indian missions issue travel advisories",
+          "url": "https://www.onmanorama.com/news/world/2026/03/03/israel-iran-conflict-escalation-us-embassy-saudi-arabia-india-travel-advisory-live.html",
+          "source": "Malayala Manorama",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Analysis unavailable: litellm.RateLimitError: RateLimitError: GroqException - {\"error\":{\"message\":\"Rate limit reached for ",
+      "strategic_implications": [],
+      "last_updated": "2026-03-03T13:38:11.277305+00:00"
+    }
+  ]
+}

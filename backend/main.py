@@ -1,38 +1,85 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import json
-from backend.agent import run_forensic_crew
-# Import other chart endpoints from previous steps...
+import sys
+import os
+from pathlib import Path
+import uvicorn
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+# Add subdirectories to sys.path to resolve internal imports within each module
+current_dir = Path(__file__).parent
+sys.path.append(str(current_dir / "polarize_1"))
+sys.path.append(str(current_dir / "networkgraph"))
+sys.path.append(str(current_dir / "streamgraph2"))
+sys.path.append(str(current_dir / "globe"))
+sys.path.append(str(current_dir / "hybrid_crew"))
 
-class ChatRequest(BaseModel):
-    query: str
+# Import the FastAPI instances from each module
+try:
+    from polarize_1.main import app as polar_app
+except ImportError as e:
+    print(f"Warning: Could not import polarize_1 app: {e}")
+    polar_app = FastAPI()
 
-@app.post("/chat")
-def chat_agent(request: ChatRequest):
-    print(f"received query: {request.query}")
-    try:
-        # 1. Run the CrewAI process
-        raw_result = run_forensic_crew(request.query)
-        
-        # 2. Clean up the LLM output (It often adds markdown formatting)
-        clean_json = raw_result.replace("```json", "").replace("```", "").strip()
-        
-        # 3. Parse to Dictionary
-        response_dict = json.loads(clean_json)
-        
-        return response_dict
-        
-    except json.JSONDecodeError:
-        # Fallback if LLM creates bad JSON
-        return {
-            "answer": raw_result,
-            "follow_up": ["Try asking a simpler question", "Ask about specific dates"]
-        }
-    except Exception as e:
-        print(f"Crew Error: {e}")
-        return {
-            "answer": "I encountered an internal error while coordinating the investigation team.",
-            "follow_up": []
-        }
+try:
+    from networkgraph.main import app as network_app
+except ImportError as e:
+    print(f"Warning: Could not import networkgraph app: {e}")
+    network_app = FastAPI()
+
+try:
+    from streamgraph2.main import app as stream_app
+except ImportError as e:
+    print(f"Warning: Could not import streamgraph2 app: {e}")
+    stream_app = FastAPI()
+
+try:
+    from globe.app.main import app as globe_app
+except ImportError as e:
+    print(f"Warning: Could not import globe app: {e}")
+    globe_app = FastAPI()
+
+try:
+    from hybrid_crew.main import app as hybrid_app
+except ImportError as e:
+    print(f"Warning: Could not import hybrid_crew app: {e}")
+    hybrid_app = FastAPI()
+
+
+app = FastAPI(
+    title="SimPPL Narrative System - Unified API",
+    description="Master entry point for all NarrativeSignal backend modules.",
+    version="1.0.0"
+)
+
+# Global CORS config
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Mount each module under its own base path
+app.mount("/api/polar", polar_app)
+app.mount("/api/network", network_app)
+app.mount("/api/stream", stream_app)
+app.mount("/api/globe", globe_app)
+app.mount("/api/hybrid", hybrid_app)
+
+@app.get("/")
+def root():
+    return {
+        "message": "SimPPL Narrative System Unified Backend Running",
+        "docs": "/docs",
+        "endpoints": [
+            "/api/polar",
+            "/api/network",
+            "/api/stream",
+            "/api/globe",
+            "/api/hybrid"
+        ]
+    }
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

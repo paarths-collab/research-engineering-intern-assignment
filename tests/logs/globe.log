@@ -1,0 +1,69 @@
+2026-03-03 19:36:57 | INFO     | app.pipeline.orchestrator | [3d2b1589] Layer 1 — Checking for existing data
+2026-03-03 19:36:57 | INFO     | app.database.connection | DuckDB connected: :memory:
+2026-03-03 19:36:57 | ERROR    | app.pipeline.orchestrator | [3d2b1589] Pipeline FAILED: Catalog Error: Table with name raw_posts does not exist!
+Did you mean "pg_settings"?
+
+LINE 1: SELECT * FROM raw_posts WHERE run_date = CURRENT_DATE
+                      ^
+Traceback (most recent call last):
+  File "C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\backend\globe\app\pipeline\orchestrator.py", line 53, in run_pipeline
+    posts: List[RawPost] = get_existing_posts_for_today()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\backend\globe\app\pipeline\ingestion.py", line 40, in get_existing_posts_for_today
+    res = conn.execute("SELECT * FROM raw_posts WHERE run_date = CURRENT_DATE").fetchall()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_duckdb.CatalogException: Catalog Error: Table with name raw_posts does not exist!
+Did you mean "pg_settings"?
+
+LINE 1: SELECT * FROM raw_posts WHERE run_date = CURRENT_DATE
+                      ^
+2026-03-03 19:36:57 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 19:37:11 | INFO     | app.pipeline.clustering | Sentence transformer loaded
+2026-03-03 19:37:11 | INFO     | app.pipeline.clustering | Clustering complete — 1 clusters from 2 events
+2026-03-03 19:37:11 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 19:37:11 | INFO     | app.pipeline.clustering | Clustering complete — 1 clusters from 2 events
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 0/1 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 0/1 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 3/4 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 0/0 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 19:37:11 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 19:37:11 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 22:10:40 | INFO     | app.pipeline.orchestrator | [e1b8d8ee] Layer 1 — Checking for existing data
+2026-03-03 22:10:40 | INFO     | app.database.connection | DuckDB connected: :memory:
+2026-03-03 22:10:40 | ERROR    | app.pipeline.orchestrator | [e1b8d8ee] Pipeline FAILED: Catalog Error: Table with name raw_posts does not exist!
+Did you mean "pg_settings"?
+
+LINE 1: SELECT * FROM raw_posts WHERE run_date = CURRENT_DATE
+                      ^
+Traceback (most recent call last):
+  File "C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\backend\globe\app\pipeline\orchestrator.py", line 52, in run_pipeline
+    posts: List[RawPost] = get_existing_posts_for_today()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Paarth\Coding\simppl\research-engineering-intern-assignment\backend\globe\app\pipeline\ingestion.py", line 40, in get_existing_posts_for_today
+    res = conn.execute("SELECT * FROM raw_posts WHERE run_date = CURRENT_DATE").fetchall()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_duckdb.CatalogException: Catalog Error: Table with name raw_posts does not exist!
+Did you mean "pg_settings"?
+
+LINE 1: SELECT * FROM raw_posts WHERE run_date = CURRENT_DATE
+                      ^
+2026-03-03 22:10:40 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 22:10:40 | INFO     | app.pipeline.clustering | Clustering map complete — 2 locations from 2 events
+2026-03-03 22:10:40 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 22:10:40 | INFO     | app.pipeline.clustering | Clustering map complete — 2 locations from 2 events
+2026-03-03 22:10:40 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 22:10:40 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 22:10:40 | INFO     | app.pipeline.geo_filter | Geo filter: 0/1 posts passed
+2026-03-03 22:10:41 | INFO     | app.pipeline.geo_filter | Geo filter: 0/1 posts passed
+2026-03-03 22:10:41 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 22:10:41 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 22:10:41 | INFO     | app.pipeline.geo_filter | Geo filter: 3/4 posts passed
+2026-03-03 22:10:41 | INFO     | app.pipeline.geo_filter | Geo filter: 0/0 posts passed
+2026-03-03 22:10:41 | INFO     | app.pipeline.geo_filter | Geo filter: 1/1 posts passed
+2026-03-03 22:10:41 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
+2026-03-03 22:10:41 | INFO     | app.pipeline.impact_scorer | Impact scoring complete — 2 scores
