@@ -20,51 +20,55 @@ from polarize_1.data_loader import DataStore
 # ── Panel 1: Echo Scores ──────────────────────────────────────────────────────
 
 def get_echo_scores(store: DataStore) -> List[dict]:
-    """Return echo scores sorted by lift descending."""
+    """
+    Return News Source Diversity (unique domains per subreddit).
+    Calculated from flow_vectors: subreddit -> { domain: count, ... }
+    """
+    diversity = {}
+    for sub, vector in store.flow_vectors.items():
+        diversity[sub] = len(vector.keys())
+
+    if not diversity:
+        return []
+
+    # Find max diversity for normalization (0-1 range for UI bars)
+    max_div = max(diversity.values())
+    norm_factor = max(max_div, 1)
+
     return [
-        {"subreddit": s, "lift": round(v, 4)}
-        for s, v in sorted(store.echo_scores.items(), key=lambda x: -x[1])
+        {
+            "subreddit": s,
+            "source_count": count,
+            "score": round(count / norm_factor, 4)
+        }
+        for s, count in sorted(diversity.items(), key=lambda x: -x[1])
     ]
 
 
 # ── Panel 2: Cosine Similarity Matrix ────────────────────────────────────────
 
-def _magnitude(vec: Dict[str, int]) -> float:
-    return math.sqrt(sum(v * v for v in vec.values()))
-
-
-def _cosine(a: Dict[str, int], b: Dict[str, int]) -> float:
-    # Only iterate over the smaller set for speed
-    if len(a) > len(b):
-        a, b = b, a
-    dot = sum(a[d] * b[d] for d in a if d in b)
-    mag_a = _magnitude(a)
-    mag_b = _magnitude(b)
-    if mag_a == 0 or mag_b == 0:
-        return 0.0
-    return dot / (mag_a * mag_b)
-
-
 def get_similarity_matrix(store: DataStore) -> dict:
     """
-    Compute pairwise cosine similarity across all subreddits.
-    Returns: { subreddits: [...], matrix: [[float, ...], ...] }
+    Compute pairwise unique domain overlap across all subreddits.
+    Returns: { subreddits: [...], matrix: [[int, ...], ...] }
     """
     subs = store.subreddits
     vecs = store.flow_vectors
-
-    # Memoize magnitudes
-    mags = {s: _magnitude(vecs[s]) for s in subs}
+    
+    # Pre-calculate sets of domains for each subreddit
+    sub_sets = {s: set(vecs[s].keys()) for s in subs}
 
     matrix = []
     for s1 in subs:
         row = []
         for s2 in subs:
             if s1 == s2:
-                row.append(1.0)
+                # Overlap with itself is the total count of unique domains
+                row.append(len(sub_sets[s1]))
             else:
-                sim = _cosine(vecs[s1], vecs[s2])
-                row.append(round(sim, 4))
+                # Count shared domains
+                overlap = len(sub_sets[s1].intersection(sub_sets[s2]))
+                row.append(overlap)
         matrix.append(row)
 
     return {"subreddits": subs, "matrix": matrix}
@@ -105,7 +109,6 @@ def get_top_domains(store: DataStore, subreddit: str, n: int = 5) -> List[dict]:
             "domain": r.domain,
             "count": r.count,
             "category": r.category,
-            "lift": round(r.lift, 3),
             "p_sub": round(r.p_domain_given_sub, 5),
             "p_global": round(r.p_domain_global, 5),
         }
@@ -118,20 +121,32 @@ def get_top_domains(store: DataStore, subreddit: str, n: int = 5) -> List[dict]:
 def get_treemap_payload(store: DataStore, subreddit: str) -> dict:
     """
     Build a hierarchical payload for D3/Nivo Treemaps.
+    Uses ALL domains from the flow data, not just the top distinctive ones.
     Structure: Root -> Category -> Domain.
     """
-    rows = store.distinctive.get(subreddit, [])
-    if not rows:
+    vector = store.flow_vectors.get(subreddit, {})
+    if not vector:
         return {"name": "Media Ecosystem", "children": []}
 
+    # Pre-index distinctive domains for quick lookup
+    distinctive_map = {r.domain: r for r in store.distinctive.get(subreddit, [])}
+
     categories = defaultdict(list)
-    for r in rows:
-        categories[r.category].append({
-            "name": r.domain,
-            "loc": r.count,
-            "lift": round(r.lift, 3),
-            "p_sub": round(r.p_domain_given_sub, 5),
-            "p_global": round(r.p_domain_global, 5)
+    for domain, count in vector.items():
+        # Get category from global mapping, default to "Media / News"
+        cat = store.domain_to_category.get(domain, "Media / News")
+        
+        # Merge metrics if available in pre-computed distinctive data
+        d_row = distinctive_map.get(domain)
+        p_sub = round(d_row.p_domain_given_sub, 5) if d_row else 0
+        p_global = round(d_row.p_domain_global, 5) if d_row else 0
+
+        categories[cat].append({
+            "name": domain,
+            "loc": count,
+            "p_sub": p_sub,
+            "p_global": p_global,
+            "category": cat,
         })
 
     children = []
@@ -158,17 +173,20 @@ def get_subreddit_summary_payload(store: DataStore, subreddit: str) -> dict:
     top_doms = get_top_domains(store, subreddit, n=5)
     cat_breakdown = get_category_breakdown(store, subreddit)
 
-    # Find top 3 most similar subreddits (excluding self)
+    # Find top 3 most similar subreddits by domain overlap (excluding self)
     subs = store.subreddits
     vecs = store.flow_vectors
+    sub_set = set(vecs[subreddit].keys())
+    
     similarities = []
     for other in subs:
         if other == subreddit:
             continue
-        sim = round(_cosine(vecs[subreddit], vecs[other]), 3)
-        if sim > 0.05:
-            similarities.append({"subreddit": other, "similarity": sim})
-    similarities.sort(key=lambda x: -x["similarity"])
+        other_set = set(vecs[other].keys())
+        overlap = len(sub_set.intersection(other_set))
+        if overlap > 0:
+            similarities.append({"subreddit": other, "overlap": overlap})
+    similarities.sort(key=lambda x: -x["overlap"])
     closest = similarities[:3]
 
     return {
@@ -178,3 +196,18 @@ def get_subreddit_summary_payload(store: DataStore, subreddit: str) -> dict:
         "category_breakdown": cat_breakdown,
         "similar_subreddits": closest,
     }
+
+def get_domain_posts(store: DataStore, subreddit: str, domain: str, limit: int = 50) -> List[str]:
+    """
+    Retrieve up to `limit` post titles for a specific subreddit and domain.
+    Used for context-aware AI analysis.
+    """
+    if store.posts is None:
+        return []
+    
+    # Filter by subreddit and domain
+    mask = (store.posts["subreddit"] == subreddit) & (store.posts["domain"] == domain)
+    subset = store.posts[mask]
+    
+    # Return unique titles (some might be duplicates)
+    return subset["title"].unique().tolist()[:limit]

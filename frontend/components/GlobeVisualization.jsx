@@ -13,8 +13,8 @@ export default function GlobeVisualization() {
 
     useEffect(() => {
 
-        const width = 1600;
-        const height = 1600;
+        const width = 1000;
+        const height = 1000;
 
         const scene = new THREE.Scene();
 
@@ -49,7 +49,7 @@ export default function GlobeVisualization() {
             .globeImageUrl("/earth-night.jpg")
             .bumpImageUrl("/earth-topology.png")
             .arcsData(generateArcs())
-            .arcColor(() => ["#ff0033", "#ff6600"])
+            .arcColor(() => ["#FFB800", "#8B7500"])
             .arcAltitude(0.2)
             .arcStroke(0.5)
             .arcDashLength(0.4)

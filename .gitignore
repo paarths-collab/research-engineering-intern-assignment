@@ -9,6 +9,7 @@ ENV/
 __pycache__/
 *.py[cod]
 *$py.class
+*.log
 
 # Databases and Big Data Files (DuckDB / SQLite / CSV)
 data/
@@ -23,7 +24,13 @@ Thumbs.db
 mostly/
 old/
 
-# Markdown
+# Scratch & Temporary
+tmp/
+test_request.py
+
+# Frontend & Markdown
 *.md
 node_modules/
 .next/
+out/
+build/

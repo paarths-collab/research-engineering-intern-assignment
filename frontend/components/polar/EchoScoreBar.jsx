@@ -11,42 +11,34 @@ import {
 } from "recharts";
 
 const MOCK_DATA = [
-  { subreddit: "r/politics", score: 0.82 },
-  { subreddit: "r/worldnews", score: 0.61 },
-  { subreddit: "r/geopolitics", score: 0.53 },
-  { subreddit: "r/news", score: 0.47 },
-  { subreddit: "r/conspiracy", score: 0.91 },
-  { subreddit: "r/europe", score: 0.38 },
+  { subreddit: "r/politics", source_count: 120, score: 0.82 },
+  { subreddit: "r/worldnews", source_count: 95, score: 0.61 },
+  { subreddit: "r/geopolitics", source_count: 53, score: 0.53 },
+  { subreddit: "r/news", source_count: 47, score: 0.47 },
+  { subreddit: "r/conspiracy", source_count: 72, score: 0.91 },
+  { subreddit: "r/europe", source_count: 38, score: 0.38 },
 ];
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload?.length) {
-    const val = payload[0].value;
     return (
-      <div className="bg-[#0f0f0f] border border-[#1d4ed8]/40 px-3 py-2 text-xs font-mono">
-        <p className="text-[#60a5fa]">{payload[0].payload.subreddit}</p>
-        <p className="text-white">
-          ISOLATION SCORE:{" "}
-          <span className="text-[#3b82f6]">{val.toFixed(2)}</span>
+      <div className="glass-panel px-4 py-3 border-l-4 border-l-[#FFB800] shadow-2xl">
+        <p className="text-white font-bold text-sm tracking-tight mb-1 font-inter uppercase">
+          {payload[0].payload.subreddit}
         </p>
-        <p
-          className={`mt-1 ${
-            val > 0.7
-              ? "text-red-400"
-              : val > 0.5
-              ? "text-amber-400"
-              : "text-emerald-400"
-          }`}
-        >
-          {val > 0.7 ? "● HIGH RISK" : val > 0.5 ? "● MODERATE" : "● LOW"}
-        </p>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">Sources</span>
+          <span className="text-[#FFB800] font-mono font-bold text-base">
+            {payload[0].payload.source_count ?? "—"}
+          </span>
+        </div>
       </div>
     );
   }
   return null;
 };
 
-export default function EchoScoreBar() {
+export default function EchoScoreBar({ onSelect, subreddit: activeSubreddit, isMaximized = false }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,7 +47,8 @@ export default function EchoScoreBar() {
       try {
         const res = await fetch("/api/echo-scores");
         const json = await res.json();
-        setData(json);
+        const arr = Array.isArray(json) ? json : (json.scores ?? json.data ?? []);
+        setData(arr);
       } catch {
         setData(MOCK_DATA);
       } finally {
@@ -65,103 +58,95 @@ export default function EchoScoreBar() {
     fetchData();
   }, []);
 
-  const getBarColor = (score) => {
-    if (score > 0.7) return "#ef4444";
-    if (score > 0.5) return "#f59e0b";
-    return "#3b82f6";
+  const handleBarClick = (entry) => {
+    if (onSelect && entry?.subreddit) {
+      const sub = entry.subreddit.replace(/^r\//, "");
+      onSelect(sub);
+    }
   };
 
+  const getBarColor = (isActive) => {
+    return isActive ? "#FFB800" : "#8B7500";
+  };
+
+  const displayData = isMaximized ? data : data.slice(0, 5);
+
   return (
-    <div className="bg-[#0c0c0e] border border-[#1f1f23] rounded-none h-full flex flex-col">
-      {/* Header */}
-      <div className="border-b border-[#1f1f23] px-4 py-3 flex items-center justify-between">
-        <div>
-          <p className="text-[10px] font-mono text-[#3b82f6] tracking-[0.2em] uppercase">
-            Module 01
-          </p>
-          <h2 className="text-sm font-mono text-white tracking-widest uppercase mt-0.5">
-            Echo Isolation Scores
-          </h2>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse" />
-          <span className="text-[10px] font-mono text-[#3b82f6]">LIVE</span>
-        </div>
-      </div>
-
-      {/* Legend */}
-      <div className="px-4 pt-3 flex gap-4">
-        {[
-          { color: "#ef4444", label: "HIGH" },
-          { color: "#f59e0b", label: "MOD" },
-          { color: "#3b82f6", label: "LOW" },
-        ].map((l) => (
-          <div key={l.label} className="flex items-center gap-1.5">
-            <span
-              className="w-2 h-2 rounded-sm"
-              style={{ background: l.color }}
-            />
-            <span className="text-[9px] font-mono text-[#52525b]">
-              {l.label}
-            </span>
-          </div>
-        ))}
-      </div>
-
+    <div className="h-full flex flex-col p-4 bg-[#0a0806]/40">
       {/* Chart */}
-      <div className="flex-1 px-2 py-3 min-h-0">
+      <div className="flex-1 min-h-0">
         {loading ? (
           <div className="h-full flex items-center justify-center">
-            <div className="text-[10px] font-mono text-[#3b82f6] animate-pulse tracking-widest">
-              FETCHING SIGNAL DATA...
+            <div className="text-[10px] font-mono text-[#FFB800] animate-pulse tracking-[0.3em] uppercase">
+              Analyzing Diversity Vectors...
             </div>
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={data}
+              data={displayData}
               layout="vertical"
-              margin={{ top: 4, right: 20, left: 10, bottom: 4 }}
-              barCategoryGap="30%"
+              margin={{ top: 10, right: 30, left: 60, bottom: 10 }}
+              barCategoryGap="15%"
+              onClick={(chartData) => {
+                if (chartData?.activePayload?.[0]?.payload) {
+                  handleBarClick(chartData.activePayload[0].payload);
+                }
+              }}
+              style={{ cursor: "pointer" }}
             >
               <XAxis
                 type="number"
-                domain={[0, 1]}
-                tick={{ fill: "#52525b", fontSize: 9, fontFamily: "monospace" }}
-                axisLine={{ stroke: "#27272a" }}
-                tickLine={false}
-                tickCount={6}
+                domain={[0, 1.1]}
+                hide
               />
               <YAxis
                 type="category"
                 dataKey="subreddit"
-                tick={{ fill: "#a1a1aa", fontSize: 9, fontFamily: "monospace" }}
+                interval={0}
+                tick={({ x, y, payload }) => {
+                  const isActive = payload.value === `r/${activeSubreddit}` || payload.value === activeSubreddit;
+                  return (
+                    <text
+                      x={x - 15}
+                      y={y}
+                      dy={4}
+                      textAnchor="end"
+                      fill={isActive ? "#FFB800" : "rgba(255,255,255,0.4)"}
+                      fontSize={11}
+                      className="font-inter font-semibold uppercase tracking-tight"
+                    >
+                      {payload.value}
+                    </text>
+                  );
+                }}
                 axisLine={false}
                 tickLine={false}
-                width={90}
+                width={180}
               />
-              <Tooltip content={<CustomTooltip />} cursor={{ fill: "#ffffff08" }} />
-              <Bar dataKey="score" radius={[0, 2, 2, 0]}>
-                {data.map((entry, i) => (
-                  <Cell key={i} fill={getBarColor(entry.score)} opacity={0.85} />
-                ))}
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ fill: "rgba(255,184,0,0.05)" }}
+                position={{ x: 190 }}
+              />
+              <Bar dataKey="score" radius={[0, 2, 2, 0]} maxBarSize={60}>
+                {data.map((entry, i) => {
+                  const isActive = entry.subreddit === `r/${activeSubreddit}` || entry.subreddit === activeSubreddit;
+                  return (
+                    <Cell
+                      key={i}
+                      fill={getBarColor(isActive)}
+                      fillOpacity={isActive ? 1 : 0.3}
+                      stroke={isActive ? "#FFB800" : "none"}
+                      strokeWidth={1}
+                      className="transition-all duration-300"
+                    />
+                  );
+                })}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
         )}
-      </div>
-
-      {/* Footer stat */}
-      <div className="border-t border-[#1f1f23] px-4 py-2 flex justify-between">
-        <span className="text-[9px] font-mono text-[#3f3f46]">
-          SUBREDDITS ANALYZED: {data.length}
-        </span>
-        <span className="text-[9px] font-mono text-[#3f3f46]">
-          AVG:{" "}
-          {data.length
-            ? (data.reduce((a, b) => a + b.score, 0) / data.length).toFixed(2)
-            : "—"}
-        </span>
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ def _build_prompt(payload: dict) -> str:
     similar = payload["similar_subreddits"]
 
     domain_lines = "\n".join(
-        f"  - {d['domain']}  (lift: {d['lift']}×, type: {d['category']}, count: {d['count']})"
+        f"  - {d['domain']}  (subreddit share: {round(d['p_sub']*100, 1)}%, global share: {round(d['p_global']*100, 2)}%, count: {d['count']}, type: {d['category']})"
         for d in domains
     )
     cat_lines = "\n".join(
@@ -29,42 +29,40 @@ def _build_prompt(payload: dict) -> str:
         for c in cats
     )
     sim_lines = (
-        "\n".join(f"  - r/{s['subreddit']} ({int(s['similarity']*100)}% overlap)" for s in similar)
+        "\n".join(f"  - r/{s['subreddit']} ({s['overlap']} shared domains)" for s in similar)
         if similar else "  - No close neighbors (highly isolated)"
     )
 
     return f"""You are writing an intelligence brief for a media ecosystem analysis dashboard.
-Your job is to interpret structural metrics and explain what they reveal about how a Reddit community 
-consumes information. Derive orientation from domain names and organization types — do not assume ideology 
-from the subreddit name alone.
+Your job is to explain what the top news sources this subreddit references reveal about how this community consumes information.
+Focus on: what publications/outlets they trust, what narratives those sources promote, and what this says about the community's information diet.
 
 ─── STRUCTURED METRICS ───────────────────────────────────────────────────────
 
 SUBREDDIT: r/{sub}
 
-ECHO SCORE: {score}
-  (Avg lift of top distinctive domains vs global baseline.
-   High score = concentrated media diet. Not a measure of extremism.)
+MEDIA DIVERSITY SCORE: {score}
+  (Based on number of unique domains referenced. Higher = more diverse sourcing.)
 
-TOP DISTINCTIVE DOMAINS (by lift):
+TOP REFERENCED NEWS SOURCES (by share of links in this subreddit):
 {domain_lines}
 
 SOURCE TYPE BREAKDOWN:
 {cat_lines}
 
-MOST SIMILAR SUBREDDITS (cosine similarity on domain link vectors):
+MOST OVERLAPPING COMMUNITIES (shared news sources):
 {sim_lines}
 
 ─── INSTRUCTIONS ─────────────────────────────────────────────────────────────
 
 Write 4–5 sentences. Structure your brief as follows:
-1. Identify what the top domains represent (what kind of organizations/publications are they?).
-2. Interpret the echo score — what does this concentration level mean in practical terms?
-3. Comment on the source type mix — journalism vs advocacy vs institutional vs video.
-4. Comment on ecosystem isolation or overlap with other communities.
-5. End with one sentence on what this suggests about the community's information environment.
+1. Name the top 2-3 news sources and describe what kind of publications they are (e.g. mainstream, partisan, investigative, institutional).
+2. Explain what these sources collectively suggest about the community's preferred news framing or political orientation.
+3. Comment on the source type mix — what percentage comes from traditional news vs advocacy vs research.
+4. Note which other communities share overlapping media diets and what that means.
+5. End with one sentence summarizing the overall information environment of this subreddit.
 
-Tone: analytical, neutral, professional. No bullet points. No hedging phrases like "it appears" or 
+Tone: analytical, neutral, professional. No bullet points. No hedging phrases like "it appears" or
 "it seems". State observations directly. Do not repeat the raw numbers — translate them into meaning.
 Do not mention the word "echo chamber". Do not make political value judgments."""
 

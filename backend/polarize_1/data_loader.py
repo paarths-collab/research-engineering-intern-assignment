@@ -9,11 +9,12 @@ Files expected in ./data/:
 
 import os
 import csv
+import pandas as pd
 from dataclasses import dataclass, field
 from collections import defaultdict
 from typing import Dict, List
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data")
 
 
 @dataclass
@@ -50,14 +51,33 @@ class DataStore:
     # Echo scores: subreddit → lift
     echo_scores: Dict[str, float] = field(default_factory=dict)
 
+    # Global domain → category mapping
+    domain_to_category: Dict[str, str] = field(default_factory=dict)
+
     # Ordered list of subreddits (from flow data)
     subreddits: List[str] = field(default_factory=list)
+
+    # Store the actual posts dataframe
+    posts: pd.DataFrame = field(default=None)
 
     def load(self):
         self._load_flow()
         self._load_distinctive()
         self._load_echo_scores()
-        self.subreddits = sorted(self.flow_vectors.keys())
+        
+        # Load subreddits from clean_posts.csv as requested
+        posts_path = os.path.join(DATA_DIR, "clean_posts.csv")
+        if os.path.exists(posts_path):
+            self.posts = pd.read_csv(posts_path)
+            if "subreddit" in self.posts.columns:
+                self.subreddits = sorted(self.posts["subreddit"].dropna().unique().tolist())
+                print(f"Loaded posts: {len(self.posts)}")
+                print(f"Detected subreddits: {len(self.subreddits)}")
+            else:
+                # Fallback to flow_vectors if subreddit column is missing
+                self.subreddits = sorted(self.flow_vectors.keys())
+        else:
+            self.subreddits = sorted(self.flow_vectors.keys())
 
     # ── Loaders ──────────────────────────────────────────────────────────────
 
@@ -73,12 +93,16 @@ class DataStore:
         path = os.path.join(DATA_DIR, "clean_top_distinctive_domains.csv")
         with open(path, newline="", encoding="utf-8") as f:
             for row in csv.DictReader(f):
-                self.distinctive[row["subreddit"]].append(
+                s, d, cat = row["subreddit"], row["domain"], row["category"]
+                # Store globally (last one wins, but categorization should be consistent)
+                self.domain_to_category[d] = cat
+                
+                self.distinctive[s].append(
                     DomainRow(
-                        subreddit=row["subreddit"],
-                        domain=row["domain"],
+                        subreddit=s,
+                        domain=d,
                         count=int(row["count"]),
-                        category=row["category"],
+                        category=cat,
                         sub_total=int(row["sub_total"]),
                         domain_total=int(row["domain_total"]),
                         p_domain_given_sub=float(row["p_domain_given_sub"]),

@@ -92,11 +92,11 @@ export default function AmbrosiaPage() {
       </div>
 
       <div className={styles.liveMetrics}>
-        <div style={{ color: '#00E5FF', marginBottom: '8px', fontSize: '11px', letterSpacing: '1px' }}>LIVE SIGNALS</div>
+        <div style={{ color: '#FFB800', marginBottom: '8px', fontSize: '11px', letterSpacing: '1px' }}>LIVE SIGNALS</div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Narratives tracked</span> <span>124</span></div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Communities analyzed</span> <span>31</span></div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}><span>Bridge actors detected</span> <span>72</span></div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Active signals</span> <span style={{ color: '#00E5FF' }}>9</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Active signals</span> <span style={{ color: '#FFB800' }}>9</span></div>
       </div>
     </div>
   );

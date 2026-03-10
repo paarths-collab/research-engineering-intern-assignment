@@ -2,58 +2,16 @@
 import { useEffect, useState } from "react";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
 
-const MOCK_DATA = [
-  {
-    id: "r/politics",
-    data: [
-      { x: "r/politics", y: 1.0 },
-      { x: "r/worldnews", y: 0.72 },
-      { x: "r/geopolitics", y: 0.41 },
-      { x: "r/news", y: 0.65 },
-      { x: "r/conspiracy", y: 0.18 },
-    ],
-  },
-  {
-    id: "r/worldnews",
-    data: [
-      { x: "r/politics", y: 0.72 },
-      { x: "r/worldnews", y: 1.0 },
-      { x: "r/geopolitics", y: 0.58 },
-      { x: "r/news", y: 0.79 },
-      { x: "r/conspiracy", y: 0.22 },
-    ],
-  },
-  {
-    id: "r/geopolitics",
-    data: [
-      { x: "r/politics", y: 0.41 },
-      { x: "r/worldnews", y: 0.58 },
-      { x: "r/geopolitics", y: 1.0 },
-      { x: "r/news", y: 0.49 },
-      { x: "r/conspiracy", y: 0.31 },
-    ],
-  },
-  {
-    id: "r/news",
-    data: [
-      { x: "r/politics", y: 0.65 },
-      { x: "r/worldnews", y: 0.79 },
-      { x: "r/geopolitics", y: 0.49 },
-      { x: "r/news", y: 1.0 },
-      { x: "r/conspiracy", y: 0.14 },
-    ],
-  },
-  {
-    id: "r/conspiracy",
-    data: [
-      { x: "r/politics", y: 0.18 },
-      { x: "r/worldnews", y: 0.22 },
-      { x: "r/geopolitics", y: 0.31 },
-      { x: "r/news", y: 0.14 },
-      { x: "r/conspiracy", y: 1.0 },
-    ],
-  },
-];
+const SUBS = ["r/politics", "r/Conservative", "r/Liberal", "r/Anarchism", "r/PoliticalDiscussion", "r/Republican", "r/Democrats", "r/neoliberal", "r/socialism", "r/worldpolitics"];
+
+// Generate a symmetric mock 10x10 matrix
+const MOCK_DATA = SUBS.map((rowId, i) => ({
+  id: rowId,
+  data: SUBS.map((colId, j) => ({
+    x: colId,
+    y: i === j ? Math.floor(15 + Math.random() * 10) : Math.floor(Math.random() * 80),
+  })),
+}));
 
 export default function SimilarityHeatmap() {
   const [data, setData] = useState([]);
@@ -64,7 +22,18 @@ export default function SimilarityHeatmap() {
       try {
         const res = await fetch("/api/similarity");
         const json = await res.json();
-        setData(json);
+        if (Array.isArray(json) && json.length > 0) {
+          setData(json);
+        } else if (json.subreddits && json.matrix) {
+          const { subreddits, matrix } = json;
+          const formatted = subreddits.map((row, i) => ({
+            id: row,
+            data: subreddits.map((col, j) => ({ x: col, y: matrix[i][j] })),
+          }));
+          setData(formatted);
+        } else {
+          setData(MOCK_DATA);
+        }
       } catch {
         setData(MOCK_DATA);
       } finally {
@@ -75,53 +44,29 @@ export default function SimilarityHeatmap() {
   }, []);
 
   return (
-    <div className="bg-[#0c0c0e] border border-[#1f1f23] rounded-none flex flex-col">
-      {/* Header */}
-      <div className="border-b border-[#1f1f23] px-4 py-3 flex items-center justify-between">
-        <div>
-          <p className="text-[10px] font-mono text-[#3b82f6] tracking-[0.2em] uppercase">
-            Module 02
-          </p>
-          <h2 className="text-sm font-mono text-white tracking-widest uppercase mt-0.5">
-            Subreddit Similarity Matrix
-          </h2>
-        </div>
-        <div className="text-[9px] font-mono text-[#3f3f46] border border-[#27272a] px-2 py-1">
-          COSINE SIM · {data.length}×{data.length > 0 ? data[0].data.length : 0}
-        </div>
-      </div>
-
-      {/* Heatmap */}
-      <div className="flex-1 px-4 py-4" style={{ height: 340 }}>
+    <div className="h-full flex flex-col p-4 bg-[#0a0806]/40">
+      <div className="flex-1 min-h-0">
         {loading ? (
           <div className="h-full flex items-center justify-center">
-            <div className="text-[10px] font-mono text-[#3b82f6] animate-pulse tracking-widest">
-              COMPUTING SIMILARITY VECTORS...
+            <div className="text-[10px] font-mono text-[#FFB800] animate-pulse tracking-[0.3em] uppercase">
+              Mapping Source Overlap...
             </div>
           </div>
         ) : (
           <ResponsiveHeatMap
             data={data}
-            margin={{ top: 40, right: 60, bottom: 20, left: 90 }}
-            valueFormat=">-.2f"
+            margin={{ top: 90, right: 20, bottom: 20, left: 120 }}
             axisTop={{
               tickSize: 0,
-              tickPadding: 8,
-              legend: "",
-              tickRotation: -30,
-              legendOffset: 36,
+              tickPadding: 12,
+              tickRotation: -45,
               renderTick: ({ x, y, value }) => (
                 <text
                   x={x}
                   y={y - 8}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  style={{
-                    fontSize: 9,
-                    fontFamily: "monospace",
-                    fill: "#71717a",
-                    transform: `rotate(-30deg)`,
-                  }}
+                  textAnchor="start"
+                  className="font-inter font-bold text-[10px] fill-white/40 uppercase tracking-tighter"
+                  style={{ transform: `rotate(-45deg)`, transformOrigin: `${x}px ${y}px` }}
                 >
                   {value}
                 </text>
@@ -129,14 +74,14 @@ export default function SimilarityHeatmap() {
             }}
             axisLeft={{
               tickSize: 0,
-              tickPadding: 10,
+              tickPadding: 16,
               renderTick: ({ x, y, value }) => (
                 <text
                   x={x - 8}
                   y={y}
                   textAnchor="end"
                   dominantBaseline="middle"
-                  style={{ fontSize: 9, fontFamily: "monospace", fill: "#71717a" }}
+                  className="font-inter font-bold text-[10px] fill-white/60 uppercase tracking-tighter"
                 >
                   {value}
                 </text>
@@ -144,42 +89,41 @@ export default function SimilarityHeatmap() {
             }}
             colors={{
               type: "sequential",
-              scheme: "blues",
+              scheme: "oranges", // Using oranges for the golden amber theme
               minValue: 0,
-              maxValue: 1,
+              maxValue: 100,
             }}
-            emptyColor="#111113"
+            emptyColor="#050508"
             borderWidth={1}
-            borderColor="#0c0c0e"
+            borderColor="rgba(255,255,255,0.05)"
             enableLabels={true}
-            labelTextColor={{ from: "color", modifiers: [["brighter", 3]] }}
+            labelTextColor={{ from: "color", modifiers: [["darker", 3]] }}
             tooltip={({ cell }) => (
-              <div className="bg-[#0f0f0f] border border-[#1d4ed8]/40 px-3 py-2 text-xs font-mono shadow-xl">
-                <p className="text-[#60a5fa] mb-1">SIMILARITY INDEX</p>
-                <p className="text-[#a1a1aa]">
-                  {cell.serieId} ↔ {cell.data.x}
+              <div className="glass-panel px-4 py-3 border-l-4 border-l-[#FFB800] shadow-2xl">
+                <span className="text-[9px] font-mono text-[#FFB800] uppercase tracking-[0.2em] mb-1 block">
+                  Intersection Signal
+                </span>
+                <p className="text-white font-bold text-[11px] mb-2 font-inter uppercase">
+                  {cell.serieId} <span className="text-white/30">↔</span> {cell.data.x}
                 </p>
-                <p className="text-white font-bold mt-1">
-                  {typeof cell.value === "number" ? cell.value.toFixed(3) : cell.value}
-                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold font-mono text-white leading-none">
+                    {cell.value}
+                  </span>
+                  <span className="text-[9px] font-mono text-white/50 uppercase tracking-widest">
+                    Shared Sources
+                  </span>
+                </div>
               </div>
             )}
             theme={{
-              text: { fill: "#71717a", fontFamily: "monospace", fontSize: 9 },
+              text: { fill: "rgba(255,255,255,0.4)", fontFamily: "Inter", fontSize: 10 },
               tooltip: { container: { background: "transparent", boxShadow: "none", padding: 0 } },
+              grid: { line: { stroke: "rgba(255,255,255,0.03)" } },
+              labels: { text: { fill: "#ffffff", fontSize: 12, fontWeight: "bold" } }
             }}
           />
         )}
-      </div>
-
-      {/* Scale legend */}
-      <div className="border-t border-[#1f1f23] px-4 py-2 flex items-center gap-3">
-        <span className="text-[9px] font-mono text-[#3f3f46]">LOW</span>
-        <div className="flex-1 h-1.5 rounded-full bg-gradient-to-r from-[#0c0c0e] via-[#1d4ed8] to-[#93c5fd]" />
-        <span className="text-[9px] font-mono text-[#3f3f46]">HIGH</span>
-        <span className="text-[9px] font-mono text-[#27272a] ml-4">
-          PEARSON COSINE ∈ [0,1]
-        </span>
       </div>
     </div>
   );

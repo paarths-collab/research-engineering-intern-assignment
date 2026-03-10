@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import Sidebar from "../components/Sidebar";
 import "../styles/globals.css";
 
 export default function RootLayout({ children }) {
@@ -10,6 +11,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body>
+                <Sidebar />
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={pathname || "initial"}

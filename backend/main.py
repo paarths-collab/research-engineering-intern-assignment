@@ -1,57 +1,374 @@
+"""
+backend/main.py — Unified NarrativeSignal API
+All modules (polarize_1, networkgraph, streamgraph2, globe, hybrid_crew)
+are mounted here under their own prefixes.
+
+Run from the PROJECT ROOT (one level above backend/):
+    uvicorn backend.main:app --port 8000 --host 127.0.0.1
+
+Or from inside backend/:
+    uvicorn main:app --port 8000 --host 127.0.0.1
+"""
+
 import sys
 import os
+import logging
 from pathlib import Path
+from contextlib import asynccontextmanager
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Add subdirectories to sys.path to resolve internal imports within each module
-current_dir = Path(__file__).parent
-sys.path.append(str(current_dir / "polarize_1"))
-sys.path.append(str(current_dir / "networkgraph"))
-sys.path.append(str(current_dir / "streamgraph2"))
-sys.path.append(str(current_dir / "globe"))
-sys.path.append(str(current_dir / "hybrid_crew"))
+# ── sys.path fix ─────────────────────────────────────────────────────────────
+# Add the backend/ directory itself so sub-packages (polarize_1, networkgraph,
+# streamgraph2, globe, hybrid_crew) are importable as top-level packages.
+BACKEND_DIR = Path(__file__).resolve().parent
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
 
-# Import the FastAPI instances from each module
+# ── Logging ──────────────────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s  %(levelname)-8s  %(name)s  %(message)s",
+    datefmt="%H:%M:%S",
+)
+log = logging.getLogger("narrativesignal")
+
+# ── Load .env ─────────────────────────────────────────────────────────────────
 try:
-    from polarize_1.main import app as polar_app
-except ImportError as e:
-    print(f"Warning: Could not import polarize_1 app: {e}")
+    from dotenv import load_dotenv
+    load_dotenv(BACKEND_DIR / ".env")
+    log.info("✓ .env loaded")
+except ImportError:
+    pass
+
+# ── Import sub-module routers / apps ─────────────────────────────────────────
+
+# polarize_1 — echo scores, treemap, similarity, intelligence brief
+polar_app = None
+try:
+    from polarize_1.data_loader import DataStore, DATA_DIR
+    from polarize_1.compute import (
+        get_echo_scores, get_similarity_matrix,
+        get_category_breakdown, get_top_domains,
+        get_treemap_payload, get_subreddit_summary_payload,
+    )
+    from polarize_1.ai_brief import generate_brief
+    from pydantic import BaseModel as _BM
+    import os as _os
+
+    _store = DataStore()
+    _store.load()
+    log.info("✓ polarize_1 data loaded — subreddits: %s", _store.subreddits)
+
+    class _BriefRequest(_BM):
+        subreddit: str
+
+    polar_app = FastAPI(title="Polarize API")
+    @polar_app.get("/subreddits")
+    def _list_subreddits():
+        return {"subreddits": _store.subreddits}
+
+    @polar_app.get("/echo-scores")
+    def _echo_scores():
+        return get_echo_scores(_store)
+
+    @polar_app.get("/similarity")
+    def _similarity():
+        return get_similarity_matrix(_store)
+
+    @polar_app.get("/treemap/{subreddit}")
+    def _treemap(subreddit: str):
+        from fastapi import HTTPException
+        if subreddit not in _store.subreddits:
+            raise HTTPException(404, f"Unknown subreddit: {subreddit}")
+        return get_treemap_payload(_store, subreddit)
+
+    @polar_app.get("/category-breakdown/{subreddit}")
+    def _cat_breakdown(subreddit: str):
+        from fastapi import HTTPException
+        if subreddit not in _store.subreddits:
+            raise HTTPException(404, f"Unknown subreddit: {subreddit}")
+        return {"subreddit": subreddit, "breakdown": get_category_breakdown(_store, subreddit)}
+
+    @polar_app.get("/top-domains/{subreddit}")
+    def _top_domains(subreddit: str, n: int = 5):
+        from fastapi import HTTPException
+        if subreddit not in _store.subreddits:
+            raise HTTPException(404, f"Unknown subreddit: {subreddit}")
+        return {"subreddit": subreddit, "domains": get_top_domains(_store, subreddit, n)}
+
+    @polar_app.get("/summary-payload/{subreddit}")
+    def _summary_payload(subreddit: str):
+        from fastapi import HTTPException
+        if subreddit not in _store.subreddits:
+            raise HTTPException(404, f"Unknown subreddit: {subreddit}")
+        return get_subreddit_summary_payload(_store, subreddit)
+
+    @polar_app.post("/intelligence-brief")
+    async def _intelligence_brief(req: _BriefRequest):
+        from fastapi import HTTPException
+        if req.subreddit not in _store.subreddits:
+            raise HTTPException(404, f"Unknown subreddit: {req.subreddit}")
+        api_key = _os.getenv("GROQ_API_KEY")
+        if not api_key:
+            raise HTTPException(500, "GROQ_API_KEY not set")
+        payload = get_subreddit_summary_payload(_store, req.subreddit)
+        brief = await generate_brief(payload, api_key)
+        return {"subreddit": req.subreddit, "brief": brief, "payload": payload}
+
+    class _DomainAnalysisRequest(_BM):
+        domain: str
+        subreddit: str = "politics"
+        category: str = "General"
+        narratives: list = []
+
+    @polar_app.post("/ai-analysis")
+    async def _domain_analysis(req: _DomainAnalysisRequest):
+        import json
+        from pathlib import Path
+        import httpx
+        from polarize_1.compute import get_domain_posts
+
+        api_key = _os.getenv("GROQ_API_KEY")
+        data_dir = Path(__file__).resolve().parent / ".." / "data"
+        cache_file = data_dir / "ai_cache.json"
+        
+        # 1. Check Cache
+        cache = {}
+        if cache_file.exists():
+            try:
+                cache = json.loads(cache_file.read_text(encoding="utf-8"))
+            except: pass
+            
+        cache_key = f"{req.subreddit}:{req.domain}"
+        if cache_key in cache:
+            return {"analysis": cache[cache_key]}
+
+        # 2. Get Real News Context
+        titles = get_domain_posts(_store, req.subreddit, req.domain, limit=20)
+        news_context = "\n".join([f"- {t}" for t in titles[:10]]) if titles else "No specific titles found."
+
+        # 3. Build Detailed Prompt
+        narratives_str = ", ".join(req.narratives[:3]) if req.narratives else "various topics"
+        prompt = (
+            f"You are a media intelligence analyst. Analyzing '{req.domain}' in the context of r/{req.subreddit}.\n\n"
+            f"CATEGORY: {req.category}\n"
+            f"IDENTIFIED NARRATIVES: {narratives_str}\n\n"
+            f"RECENT POST TITLES FROM THIS SOURCE IN THIS SUBREDDIT:\n{news_context}\n\n"
+            f"TASK: Provide a concise (3-4 sentence) intelligence summary. "
+            f"Specifically: What kind of news is this source pushing in this community? "
+            f"What is the general sentiment of these headlines (e.g., alarmist, neutral, celebratory, critical)? "
+            f"How does it shape the community's perspective?"
+        )
+
+        analysis = ""
+        if api_key:
+            try:
+                async with httpx.AsyncClient(timeout=15.0) as client:
+                    resp = await client.post(
+                        "https://api.groq.com/openai/v1/chat/completions",
+                        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                        json={
+                            "model": "llama-3.1-8b-instant",
+                            "messages": [{"role": "user", "content": prompt}],
+                            "max_tokens": 300,
+                        },
+                    )
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        analysis = data["choices"][0]["message"]["content"].strip()
+            except Exception as e:
+                log.warning("Groq domain analysis failed: %s", e)
+
+        # 4. Fallback if no API key or failed
+        if not analysis:
+            traits = {
+                "News": "major news outlet framing",
+                "Blogs": "independent perspective",
+                "Advocacy": "partisan advocacy",
+                "Video": "multimedia engagement"
+            }
+            short_trait = traits.get(req.category, "digital influence")
+            analysis = (
+                f"{req.domain} serves as a primary {short_trait} for r/{req.subreddit}. "
+                f"The community engages with it primarily around {narratives_str}, "
+                f"indicating a reliance on its specific editorial framing for these topics."
+            )
+
+        # 5. Save to Cache
+        cache[cache_key] = analysis
+        try:
+            cache_file.write_text(json.dumps(cache, indent=2, ensure_ascii=False), encoding="utf-8")
+        except: pass
+
+        return {"analysis": analysis}
+
+        # Deterministic fallback
+        category_traits = {
+            "News": "a major news outlet with broad audience reach and editorial influence",
+            "Blogs": "an independent publishing platform with niche editorial perspectives",
+            "Advocacy": "an advocacy-driven publication with a focused policy agenda",
+            "Research": "a research institution that produces data-driven, peer-reviewed analysis",
+            "Government": "an official government source providing authoritative policy information",
+        }
+        trait = category_traits.get(req.category, "a notable online media source")
+        return {
+            "analysis": (
+                f"{req.domain} is {trait}. "
+                f"Its primary narratives span {narratives_str}, making it a significant signal source in the {req.category} ecosystem. "
+                f"High community reference volumes indicate strong audience engagement and topic resonance across political communities."
+            )
+        }
+
+    log.info("✓ polarize_1 routes registered")
+except Exception as e:
+    log.warning("Could not load polarize_1: %s", e)
     polar_app = FastAPI()
 
+
+# networkgraph — graph, transport, narrative, user, analyze routers
+network_app = None
 try:
-    from networkgraph.main import app as network_app
-except ImportError as e:
-    print(f"Warning: Could not import networkgraph app: {e}")
+    from networkgraph.data.loader import load_all as _ng_load_all, get_store as _ng_get_store
+    from networkgraph.routers import graph, transport, narrative, user, analyze
+    from contextlib import asynccontextmanager as _acm
+
+    _ng_load_all()
+
+    @_acm
+    async def _ng_lifespan(app):
+        log.info("✓ networkgraph data loaded — %s", _ng_get_store().row_counts())
+        yield
+
+    network_app = FastAPI(title="NetworkGraph API", lifespan=_ng_lifespan)
+    network_app.include_router(graph.router)
+    network_app.include_router(transport.router)
+    network_app.include_router(narrative.router)
+    network_app.include_router(user.router)
+    network_app.include_router(analyze.router)
+
+    @network_app.get("/health")
+    def _ng_health():
+        s = _ng_get_store()
+        return {"status": "ok" if s.ready else "loading", "datasets": s.row_counts()}
+
+    log.info("✓ networkgraph routes registered")
+except Exception as e:
+    log.warning("Could not load networkgraph: %s", e)
     network_app = FastAPI()
 
+
+# streamgraph2 — ecosystem + spike routers
+stream_app = None
 try:
-    from streamgraph2.main import app as stream_app
-except ImportError as e:
-    print(f"Warning: Could not import streamgraph2 app: {e}")
+    from streamgraph2.data import db as _sg_db
+    from streamgraph2.routers import ecosystem, spike
+    from contextlib import asynccontextmanager as _acm2
+
+    @_acm2
+    async def _sg_lifespan(app):
+        import asyncio
+        for attempt in range(1, 4):
+            try:
+                await _sg_db.init_pool()
+                log.info("✓ streamgraph2 DB pool ready")
+                break
+            except Exception as e:
+                if attempt < 3:
+                    log.warning("  streamgraph2 DB retry %d/3: %s", attempt, e)
+                    await asyncio.sleep(2)
+                else:
+                    log.error("  streamgraph2 DB failed after 3 attempts")
+                    raise
+        yield
+        await _sg_db.close_pool()
+
+    stream_app = FastAPI(title="Streamgraph API", lifespan=_sg_lifespan)
+    stream_app.include_router(ecosystem.router, prefix="/api")
+    stream_app.include_router(spike.router, prefix="/api")
+
+    @stream_app.get("/health")
+    async def _sg_health():
+        return {"status": "ok", "module": "streamgraph2"}
+
+    log.info("✓ streamgraph2 routes registered")
+except Exception as e:
+    log.warning("Could not load streamgraph2: %s", e)
     stream_app = FastAPI()
 
+
+# globe — events, pipeline, health routers
+globe_app = None
 try:
-    from globe.app.main import app as globe_app
-except ImportError as e:
-    print(f"Warning: Could not import globe app: {e}")
+    from globe.app.config import get_settings as _g_settings
+    from globe.app.database.connection import init_db as _g_init, close_db as _g_close
+    from globe.app.api.routes import events as _g_events, pipeline as _g_pipeline, health as _g_health
+    from pathlib import Path as _Path
+    from contextlib import asynccontextmanager as _acm3
+
+    _gsettings = _g_settings()
+
+    @_acm3
+    async def _globe_lifespan(app):
+        _Path(_gsettings.DATA_DIR).mkdir(exist_ok=True)
+        _Path(_gsettings.LOG_DIR).mkdir(exist_ok=True)
+        _g_init()
+        log.info("✓ globe DB initialised")
+        yield
+        _g_close()
+
+    globe_app = FastAPI(title="Globe API", lifespan=_globe_lifespan)
+    globe_app.include_router(_g_health.router)
+    globe_app.include_router(_g_events.router)
+    globe_app.include_router(_g_pipeline.router)
+    log.info("✓ globe routes registered")
+except Exception as e:
+    log.warning("Could not load globe: %s", e)
     globe_app = FastAPI()
 
+
+# hybrid_crew — research pipeline
+hybrid_app = None
 try:
-    from hybrid_crew.main import app as hybrid_app
-except ImportError as e:
-    print(f"Warning: Could not import hybrid_crew app: {e}")
+    from hybrid_crew.pipeline import run_pipeline_sync as _run_pipeline
+    from pydantic import BaseModel as _HBM
+    from fastapi import HTTPException as _HE
+    import asyncio as _asyncio
+    import concurrent.futures as _cf
+
+    class _HQueryRequest(_HBM):
+        query: str
+
+    hybrid_app = FastAPI(title="Hybrid Crew API")
+
+    @hybrid_app.post("/api/query")
+    async def _hc_query(payload: _HQueryRequest):
+        if not payload.query.strip():
+            raise _HE(400, "Query cannot be empty.")
+        loop = _asyncio.get_event_loop()
+        with _cf.ThreadPoolExecutor() as pool:
+            result = await loop.run_in_executor(pool, _run_pipeline, payload.query)
+        return result
+
+    @hybrid_app.get("/health")
+    async def _hc_health():
+        return {"status": "ok", "pipeline": "hybrid_crew v2"}
+
+    log.info("✓ hybrid_crew routes registered")
+except Exception as e:
+    log.warning("Could not load hybrid_crew: %s", e)
     hybrid_app = FastAPI()
 
 
+# ── Unified App ───────────────────────────────────────────────────────────────
 app = FastAPI(
-    title="SimPPL Narrative System - Unified API",
+    title="NarrativeSignal — Unified API",
     description="Master entry point for all NarrativeSignal backend modules.",
-    version="1.0.0"
+    version="2.0.0",
 )
 
-# Global CORS config
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -60,26 +377,35 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount each module under its own base path
+# Mount each module under its prefix
+# Frontend proxy (next.config.js) rewrites /api/* → localhost:8000/*
+# So these are accessible at /api/polar/*, /api/network/*, etc.
 app.mount("/api/polar", polar_app)
 app.mount("/api/network", network_app)
 app.mount("/api/stream", stream_app)
 app.mount("/api/globe", globe_app)
 app.mount("/api/hybrid", hybrid_app)
 
-@app.get("/")
+# Convenience top-level shortcuts used by the Polar dashboard frontend
+# (frontend calls /api/subreddits, /api/treemap/:sub, etc.)
+app.mount("/api", polar_app)
+
+
+@app.get("/", include_in_schema=False)
 def root():
     return {
-        "message": "SimPPL Narrative System Unified Backend Running",
+        "service": "NarrativeSignal Unified Backend",
+        "version": "2.0.0",
         "docs": "/docs",
-        "endpoints": [
-            "/api/polar",
-            "/api/network",
-            "/api/stream",
-            "/api/globe",
-            "/api/hybrid"
-        ]
+        "modules": {
+            "polarize": "/api/polar — or shortcut /api/subreddits, /api/treemap/:sub …",
+            "network":  "/api/network",
+            "stream":   "/api/stream",
+            "globe":    "/api/globe",
+            "hybrid":   "/api/hybrid",
+        },
     }
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
