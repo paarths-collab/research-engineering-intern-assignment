@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EchoScoreBar from "@/components/polar/EchoScoreBar";
 import SimilarityHeatmap from "@/components/polar/SimilarityHeatmap";
 import PolarizeTreemap from "@/components/polar/PolarizeTreemap";
@@ -94,14 +94,24 @@ function MaxModal({ title, badge, accentColor, onClose, children }) {
 
 /* ── Page ───────────────────────────────────────────────── */
 export default function PolarizePage() {
+  const [subreddits, setSubreddits] = useState(["politics"]);
   const [selected, setSelected] = useState("politics");
   const [aiOpen, setAiOpen] = useState(false);
   const [maximized, setMaximized] = useState(null);
 
+  useEffect(() => {
+    fetch("/api/subreddits")
+      .then(res => res.json())
+      .then(data => {
+        if (data.subreddits) setSubreddits(["all", ...data.subreddits]);
+      })
+      .catch(err => console.error("Failed to load subreddits", err));
+  }, []);
+
   const PANELS = {
     echo: { title: "Media Diversity Signal", badge: "INTEL_METRIC", accentColor: "#FFB800" },
     heatmap: { title: "Cross-Community Intersection", badge: "OVERLAP_MATRIX", accentColor: "#8B7500" },
-    treemap: { title: "Ecosystem Cluster Topology", badge: `R/${selected.toUpperCase()}`, accentColor: "#FFB800" },
+    treemap: { title: "Ecosystem Cluster Topology", badge: selected === "all" ? "GLOBAL_ECOSYSTEM" : `R/${selected.toUpperCase()}`, accentColor: "#FFB800" },
   };
 
   return (
@@ -152,17 +162,17 @@ export default function PolarizePage() {
       {/* ── Main Layout ─────────────────────────────────────── */}
       <main className="flex-1 min-h-0 flex flex-col p-4">
         {/* Subreddit Selector Row */}
-        <div className="flex gap-2 mb-4 overflow-x-auto pb-2 shrink-0">
-          {["politics", "Conservative", "Liberal", "Anarchism", "PoliticalDiscussion", "Republican", "Democrats", "neoliberal", "socialism", "worldpolitics"].map(sub => (
+        <div className="flex gap-2 mb-4 overflow-x-auto pb-2 shrink-0 scrollbar-hide">
+          {subreddits.map(sub => (
             <button
               key={sub}
               onClick={() => setSelected(sub)}
-              className={`px-4 py-1.5 font-mono text-xs uppercase tracking-widest border transition-all ${selected === sub
+              className={`px-4 py-1.5 font-mono text-xs uppercase tracking-widest border transition-all flex-shrink-0 ${selected === sub
                 ? "bg-[#FFB800] text-black border-[#FFB800] font-bold"
                 : "bg-transparent text-white/40 border-white/10 hover:border-white/30 hover:text-white"
                 }`}
             >
-              r/{sub}
+              {sub === "all" ? "Show All Sources" : `r/${sub}`}
             </button>
           ))}
         </div>

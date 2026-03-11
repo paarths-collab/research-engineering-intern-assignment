@@ -53,6 +53,7 @@ try:
         get_echo_scores, get_similarity_matrix,
         get_category_breakdown, get_top_domains,
         get_treemap_payload, get_subreddit_summary_payload,
+        get_global_ecosystem_payload,
     )
     from polarize_1.ai_brief import generate_brief
     from pydantic import BaseModel as _BM
@@ -81,42 +82,53 @@ try:
     @polar_app.get("/treemap/{subreddit}")
     def _treemap(subreddit: str):
         from fastapi import HTTPException
-        if subreddit not in _store.subreddits:
+        # Handle "all" special case for global view
+        if subreddit.lower() == "all":
+            return get_global_ecosystem_payload(_store)
+
+        # Case-insensitive lookup
+        actual_sub = next((s for s in _store.subreddits if s.lower() == subreddit.lower()), None)
+        if not actual_sub:
             raise HTTPException(404, f"Unknown subreddit: {subreddit}")
-        return get_treemap_payload(_store, subreddit)
+        
+        return get_treemap_payload(_store, actual_sub)
 
     @polar_app.get("/category-breakdown/{subreddit}")
     def _cat_breakdown(subreddit: str):
         from fastapi import HTTPException
-        if subreddit not in _store.subreddits:
+        actual_sub = next((s for s in _store.subreddits if s.lower() == subreddit.lower()), None)
+        if not actual_sub:
             raise HTTPException(404, f"Unknown subreddit: {subreddit}")
-        return {"subreddit": subreddit, "breakdown": get_category_breakdown(_store, subreddit)}
+        return {"subreddit": actual_sub, "breakdown": get_category_breakdown(_store, actual_sub)}
 
     @polar_app.get("/top-domains/{subreddit}")
     def _top_domains(subreddit: str, n: int = 5):
         from fastapi import HTTPException
-        if subreddit not in _store.subreddits:
+        actual_sub = next((s for s in _store.subreddits if s.lower() == subreddit.lower()), None)
+        if not actual_sub:
             raise HTTPException(404, f"Unknown subreddit: {subreddit}")
-        return {"subreddit": subreddit, "domains": get_top_domains(_store, subreddit, n)}
+        return {"subreddit": actual_sub, "domains": get_top_domains(_store, actual_sub, n)}
 
     @polar_app.get("/summary-payload/{subreddit}")
     def _summary_payload(subreddit: str):
         from fastapi import HTTPException
-        if subreddit not in _store.subreddits:
+        actual_sub = next((s for s in _store.subreddits if s.lower() == subreddit.lower()), None)
+        if not actual_sub:
             raise HTTPException(404, f"Unknown subreddit: {subreddit}")
-        return get_subreddit_summary_payload(_store, subreddit)
+        return get_subreddit_summary_payload(_store, actual_sub)
 
     @polar_app.post("/intelligence-brief")
     async def _intelligence_brief(req: _BriefRequest):
         from fastapi import HTTPException
-        if req.subreddit not in _store.subreddits:
+        actual_sub = next((s for s in _store.subreddits if s.lower() == req.subreddit.lower()), None)
+        if not actual_sub:
             raise HTTPException(404, f"Unknown subreddit: {req.subreddit}")
         api_key = _os.getenv("GROQ_API_KEY")
         if not api_key:
             raise HTTPException(500, "GROQ_API_KEY not set")
-        payload = get_subreddit_summary_payload(_store, req.subreddit)
+        payload = get_subreddit_summary_payload(_store, actual_sub)
         brief = await generate_brief(payload, api_key)
-        return {"subreddit": req.subreddit, "brief": brief, "payload": payload}
+        return {"subreddit": actual_sub, "brief": brief, "payload": payload}
 
     class _DomainAnalysisRequest(_BM):
         domain: str
@@ -264,7 +276,7 @@ except Exception as e:
 stream_app = None
 try:
     from streamgraph2.data import db as _sg_db
-    from streamgraph2.routers import ecosystem, spike
+    from streamgraph2.routers import ecosystem, spike, cluster
     from contextlib import asynccontextmanager as _acm2
 
     @_acm2
@@ -288,6 +300,7 @@ try:
     stream_app = FastAPI(title="Streamgraph API", lifespan=_sg_lifespan)
     stream_app.include_router(ecosystem.router, prefix="/api")
     stream_app.include_router(spike.router, prefix="/api")
+    stream_app.include_router(cluster.router, prefix="/api")
 
     @stream_app.get("/health")
     async def _sg_health():
@@ -363,10 +376,37 @@ except Exception as e:
 
 
 # ── Unified App ───────────────────────────────────────────────────────────────
+# Mounted sub-apps do NOT have their lifespan triggered by Starlette.
+# We use the parent app's lifespan to initialise resources for all sub-modules.
+
+@asynccontextmanager
+async def _main_lifespan(application: FastAPI):
+    # streamgraph2 — init DB pool (sub-app lifespan never fires when mounted).
+    # init_pool() handles a missing DATABASE_URL gracefully; CSV fallback activates.
+    try:
+        from streamgraph2.data import db as _sg_db2
+        await _sg_db2.init_pool()
+        log.info("✓ streamgraph2 init_pool() called (main lifespan)")
+    except ImportError as e:
+        log.warning("streamgraph2 not available: %s", e)
+    except Exception as e:
+        log.warning("streamgraph2 pool init error (CSV fallback active): %s", e)
+
+    yield
+
+    # Cleanup
+    try:
+        from streamgraph2.data import db as _sg_db2
+        await _sg_db2.close_pool()
+    except Exception:
+        pass
+
+
 app = FastAPI(
     title="NarrativeSignal — Unified API",
     description="Master entry point for all NarrativeSignal backend modules.",
     version="2.0.0",
+    lifespan=_main_lifespan,
 )
 
 app.add_middleware(

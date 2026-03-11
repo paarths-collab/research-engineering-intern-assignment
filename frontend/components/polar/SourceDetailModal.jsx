@@ -56,7 +56,11 @@ export default function SourceDetailModal({ source, isOpen, subreddit, onClose }
         };
         const trait = categoryTraits[source.category] || "a notable online media source";
         const narrativesStr = (source.narratives || []).slice(0, 2).join(" and ") || "various topics";
-        return `${source.name} is ${trait}. Its primary narratives span ${narrativesStr}, making it a significant signal source in the ${source.category || "media"} ecosystem. High community reference volumes indicate strong audience engagement and topic resonance across political communities.`;
+        const mentionText = source.loc > 0
+            ? "High community reference volumes indicate strong audience engagement."
+            : "This source currently has no observed mentions in this community, representing a potential information gap.";
+
+        return `${source.name} is ${trait}. Its primary narratives span ${narrativesStr}. ${mentionText}`;
     };
 
     return (
@@ -109,12 +113,14 @@ export default function SourceDetailModal({ source, isOpen, subreddit, onClose }
                             <div className="grid grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-sm overflow-hidden mb-8">
                                 <div className="bg-[#0a0806] p-5 flex flex-col justify-center">
                                     <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-1 block">Community Ref</span>
-                                    <span className="text-2xl font-bold font-inter text-white">{source.loc || "—"}</span>
+                                    <span className="text-2xl font-bold font-inter text-white">
+                                        {(source.loc !== undefined && source.loc !== null) ? source.loc : "—"}
+                                    </span>
                                 </div>
                                 <div className="bg-[#0a0806] p-5 flex flex-col justify-center">
                                     <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-1 block">Link Visibility</span>
                                     <span className="text-2xl font-bold font-inter text-white">
-                                        {source.p_sub ? `${(source.p_sub * 100).toFixed(0)}%` : "—"}
+                                        {(source.p_sub !== undefined && source.p_sub !== null) ? `${(source.p_sub * 100).toFixed(2)}%` : "—"}
                                     </span>
                                 </div>
                             </div>

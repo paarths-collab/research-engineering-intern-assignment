@@ -101,65 +101,44 @@ def get_category_breakdown(store: DataStore, subreddit: str) -> List[dict]:
 
 # ── Top Distinctive Domains ───────────────────────────────────────────────────
 
-def get_top_domains(store: DataStore, subreddit: str, n: int = 5) -> List[dict]:
-    """Return top n domains by lift for a subreddit."""
-    rows = sorted(store.distinctive.get(subreddit, []), key=lambda r: -r.lift)
-    return [
-        {
-            "domain": r.domain,
-            "count": r.count,
-            "category": r.category,
-            "p_sub": round(r.p_domain_given_sub, 5),
-            "p_global": round(r.p_domain_global, 5),
-        }
-        for r in rows[:n]
-    ]
+def get_top_domains(store: DataStore, subreddit: str, n: int = 20) -> List[dict]:
+    """Return top n domains by raw reference count for a subreddit."""
+    vector = store.flow_vectors.get(subreddit, {})
+    if not vector:
+        return []
+        
+    total_sub_links = sum(vector.values())
+    sorted_domains = sorted(vector.items(), key=lambda x: -x[1])
+    
+    results = []
+    for domain, count in sorted_domains[:n]:
+        results.append({
+            "domain": domain,
+            "count": count,
+            "category": store.domain_to_category.get(domain, "Uncategorized"),
+            "p_sub": round(count / total_sub_links, 5) if total_sub_links > 0 else 0.0,
+        })
+    return results
 
 
 # ── Treemap Payload Builder ───────────────────────────────────────────────────
 
+from .analytics import build_treemap_payload, build_global_ecosystem_payload
+
 def get_treemap_payload(store: DataStore, subreddit: str) -> dict:
     """
     Build a hierarchical payload for D3/Nivo Treemaps.
-    Uses ALL domains from the flow data, not just the top distinctive ones.
-    Structure: Root -> Category -> Domain.
+    Ensures ALL news channels are displayed, even with 0 mentions.
     """
-    vector = store.flow_vectors.get(subreddit, {})
-    if not vector:
-        return {"name": "Media Ecosystem", "children": []}
+    return build_treemap_payload(store, subreddit)
 
-    # Pre-index distinctive domains for quick lookup
-    distinctive_map = {r.domain: r for r in store.distinctive.get(subreddit, [])}
 
-    categories = defaultdict(list)
-    for domain, count in vector.items():
-        # Get category from global mapping, default to "Media / News"
-        cat = store.domain_to_category.get(domain, "Media / News")
-        
-        # Merge metrics if available in pre-computed distinctive data
-        d_row = distinctive_map.get(domain)
-        p_sub = round(d_row.p_domain_given_sub, 5) if d_row else 0
-        p_global = round(d_row.p_domain_global, 5) if d_row else 0
-
-        categories[cat].append({
-            "name": domain,
-            "loc": count,
-            "p_sub": p_sub,
-            "p_global": p_global,
-            "category": cat,
-        })
-
-    children = []
-    for cat_name, domains in categories.items():
-        children.append({
-            "name": cat_name,
-            "children": domains
-        })
-
-    return {
-        "name": "Media Ecosystem",
-        "children": children
-    }
+def get_global_ecosystem_payload(store: DataStore) -> dict:
+    """
+    Build a global hierarchy: Root -> Category -> Domain.
+    Used for the "All Sources" global view with drill-down.
+    """
+    return build_global_ecosystem_payload(store)
 
 
 # ── LLM Payload Builder ───────────────────────────────────────────────────────
@@ -170,8 +149,12 @@ def get_subreddit_summary_payload(store: DataStore, subreddit: str) -> dict:
     Contains exactly: echo score, top domains, category breakdown, similar subs.
     """
     echo = round(store.echo_scores.get(subreddit, 0.0), 2)
-    top_doms = get_top_domains(store, subreddit, n=5)
+    top_doms = get_top_domains(store, subreddit, n=20)
     cat_breakdown = get_category_breakdown(store, subreddit)
+    
+    # Inject actual post data for the top 10 sources so the LLM has real context
+    for d in top_doms:
+        d["recent_titles"] = get_domain_posts(store, subreddit, d["domain"], limit=3)
 
     # Find top 3 most similar subreddits by domain overlap (excluding self)
     subs = store.subreddits
@@ -197,9 +180,9 @@ def get_subreddit_summary_payload(store: DataStore, subreddit: str) -> dict:
         "similar_subreddits": closest,
     }
 
-def get_domain_posts(store: DataStore, subreddit: str, domain: str, limit: int = 50) -> List[str]:
+def get_domain_posts(store: DataStore, subreddit: str, domain: str, limit: int = 50) -> List[dict]:
     """
-    Retrieve up to `limit` post titles for a specific subreddit and domain.
+    Retrieve up to `limit` post titles and urls for a specific subreddit and domain.
     Used for context-aware AI analysis.
     """
     if store.posts is None:
@@ -207,7 +190,7 @@ def get_domain_posts(store: DataStore, subreddit: str, domain: str, limit: int =
     
     # Filter by subreddit and domain
     mask = (store.posts["subreddit"] == subreddit) & (store.posts["domain"] == domain)
-    subset = store.posts[mask]
+    subset = store.posts[mask].drop_duplicates(subset=["title"])
     
-    # Return unique titles (some might be duplicates)
-    return subset["title"].unique().tolist()[:limit]
+    # Return unique title and url pairs
+    return subset[["title", "url"]].head(limit).to_dict("records")

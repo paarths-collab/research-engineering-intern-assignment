@@ -91,6 +91,8 @@ export default function PolarizeTreemap({ subreddit = "politics" }) {
 
   const drawTreemap = () => {
     const { width, height: containerHeight } = dimensions;
+    if (!width || !containerHeight) return;
+
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
@@ -98,11 +100,14 @@ export default function PolarizeTreemap({ subreddit = "politics" }) {
     let isUniform = true;
 
     if (currentView === "root") {
+      // Aggregate into category nodes
       displayData = {
         name: data.name,
         children: data.children.map((c) => ({
           name: c.name,
-          loc: c.children.reduce((sum, child) => sum + (child.loc || 0), 0)
+          loc: c.children.reduce((sum, child) => sum + (child.loc || 0), 0),
+          sourceCount: c.children.length,
+          category: c.name
         }))
       };
     } else {
@@ -110,39 +115,40 @@ export default function PolarizeTreemap({ subreddit = "politics" }) {
       displayData = cat ? { name: cat.name, children: cat.children } : data;
     }
 
-    const items = displayData.children || [];
-    let drawHeight = containerHeight;
-
-    // In category view, if we have many items, expand height for scrolling
-    if (isUniform && items.length > 12) {
-      const columns = width > 1000 ? 5 : width > 700 ? 4 : 3;
-      const rows = Math.ceil(items.length / columns);
-      drawHeight = Math.max(containerHeight, rows * 100);
-    }
-
-    svg.attr("width", width).attr("height", drawHeight);
-
     const root = d3
       .hierarchy(displayData)
-      .sum((d) => (isUniform ? 1 : d.loc || 0))
+      .sum(() => 1) // Uniform size for all mentioned sources
       .sort((a, b) => b.value - a.value);
 
-    // Padding increased for better separation in the uniform grid
-    d3.treemap().size([width, drawHeight]).paddingInner(4).paddingOuter(0)(root);
+    // Calculate dynamic height for large categories
+    const leafCount = root.leaves().length;
+    let drawHeight = containerHeight;
+    if (currentView === "category" && leafCount > 12) {
+      const columns = width > 1000 ? 5 : width > 700 ? 4 : 3;
+      const rows = Math.ceil(leafCount / columns);
+      drawHeight = Math.max(containerHeight, rows * 110);
+    }
+
+    svg.attr("width", "100%")
+      .attr("height", drawHeight)
+      .attr("viewBox", `0 0 ${width} ${drawHeight}`);
+
+    d3.treemap()
+      .size([width, drawHeight])
+      .paddingInner(2)
+      .tile(d3.treemapBinary)(root);
 
     const cells = svg
-      .selectAll("g")
+      .selectAll(".cell")
       .data(root.leaves())
       .join("g")
+      .attr("class", "cell")
       .attr("transform", (d) => `translate(${d.x0},${d.y0})`)
       .style("cursor", "pointer")
       .on("click", (_, d) => {
         if (currentView === "root") {
-          const catName = d.data.name;
-          if (catName) {
-            setCurrentView("category");
-            setCurrentCategory(catName);
-          }
+          setCurrentView("category");
+          setCurrentCategory(d.data.name);
         } else {
           setSelectedSource({
             ...d.data,
@@ -157,46 +163,47 @@ export default function PolarizeTreemap({ subreddit = "politics" }) {
       .attr("width", (d) => Math.max(0, d.x1 - d.x0))
       .attr("height", (d) => Math.max(0, d.y1 - d.y0))
       .attr("fill", (d) => {
-        const cat = currentView === "root" ? d.data.name : currentCategory;
+        const cat = currentView === "root" ? d.data.name : (d.data.category || currentCategory);
         return CATEGORY_COLORS[cat] || "#FFB800";
       })
       .attr("fill-opacity", 0.6)
-      .attr("stroke", "rgba(0,0,0,0.3)")
-      .attr("stroke-width", 1);
+      .attr("stroke", "#FFB800")
+      .attr("stroke-opacity", 0.3)
+      .attr("stroke-width", 1.5);
 
     cells
       .append("title")
-      .text((d) => `${d.data.name} (${d.data.loc} refs)`);
+      .text((d) => currentView === "root" ? `${d.data.name}: ${d.data.sourceCount} sources, ${d.data.loc} refs` : `${d.data.name} (${d.data.loc} refs)`);
 
     cells
       .append("text")
       .attr("x", 10)
-      .attr("y", 22)
+      .attr("y", 24)
       .attr("fill", "white")
-      .attr("font-size", (d) => {
-        const w = d.x1 - d.x0;
-        return isUniform ? 11 : Math.max(8, Math.min(12, w / 7));
-      })
+      .attr("font-size", 12)
       .attr("font-family", "Inter")
-      .attr("font-weight", "600")
+      .attr("font-weight", "700")
       .attr("pointer-events", "none")
       .text((d) => {
+        const w = d.x1 - d.x0;
+        const h = d.y1 - d.y0;
+        // Hide text if the box is too small, especially for 0-mention gaps
+        if (w < 40 || h < 30) return "";
         const name = d.data.name;
-        const width = d.x1 - d.x0;
-        const limit = Math.floor(width / (isUniform ? 7 : 6));
+        const limit = Math.floor(w / 8.5);
         return name.length > limit ? name.slice(0, Math.max(2, limit - 1)) + "…" : name;
       });
 
     cells
-      .filter((d) => d.y1 - d.y0 > 40)
+      .filter((d) => (d.x1 - d.x0) > 60 && (d.y1 - d.y0) > 50)
       .append("text")
       .attr("x", 10)
-      .attr("y", 38)
+      .attr("y", 42)
       .attr("fill", "rgba(255,255,255,0.4)")
-      .attr("font-size", 9)
+      .attr("font-size", 10)
       .attr("font-family", "JetBrains Mono")
       .attr("pointer-events", "none")
-      .text((d) => `${d.data.loc} REFS`);
+      .text((d) => currentView === "root" ? `${d.data.sourceCount} SOURCES / ${d.data.loc} REFS` : `${d.data.loc} REFS`);
   };
 
   return (
@@ -230,16 +237,8 @@ export default function PolarizeTreemap({ subreddit = "politics" }) {
         )}
       </div>
 
-      <div ref={containerRef} className="flex-1 relative overflow-y-auto overflow-x-hidden scrollbar-hide">
-        {loading ? (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-[10px] font-mono text-[#8B7500] animate-pulse tracking-[0.3em] uppercase">
-              Mapping media clusters...
-            </div>
-          </div>
-        ) : (
-          <svg ref={svgRef} className="w-full" />
-        )}
+      <div ref={containerRef} className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+        <svg ref={svgRef} className="block w-full" />
       </div>
 
       <SourceDetailModal

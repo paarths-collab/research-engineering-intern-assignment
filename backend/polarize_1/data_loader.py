@@ -51,11 +51,15 @@ class DataStore:
     # Echo scores: subreddit → lift
     echo_scores: Dict[str, float] = field(default_factory=dict)
 
+    # Global domain totals and total links
+    global_domain_counts: Dict[str, int] = field(default_factory=lambda: defaultdict(int))
+    total_global_links: int = field(default=0)
+
     # Global domain → category mapping
     domain_to_category: Dict[str, str] = field(default_factory=dict)
 
-    # Ordered list of subreddits (from flow data)
-    subreddits: List[str] = field(default_factory=list)
+    # Ordered list of all unique domains
+    all_domains: List[str] = field(default_factory=list)
 
     # Store the actual posts dataframe
     posts: pd.DataFrame = field(default=None)
@@ -65,19 +69,21 @@ class DataStore:
         self._load_distinctive()
         self._load_echo_scores()
         
-        # Load subreddits from clean_posts.csv as requested
+        # Load subreddits from flow_vectors
+        all_subs = set(self.flow_vectors.keys())
+        all_domains_set = set(self.global_domain_counts.keys())
+        
         posts_path = os.path.join(DATA_DIR, "clean_posts.csv")
         if os.path.exists(posts_path):
             self.posts = pd.read_csv(posts_path)
             if "subreddit" in self.posts.columns:
-                self.subreddits = sorted(self.posts["subreddit"].dropna().unique().tolist())
-                print(f"Loaded posts: {len(self.posts)}")
-                print(f"Detected subreddits: {len(self.subreddits)}")
-            else:
-                # Fallback to flow_vectors if subreddit column is missing
-                self.subreddits = sorted(self.flow_vectors.keys())
-        else:
-            self.subreddits = sorted(self.flow_vectors.keys())
+                all_subs.update(self.posts["subreddit"].dropna().unique().tolist())
+            if "domain" in self.posts.columns:
+                all_domains_set.update(self.posts["domain"].dropna().unique().tolist())
+        
+        self.all_domains = sorted(list(all_domains_set))
+        self.subreddits = sorted(list(all_subs))
+        print(f"Loaded {len(self.subreddits)} subreddits and {len(self.all_domains)} domains.")
 
     # ── Loaders ──────────────────────────────────────────────────────────────
 
@@ -87,6 +93,8 @@ class DataStore:
             for row in csv.DictReader(f):
                 s, d, c = row["subreddit"], row["domain"], int(row["count"])
                 self.flow_vectors[s][d] += c
+                self.global_domain_counts[d] += c
+                self.total_global_links += c
                 self.flow_df.append(FlowRow(subreddit=s, domain=d, count=c))
 
     def _load_distinctive(self):

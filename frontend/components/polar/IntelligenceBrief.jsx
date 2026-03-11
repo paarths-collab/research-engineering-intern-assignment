@@ -134,6 +134,14 @@ export default function IntelligenceBrief({ subreddit = "politics" }) {
                     {children}
                   </code>
                 ),
+                a: ({ node, ...props }) => (
+                  <a
+                    className="text-[#3b82f6] hover:text-[#60a5fa] underline decoration-[#1e3a8a] hover:decoration-[#3b82f6] underline-offset-2 transition-colors cursor-pointer"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    {...props}
+                  />
+                ),
               }}
             >
               {brief}
