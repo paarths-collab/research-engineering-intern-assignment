@@ -1,16 +1,13 @@
 """
 Layer 8 — Event Clustering
 Prevents duplicate pins for the same event.
-Uses sentence-transformers embeddings + HDBSCAN clustering.
-Also groups by primary location proximity.
+Clusters deterministically by primary location.
 """
 import uuid
 import json
 from collections import Counter
-from typing import List, Optional
-import numpy as np
+from typing import List
 
-from app.config import get_settings
 from app.database.models import (
     StructuredEvent, NarrativeIntel, ImpactScore, RawPost,
     NewsBundle, EventCluster, ResolvedLocation
@@ -19,46 +16,6 @@ from app.database.connection import get_connection
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
-settings = get_settings()
-
-_embedder = None
-
-
-def _get_embedder():
-    global _embedder
-    if _embedder is None:
-        try:
-            from sentence_transformers import SentenceTransformer
-            _embedder = SentenceTransformer("all-MiniLM-L6-v2")
-            logger.info("Sentence transformer loaded")
-        except Exception as e:
-            logger.warning(f"Embedder load failed: {e}. Using fallback clustering.")
-    return _embedder
-
-
-def _embed_titles(titles: List[str]) -> Optional[np.ndarray]:
-    embedder = _get_embedder()
-    if embedder is None:
-        return None
-    try:
-        return embedder.encode(titles, normalize_embeddings=True, show_progress_bar=False)
-    except Exception as e:
-        logger.warning(f"Embedding error: {e}")
-        return None
-
-
-def _hdbscan_cluster(embeddings: np.ndarray) -> List[int]:
-    try:
-        import hdbscan
-        clusterer = hdbscan.HDBSCAN(
-            min_cluster_size=settings.CLUSTER_MIN_SAMPLES,
-            min_samples=1,
-            metric="euclidean",
-        )
-        return clusterer.fit_predict(embeddings).tolist()
-    except Exception as e:
-        logger.warning(f"HDBSCAN error: {e}. Assigning unique clusters.")
-        return list(range(len(embeddings)))
 
 
 def _location_key(loc_name: str) -> str:

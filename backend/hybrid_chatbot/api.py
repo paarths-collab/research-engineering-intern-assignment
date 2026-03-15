@@ -25,6 +25,7 @@ pipeline = ChatPipeline(llm_client)
 class QueryRequest(BaseModel):
     query: str = Field(..., min_length=1)
     debug: bool = False
+    web_search: bool = False
 
 
 @asynccontextmanager
@@ -38,19 +39,32 @@ app = FastAPI(title="Chatbot API", version="1.0.0", lifespan=lifespan)
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "llm_ready": bool(llm_client.api_key)}
+    return {
+        "status": "ok",
+        "llm_ready": bool(llm_client.api_key),
+        "web_search_ready": bool(pipeline.web.enabled),
+    }
 
 
 @app.post("/query")
 def query(payload: QueryRequest):
     try:
-        result = pipeline.run(payload.query)
+        result = pipeline.run(payload.query, web_search=payload.web_search)
     except Exception as exc:
         logger.exception("Chatbot pipeline failed: %s", exc)
         raise HTTPException(status_code=500, detail="Chatbot request failed")
 
     if payload.debug:
-        result["debug"] = {"llm_model": llm_client.model, "llm_base_url": llm_client.base_url}
+        result["debug"] = {
+            "llm_model": llm_client.model,
+            "llm_base_url": llm_client.base_url,
+            "web_search_enabled": payload.web_search,
+        }
+    else:
+        result.pop("route", None)
+        result.pop("timing", None)
+        result.pop("dataset_chunks", None)
+        result.pop("web_articles", None)
     return result
 
 

@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException, Query
 from typing import Optional
 from datetime import date, datetime, timezone
 import asyncio
-import os
 import json
 import xml.etree.ElementTree as ET
 from urllib.parse import quote_plus
@@ -11,8 +10,17 @@ import httpx
 import hashlib
 
 from pydantic import BaseModel, Field
+from app.config import get_settings
+from app.llm.client import request_chat_completion
 
-from app.pipeline.orchestrator import load_latest_output
+def load_latest_output():
+    """Load latest pipeline output when pipeline deps are available."""
+    try:
+        from app.pipeline.orchestrator import load_latest_output as _load_latest_output
+        return _load_latest_output()
+    except Exception:
+        return None
+
 from app.pipeline.news_correlator import (
     _search_tavily, _search_newsapi, _search_gnews, _search_newsdata, _is_trusted,
 )
@@ -21,6 +29,7 @@ from app.utils.logger import get_logger
 
 router = APIRouter(prefix="/events", tags=["events"])
 logger = get_logger(__name__)
+settings = get_settings()
 
 
 class LocationNewsRequest(BaseModel):
@@ -399,7 +408,7 @@ async def get_location_news(payload: LocationNewsRequest):
                     return_exceptions=True,
                 )
                 for bucket in (tavily, newsapi, gnews, newsdata):
-                    if isinstance(bucket, Exception):
+                    if isinstance(bucket, BaseException) or not isinstance(bucket, list):
                         continue
                     raw_articles.extend(bucket or [])
         except Exception as e:
@@ -474,8 +483,7 @@ async def headline_analysis_workflow(
     Input can include pre-scraped articles from frontend and optionally triggers
     fresh scraping to enrich context before generating the intelligence report.
     """
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
+    if not settings.GROQ_API_KEY:
         raise HTTPException(status_code=503, detail="GROQ_API_KEY not configured on server.")
 
     seed_records: list[dict] = [a.model_dump() for a in payload.scraped_articles]
@@ -501,7 +509,7 @@ async def headline_analysis_workflow(
                         return_exceptions=True,
                     )
                     for bucket in (tavily, newsapi, gnews, newsdata):
-                        if isinstance(bucket, Exception):
+                        if isinstance(bucket, BaseException) or not isinstance(bucket, list):
                             continue
                         for row in (bucket or []):
                             scraped_records.append({
@@ -583,21 +591,14 @@ Rules:
 """
 
     try:
-        async with httpx.AsyncClient(timeout=50.0) as client:
-            resp = await client.post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-                json={
-                    "model": "llama-3.3-70b-versatile",
-                    "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 1000,
-                    "temperature": 0.2,
-                },
+        report = (
+            await request_chat_completion(
+                messages=[{"role": "user", "content": prompt}],
+                model="llama-3.3-70b-versatile",
+                max_tokens=1000,
+                temperature=0.2,
             )
-            resp.raise_for_status()
-            report = resp.json()["choices"][0]["message"]["content"].strip()
-    except httpx.HTTPStatusError as e:
-        raise HTTPException(status_code=502, detail=f"Groq API error: {e.response.status_code}")
+        ).strip()
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"AI service unavailable: {e}")
 
@@ -665,8 +666,7 @@ async def event_analysis_workflow(
         ),
     }
 
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
+    if not settings.GROQ_API_KEY:
         raise HTTPException(503, "GROQ_API_KEY not configured on server.")
 
     prompt = f"""You are a senior event intelligence analyst.
@@ -701,21 +701,14 @@ Rules:
 - State confidence for major conclusions when evidence is mixed."""
 
     try:
-        async with httpx.AsyncClient(timeout=45.0) as client:
-            resp = await client.post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-                json={
-                    "model": "llama-3.3-70b-versatile",
-                    "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 900,
-                    "temperature": 0.2,
-                },
+        report = (
+            await request_chat_completion(
+                messages=[{"role": "user", "content": prompt}],
+                model="llama-3.3-70b-versatile",
+                max_tokens=900,
+                temperature=0.2,
             )
-            resp.raise_for_status()
-            report = resp.json()["choices"][0]["message"]["content"].strip()
-    except httpx.HTTPStatusError as e:
-        raise HTTPException(502, f"Groq API error: {e.response.status_code}")
+        ).strip()
     except Exception as e:
         raise HTTPException(502, f"AI service unavailable: {e}")
 
@@ -755,8 +748,7 @@ async def global_ai_analysis():
     data   = load_latest_output() or _mock_data_payload()
     events = data.get("events", [])
 
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
+    if not settings.GROQ_API_KEY:
         raise HTTPException(503, "GROQ_API_KEY not configured on server.")
 
     # Build compact event digest
@@ -807,24 +799,17 @@ Write in intelligence-briefing style with these exact sections:
 Use plain text. Bold headers with **. Bullet points with -."""
 
     try:
-        async with httpx.AsyncClient(timeout=45.0) as client:
-            resp = await client.post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-                json={
-                    "model": "llama-3.3-70b-versatile",
-                    "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 900,
-                    "temperature": 0.25,
-                },
+        raw = (
+            await request_chat_completion(
+                messages=[{"role": "user", "content": prompt}],
+                model="llama-3.3-70b-versatile",
+                max_tokens=900,
+                temperature=0.25,
             )
-            resp.raise_for_status()
-    except httpx.HTTPStatusError as e:
-        raise HTTPException(502, f"Groq API error: {e.response.status_code}")
+        ).strip()
     except Exception as e:
         raise HTTPException(502, f"AI service unavailable: {e}")
 
-    raw = resp.json()["choices"][0]["message"]["content"].strip()
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "event_count":  len(events),
@@ -859,11 +844,11 @@ async def event_news_analysis(
     # Include any news already attached to the event from the pipeline run
     pipeline_news = event.get("news_sources") or []
 
-    api_key = os.getenv("GROQ_API_KEY")
+    groq_available = bool(settings.GROQ_API_KEY)
     topic_sentences: list = []
     search_queries:  list = []
 
-    if api_key:
+    if groq_available:
         prompt = f"""You are a news intelligence analyst.
 Based on this global event being discussed on Reddit, generate exactly 4 distinct topic sentences.
 
@@ -881,25 +866,20 @@ Rules for the 4 sentences:
 
 Return ONLY the 4 sentences, one per line, no numbering, no bullets, no extra text."""
         try:
-            async with httpx.AsyncClient(timeout=25.0) as client:
-                resp = await client.post(
-                    "https://api.groq.com/openai/v1/chat/completions",
-                    headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-                    json={
-                        "model": "llama-3.3-70b-versatile",
-                        "messages": [{"role": "user", "content": prompt}],
-                        "max_tokens": 260,
-                        "temperature": 0.3,
-                    },
+            raw = (
+                await request_chat_completion(
+                    messages=[{"role": "user", "content": prompt}],
+                    model="llama-3.3-70b-versatile",
+                    max_tokens=260,
+                    temperature=0.3,
                 )
-                resp.raise_for_status()
-                raw = resp.json()["choices"][0]["message"]["content"].strip()
-                topic_sentences = [
-                    ln.strip().lstrip("0123456789.-) ").strip()
-                    for ln in raw.splitlines() if ln.strip()
-                ][:4]
-                # Use title + first topic sentence as search queries
-                search_queries = list(dict.fromkeys([title] + topic_sentences[:2]))
+            ).strip()
+            topic_sentences = [
+                ln.strip().lstrip("0123456789.-) ").strip()
+                for ln in raw.splitlines() if ln.strip()
+            ][:4]
+            # Use title + first topic sentence as search queries
+            search_queries = list(dict.fromkeys([title] + topic_sentences[:2]))
         except Exception as e:
             logger.warning("Groq topic generation failed: %s", e)
 
@@ -965,7 +945,7 @@ Return ONLY the 4 sentences, one per line, no numbering, no bullets, no extra te
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
     for bucket in results:
-        if isinstance(bucket, Exception):
+        if isinstance(bucket, BaseException) or not isinstance(bucket, list):
             continue
         for a in (bucket or []):
             url    = a.get("url") or ""
@@ -1034,8 +1014,7 @@ async def event_ai_analysis(event_id: str):
     reddit       = event.get("reddit_metrics") or {}
     news_titles  = [ns.get("title", "") for ns in (event.get("news_sources") or [])[:4]]
 
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
+    if not settings.GROQ_API_KEY:
         raise HTTPException(status_code=503, detail="GROQ_API_KEY not configured on server.")
 
     prompt = f"""You are a senior geopolitical intelligence analyst.
@@ -1070,24 +1049,17 @@ Bold section headers using **. Bullet points with -. Plain text only. No numberi
 If evidence is weak or conflicting, explicitly note uncertainty and confidence level."""
 
     try:
-        async with httpx.AsyncClient(timeout=40.0) as client:
-            resp = await client.post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-                json={
-                    "model": "llama-3.3-70b-versatile",
-                    "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 520,
-                    "temperature": 0.2,
-                },
+        report = (
+            await request_chat_completion(
+                messages=[{"role": "user", "content": prompt}],
+                model="llama-3.3-70b-versatile",
+                max_tokens=520,
+                temperature=0.2,
             )
-            resp.raise_for_status()
-    except httpx.HTTPStatusError as e:
-        raise HTTPException(status_code=502, detail=f"Groq API error: {e.response.status_code}")
+        ).strip()
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"AI service unavailable: {e}")
 
-    report = resp.json()["choices"][0]["message"]["content"].strip()
     return {
         "event_id":     event_id,
         "generated_at": datetime.now(timezone.utc).isoformat(),

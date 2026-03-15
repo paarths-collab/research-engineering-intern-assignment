@@ -37,6 +37,24 @@ build/
 
 # Local frontend env
 frontend/.env.local
+backend/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# Secrets and credentials
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.secret
+secrets/
+
+# IDE/editor local state
+.vscode/
+.idea/
 
 # Runtime/cache artifacts
 .pytest_cache/

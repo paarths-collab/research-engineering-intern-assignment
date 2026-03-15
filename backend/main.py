@@ -466,11 +466,14 @@ Or from inside backend/:
 import sys
 import os
 import logging
+import time
 from pathlib import Path
 from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi import Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 # ── sys.path fix ─────────────────────────────────────────────────────────────
@@ -487,6 +490,8 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger("narrativesignal")
+
+MODULE_LOAD_ERRORS: dict[str, str] = {}
 
 # ── Load .env ─────────────────────────────────────────────────────────────────
 try:
@@ -673,7 +678,8 @@ try:
 
     log.info("✓ polarize_1 routes registered")
 except Exception as e:
-    log.warning("Could not load polarize_1: %s", e)
+    MODULE_LOAD_ERRORS["polarize_1"] = str(e)
+    log.exception("✗ Could not load polarize_1 (falling back to empty app)")
     polar_app = FastAPI()
 
 
@@ -688,7 +694,8 @@ try:
 
     @network_app.get("/health")
     def _ng_health():
-        db_path = BACKEND_DIR / ".." / "data" / "analysis_v2.db"
+        data_path = Path(os.getenv("DATA_PATH", str(BACKEND_DIR / ".." / "data")))
+        db_path = data_path / "analysis_v2.db"
         return {
             "status": "ok" if db_path.exists() else "missing-db",
             "database": str(db_path.resolve()),
@@ -739,7 +746,8 @@ try:
 
     log.info("✓ streamgraph2 routes registered")
 except Exception as e:
-    log.warning("Could not load streamgraph2: %s", e)
+    MODULE_LOAD_ERRORS["streamgraph2"] = str(e)
+    log.exception("✗ Could not load streamgraph2 (falling back to empty app)")
     stream_app = FastAPI()
 
 
@@ -752,7 +760,7 @@ try:
 
     from globe.app.config import get_settings as _g_settings
     from globe.app.database.connection import init_db as _g_init, close_db as _g_close
-    from globe.app.api.routes import events as _g_events, pipeline as _g_pipeline, health as _g_health
+    from globe.app.api.routes import events as _g_events, health as _g_health
     from pathlib import Path as _Path
     from contextlib import asynccontextmanager as _acm3
 
@@ -770,44 +778,19 @@ try:
     globe_app = FastAPI(title="Globe API", lifespan=_globe_lifespan)
     globe_app.include_router(_g_health.router)
     globe_app.include_router(_g_events.router)
-    globe_app.include_router(_g_pipeline.router)
+
+    try:
+        from globe.app.api.routes import pipeline as _g_pipeline
+        globe_app.include_router(_g_pipeline.router)
+    except Exception as _pipeline_import_err:
+        MODULE_LOAD_ERRORS["globe_pipeline"] = str(_pipeline_import_err)
+        log.warning("⚠ globe pipeline router disabled: %s", _pipeline_import_err)
+
     log.info("✓ globe routes registered")
 except Exception as e:
-    log.warning("Could not load globe: %s", e)
+    MODULE_LOAD_ERRORS["globe"] = str(e)
+    log.exception("✗ Could not load globe (falling back to empty app)")
     globe_app = FastAPI()
-
-
-# hybrid_crew — research pipeline
-hybrid_app = None
-try:
-    from hybrid_crew.pipeline import run_pipeline_sync as _run_pipeline
-    from pydantic import BaseModel as _HBM
-    from fastapi import HTTPException as _HE
-    import asyncio as _asyncio
-    import concurrent.futures as _cf
-
-    class _HQueryRequest(_HBM):
-        query: str
-
-    hybrid_app = FastAPI(title="Hybrid Crew API")
-
-    @hybrid_app.post("/api/query")
-    async def _hc_query(payload: _HQueryRequest):
-        if not payload.query.strip():
-            raise _HE(400, "Query cannot be empty.")
-        loop = _asyncio.get_event_loop()
-        with _cf.ThreadPoolExecutor() as pool:
-            result = await loop.run_in_executor(pool, _run_pipeline, payload.query)
-        return result
-
-    @hybrid_app.get("/health")
-    async def _hc_health():
-        return {"status": "ok", "pipeline": "hybrid_crew v2"}
-
-    log.info("✓ hybrid_crew routes registered")
-except Exception as e:
-    log.warning("Could not load hybrid_crew: %s", e)
-    hybrid_app = FastAPI()
 
 
 # hybrid_chatbot — deployable SQL + embeddings chatbot
@@ -816,7 +799,8 @@ try:
     from hybrid_chatbot.api import app as hybrid_chat_app
     log.info("✓ hybrid_chatbot routes registered")
 except Exception as e:
-    log.warning("Could not load hybrid_chatbot: %s", e)
+    MODULE_LOAD_ERRORS["hybrid_chatbot"] = str(e)
+    log.exception("✗ Could not load hybrid_chatbot (falling back to empty app)")
     hybrid_chat_app = FastAPI()
 
 
@@ -829,7 +813,8 @@ try:
     perspective_app.include_router(_perspective_router)
     log.info("✓ perspective routes registered")  # FIX 1: corrected indentation
 except Exception as e:
-    log.warning("Could not load perspective: %s", e)
+    MODULE_LOAD_ERRORS["perspective"] = str(e)
+    log.exception("✗ Could not load perspective (falling back to empty app)")
     perspective_app = FastAPI()
 
 
@@ -885,13 +870,46 @@ async def _main_lifespan(application: FastAPI):
 
 app = FastAPI(title="NarrativeSignal Unified API", lifespan=_main_lifespan)
 
+frontend_origins = [
+    "http://localhost:3000",
+    "https://YOUR_FRONTEND_DOMAIN",
+]
+_env_origins = os.getenv("FRONTEND_ORIGINS", "")
+if _env_origins.strip():
+    frontend_origins = [origin.strip() for origin in _env_origins.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=frontend_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+_RATE_WINDOW_SECONDS = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", "60"))
+_RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "60"))
+_RATE_LIMIT_PATH_PREFIXES = ("/api/chatbot", "/api/globe", "/api/polar")
+_rate_limit_buckets: dict[tuple[str, str], list[float]] = {}
+
+
+@app.middleware("http")
+async def rate_limit_heavy_endpoints(request: Request, call_next):
+    path = request.url.path
+    if not any(path.startswith(prefix) for prefix in _RATE_LIMIT_PATH_PREFIXES):
+        return await call_next(request)
+
+    now = time.time()
+    client_host = request.client.host if request.client else "unknown"
+    key = (client_host, path.split("/", 3)[0:3][2] if path.startswith("/api/") else path)
+    bucket = _rate_limit_buckets.get(key, [])
+    bucket = [ts for ts in bucket if now - ts < _RATE_WINDOW_SECONDS]
+
+    if len(bucket) >= _RATE_LIMIT_MAX:
+        return JSONResponse(status_code=429, content={"detail": "Rate limit exceeded"})
+
+    bucket.append(now)
+    _rate_limit_buckets[key] = bucket
+    return await call_next(request)
 
 # Mount each module under its prefix
 # Frontend proxy (next.config.js) rewrites /api/* → localhost:8000/*
@@ -900,7 +918,6 @@ app.mount("/api/polar", polar_app)
 app.mount("/api/network", network_app)
 app.mount("/api/stream", stream_app)
 app.mount("/api/globe", globe_app)
-app.mount("/api/hybrid", hybrid_app)
 app.mount("/api/chatbot", hybrid_chat_app)
 app.mount("/api/perspective", perspective_app)
 
@@ -920,12 +937,19 @@ def root():
             "network":  "/api/network",
             "stream":   "/api/stream",
             "globe":    "/api/globe",
-            "hybrid":   "/api/hybrid",
             "chatbot": "/api/chatbot",
             "perspective": "/api/perspective",
         },
     }
 
 
+@app.get("/health", include_in_schema=False)
+def unified_health():
+    return {
+        "status": "ok",
+        "module_load_errors": MODULE_LOAD_ERRORS,
+    }
+
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", "8000")))

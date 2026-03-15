@@ -271,13 +271,16 @@ async def extract_topics_endpoint(req: ExtractTopicsRequest):
     from streamgraph2.data.config import GROQ_API_KEY
 
     topics: list
+    llm_error: str | None = None
     if GROQ_API_KEY:
         try:
             from streamgraph2.llm.event_llm import extract_topics
             topics = await extract_topics(headlines)
-        except Exception:
+        except Exception as exc:
+            llm_error = str(exc)
             topics = []
     else:
+        llm_error = "GROQ_API_KEY not configured on server."
         topics = []
 
     result = {
@@ -285,9 +288,12 @@ async def extract_topics_endpoint(req: ExtractTopicsRequest):
         "end_date":       req.end_date,
         "topics":         topics,
         "headline_count": len(headlines),
+        "llm_error":      llm_error,
     }
-    cache[key] = result
-    _save_cache(cache)
+    # Do not cache transient LLM failures as empty topics.
+    if llm_error is None:
+        cache[key] = result
+        _save_cache(cache)
     return {**result, "cached": False}
 
 

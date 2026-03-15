@@ -1,7 +1,8 @@
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 from typing import List
-import os
+from pydantic import field_validator
+from pathlib import Path
 
 
 class Settings(BaseSettings):
@@ -36,7 +37,8 @@ class Settings(BaseSettings):
     CURRENTS_API_KEY: str = ""
 
     # ── Database ─────────────────────────────────────────────
-    DUCKDB_PATH: str = "outputs/globe.duckdb"
+    DATA_PATH: str = "./data"
+    DUCKDB_PATH: str = ""
 
     # ── Pipeline ─────────────────────────────────────────────
     NEWS_ARTICLE_LIMIT: int = 2
@@ -56,7 +58,35 @@ class Settings(BaseSettings):
         env_file = ".env"
         extra = "ignore"
 
+    @field_validator("DEBUG", mode="before")
+    @classmethod
+    def parse_debug(cls, value):
+        if value is None:
+            return False
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, (int, float)):
+            return bool(value)
+        if isinstance(value, str):
+            normalized = value.strip().strip('"').strip("'").lower()
+            if normalized in {"1", "true", "yes", "y", "on"}:
+                return True
+            if normalized in {"0", "false", "no", "n", "off", ""}:
+                return False
+        # Safe fallback: never break startup on malformed DEBUG values.
+        return False
+
+    @field_validator("DUCKDB_PATH", mode="before")
+    @classmethod
+    def parse_duckdb_path(cls, value):
+        if value is None:
+            return ""
+        return str(value).strip()
+
 
 @lru_cache()
 def get_settings() -> Settings:
-    return Settings()
+    settings = Settings()
+    if not settings.DUCKDB_PATH:
+        settings.DUCKDB_PATH = str(Path(settings.DATA_PATH) / "globe.duckdb")
+    return settings

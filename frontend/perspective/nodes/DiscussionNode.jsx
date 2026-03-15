@@ -66,7 +66,12 @@ export default function DiscussionNode({ id, data, selected }) {
           </div>
         </div>
       )}
-      <Handle type="target" position={Position.Top} id="in" />
+      <Handle type="target" position={Position.Top} id="in-top" />
+      <Handle type="target" position={Position.Left} id="in-left" />
+      <Handle type="target" position={Position.Right} id="in-right" />
+      <Handle type="source" position={Position.Bottom} id="out-bottom" />
+      <Handle type="source" position={Position.Left} id="out-left" />
+      <Handle type="source" position={Position.Right} id="out-right" />
     </div>
   );
 }

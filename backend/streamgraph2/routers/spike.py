@@ -62,7 +62,7 @@ async def get_streamgraph():
 async def analyze_spike(narrative_id: str, req: SpikeRequest, background_tasks: BackgroundTasks):
     """
     Launch full async spike analysis pipeline:
-    Reddit enrichment → BERTopic → News fetch → Cosine match →
+    Reddit enrichment → Topic clustering → News fetch → Cosine match →
     Volume acceleration → Sentiment evolution → Agent supervision → LLM brief
 
     Returns job_id immediately. Poll /job-status/{job_id}.

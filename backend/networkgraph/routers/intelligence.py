@@ -27,7 +27,8 @@ from networkgraph.models.schemas import AnalyzeNodeRequest, AnalyzeNodeResponse
 log = logging.getLogger("sntis.intelligence")
 router = APIRouter(prefix="/intelligence", tags=["intelligence"])
 
-DB_PATH = Path(__file__).resolve().parents[3] / "data" / "analysis_v2.db"
+DEFAULT_DATA_PATH = Path(__file__).resolve().parents[4] / "data"
+DB_PATH = Path(os.getenv("DATA_PATH", str(DEFAULT_DATA_PATH))) / "analysis_v2.db"
 MAX_DOMAINS_PER_SUB = 10
 MAX_AUTHORS_PER_SUB = 15
 AMP_THRESHOLD = 0.15

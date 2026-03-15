@@ -7,6 +7,7 @@ It never touches the internet or guesses events.
 
 import asyncio
 import logging
+import json
 
 from litellm import acompletion, RateLimitError # type: ignore
 from streamgraph2.data.config import GROQ_API_KEY, LLM_MODEL
@@ -39,6 +40,7 @@ async def _call_llm(messages: list[dict], max_tokens: int = 800, temperature: fl
             else:
                 log.error("Groq rate limit exceeded after %d attempts.", _MAX_RETRIES)
                 raise
+    raise RuntimeError("LLM call failed without a response")
 
 
 def _build_prompt(payload: dict) -> str:
@@ -127,18 +129,85 @@ async def extract_topics(headlines: list[dict]) -> list[dict]:
     Stage 1 LLM call: extract 4-8 narrative topics from headlines.
     Returns list of {topic, subreddits, sentiment, key_claim, example_headlines}.
     """
-    import json as _json
-
     raw = await _call_llm(
         messages=[{"role": "user", "content": _build_topic_extraction_prompt(headlines)}],
         max_tokens=1200,
     )
-    # Strip markdown fences if present
-    if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
-    return _json.loads(raw.strip())
+
+    def _strip_fences(text: str) -> str:
+        out = text.strip()
+        if out.startswith("```"):
+            parts = out.split("```")
+            if len(parts) >= 2:
+                out = parts[1].strip()
+            if out.lower().startswith("json"):
+                out = out[4:].strip()
+        return out
+
+    def _extract_json_array(text: str) -> str:
+        s = _strip_fences(text)
+        start = s.find("[")
+        if start == -1:
+            raise ValueError("No JSON array start token '[' found in LLM response")
+
+        in_string = False
+        escaped = False
+        depth = 0
+        end = -1
+
+        for i, ch in enumerate(s[start:], start=start):
+            if in_string:
+                if escaped:
+                    escaped = False
+                elif ch == "\\":
+                    escaped = True
+                elif ch == '"':
+                    in_string = False
+                continue
+
+            if ch == '"':
+                in_string = True
+            elif ch == "[":
+                depth += 1
+            elif ch == "]":
+                depth -= 1
+                if depth == 0:
+                    end = i
+                    break
+
+        if end == -1:
+            raise ValueError("No complete JSON array found in LLM response")
+        return s[start:end + 1]
+
+    def _parse_topics(text: str) -> list[dict]:
+        payload = json.loads(_extract_json_array(text))
+        if not isinstance(payload, list):
+            raise ValueError("Topic extraction payload is not a JSON array")
+        return [p for p in payload if isinstance(p, dict)]
+
+    try:
+        return _parse_topics(raw)
+    except Exception as first_exc:
+        log.warning("Topic extraction JSON parse failed, attempting one-shot repair: %s", first_exc)
+        repaired = await _call_llm(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Return only valid JSON. No markdown fences. Preserve meaning.",
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        "Convert the following malformed model output into a valid JSON array of objects "
+                        "with keys: topic, subreddits, sentiment, key_claim, example_headlines.\n\n"
+                        f"{raw}"
+                    ),
+                },
+            ],
+            max_tokens=1400,
+            temperature=0,
+        )
+        return _parse_topics(repaired)
 
 
 # ── Stage 2: Deep Narrative Analysis ─────────────────────────

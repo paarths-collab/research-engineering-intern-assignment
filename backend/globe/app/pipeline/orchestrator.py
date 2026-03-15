@@ -117,7 +117,7 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
         ]
 
         # ── Layer 6: Contextual Intelligence ────────────────
-        logger.info(f"[{run_id}] Layer 6 — Intelligence Analysis (CrewAI)")
+        logger.info(f"[{run_id}] Layer 6 — Intelligence Analysis")
         intel_list: List[NarrativeIntel] = await analyse_all_events(
             posts_map, events, bundles_map
         )

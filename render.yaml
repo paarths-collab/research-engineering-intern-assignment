@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: narrativesignal-backend
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    plan: starter
+    healthCheckPath: /health
+    disk:
+      name: narrativesignal-data
+      mountPath: /app/data
+      sizeGB: 10
+    envVars:
+      - key: PORT
+        value: "8000"
+      - key: DATA_PATH
+        value: /app/data
+      - key: FRONTEND_ORIGINS
+        sync: false
+      - key: DEBUG
+        value: "false"
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: REDDIT_CLIENT_ID
+        sync: false
+      - key: REDDIT_CLIENT_SECRET
+        sync: false
+      - key: REDDIT_USER_AGENT
+        sync: false
+      - key: NEWSAPI_KEY
+        sync: false
+      - key: NEWSDATA_KEY
+        sync: false
+      - key: GNEWS_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: CURRENTS_API_KEY
+        sync: false
+      - key: PRIMARY_MODEL
+        sync: false
+      - key: FAST_MODEL
+        sync: false

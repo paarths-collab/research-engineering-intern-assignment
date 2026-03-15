@@ -9,17 +9,15 @@ import re
 import uuid
 import asyncio
 from typing import List, Optional
-from langchain_groq import ChatGroq
-from langchain_core.messages import SystemMessage, HumanMessage
 
 from app.config import get_settings
 from app.database.models import GeoCandidate, ResolvedLocation, StructuredEvent
 from app.database.connection import get_connection
+from app.llm.client import request_chat_completion
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()
-
 SYSTEM_PROMPT = """You are a geopolitical intelligence extraction engine.
 Return ONLY valid JSON. No markdown, no explanation, no preamble."""
 
@@ -41,19 +39,6 @@ Return JSON exactly:
   "key_entities": ["...", "..."],
   "search_queries": ["query1", "query2", "query3"]
 }}"""
-
-
-def _get_llm() -> ChatGroq:
-    # Use FAST_MODEL (llama-3.1-8b-instant, 500k TPD) for extraction.
-    # PRIMARY_MODEL (llama-3.3-70b, 100k TPD) is reserved for Layer 6 intelligence.
-    return ChatGroq(
-        api_key=settings.GROQ_API_KEY,
-        model=settings.FAST_MODEL,
-        temperature=0,
-        max_retries=3,
-    )
-
-
 def _parse_structure_response(content: str) -> Optional[dict]:
     content = re.sub(r"```(?:json)?", "", content).strip().strip("`")
     try:
@@ -71,19 +56,22 @@ def _parse_structure_response(content: str) -> Optional[dict]:
 async def structure_event(
     candidate: GeoCandidate,
     location: ResolvedLocation,
-    llm: ChatGroq,
+    model: str,
 ) -> Optional[StructuredEvent]:
     try:
         prompt = STRUCTURE_PROMPT.format(
             title=candidate.title,
             primary_location=location.name,
         )
-        response = await llm.ainvoke([
-            SystemMessage(content=SYSTEM_PROMPT),
-            HumanMessage(content=prompt),
-        ])
-
-        data = _parse_structure_response(response.content)
+        content = await request_chat_completion(
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": prompt},
+            ],
+            model=model,
+            temperature=0,
+        )
+        data = _parse_structure_response(content)
         if not data:
             logger.warning(f"Structure parse fail for '{candidate.title[:50]}'")
             return None
@@ -131,7 +119,7 @@ def _get_cached_event(post_id: str) -> Optional[StructuredEvent]:
 async def structure_all_events(
     pairs: List[tuple[GeoCandidate, ResolvedLocation]],
 ) -> List[StructuredEvent]:
-    llm = _get_llm()
+    model = settings.FAST_MODEL
     events = []
     skipped = 0
 
@@ -146,7 +134,7 @@ async def structure_all_events(
         await asyncio.sleep(3)  # ~20 RPM stay under limit
         for attempt in range(3):
             try:
-                result = await structure_event(candidate, location, llm)
+                result = await structure_event(candidate, location, model)
                 if result:
                     events.append(result)
                 break

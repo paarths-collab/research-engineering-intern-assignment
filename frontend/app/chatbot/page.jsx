@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const PANEL = {
   background: "rgba(10, 8, 6, 0.4)",
@@ -16,28 +16,11 @@ const INNER = {
 };
 
 const EXAMPLES = [
-  "What is this platform used for?",
-  "Explain how narratives spread across online communities.",
-  "How can I investigate emerging discussions with this tool?",
-  "Describe the difference between network, stream, and globe analysis views.",
+  "Which subreddit has the highest echo-chamber lift in the dataset?",
+  "What are the top domains by frequency across subreddit_domain_flow_v2?",
+  "Which narratives show the strongest spread_strength in narrative_intelligence_summary?",
+  "Why might volume peaks in daily_volume_v2 align with narrative surges? (use web search)",
 ];
-
-function maxAbs(value) {
-  return Math.max(-1, Math.min(1, Number(value) || 0));
-}
-
-function sentimentBar(score) {
-  const normalized = ((maxAbs(score) + 1) / 2) * 100;
-  return `${normalized.toFixed(1)}%`;
-}
-
-function sentimentColor(label) {
-  const v = (label || "").toLowerCase();
-  if (v === "positive") return "#34d399";
-  if (v === "negative") return "#f87171";
-  if (v === "mixed") return "#fbbf24";
-  return "#94a3b8";
-}
 
 function MaximizeIcon() {
   return (
@@ -104,7 +87,7 @@ function MaxModal({ title, badge, onClose, children }) {
   );
 }
 
-function QueryPanel({ query, setQuery, loading, runQuery, debug, setDebug }) {
+function QueryPanel({ query, setQuery, loading, runQuery, debug, setDebug, webSearch, setWebSearch }) {
   return (
     <div className="h-full p-4 flex flex-col gap-3">
       <textarea
@@ -129,7 +112,12 @@ function QueryPanel({ query, setQuery, loading, runQuery, debug, setDebug }) {
 
       <label className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-white/55 font-mono">
         <input type="checkbox" checked={debug} onChange={(e) => setDebug(e.target.checked)} />
-        Debug Evidence
+        Debug Mode
+      </label>
+
+      <label className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-white/55 font-mono">
+        <input type="checkbox" checked={webSearch} onChange={(e) => setWebSearch(e.target.checked)} />
+        Web Search (DuckDuckGo + Scrape)
       </label>
 
       <button
@@ -139,54 +127,6 @@ function QueryPanel({ query, setQuery, loading, runQuery, debug, setDebug }) {
       >
         {loading ? "Running..." : "Run Query"}
       </button>
-    </div>
-  );
-}
-
-function SentimentPanel({ sentiment }) {
-  return (
-    <div className="h-full p-4 flex flex-col gap-3">
-      {!sentiment ? (
-        <p className="text-sm text-white/50">Sentiment appears after the first response.</p>
-      ) : (
-        <>
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-white/50 uppercase tracking-[0.15em]">Label</span>
-            <span
-              className="px-2 py-1 text-xs font-bold uppercase"
-              style={{
-                color: sentimentColor(sentiment.sentiment_label),
-                border: `1px solid ${sentimentColor(sentiment.sentiment_label)}66`,
-              }}
-            >
-              {sentiment.sentiment_label}
-            </span>
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between text-xs text-white/60">
-              <span>Score</span>
-              <span>{Number(sentiment.sentiment_score || 0).toFixed(3)}</span>
-            </div>
-            <div className="h-2 mt-1 bg-white/10 border border-white/10">
-              <div
-                className="h-full"
-                style={{
-                  width: sentimentBar(sentiment.sentiment_score),
-                  background: sentimentColor(sentiment.sentiment_label),
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="text-xs text-white/75">
-            <span className="text-white/50">Confidence: </span>
-            {(Number(sentiment.confidence || 0) * 100).toFixed(1)}%
-          </div>
-
-          <p className="text-xs leading-relaxed text-white/75">{sentiment.rationale}</p>
-        </>
-      )}
     </div>
   );
 }
@@ -201,48 +141,6 @@ function AnswerPanel({ result, error }) {
   );
 }
 
-function TimingPanel({ timingList }) {
-  return (
-    <div className="h-full p-4 overflow-auto">
-      {!timingList.length ? (
-        <p className="text-sm text-white/50">No timing yet.</p>
-      ) : (
-        <div className="space-y-2">
-          {timingList.map(([k, v]) => (
-            <div key={k} className="flex items-center justify-between text-xs border-b border-white/10 pb-1">
-              <span className="uppercase tracking-[0.12em] text-white/55">{k}</span>
-              <span className="text-[#FFCC66] font-mono">{Number(v).toFixed(3)}s</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function EvidencePanel({ debug, result }) {
-  return (
-    <div className="h-full p-4 overflow-auto space-y-3">
-      {debug ? (
-        <>
-          <div>
-            <div className="text-[10px] uppercase tracking-[0.15em] text-white/45">Route</div>
-            <pre className="mt-1 text-xs text-white/75 whitespace-pre-wrap">{result?.route || "chat"}</pre>
-          </div>
-          <div>
-            <div className="text-[10px] uppercase tracking-[0.15em] text-white/45">Debug</div>
-            <pre className="mt-1 text-xs text-white/75 whitespace-pre-wrap">
-              {JSON.stringify(result?.debug || {}, null, 2)}
-            </pre>
-          </div>
-        </>
-      ) : (
-        <p className="text-sm text-white/50">Enable DEBUG to inspect route/model metadata.</p>
-      )}
-    </div>
-  );
-}
-
 export default function ChatbotPage() {
   const [query, setQuery] = useState(EXAMPLES[0]);
   const [loading, setLoading] = useState(false);
@@ -250,16 +148,11 @@ export default function ChatbotPage() {
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
   const [maximized, setMaximized] = useState(null);
-
-  const sentiment = result?.sentiment || null;
-  const timingList = useMemo(() => (result?.timing ? Object.entries(result.timing) : []), [result]);
+  const [webSearch, setWebSearch] = useState(false);
 
   const PANELS = {
-    query: { title: "Query Console", badge: "LLM_CHAT" },
-    sentiment: { title: "Sentiment Analysis", badge: "LLM_SENTIMENT" },
-    answer: { title: "Answer", badge: result?.route ? `ROUTE_${String(result.route).toUpperCase()}` : "WAITING" },
-    timing: { title: "Timing", badge: "OBSERVABILITY" },
-    evidence: { title: "Evidence", badge: debug ? "DEBUG_ON" : "DEBUG_OFF" },
+    query: { title: "Query Console", badge: webSearch ? "DATASET + WEB" : "DATASET_CHAT" },
+    answer: { title: "Answer", badge: null },
   };
 
   async function runQuery() {
@@ -270,7 +163,7 @@ export default function ChatbotPage() {
       const res = await fetch("/api/chatbot/query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, debug }),
+        body: JSON.stringify({ query, debug, web_search: webSearch }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.detail || `Request failed (${res.status})`);
@@ -328,7 +221,7 @@ export default function ChatbotPage() {
 
         <div className="flex-1 min-h-0 grid grid-cols-12 gap-4">
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 min-h-0">
-            <ChartPanel {...PANELS.query} className="flex-[1.2] min-h-0" onMaximize={() => setMaximized("query")}>
+            <ChartPanel {...PANELS.query} className="flex-1 min-h-0" onMaximize={() => setMaximized("query")}>
               <QueryPanel
                 query={query}
                 setQuery={setQuery}
@@ -336,32 +229,16 @@ export default function ChatbotPage() {
                 runQuery={runQuery}
                 debug={debug}
                 setDebug={setDebug}
+                webSearch={webSearch}
+                setWebSearch={setWebSearch}
               />
-            </ChartPanel>
-
-            <ChartPanel
-              {...PANELS.sentiment}
-              className="flex-[0.8] min-h-0"
-              onMaximize={() => setMaximized("sentiment")}
-            >
-              <SentimentPanel sentiment={sentiment} />
             </ChartPanel>
           </div>
 
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-4 min-h-0">
-            <ChartPanel {...PANELS.answer} className="flex-[1.2] min-h-0" onMaximize={() => setMaximized("answer")}>
+            <ChartPanel {...PANELS.answer} className="flex-1 min-h-0" onMaximize={() => setMaximized("answer")}>
               <AnswerPanel result={result} error={error} />
             </ChartPanel>
-
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 min-h-0 flex-[0.8]">
-              <ChartPanel {...PANELS.timing} className="min-h-0" onMaximize={() => setMaximized("timing")}>
-                <TimingPanel timingList={timingList} />
-              </ChartPanel>
-
-              <ChartPanel {...PANELS.evidence} className="min-h-0" onMaximize={() => setMaximized("evidence")}>
-                <EvidencePanel debug={debug} result={result} />
-              </ChartPanel>
-            </div>
           </div>
         </div>
       </main>
@@ -376,12 +253,11 @@ export default function ChatbotPage() {
               runQuery={runQuery}
               debug={debug}
               setDebug={setDebug}
+              webSearch={webSearch}
+              setWebSearch={setWebSearch}
             />
           ) : null}
-          {maximized === "sentiment" ? <SentimentPanel sentiment={sentiment} /> : null}
           {maximized === "answer" ? <AnswerPanel result={result} error={error} /> : null}
-          {maximized === "timing" ? <TimingPanel timingList={timingList} /> : null}
-          {maximized === "evidence" ? <EvidencePanel debug={debug} result={result} /> : null}
         </MaxModal>
       ) : null}
     </div>

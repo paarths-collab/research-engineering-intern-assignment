@@ -25,8 +25,22 @@ const nodeTypes = {
   analysis: AnalysisNode,
 };
 
-let nodeId = 1;
-const nextId = () => `node-${nodeId++}`;
+const generateNodeId = (existingNodes) => {
+  const used = new Set(existingNodes.map((n) => n.id));
+  // Fast Refresh can reset module state; use random/time-based IDs and check collisions.
+  for (let i = 0; i < 5; i += 1) {
+    const candidate = `node-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+    if (!used.has(candidate)) return candidate;
+  }
+
+  let suffix = 1;
+  let fallback = `node-${Date.now().toString(36)}-${suffix}`;
+  while (used.has(fallback)) {
+    suffix += 1;
+    fallback = `node-${Date.now().toString(36)}-${suffix}`;
+  }
+  return fallback;
+};
 
 function Canvas() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode, deleteSelectedNodes, focusNode, simulationResult } = useGraphStore();
@@ -57,22 +71,27 @@ function Canvas() {
   }, [deleteSelectedNodes]);
 
   const handleAddPersona = useCallback((preset) => {
-    if (!preset) return;
-
-    const id = nextId();
+    const id = generateNodeId(nodes);
     const count = nodes.filter(n => n.type === 'persona').length;
+    const safePreset = preset || {
+      label: `Persona ${count + 1}`,
+      description: 'Manually created persona. Edit traits and connect to discussion/debate, then to news.',
+      traits: ['generalist', 'observer'],
+      ideology_vector: [0.5, 0.5, 0.5, 0.5],
+    };
+
     addNode({
       id,
       type: 'persona',
       position: { x: 80 + count * 220, y: 120 },
-      data: preset
+      data: safePreset
     });
   }, [nodes, addNode]);
 
   const handleAddNews = useCallback((preset) => {
     if (!preset) return;
 
-    const id = nextId();
+    const id = generateNodeId(nodes);
     const count = nodes.filter(n => n.type === 'news').length;
     addNode({
       id,
@@ -83,7 +102,7 @@ function Canvas() {
   }, [nodes, addNode]);
 
   const handleAddDiscussion = useCallback(() => {
-    const id = nextId();
+    const id = generateNodeId(nodes);
     const count = nodes.filter((n) => n.type === 'discussion').length;
     addNode({
       id,
@@ -96,7 +115,7 @@ function Canvas() {
   }, [nodes, addNode]);
 
   const handleAddDebate = useCallback(() => {
-    const id = nextId();
+    const id = generateNodeId(nodes);
     const count = nodes.filter((n) => n.type === 'debate').length;
     addNode({
       id,
@@ -291,15 +310,17 @@ function Canvas() {
             <div className="empty-hint">
               <div className="hint-icon">⬡</div>
               <div className="hint-title">Perspective Simulator</div>
-              <div className="hint-text">Add personas and a news node, connect them, then simulate.</div>
+              <div className="hint-text">Use either: Persona -&gt; News (normal) or 2+ Personas -&gt; Discussion/Debate -&gt; News.</div>
               <div className="hint-steps">
                 <span>1. Add Persona nodes</span>
                 <span>→</span>
-                <span>2. Add News node</span>
+                <span>2. Add News node (for normal) OR add Discussion/Debate node</span>
                 <span>→</span>
-                <span>3. Connect edges</span>
+                <span>3. Connect flow</span>
                 <span>→</span>
-                <span>4. Simulate</span>
+                <span>4. Normal: Persona -&gt; News | Debate/Discussion: 2+ Personas -&gt; Discussion/Debate -&gt; News</span>
+                <span>→</span>
+                <span>5. Simulate</span>
               </div>
             </div>
           )}
@@ -312,7 +333,7 @@ function Canvas() {
               <div className="toast-content">
                 <div className="toast-type">
                   {simulationResult.result_type === 'debate'
-                    ? 'Debate and Discussion generated'
+                    ? 'Debate generated'
                     : simulationResult.result_type === 'analysis'
                       ? 'Normal analysis generated'
                       : 'Discussion generated'}

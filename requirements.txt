@@ -11,13 +11,9 @@ pgvector==0.2.5
 # ── Data ──────────────────────────────────────────────────────
 pandas==2.2.3
 numpy==1.26.4
-scikit-learn==1.5.2
 
-# ── Embeddings / NLP (Heavy models removed for deployment) ─────
+# ── Embeddings / NLP ────────────────────────────────────────────
 faiss-cpu==1.8.0.post1
-bertopic==0.16.2
-umap-learn==0.5.7
-hdbscan==0.8.40
 
 # ── Agentic / LLM ─────────────────────────────────────────────
 langchain==0.3.13
@@ -25,9 +21,8 @@ langchain-core==0.3.29
 langchain-community==0.3.13
 langchain-openai==0.2.13
 langchain-groq==0.2.3
-crewai==0.86.0
-anthropic>=0.25.0
 groq
+litellm
 python-dotenv==1.0.1
 
 # ── Reddit ────────────────────────────────────────────────────

@@ -2,25 +2,16 @@ import json
 import re
 import asyncio
 import hashlib
-from typing import List, Optional, Dict, Tuple
-from langchain_groq import ChatGroq
+from typing import Dict, List, Optional
 
 from app.config import get_settings
 from app.database.models import RawPost, StructuredEvent, ResolvedLocation
 from app.database.connection import get_connection
+from app.llm.client import request_chat_completion
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()
-
-def _get_llm() -> ChatGroq:
-    return ChatGroq(
-        api_key=settings.GROQ_API_KEY,
-        model=settings.FAST_MODEL,
-        temperature=0,
-        max_retries=3,
-        max_tokens=1024, # small budget
-    )
 
 def _normalize_text(text: str) -> str:
     """Strategy 4: Normalize tokens for caching."""
@@ -68,7 +59,7 @@ def load_cache():
         )
     logger.info(f"Loaded {len(_geo_cache)} cached structured events by hash.")
 
-async def process_batch(posts: List[RawPost], llm: ChatGroq) -> List[StructuredEvent]:
+async def process_batch(posts: List[RawPost], model: str) -> List[StructuredEvent]:
     if not posts: return []
     
     prompt = "Analyze the following geopolitical news headlines.\n"
@@ -80,8 +71,14 @@ async def process_batch(posts: List[RawPost], llm: ChatGroq) -> List[StructuredE
         
     for attempt in range(3):
         try:
-            msg = await llm.ainvoke(prompt)
-            content = msg.content
+            content = await request_chat_completion(
+                messages=[
+                    {"role": "user", "content": prompt},
+                ],
+                model=model,
+                temperature=0,
+                max_tokens=1024,
+            )
             
             # extract json array
             match = re.search(r'\[.*\]', content, re.DOTALL)
@@ -135,7 +132,7 @@ async def process_batch(posts: List[RawPost], llm: ChatGroq) -> List[StructuredE
 
 async def batch_structure_posts(posts: List[RawPost]) -> List[StructuredEvent]:
     load_cache()
-    llm = _get_llm()
+    model = settings.FAST_MODEL
     
     final_events = []
     to_process = []
@@ -165,7 +162,7 @@ async def batch_structure_posts(posts: List[RawPost]) -> List[StructuredEvent]:
     for i in range(0, len(to_process), batch_size):
         batch = to_process[i:i+batch_size]
         await asyncio.sleep(3) # safe delay
-        results = await process_batch(batch, llm)
+        results = await process_batch(batch, model)
         final_events.extend(results)
         
     logger.info(f"Batch execution complete. Extracted {len(final_events)} structured events.")

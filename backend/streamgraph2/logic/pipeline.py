@@ -4,7 +4,7 @@ pipeline.py — Full async spike analysis pipeline.
 Flow:
   1. Create spike_job
   2. Reddit enrichment (±1 window)
-  3. BERTopic on spike_date only
+    3. Topic clustering on spike_date only
   4. Fetch news for spike_date
   5. Cosine similarity matching
   6. Volume acceleration
@@ -41,6 +41,13 @@ async def run_spike_pipeline(job_id: str, spike_date: date):
     
     max_retries = 3
     current_min_topic_size = None # Defaults to config.BERTOPIC_MIN_TOPIC in topic_engine
+    topics = []
+    all_matches = []
+    sentiment = []
+    baseline_count = 0
+    spike_count = 0
+    ratio = 0.0
+    confidence = 0.0
     
     try:
         for attempt in range(1, max_retries + 1):
@@ -49,8 +56,8 @@ async def run_spike_pipeline(job_id: str, spike_date: date):
                 print(f"  [Self-Heal] PIPELINE RETRY {attempt}/{max_retries}")
                 print(f"{'='*40}")
 
-            # ── Step 1: BERTopic ──────────────────────────────────
-            print("\n[1/6] Topic modeling (BERTopic)")
+            # ── Step 1: Topic modeling ─────────────────────────────
+            print("\n[1/6] Topic modeling")
             topics = await topic_engine.run_topic_modeling(job_id, spike_date, current_min_topic_size)
 
             if not topics:
@@ -127,7 +134,7 @@ async def run_spike_pipeline(job_id: str, spike_date: date):
                     reason = action.get("reason", "Unknown repair reason")
                     
                     if act == "rerun_topic_modeling":
-                        print(f"  [Self-Heal] Adjusting BERT parameters: {reason}")
+                        print(f"  [Self-Heal] Adjusting topic size parameters: {reason}")
                         # Dynamically shrink sensitivity to resolve "garbage" fragmentation
                         current_min_topic_size = max(5, (current_min_topic_size or 20) - 5)
                         needs_retry = True

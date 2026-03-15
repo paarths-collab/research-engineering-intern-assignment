@@ -11,13 +11,34 @@ from pathlib import Path
 
 BACKEND_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BACKEND_DIR.parent.parent
-DATA_DIR = Path(os.getenv("DATA_DIR", PROJECT_DIR / "data"))
+
+# Load backend/.env so chatbot works even when launched standalone
+try:
+    from dotenv import load_dotenv
+    load_dotenv(PROJECT_DIR / "backend" / ".env")
+except Exception:
+    pass
+
+
+def _resolve_path(value: str | Path) -> Path:
+    p = Path(value)
+    if p.is_absolute():
+        return p
+    return (PROJECT_DIR / p).resolve()
+
+
+_data_dir_env = (
+    os.getenv("HYBRID_DATA_DIR")
+    or os.getenv("DATA_PATH")
+    or os.getenv("DATA_DIR")
+)
+DATA_DIR = _resolve_path(_data_dir_env) if _data_dir_env else (PROJECT_DIR / "data").resolve()
 
 DUCKDB_PATH = Path(os.getenv("HYBRID_SQL_DB", DATA_DIR / "hybrid_chatbot.duckdb"))
 VECTOR_INDEX_PATH = Path(os.getenv("HYBRID_VECTOR_INDEX", DATA_DIR / "hybrid_vector.index"))
 VECTOR_META_PATH = Path(os.getenv("HYBRID_VECTOR_META", DATA_DIR / "hybrid_vector_meta.jsonl"))
 
-EMBED_MODEL_NAME = os.getenv("HYBRID_EMBED_MODEL", "all-MiniLM-L6-v2")
+EMBED_MODEL_NAME = os.getenv("HYBRID_EMBED_MODEL", "disabled")
 
 LLM_BASE_URL = os.getenv("HYBRID_LLM_BASE_URL", "https://api.groq.com/openai/v1")
 LLM_API_KEY = os.getenv("HYBRID_LLM_API_KEY", os.getenv("GROQ_API_KEY", ""))

@@ -64,7 +64,7 @@ class PerspectiveSimulatorService:
         return self.news_presets_cache[:safe_limit] if self.news_presets_cache else []
 
     def simulate(self, payload: PerspectiveSimulateRequest) -> PerspectiveSimulateResponse:
-        base_nodes = [n for n in payload.nodes if n.type in {"persona", "news"}]
+        base_nodes = [n for n in payload.nodes if n.type in {"persona", "news", "discussion", "debate"}]
         base_node_ids = {n.id for n in base_nodes}
         base_edges: list[PerspectiveGraphEdge] = []
 
@@ -83,21 +83,85 @@ class PerspectiveSimulatorService:
 
         personas_by_id = {n.id: n for n in base_nodes if n.type == "persona"}
         news_by_id = {n.id: n for n in base_nodes if n.type == "news"}
+        connector_by_id = {n.id: n for n in base_nodes if n.type in {"discussion", "debate"}}
         globe_events = self._fetch_globe_events(limit=30)
 
         for news_node in news_by_id.values():
             self._enrich_news_node(news_node, globe_events)
 
         connected_personas_by_news: dict[str, list[PerspectiveGraphNode]] = {nid: [] for nid in news_by_id}
+        personas_by_connector: dict[str, list[PerspectiveGraphNode]] = {cid: [] for cid in connector_by_id}
+        connector_to_news_ids: dict[str, set[str]] = {cid: set() for cid in connector_by_id}
+        connector_modes_by_news: dict[str, set[str]] = {nid: set() for nid in news_by_id}
+
         for edge in base_edges:
             if edge.source in personas_by_id and edge.target in news_by_id:
                 connected_personas_by_news[edge.target].append(personas_by_id[edge.source])
+                continue
+
+            if edge.source in news_by_id and edge.target in personas_by_id:
+                connected_personas_by_news[edge.source].append(personas_by_id[edge.target])
+                continue
+
+            if edge.source in personas_by_id and edge.target in connector_by_id:
+                personas_by_connector[edge.target].append(personas_by_id[edge.source])
+                continue
+
+            if edge.source in connector_by_id and edge.target in personas_by_id:
+                personas_by_connector[edge.source].append(personas_by_id[edge.target])
+                continue
+
+            if edge.source in connector_by_id and edge.target in news_by_id:
+                connector_to_news_ids[edge.source].add(edge.target)
+                continue
+
+            if edge.source in news_by_id and edge.target in connector_by_id:
+                connector_to_news_ids[edge.target].add(edge.source)
+
+        for connector_id, personas in personas_by_connector.items():
+            if not personas:
+                continue
+            news_ids = connector_to_news_ids.get(connector_id) or set()
+            if not news_ids:
+                continue
+            connector_mode = str(connector_by_id.get(connector_id).type) if connector_id in connector_by_id else ""
+            for news_id in news_ids:
+                connected_personas_by_news[news_id].extend(personas)
+                if connector_mode in {"discussion", "debate"}:
+                    connector_modes_by_news[news_id].add(connector_mode)
 
         generated_nodes: list[PerspectiveGraphNode] = []
         generated_edges: list[PerspectiveGraphEdge] = []
         generated_meta: list[dict[str, str]] = []
         generated_modes: set[str] = set()
         overall_summary = "No valid persona-news connections found for simulation."
+
+        existing_edge_ids: set[str] = {str(e.id) for e in base_edges}
+        existing_edge_pairs: set[tuple[str, str]] = {(str(e.source), str(e.target)) for e in base_edges}
+
+        def add_generated_edge_safe(edge_id: str, source: str, target: str) -> None:
+            pair = (str(source), str(target))
+            if pair in existing_edge_pairs:
+                return
+
+            safe_id = str(edge_id)
+            suffix = 1
+            while safe_id in existing_edge_ids:
+                safe_id = f"{edge_id}-{suffix}"
+                suffix += 1
+
+            generated_edges.append(
+                PerspectiveGraphEdge(
+                    id=safe_id,
+                    source=source,
+                    target=target,
+                    type="smoothstep",
+                    animated=True,
+                    style={"strokeWidth": 2},
+                )
+            )
+            existing_edge_ids.add(safe_id)
+            existing_edge_pairs.add(pair)
 
         for news_id, personas in connected_personas_by_news.items():
             unique_personas = _unique_nodes(personas)
@@ -141,16 +205,7 @@ class PerspectiveSimulatorService:
                     )
                 )
 
-                generated_edges.append(
-                    PerspectiveGraphEdge(
-                        id=f"e-{news_id}-{analysis_id}",
-                        source=news_id,
-                        target=analysis_id,
-                        type="smoothstep",
-                        animated=True,
-                        style={"strokeWidth": 2},
-                    )
-                )
+                add_generated_edge_safe(f"e-{news_id}-{analysis_id}", news_id, analysis_id)
                 generated_edges.append(
                     PerspectiveGraphEdge(
                         id=f"e-{persona.id}-{analysis_id}",
@@ -174,128 +229,131 @@ class PerspectiveSimulatorService:
                 overall_summary = "Normal analysis generated for single persona and single news connection."
                 continue
 
-            disagreement = _estimate_disagreement(unique_personas, self.persona_map)
             news_node = news_by_id[news_id]
-            discussion_reactions = _build_persona_reactions(unique_personas, news_node, "discussion", self.persona_map)
-            debate_reactions = _build_persona_reactions(unique_personas, news_node, "debate", self.persona_map)
-            discussion_rounds = _build_connected_rounds(
+            active_modes = connector_modes_by_news.get(news_id) or set()
+
+            # If no discussion/debate connector is used, keep this as analysis output.
+            if not active_modes:
+                detailed_reactions = _build_persona_reactions(unique_personas, news_node, "analysis", self.persona_map)
+                analysis_rounds = _build_connected_rounds(
+                    personas=unique_personas,
+                    mode="analysis",
+                    reactions=detailed_reactions,
+                    round_count=1,
+                    persona_map=self.persona_map,
+                )
+                news_node.data["analysis_summary"] = "Analysis view generated from direct persona-headline connections."
+                news_node.data["reactions"] = detailed_reactions
+                news_node.data["rounds"] = analysis_rounds
+
+                analysis_id = f"analysis-{news_id}"
+                generated_nodes.append(
+                    PerspectiveGraphNode(
+                        id=analysis_id,
+                        type="analysis",
+                        position={
+                            "x": float(news_node.position.get("x", 0.0)) + 120.0,
+                            "y": float(news_node.position.get("y", 0.0)) + 220.0,
+                        },
+                        data={
+                            "label": "Analysis",
+                            "newsId": news_id,
+                            "personaCount": len(unique_personas),
+                            "summary": news_node.data["analysis_summary"],
+                            "reactions": detailed_reactions,
+                            "rounds": analysis_rounds,
+                        },
+                    )
+                )
+
+                generated_edges.append(
+                    PerspectiveGraphEdge(
+                        id=f"e-{news_id}-{analysis_id}",
+                        source=news_id,
+                        target=analysis_id,
+                        type="smoothstep",
+                        animated=True,
+                        style={"strokeWidth": 2},
+                    )
+                )
+
+                for persona in unique_personas:
+                    add_generated_edge_safe(f"e-{persona.id}-{analysis_id}", persona.id, analysis_id)
+
+                generated_meta.append(
+                    {
+                        "news_id": news_id,
+                        "outcome": "analysis",
+                        "persona_count": str(len(unique_personas)),
+                        "distance": "0.000",
+                    }
+                )
+                generated_modes.add("analysis")
+                overall_summary = "Analysis generated for direct persona-headline connections."
+                continue
+
+            # Connector-led mode requires at least two personas.
+            if len(unique_personas) < 2:
+                continue
+
+            disagreement = _estimate_disagreement(unique_personas, self.persona_map)
+            selected_mode = "debate" if "debate" in active_modes else "discussion"
+            selected_reactions = _build_persona_reactions(unique_personas, news_node, selected_mode, self.persona_map)
+            selected_rounds = _build_connected_rounds(
                 personas=unique_personas,
-                mode="discussion",
-                reactions=discussion_reactions,
+                mode=selected_mode,
+                reactions=selected_reactions,
                 round_count=payload.debate_rounds,
                 persona_map=self.persona_map,
             )
-            debate_rounds = _build_connected_rounds(
-                personas=unique_personas,
-                mode="debate",
-                reactions=debate_reactions,
-                round_count=payload.debate_rounds,
-                persona_map=self.persona_map,
+
+            selected_id = f"{selected_mode}-{news_id}"
+            selected_label = "Debate" if selected_mode == "debate" else "Discussion"
+            selected_summary = (
+                "Competing framings create clear contention across connected personas."
+                if selected_mode == "debate"
+                else "Multiple personas are discussing implications from different angles."
             )
 
-            discussion_id = f"discussion-{news_id}"
             generated_nodes.append(
                 PerspectiveGraphNode(
-                    id=discussion_id,
-                    type="discussion",
+                    id=selected_id,
+                    type=selected_mode,
                     position={
-                        "x": float(news_node.position.get("x", 0.0)),
+                        "x": float(news_node.position.get("x", 0.0)) + (220.0 if selected_mode == "debate" else 0.0),
                         "y": float(news_node.position.get("y", 0.0)) + 240.0,
                     },
                     data={
-                        "label": "Discussion",
+                        "label": selected_label,
                         "newsId": news_id,
                         "personaCount": len(unique_personas),
                         "ideologicalDistance": round(disagreement, 3),
-                        "summary": "Multiple personas are discussing implications from different angles.",
-                        "reactions": discussion_reactions,
-                        "rounds": discussion_rounds,
+                        "summary": selected_summary,
+                        "reactions": selected_reactions,
+                        "rounds": selected_rounds,
                     },
                 )
             )
 
-            debate_id = f"debate-{news_id}"
-            generated_nodes.append(
-                PerspectiveGraphNode(
-                    id=debate_id,
-                    type="debate",
-                    position={
-                        "x": float(news_node.position.get("x", 0.0)) + 220.0,
-                        "y": float(news_node.position.get("y", 0.0)) + 240.0,
-                    },
-                    data={
-                        "label": "Debate",
-                        "newsId": news_id,
-                        "personaCount": len(unique_personas),
-                        "ideologicalDistance": round(disagreement, 3),
-                        "summary": "Competing framings create clear contention across connected personas.",
-                        "reactions": debate_reactions,
-                        "rounds": debate_rounds,
-                    },
-                )
-            )
-
-            generated_edges.append(
-                PerspectiveGraphEdge(
-                    id=f"e-{news_id}-{discussion_id}",
-                    source=news_id,
-                    target=discussion_id,
-                    type="smoothstep",
-                    animated=True,
-                    style={"strokeWidth": 2},
-                )
-            )
-            generated_edges.append(
-                PerspectiveGraphEdge(
-                    id=f"e-{news_id}-{debate_id}",
-                    source=news_id,
-                    target=debate_id,
-                    type="smoothstep",
-                    animated=True,
-                    style={"strokeWidth": 2},
-                )
-            )
+            add_generated_edge_safe(f"e-{news_id}-{selected_id}", selected_id, news_id)
 
             for persona in unique_personas:
-                generated_edges.append(
-                    PerspectiveGraphEdge(
-                        id=f"e-{persona.id}-{discussion_id}",
-                        source=persona.id,
-                        target=discussion_id,
-                        type="smoothstep",
-                        animated=True,
-                        style={"strokeWidth": 2},
-                    )
-                )
-                generated_edges.append(
-                    PerspectiveGraphEdge(
-                        id=f"e-{persona.id}-{debate_id}",
-                        source=persona.id,
-                        target=debate_id,
-                        type="smoothstep",
-                        animated=True,
-                        style={"strokeWidth": 2},
-                    )
-                )
+                add_generated_edge_safe(f"e-{persona.id}-{selected_id}", persona.id, selected_id)
 
             generated_meta.append(
                 {
                     "news_id": news_id,
-                    "outcome": "discussion",
+                    "outcome": selected_mode,
                     "persona_count": str(len(unique_personas)),
                     "distance": f"{disagreement:.3f}",
                 }
             )
-            generated_meta.append(
-                {
-                    "news_id": news_id,
-                    "outcome": "debate",
-                    "persona_count": str(len(unique_personas)),
-                    "distance": f"{disagreement:.3f}",
-                }
+            generated_modes.add(selected_mode)
+            overall_summary = (
+                "Debate generated from debate node connections."
+                if selected_mode == "debate"
+                else "Discussion generated from discussion node connections."
             )
-            generated_modes.update({"discussion", "debate"})
-            overall_summary = "Generated both discussion and debate views for multi-persona connections."
 
         result_type = "analysis"
         if "debate" in generated_modes:

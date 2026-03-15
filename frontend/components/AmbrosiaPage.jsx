@@ -132,8 +132,8 @@ export default function AmbrosiaPage() {
 
           {/* NEW ITEMS */}
           <li><Link href="/globe">Globe</Link></li>
-          <li><Link href="/chatbot">Hybrid Chatbot</Link></li>
-          <li><Link href="/datasets">Datasets</Link></li>
+          <li><Link href="/perspective">Perspective</Link></li>
+          <li><Link href="/chatbot">Chatbot</Link></li>
         </ul>
 
         <div className={styles.navRight}>

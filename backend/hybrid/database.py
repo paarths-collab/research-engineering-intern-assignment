@@ -2,11 +2,12 @@
 hybrid/database.py
 -------------------
 - Loads all 19 CSVs as DuckDB in-memory views on first call (thread-safe singleton).
-- Provides semantic_search() via sentence-transformers (all-MiniLM-L6-v2).
-- Falls back to SQL ILIKE keyword search when embeddings are unavailable.
+- Provides semantic_search() via lightweight lexical similarity.
+- Falls back to SQL ILIKE keyword search when in-memory ranking is unavailable.
 """
 
 import logging
+import re
 import threading
 
 import duckdb
@@ -62,65 +63,44 @@ def get_loaded_views() -> list[str]:
         return []
 
 
-# ── Embedder singleton ─────────────────────────────────────────────────────────
-_emb_lock    = threading.Lock()
-_embedder    = None       # SentenceTransformer or "unavailable"
-_emb_matrix  = None       # numpy ndarray, pre-normalised
-_emb_records: list[dict] = []
+def _tokenize(text: str) -> set[str]:
+    return {t for t in re.findall(r"[a-z0-9]+", str(text).lower()) if len(t) > 2}
 
 
-def _init_embedder() -> None:
-    global _embedder, _emb_matrix, _emb_records
-    if _embedder is not None:
-        return
-    with _emb_lock:
-        if _embedder is not None:
-            return
-        try:
-            from sentence_transformers import SentenceTransformer
-            logger.info("[Embedder] Loading all-MiniLM-L6-v2...")
-            model = SentenceTransformer("all-MiniLM-L6-v2")
-            df = get_db_connection().execute(
-                "SELECT id, subreddit, title, "
-                "CAST(created_datetime AS VARCHAR) AS date, score "
-                "FROM posts LIMIT 5000"
-            ).fetchdf()
-            _emb_records = df.to_dict("records")
-            _emb_matrix  = model.encode(
-                df["title"].tolist(),
-                batch_size=64,
-                show_progress_bar=False,
-                normalize_embeddings=True,
-            )
-            _embedder = model
-            logger.info(f"[Embedder] Embedded {len(_emb_records)} titles.")
-        except ImportError:
-            logger.warning("[Embedder] sentence-transformers not installed -> SQL fallback.")
-            _embedder = "unavailable"
-        except Exception as exc:
-            logger.error(f"[Embedder] Init failed: {exc}")
-            _embedder = "unavailable"
+def _lexical_score(query_tokens: set[str], title: str) -> float:
+    if not query_tokens:
+        return 0.0
+    title_tokens = _tokenize(title)
+    if not title_tokens:
+        return 0.0
+    overlap = len(query_tokens & title_tokens)
+    return float(overlap / max(1, len(query_tokens)))
 
 
 def semantic_search(topic: str, top_k: int = 5) -> list[dict]:
     """
     Returns top_k posts semantically closest to topic.
     Each result: {id, subreddit, title, date, score, similarity?}
-    Falls back to SQL ILIKE if embeddings unavailable.
+    Falls back to SQL ILIKE if in-memory lexical ranking fails.
     """
-    _init_embedder()
-    if _embedder == "unavailable" or _emb_matrix is None:
-        return _keyword_fallback(topic, top_k)
+
     try:
-        q = _embedder.encode([topic], normalize_embeddings=True)
-        sims = (_emb_matrix @ q.T).flatten()
-        top_idx = sims.argsort()[::-1][:top_k]
-        return [
-            {**_emb_records[i], "similarity": round(float(sims[i]), 4)}
-            for i in top_idx
-        ]
+        df = get_db_connection().execute(
+            "SELECT id, subreddit, title, "
+            "CAST(created_datetime AS VARCHAR) AS date, score "
+            "FROM posts LIMIT 5000"
+        ).fetchdf()
+        records = df.to_dict("records")
+        query_tokens = _tokenize(topic)
+        scored = []
+        for rec in records:
+            s = _lexical_score(query_tokens, rec.get("title", ""))
+            if s > 0:
+                scored.append({**rec, "similarity": round(s, 4)})
+        scored.sort(key=lambda x: x["similarity"], reverse=True)
+        return scored[:top_k]
     except Exception as exc:
-        logger.warning(f"[Embedder] Search error, falling back: {exc}")
+        logger.warning(f"[Search] Lexical ranking failed, falling back: {exc}")
         return _keyword_fallback(topic, top_k)
 
 

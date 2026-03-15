@@ -151,6 +151,9 @@ export default function StreamPage() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setTopics(data.topics || []);
+      if (data.llm_error) {
+        setTopicsError(data.llm_error);
+      }
       setTimeout(() => topicsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
     } catch (e) {
       setTopicsError(e.message || "Topic extraction failed.");

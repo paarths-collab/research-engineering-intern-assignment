@@ -1,24 +1,21 @@
 import duckdb
 import numpy as np
 import pandas as pd
-from sentence_transformers import SentenceTransformer
 from pathlib import Path
-from sklearn.metrics.pairwise import cosine_similarity
 import os
 import logging
+import re
 
 logger = logging.getLogger(__name__)
 
 # === PATHS ===
 BASE_DIR = Path(__file__).parent.parent
-DB_PATH   = BASE_DIR / "data" / "analysis_v2.db"
-EMB_PATH  = BASE_DIR / "data" / "title_embeddings_v2.npy"
-CSV_PATH  = BASE_DIR / "data" / "clean_with_clusters_v2.csv"
+DATA_PATH = Path(os.getenv("DATA_PATH", str(BASE_DIR / "data")))
+DB_PATH   = DATA_PATH / "analysis_v2.db"
+CSV_PATH  = DATA_PATH / "clean_with_clusters_v2.csv"
 
 # === GLOBAL SINGLETONS ===
 CONN       = None
-EMBEDDINGS = None
-MODEL      = None
 POSTS_DF   = None
 
 
@@ -29,7 +26,7 @@ def get_db_connection():
         print(f"🦆 Connecting to DuckDB at {DB_PATH}...")
         CONN = duckdb.connect(str(DB_PATH), read_only=False) # Changed to False to create views
         # Mount new CSVs as views
-        data_dir = BASE_DIR / "data"
+        data_dir = DATA_PATH
         csv_mappings = {
             "narratives": "narrative_intelligence_summary.csv",
             "topics": "narrative_topic_mapping.csv",
@@ -55,27 +52,45 @@ def get_db_connection():
 
 
 def get_vector_store():
-    """Lazy-load embeddings, sentence model, and posts dataframe."""
-    global EMBEDDINGS, MODEL, POSTS_DF
-    if EMBEDDINGS is None:
-        print(f"🧠 Loading embeddings from {EMB_PATH}...")
-        EMBEDDINGS = np.load(str(EMB_PATH))
-
-        print("🤖 Loading SentenceTransformer model...")
-        MODEL = SentenceTransformer("all-MiniLM-L6-v2")
-
+    """Lazy-load posts dataframe used for lightweight lexical search."""
+    global POSTS_DF
+    if POSTS_DF is None:
         print(f"📄 Loading posts CSV from {CSV_PATH}...")
         POSTS_DF = pd.read_csv(str(CSV_PATH))
 
-    return EMBEDDINGS, MODEL, POSTS_DF
+    return POSTS_DF
+
+
+def _tokenize(text: str) -> set[str]:
+    return {t for t in re.findall(r"[a-z0-9]+", str(text).lower()) if len(t) > 2}
+
+
+def _lexical_score(query_tokens: set[str], title: str) -> float:
+    if not query_tokens:
+        return 0.0
+    title_tokens = _tokenize(title)
+    if not title_tokens:
+        return 0.0
+    overlap = len(query_tokens & title_tokens)
+    base = overlap / max(1, len(query_tokens))
+    return float(base)
 
 
 def semantic_search(query: str, top_k: int = 5):
-    """Find posts semantically similar to the query using the CSV index."""
-    embeddings, model, posts_df = get_vector_store()
+    """Find posts using lightweight lexical similarity over titles."""
+    posts_df = get_vector_store()
+    if posts_df is None:
+        raise RuntimeError("Vector store is not initialized")
 
-    query_vec = model.encode([query])
-    scores = cosine_similarity(query_vec, embeddings)[0]
+    query_tokens = _tokenize(query)
+    if not query_tokens:
+        return []
+
+    titles = posts_df["title"].fillna("").astype(str).tolist() if "title" in posts_df else []
+    if not titles:
+        return []
+
+    scores = np.asarray([_lexical_score(query_tokens, title) for title in titles], dtype="float32")
     top_indices = scores.argsort()[-top_k:][::-1]
 
     results = []
@@ -85,7 +100,7 @@ def semantic_search(query: str, top_k: int = 5):
             "title":     str(row.get("title", "")),
             "subreddit": str(row.get("subreddit", "")),
             "date":      str(row.get("created_datetime", "")),
-            "score":     float(scores[idx]),
+            "score":     round(float(scores[idx]), 4),
         })
 
     return results
@@ -97,7 +112,7 @@ def semantic_search(query: str, top_k: int = 5):
 def get_conn():
     """Per-call DuckDB connection for sankey endpoints, mounts new CSVs."""
     conn = duckdb.connect(str(DB_PATH), read_only=False)
-    data_dir = BASE_DIR / "data"
+    data_dir = DATA_PATH
     csv_mappings = {
         "narratives": "narrative_intelligence_summary.csv",
         "topics": "narrative_topic_mapping.csv",

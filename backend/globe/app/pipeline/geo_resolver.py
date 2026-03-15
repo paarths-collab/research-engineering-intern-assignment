@@ -8,17 +8,17 @@ import json
 import re
 import asyncio
 from typing import List, Optional
-from langchain_groq import ChatGroq
-from langchain_core.messages import SystemMessage, HumanMessage
 
 from app.config import get_settings
 from app.database.models import GeoCandidate, ResolvedLocation
 from app.database.connection import get_connection
+from app.llm.client import request_chat_completion
 from app.utils.geocoder import geocode_location
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()
+
 
 SYSTEM_PROMPT = """You are a precise geo-intelligence resolver for a geopolitical mapping system.
 Return ONLY valid JSON. Never return markdown, explanations, or extra text."""
@@ -37,15 +37,26 @@ Headline: {title}
 Return JSON:
 {{"primary_location": "City, Country" or "Country" or null}}
 """
+_ABSTRACT_GEO_TERMS = {
+    "middle east", "europe", "global", "world", "international", "asia", "africa"
+}
 
 
-def _get_llm(model: str = None) -> ChatGroq:
-    return ChatGroq(
-        api_key=settings.GROQ_API_KEY,
-        model=model or settings.FAST_MODEL,
-        temperature=0,
-        max_retries=3,
-    )
+async def _fallback_resolve_from_terms(candidate: GeoCandidate) -> Optional[ResolvedLocation]:
+    terms = [str(t).strip() for t in (candidate.detected_geo_terms or []) if str(t).strip()]
+    for term in terms:
+        if term.lower() in _ABSTRACT_GEO_TERMS:
+            continue
+        geo = await geocode_location(term)
+        if geo:
+            return ResolvedLocation(
+                name=term,
+                lat=geo["lat"],
+                lon=geo["lon"],
+                geo_type=geo.get("type", "unknown"),
+                display_name=geo.get("display_name", term),
+            )
+    return None
 
 
 def _parse_location_response(content: str) -> Optional[str]:
@@ -65,17 +76,26 @@ def _parse_location_response(content: str) -> Optional[str]:
 
 async def resolve_geo_for_candidate(
     candidate: GeoCandidate,
-    llm: ChatGroq,
+    model: Optional[str] = None,
 ) -> Optional[ResolvedLocation]:
     """Resolve a single geo candidate to precise coordinates."""
     try:
-        prompt = GEO_RESOLVE_PROMPT.format(title=candidate.title)
-        response = await llm.ainvoke([
-            SystemMessage(content=SYSTEM_PROMPT),
-            HumanMessage(content=prompt),
-        ])
+        # Fast deterministic fallback to reduce LLM dependency and rate-limit failures.
+        fallback = await _fallback_resolve_from_terms(candidate)
+        if fallback is not None:
+            logger.debug(f"GEO FALLBACK RESOLVED: {fallback.name} ({fallback.lat:.2f},{fallback.lon:.2f})")
+            return fallback
 
-        location_name = _parse_location_response(response.content)
+        prompt = GEO_RESOLVE_PROMPT.format(title=candidate.title)
+        content = await request_chat_completion(
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": prompt},
+            ],
+            model=model or settings.FAST_MODEL,
+            temperature=0,
+        )
+        location_name = _parse_location_response(content)
         if not location_name:
             logger.debug(f"GEO RESOLVE: null for '{candidate.title[:50]}'")
             return None
@@ -128,7 +148,6 @@ def _get_cached_resolution(post_id: str) -> Optional[ResolvedLocation]:
 async def resolve_all_candidates(
     candidates: List[GeoCandidate],
 ) -> List[tuple[GeoCandidate, ResolvedLocation]]:
-    llm = _get_llm(settings.FAST_MODEL)
     results = []
     skipped = 0
 
@@ -143,7 +162,7 @@ async def resolve_all_candidates(
         await asyncio.sleep(2.0)  # 2s gap = ~30 RPM at free tier limit
         for attempt in range(3):
             try:
-                loc = await resolve_geo_for_candidate(candidate, llm)
+                loc = await resolve_geo_for_candidate(candidate, settings.FAST_MODEL)
                 if loc is not None:
                     results.append((candidate, loc))
                 break

@@ -1,19 +1,17 @@
 """
-Layer 6 — Contextual Intelligence (LLM Analysis via CrewAI)
-Feeds Reddit post + NewsBundle into an intelligence crew.
+Layer 6 — Contextual Intelligence (LLM Analysis)
+Feeds Reddit post + NewsBundle into a single intelligence prompt.
 Produces: executive summary, sentiment, risk level, strategic implications.
-No VADER. Pure LLM contextual reasoning.
+Pure LLM contextual reasoning.
 """
 import json
 import re
 import asyncio
 from typing import List, Optional
 
-from crewai import Agent, Task, Crew, Process
-from langchain_groq import ChatGroq
-
 from app.config import get_settings
 from app.database.models import StructuredEvent, NewsBundle, RawPost, NarrativeIntel
+from app.llm.client import request_chat_completion
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -21,15 +19,6 @@ settings = get_settings()
 
 _TOKEN_BUDGET = 80000   # Leave 20k buffer from 100k daily limit
 _tokens_used = 0
-
-
-def _build_llm() -> ChatGroq:
-    return ChatGroq(
-        api_key=settings.GROQ_API_KEY,
-        model="groq/llama-3.3-70b-versatile",   # ← prefix required by LiteLLM
-        temperature=0.1,
-        max_retries=3,
-    )
 
 
 def _format_news_context(bundle: NewsBundle) -> str:
@@ -44,12 +33,11 @@ def _format_news_context(bundle: NewsBundle) -> str:
     return "\n".join(lines)
 
 
-def _build_intel_crew(
+def _build_intel_prompt(
     post: RawPost,
     event: StructuredEvent,
     bundle: NewsBundle,
-) -> tuple[Crew, str]:
-    llm = _build_llm()
+) -> str:
     news_ctx = _format_news_context(bundle)
 
     context_block = f"""
@@ -64,19 +52,7 @@ CORROBORATING NEWS ({bundle.news_count} articles, {bundle.trusted_source_count} 
 {news_ctx}
 """
 
-    analyst = Agent(
-        role="Geopolitical Intelligence Analyst",
-        goal="Produce accurate, concise intelligence assessments of global events",
-        backstory=(
-            "Senior analyst at a think tank. Expert at synthesising social signals "
-            "and news data into actionable geopolitical intelligence."
-        ),
-        llm=llm,
-        verbose=False,
-        allow_delegation=False,
-    )
-
-    task_prompt = f"""
+    return f"""
 Analyse this geopolitical event and produce a structured intelligence assessment.
 
 {context_block}
@@ -94,21 +70,6 @@ Return STRICT JSON with exactly this structure (no markdown, no extra text):
   ]
 }}
 """
-
-    analysis_task = Task(
-        description=task_prompt,
-        expected_output="Valid JSON intelligence assessment",
-        agent=analyst,
-    )
-
-    crew = Crew(
-        agents=[analyst],
-        tasks=[analysis_task],
-        process=Process.sequential,
-        verbose=False,
-    )
-
-    return crew, event.id
 
 
 def _parse_intel_response(content: str, event_id: str) -> NarrativeIntel:
@@ -146,16 +107,22 @@ async def analyse_event(
     event: StructuredEvent,
     bundle: NewsBundle,
 ) -> NarrativeIntel:
-    """Run CrewAI intelligence crew for a single event."""
+    """Run intelligence analysis for a single event via shared Groq SDK client."""
     try:
-        crew, event_id = _build_intel_crew(post, event, bundle)
-
-        # CrewAI kickoff is sync — run in thread to avoid blocking
-        loop = asyncio.get_event_loop()
-        result = await loop.run_in_executor(None, crew.kickoff)
-
-        output = str(result)
-        intel = _parse_intel_response(output, event_id)
+        prompt = _build_intel_prompt(post, event, bundle)
+        output = await request_chat_completion(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a geopolitical intelligence analyst. Return only valid JSON.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            model=settings.PRIMARY_MODEL,
+            temperature=0.1,
+            max_tokens=1200,
+        )
+        intel = _parse_intel_response(output, event.id)
         logger.debug(
             f"INTEL [{event.primary_location}]: risk={intel.risk_level} "
             f"sentiment={intel.sentiment_label}"
@@ -166,7 +133,7 @@ async def analyse_event(
         err = str(e)
         if "429" in err or "rate_limit" in err.lower() or "RateLimitError" in err:
             raise   # Let outer retry loop handle it
-        logger.warning(f"CrewAI intelligence error: {e}")
+        logger.warning(f"Intelligence analysis error: {e}")
         return NarrativeIntel(
             event_id=event.id,
             summary="Analysis unavailable.",

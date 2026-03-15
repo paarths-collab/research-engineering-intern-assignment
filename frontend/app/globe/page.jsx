@@ -51,6 +51,21 @@ class HttpError extends Error {
   }
 }
 
+class TimeoutError extends Error {
+  constructor(message = "Request timed out") {
+    super(message);
+    this.name = "TimeoutError";
+  }
+}
+
+function isAbortLikeError(err) {
+  return (
+    err?.name === "AbortError" ||
+    err?.name === "TimeoutError" ||
+    /aborted|timed out/i.test(String(err?.message || ""))
+  );
+}
+
 function apiUrl(path) {
   const base = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
   if (!base) return path;
@@ -67,7 +82,7 @@ function apiUrl(path) {
 
 async function fetchJson(path, options = {}, timeoutMs = 20000) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const timer = setTimeout(() => controller.abort("timeout"), timeoutMs);
 
   try {
     const res = await fetch(apiUrl(path), {
@@ -85,6 +100,11 @@ async function fetchJson(path, options = {}, timeoutMs = 20000) {
     }
 
     return await res.json();
+  } catch (err) {
+    if (err?.name === "AbortError") {
+      throw new TimeoutError(`Request timed out after ${Math.round(timeoutMs / 1000)}s`);
+    }
+    throw err;
   } finally {
     clearTimeout(timer);
   }
@@ -166,7 +186,28 @@ function timeAgo(ts) {
 }
 
 function normalizePins(payload) {
-  const rawPins = Array.isArray(payload?.pins) ? payload.pins : [];
+  const rawPins = Array.isArray(payload?.pins)
+    ? payload.pins
+    : Array.isArray(payload?.events)
+      ? payload.events.map((event) => {
+          const loc = Array.isArray(event?.locations) ? event.locations[0] : null;
+          return {
+            id: event?.id,
+            event_id: event?.event_id || event?.id,
+            lat: loc?.lat,
+            lon: loc?.lon,
+            location: loc?.name || event?.location,
+            name: loc?.name || event?.location,
+            title: event?.title,
+            risk_level: event?.risk_level,
+            sentiment: event?.sentiment,
+            impact_score: event?.impact_score,
+            timestamp: event?.timestamp || event?.last_updated,
+            summary: event?.summary,
+            subreddit: event?.subreddit,
+          };
+        })
+      : [];
   return rawPins
     .map((pin, idx) => {
       const lat = Number(pin.lat);
@@ -266,7 +307,9 @@ export default function GlobePage() {
     try {
       const data = await fetchJson("/api/globe/events/map", { method: "GET" }, 30000);
       const mapped = normalizePins(data);
-      setPins(mapped);
+      if (mapped.length > 0) {
+        setPins(mapped);
+      }
 
       // Use ref so this callback never re-creates when selected changes
       const cur = selectedRef.current;
@@ -277,9 +320,10 @@ export default function GlobePage() {
         }
       }
     } catch (err) {
-      console.error("Failed to load globe pins", err);
-      setErrorMsg("Failed to load event locations from backend.");
-      setPins([]);
+      if (!isAbortLikeError(err)) {
+        console.error("Failed to load globe pins", err);
+      }
+      setErrorMsg(isAbortLikeError(err) ? "Request timed out while loading event locations." : "Failed to load event locations from backend.");
     } finally {
       setLoadingPins(false);
     }
@@ -305,7 +349,15 @@ export default function GlobePage() {
       );
       setNews(normalizeNewsArticles(data));
     } catch (err) {
-      console.error("Failed to load location news", err);
+      if (!isAbortLikeError(err)) {
+        console.error("Failed to load location news", err);
+      }
+
+      if (isAbortLikeError(err)) {
+        setErrorMsg("Request timed out while loading location news.");
+        setNews([]);
+        return;
+      }
 
       // Backward-compatible fallback: some backends expose event-level news analysis instead.
       if (err instanceof HttpError && err.status === 405 && pin?.event_id) {
@@ -322,7 +374,9 @@ export default function GlobePage() {
           }
           return;
         } catch (fallbackErr) {
-          console.error("Fallback news-analysis failed", fallbackErr);
+          if (!isAbortLikeError(fallbackErr)) {
+            console.error("Fallback news-analysis failed", fallbackErr);
+          }
         }
       }
 
@@ -357,7 +411,9 @@ export default function GlobePage() {
           return nextStatus;
         }
       } catch (err) {
-        console.error("Pipeline status polling failed", err);
+        if (!isAbortLikeError(err)) {
+          console.error("Pipeline status polling failed", err);
+        }
       }
       await sleep(3000);
     }
@@ -387,9 +443,11 @@ export default function GlobePage() {
         setLastRefresh(new Date().toISOString());
       }
     } catch (err) {
-      console.error("Pipeline refresh failed", err);
-      setPipelineState({ status: "failed", message: "Pipeline trigger failed." });
-      setErrorMsg("Could not refresh pipeline. Ensure backend service is reachable.");
+      if (!isAbortLikeError(err)) {
+        console.error("Pipeline refresh failed", err);
+      }
+      setPipelineState({ status: "failed", message: isAbortLikeError(err) ? "Pipeline request timed out." : "Pipeline trigger failed." });
+      setErrorMsg(isAbortLikeError(err) ? "Pipeline request timed out. Try again." : "Could not refresh pipeline. Ensure backend service is reachable.");
     } finally {
       setRefreshing(false);
     }
@@ -409,8 +467,10 @@ export default function GlobePage() {
       );
       setAiAnalysis(data.analysis_report || "No analysis generated.");
     } catch (err) {
-      console.error("AI Analysis failed", err);
-      setErrorMsg("Failed to generate AI analysis. Check backend logs.");
+      if (!isAbortLikeError(err)) {
+        console.error("AI Analysis failed", err);
+      }
+      setErrorMsg(isAbortLikeError(err) ? "AI analysis request timed out. Try again." : "Failed to generate AI analysis. Check backend logs.");
     } finally {
       setAnalyzingEvent(false);
     }

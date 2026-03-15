@@ -1,0 +1,14 @@
+# Keep deployment images small
+.git
+.gitignore
+.venv
+**/__pycache__/
+**/*.pyc
+node_modules/
+frontend/.next/
+
+# Exclude local runtime artifacts
+outputs/
+logs/
+old/
+tests/
