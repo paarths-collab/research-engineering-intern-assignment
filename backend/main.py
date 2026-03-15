@@ -880,7 +880,7 @@ if _env_origins.strip():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=frontend_origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -932,9 +932,9 @@ def root():
         "status": "Narrative Intelligence API running",
         "service": "NarrativeSignal Unified Backend",
         "version": "2.0.0",
-        "docs": "/docs",
+        "docs": "https://research-engineering-intern-assignment-zq0i.onrender.com/docs",
         "modules": {
-            "polarize": "/api/polar — or shortcut /api/subreddits, /api/treemap/:sub …",
+            "polarize": "/api/polar",
             "network":  "/api/network",
             "stream":   "/api/stream",
             "globe":    "/api/globe",

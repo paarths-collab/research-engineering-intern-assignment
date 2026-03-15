@@ -66,6 +66,8 @@ tmp_*.json
 output_brief.txt
 test_brief.json
 
-# Accidental root npm artifacts (frontend has its own package files)
-/package.json
-/package-lock.json
+# Large data files
+*.db
+*.npy
+data/
+backend/data/

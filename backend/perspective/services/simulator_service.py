@@ -370,7 +370,8 @@ class PerspectiveSimulatorService:
         )
 
     def _fetch_globe_events(self, limit: int = 20) -> list[dict]:
-        base_url = os.getenv("PERSPECTIVE_GLOBE_API_URL", "http://localhost:8000/api/globe")
+        port = os.getenv("PORT", "8000")
+        base_url = os.getenv("PERSPECTIVE_GLOBE_API_URL", f"http://localhost:{port}/api/globe")
         target = f"{base_url.rstrip('/')}/events/"
 
         try:
