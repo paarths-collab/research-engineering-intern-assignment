@@ -827,7 +827,7 @@ except Exception as e:
 async def _main_lifespan(application: FastAPI):
     # streamgraph2 — init DB pool
     try:
-        from streamgraph2.data import db as _sg_db2
+        import streamgraph2.data.db as _sg_db2
         await _sg_db2.init_pool()
         log.info("✓ streamgraph2 init_pool() called (main lifespan)")
     except ImportError as e:
@@ -862,7 +862,7 @@ async def _main_lifespan(application: FastAPI):
 
     # Cleanup
     try:
-        from streamgraph2.data import db as _sg_db2
+        import streamgraph2.data.db as _sg_db2
         await _sg_db2.close_pool()
     except Exception:
         pass
