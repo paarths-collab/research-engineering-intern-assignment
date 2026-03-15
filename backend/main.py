@@ -924,41 +924,33 @@ def diagnostic():
     
     db_stats = "Not Found"
     db_error = None
-    query_result = None
+    detailed_tables = []
     query_error = None
     
     if db_file.exists():
         try:
             con = duckdb.connect(str(db_file), read_only=True)
-            tables = [r[0] for r in con.execute("SHOW TABLES").fetchall()]
-            db_stats = f"Found, Tables: {tables}"
+            # Get detailed table info
+            table_rows = con.execute("SELECT table_name, table_type FROM information_schema.tables").fetchall()
+            detailed_tables = [{"name": r[0], "type": r[1]} for r in table_rows]
             
-            # Test the exact query
-            sql = """
-                SELECT
-                    n.narrative_id,
-                    n.cluster_id,
-                    COALESCE(n.spread_strength, 0) AS spread_score
-                FROM narratives n
-                LIMIT 5
-            """
+            # Test a query on one of the suspected views
             try:
-                df = con.execute(sql).fetchdf()
-                query_result = df.to_dict(orient="records")
+                con.execute("SELECT * FROM narratives LIMIT 1").fetchall()
+                db_stats = "Query on 'narratives' successful"
             except Exception as qe:
-                query_error = str(qe)
-                
+                query_error = f"Query on 'narratives' failed: {str(qe)}"
+            
             con.close()
         except Exception as e:
-            db_stats = "Error"
             db_error = str(e)
             
     return {
         "db_exists": db_file.exists(),
         "files_in_data": files,
+        "detailed_tables": detailed_tables,
         "db_stats": db_stats,
         "db_error": db_error,
-        "query_result": query_result,
         "query_error": query_error,
         "pandas_version": pandas.__version__
     }
