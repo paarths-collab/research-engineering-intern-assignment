@@ -926,6 +926,40 @@ app.mount("/api/perspective", perspective_app)
 app.mount("/api", polar_app)
 
 
+@app.get("/api/diag")
+def diagnostic():
+    import os, duckdb
+    from pathlib import Path
+    data_path = os.getenv("DATA_PATH", "/app/data")
+    db_file = Path(data_path) / "analysis_v2.db"
+    
+    files = []
+    if Path(data_path).exists():
+        files = os.listdir(data_path)
+    
+    db_stats = "Not Found"
+    db_error = None
+    if db_file.exists():
+        try:
+            con = duckdb.connect(str(db_file), read_only=True)
+            tables = [r[0] for r in con.execute("SHOW TABLES").fetchall()]
+            db_stats = f"Found, Tables: {tables}"
+            con.close()
+        except Exception as e:
+            db_stats = "Error"
+            db_error = str(e)
+            
+    return {
+        "data_path": data_path,
+        "db_file": str(db_file),
+        "db_exists": db_file.exists(),
+        "files_in_data": files,
+        "db_stats": db_stats,
+        "db_error": db_error,
+        "cwd": os.getcwd()
+    }
+
+
 @app.get("/", include_in_schema=False)
 def root():
     return {
