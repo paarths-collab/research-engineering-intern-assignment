@@ -913,7 +913,7 @@ async def rate_limit_heavy_endpoints(request: Request, call_next):
 
 @app.get("/diag")
 def diagnostic():
-    import os, duckdb
+    import os, duckdb, pandas
     from pathlib import Path
     data_path = os.getenv("DATA_PATH", "/app/data")
     db_file = Path(data_path) / "analysis_v2.db"
@@ -924,24 +924,43 @@ def diagnostic():
     
     db_stats = "Not Found"
     db_error = None
+    query_result = None
+    query_error = None
+    
     if db_file.exists():
         try:
             con = duckdb.connect(str(db_file), read_only=True)
             tables = [r[0] for r in con.execute("SHOW TABLES").fetchall()]
             db_stats = f"Found, Tables: {tables}"
+            
+            # Test the exact query
+            sql = """
+                SELECT
+                    n.narrative_id,
+                    n.cluster_id,
+                    COALESCE(n.spread_strength, 0) AS spread_score
+                FROM narratives n
+                LIMIT 5
+            """
+            try:
+                df = con.execute(sql).fetchdf()
+                query_result = df.to_dict(orient="records")
+            except Exception as qe:
+                query_error = str(qe)
+                
             con.close()
         except Exception as e:
             db_stats = "Error"
             db_error = str(e)
             
     return {
-        "data_path": data_path,
-        "db_file": str(db_file),
         "db_exists": db_file.exists(),
         "files_in_data": files,
         "db_stats": db_stats,
         "db_error": db_error,
-        "cwd": os.getcwd()
+        "query_result": query_result,
+        "query_error": query_error,
+        "pandas_version": pandas.__version__
     }
 
 
