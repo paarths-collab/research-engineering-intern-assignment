@@ -53,10 +53,37 @@ EDGE_COLORS = {
 }
 
 
+_is_db_fixed = False
+
 def _db():
+    global _is_db_fixed
     if not DB_PATH.exists():
         raise HTTPException(status_code=500, detail=f"Database not found: {DB_PATH}")
-    return duckdb.connect(str(DB_PATH), read_only=True)
+
+    # Recreate the views dynamically on Render to fix the hardcoded C:\ paths
+    # from the original pushed database.
+    con = duckdb.connect(str(DB_PATH), read_only=False)
+    if not _is_db_fixed:
+        try:
+            data_dir = Path(os.getenv("DATA_PATH", str(DEFAULT_DATA_PATH)))
+            csvs = {
+                "narratives": ("narrative_intelligence_summary.csv", "SELECT narrative_id AS internal_system_id, title AS narrative_theme, domains, top_subreddits, top_authors FROM read_csv_auto(?, HEADER=TRUE)"),
+                "topics": ("narrative_topic_mapping.csv", "SELECT narrative_id AS internal_system_id, topic_cluster, topic_label FROM read_csv_auto(?, HEADER=TRUE)"),
+                "chains": ("narrative_spread_chain_table.csv", "SELECT narrative_id AS internal_system_id, step_number, from_subreddit, to_subreddit, minutes_to_jump FROM read_csv_auto(?, HEADER=TRUE)"),
+                "amplification": ("author_amplification_summary.csv", "SELECT * FROM read_csv_auto(?, HEADER=TRUE)"),
+                "daily_volume": ("daily_volume_v2.csv", "SELECT * FROM read_csv_auto(?, HEADER=TRUE)"),
+                "echo_chambers": ("echo_chamber_scores.csv", "SELECT * FROM read_csv_auto(?, HEADER=TRUE)"),
+                "ideological_matrix": ("ideological_distance_matrix.csv", "SELECT * FROM read_csv_auto(?, HEADER=TRUE)")
+            }
+            for view_name, (fname, sql_template) in csvs.items():
+                fpath = data_dir / fname
+                if fpath.exists():
+                    con.execute(f"CREATE OR REPLACE VIEW {view_name} AS " + sql_template.replace("?", f"'{fpath.resolve().as_posix()}'"))
+            _is_db_fixed = True
+        except Exception as e:
+            log.warning(f"Failed to patch DuckDB views: {e}")
+
+    return con
 
 
 def _norm_nid(narrative_id: str) -> str:
