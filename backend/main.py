@@ -911,22 +911,7 @@ async def rate_limit_heavy_endpoints(request: Request, call_next):
     _rate_limit_buckets[key] = bucket
     return await call_next(request)
 
-# Mount each module under its prefix
-# Frontend proxy (next.config.js) rewrites /api/* → localhost:8000/*
-# So these are accessible at /api/polar/*, /api/network/*, etc.
-app.mount("/api/polar", polar_app)
-app.mount("/api/network", network_app)
-app.mount("/api/stream", stream_app)
-app.mount("/api/globe", globe_app)
-app.mount("/api/chatbot", hybrid_chat_app)
-app.mount("/api/perspective", perspective_app)
-
-# Convenience top-level shortcuts used by the Polar dashboard frontend
-# (frontend calls /api/subreddits, /api/treemap/:sub, etc.)
-app.mount("/api", polar_app)
-
-
-@app.get("/api/diag")
+@app.get("/diag")
 def diagnostic():
     import os, duckdb
     from pathlib import Path
@@ -958,6 +943,21 @@ def diagnostic():
         "db_error": db_error,
         "cwd": os.getcwd()
     }
+
+
+# Mount each module under its prefix
+# Frontend proxy (next.config.js) rewrites /api/* → localhost:8000/*
+# So these are accessible at /api/polar/*, /api/network/*, etc.
+app.mount("/api/polar", polar_app)
+app.mount("/api/network", network_app)
+app.mount("/api/stream", stream_app)
+app.mount("/api/globe", globe_app)
+app.mount("/api/chatbot", hybrid_chat_app)
+app.mount("/api/perspective", perspective_app)
+
+# Convenience top-level shortcuts used by the Polar dashboard frontend
+# (frontend calls /api/subreddits, /api/treemap/:sub, etc.)
+app.mount("/api", polar_app)
 
 
 @app.get("/", include_in_schema=False)
