@@ -713,7 +713,7 @@ except Exception as e:
 # streamgraph2 — ecosystem + spike routers
 stream_app = None
 try:
-    from streamgraph2.data import db as _sg_db
+    import streamgraph2.data.db as _sg_db
     from streamgraph2.routers import ecosystem, spike, cluster
     from contextlib import asynccontextmanager as _acm2
 
