@@ -66,8 +66,7 @@ tmp_*.json
 output_brief.txt
 test_brief.json
 
-# Large data files
-*.db
-*.npy
-data/
-backend/data/
+# Large raw data (essential small DBs are tracked)
+raw_data/
+logs/
+temp/
