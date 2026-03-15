@@ -62,9 +62,10 @@ def _db():
 
     # Recreate the views dynamically on Render to fix the hardcoded C:\ paths
     # from the original pushed database.
-    con = duckdb.connect(str(DB_PATH), read_only=False)
     if not _is_db_fixed:
         try:
+            # Briefly open in write mode to patch views
+            patch_con = duckdb.connect(str(DB_PATH), read_only=False)
             data_dir = Path(os.getenv("DATA_PATH", str(DEFAULT_DATA_PATH)))
             csvs = {
                 "narratives": ("narrative_intelligence_summary.csv", "SELECT narrative_id AS internal_system_id, title AS narrative_theme, domains, top_subreddits, top_authors FROM read_csv_auto(?, HEADER=TRUE)"),
@@ -78,12 +79,14 @@ def _db():
             for view_name, (fname, sql_template) in csvs.items():
                 fpath = data_dir / fname
                 if fpath.exists():
-                    con.execute(f"CREATE OR REPLACE VIEW {view_name} AS " + sql_template.replace("?", f"'{fpath.resolve().as_posix()}'"))
+                    patch_con.execute(f"CREATE OR REPLACE VIEW {view_name} AS " + sql_template.replace("?", f"'{fpath.resolve().as_posix()}'"))
+            patch_con.close()
             _is_db_fixed = True
         except Exception as e:
             log.warning(f"Failed to patch DuckDB views: {e}")
 
-    return con
+    # Return a read-only connection for the request
+    return duckdb.connect(str(DB_PATH), read_only=True)
 
 
 def _norm_nid(narrative_id: str) -> str:
