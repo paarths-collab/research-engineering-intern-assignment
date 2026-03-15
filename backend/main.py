@@ -929,6 +929,7 @@ app.mount("/api", polar_app)
 @app.get("/", include_in_schema=False)
 def root():
     return {
+        "status": "Narrative Intelligence API running",
         "service": "NarrativeSignal Unified Backend",
         "version": "2.0.0",
         "docs": "/docs",
