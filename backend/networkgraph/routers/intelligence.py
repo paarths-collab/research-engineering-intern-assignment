@@ -28,9 +28,18 @@ log = logging.getLogger("sntis.intelligence")
 router = APIRouter(prefix="/intelligence", tags=["intelligence"])
 
 # Resolve data directory: try Render persistent disk first, then env var, then relative
-_RENDER_DATA = Path("/app/data")
-_REL_DATA = Path(__file__).resolve().parents[3] / ".." / "data"  # backend/../data
-DEFAULT_DATA_PATH = _RENDER_DATA if _RENDER_DATA.exists() else _REL_DATA
+# Resolve data directory: try Render persistent disk first, then seed path, then relative
+_RENDER_PERSISTENT = Path("/app/data")
+_RENDER_SEED = Path("/app/seed_data")
+_REL_DATA = Path(__file__).resolve().parents[3] / "data" 
+
+if _RENDER_PERSISTENT.exists():
+    DEFAULT_DATA_PATH = _RENDER_PERSISTENT
+elif _RENDER_SEED.exists():
+    DEFAULT_DATA_PATH = _RENDER_SEED
+else:
+    DEFAULT_DATA_PATH = _REL_DATA
+
 DB_PATH = Path(os.getenv("DATA_PATH", str(DEFAULT_DATA_PATH))) / "analysis_v2.db"
 MAX_DOMAINS_PER_SUB = 10
 MAX_AUTHORS_PER_SUB = 15
@@ -58,28 +67,29 @@ _is_db_fixed = False
 def _db():
     global _is_db_fixed
     if not DB_PATH.exists():
-        raise HTTPException(status_code=500, detail=f"Database not found: {DB_PATH}")
+        raise HTTPException(status_code=500, detail=f"Database not found at {DB_PATH.absolute()}")
 
-    # Recreate the views dynamically on Render to fix the hardcoded C:\ paths
-    # from the original pushed database.
+    # Recreate the views dynamically on Render to fix the hardcoded local paths
+    # from the original database creation.
     if not _is_db_fixed:
         try:
             # Briefly open in write mode to patch views
             patch_con = duckdb.connect(str(DB_PATH), read_only=False)
-            data_dir = Path(os.getenv("DATA_PATH", str(DEFAULT_DATA_PATH)))
+            data_dir = DEFAULT_DATA_PATH
             csvs = {
-                "narratives": ("narrative_intelligence_summary.csv", "SELECT narrative_id AS internal_system_id, title AS narrative_theme, domains, top_subreddits, top_authors FROM read_csv_auto(?, HEADER=TRUE)"),
-                "topics": ("narrative_topic_mapping.csv", "SELECT narrative_id AS internal_system_id, topic_cluster, topic_label FROM read_csv_auto(?, HEADER=TRUE)"),
-                "chains": ("narrative_spread_chain_table.csv", "SELECT narrative_id AS internal_system_id, step_number, from_subreddit, to_subreddit, minutes_to_jump FROM read_csv_auto(?, HEADER=TRUE)"),
-                "amplification": ("author_amplification_summary.csv", "SELECT * FROM read_csv_auto(?, HEADER=TRUE)"),
-                "daily_volume": ("daily_volume_v2.csv", "SELECT * FROM read_csv_auto(?, HEADER=TRUE)"),
-                "echo_chambers": ("echo_chamber_scores.csv", "SELECT * FROM read_csv_auto(?, HEADER=TRUE)"),
-                "ideological_matrix": ("ideological_distance_matrix.csv", "SELECT * FROM read_csv_auto(?, HEADER=TRUE)")
+                "narratives": "narrative_intelligence_summary.csv",
+                "topics": "narrative_topic_mapping.csv",
+                "chains": "narrative_spread_chain_table.csv",
+                "amplification": "author_amplification_summary.csv",
+                "daily_volume": "daily_volume_v2.csv",
+                "echo_chambers": "echo_chamber_scores.csv",
+                "ideological_matrix": "ideological_distance_matrix.csv"
             }
-            for view_name, (fname, sql_template) in csvs.items():
+            for view_name, fname in csvs.items():
                 fpath = data_dir / fname
                 if fpath.exists():
-                    patch_con.execute(f"CREATE OR REPLACE VIEW {view_name} AS " + sql_template.replace("?", f"'{fpath.resolve().as_posix()}'"))
+                    # Use SELECT * to ensure we get all analytical columns required by the app
+                    patch_con.execute(f"CREATE OR REPLACE VIEW {view_name} AS SELECT * FROM read_csv_auto('{fpath.resolve().as_posix()}')")
             patch_con.close()
             _is_db_fixed = True
         except Exception as e:
