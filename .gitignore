@@ -34,3 +34,31 @@ node_modules/
 .next/
 out/
 build/
+
+# Local frontend env
+frontend/.env.local
+
+# Runtime/cache artifacts
+.pytest_cache/
+logs/
+backend/logs/
+backend/globe/logs/
+backend/globe/outputs/
+backend/globe/tests/logs/
+tests/logs/
+outputs/
+backend/outputs/
+*.duckdb
+*.duckdb.wal
+analysis_v2.db
+
+# Temporary/debug outputs
+temp_tests/
+tmp.json
+tmp_*.json
+output_brief.txt
+test_brief.json
+
+# Accidental root npm artifacts (frontend has its own package files)
+/package.json
+/package-lock.json
