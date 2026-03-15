@@ -8,7 +8,7 @@ It never touches the internet or guesses events.
 import asyncio
 import logging
 
-from litellm import acompletion, RateLimitError
+from litellm import acompletion, RateLimitError # type: ignore
 from streamgraph2.data.config import GROQ_API_KEY, LLM_MODEL
 
 log = logging.getLogger(__name__)

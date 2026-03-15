@@ -7,6 +7,7 @@ import asyncio
 import json
 import uuid
 from datetime import date, datetime, timezone
+from collections import Counter
 from pathlib import Path
 from typing import List, Optional
 
@@ -166,6 +167,17 @@ def _build_map_events(
     for cluster in clusters:
         # Aggregate reddit metrics from cluster posts
         cluster_posts = [posts_map[pid] for pid in cluster.post_ids if pid in posts_map]
+        sorted_posts = sorted(cluster_posts, key=lambda p: (p.score, p.num_comments), reverse=True)
+        representative_title = sorted_posts[0].title if sorted_posts else f"{cluster.primary_location} is being discussed across Reddit."
+        if representative_title and representative_title[-1] not in ".!?":
+            representative_title = representative_title + "."
+
+        subreddit_counts = Counter(p.subreddit for p in cluster_posts)
+        primary_subreddit = subreddit_counts.most_common(1)[0][0] if subreddit_counts else ""
+        latest_ts = max((p.created_utc for p in cluster_posts), default=0)
+        latest_iso = datetime.fromtimestamp(latest_ts, tz=timezone.utc).isoformat() if latest_ts else datetime.now(timezone.utc).isoformat()
+
+        sentiment_to_score = {"negative": -0.6, "neutral": 0.0, "mixed": 0.15, "positive": 0.6}
         reddit_metrics = {
             "total_score": sum(p.score for p in cluster_posts),
             "total_comments": sum(p.num_comments for p in cluster_posts),
@@ -198,15 +210,20 @@ def _build_map_events(
 
         map_event = MapEvent(
             id=cluster.cluster_id,
-            title=f"{cluster.primary_location} — {cluster.escalation_level}",
+            event_id=cluster.cluster_id,
+            title=representative_title,
             locations=[ResolvedLocation(
                 name=cluster.primary_location,
                 lat=cluster.lat,
                 lon=cluster.lon,
             )],
+            timestamp=latest_iso,
             impact_score=cluster.average_impact,
             sentiment=cluster.dominant_sentiment,
+            sentiment_score=sentiment_to_score.get((cluster.dominant_sentiment or "neutral").lower(), 0.0),
             risk_level=cluster.risk_level,
+            subreddit=primary_subreddit,
+            reddit_post_ids=[p.id for p in sorted_posts],
             reddit_metrics=reddit_metrics,
             news_sources=news_sources,
             confidence=cluster.confidence,
@@ -239,10 +256,24 @@ def _save_output(map_events: List[MapEvent], run_id: str) -> str:
 
 
 def load_latest_output() -> Optional[dict]:
-    """Load the most recent output JSON."""
-    data_dir = Path(settings.DATA_DIR)
-    files = sorted(data_dir.glob("global_events_*.json"), reverse=True)
-    if not files:
-        return None
-    with open(files[0]) as f:
-        return json.load(f)
+    """Load the most recent output JSON.
+
+    Searches multiple candidate directories so the file is found regardless
+    of whether uvicorn is launched from the project root or backend/globe/.
+    """
+    # Directory containing this very file: backend/globe/app/pipeline/
+    _here = Path(__file__).resolve().parent
+    search_dirs = [
+        Path(settings.DATA_DIR),                    # configured (may be relative)
+        _here.parent.parent.parent / "outputs",     # backend/globe/outputs/
+        _here.parent.parent.parent.parent.parent / "outputs",  # project-root/outputs/
+    ]
+    for data_dir in search_dirs:
+        try:
+            files = sorted(data_dir.glob("global_events_*.json"), reverse=True)
+            if files:
+                with open(files[0]) as f:
+                    return json.load(f)
+        except Exception:
+            continue
+    return None

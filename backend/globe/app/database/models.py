@@ -103,10 +103,15 @@ class EventCluster(BaseModel):
 class MapEvent(BaseModel):
     id: str
     title: str
+    event_id: str = ""
     locations: List[ResolvedLocation] = []
+    timestamp: str = ""
     impact_score: float = 0.0
     sentiment: str = "neutral"
+    sentiment_score: float = 0.5
     risk_level: str = "Low"
+    subreddit: str = ""
+    reddit_post_ids: List[str] = []
     reddit_metrics: dict = {}
     news_sources: List[dict] = []
     confidence: str = "Low"

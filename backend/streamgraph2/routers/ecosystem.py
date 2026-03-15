@@ -1,10 +1,14 @@
 from __future__ import annotations
 import logging
 from fastapi import APIRouter, HTTPException
-from litellm import acompletion
 from streamgraph2.logic import media_ecosystem as me
 from streamgraph2.data.config import GROQ_API_KEY, LLM_MODEL
 from streamgraph2.models.schemas import MediaBriefRequest
+
+try:
+    from litellm import acompletion
+except Exception:  # pragma: no cover
+    acompletion = None
 
 router = APIRouter(tags=["Media Ecosystem"])
 
@@ -59,6 +63,9 @@ async def media_brief(req: MediaBriefRequest):
     return {"subreddit": req.subreddit, "brief": brief, "payload": payload}
 
 async def _call_media_llm(payload: dict) -> str:
+    if acompletion is None:
+        raise HTTPException(503, "LLM brief unavailable: install litellm to enable this endpoint.")
+
     sub     = payload["subreddit"]
     score   = payload["echo_score"]
     domains = payload["top_domains"]

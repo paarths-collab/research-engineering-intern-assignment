@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import NarrativeTimelineChart from "@/components/stream/NarrativeTimelineChart";
 
-const ACCENT = "#00E5FF";
-const GOLD   = "#FFB800";
+const ACCENT = "#FFB800";
+const GOLD   = "#8B7500";
 const CRIT   = "#FF4081";
-const BG     = "#05070A";
+const BG     = "#0a0806";
 
 function addDays(dateStr, n) {
   const d = new Date(dateStr);
@@ -18,7 +18,7 @@ function addDays(dateStr, n) {
 function SectionHeader({ label, badge, accent = ACCENT }) {
   return (
     <div className="flex items-center gap-3 px-5 py-3"
-      style={{ borderBottom: "1px solid rgba(0,229,255,0.06)" }}>
+      style={{ borderBottom: "1px solid rgba(255,184,0,0.06)" }}>
       <div className="w-1 h-5 flex-shrink-0" style={{ background: accent, boxShadow: `0 0 8px ${accent}55` }} />
       <h2 className="text-[11px] font-black uppercase tracking-[0.2em] font-mono" style={{ color: accent }}>
         {label}
@@ -43,7 +43,7 @@ function Spinner({ color = ACCENT }) {
 const SENTIMENT_COLOR = {
   outrage:     "#FF4081",
   alarm:       "#FFB800",
-  celebratory: "#00E5FF",
+  celebratory: "#FFB800",
   skeptical:   "#B388FF",
   neutral:     "rgba(255,255,255,0.3)",
 };
@@ -54,8 +54,8 @@ function TopicCard({ topic, isSelected, onClick }) {
     <motion.button layout whileHover={{ scale: 1.01 }} onClick={onClick}
       className="w-full text-left px-4 py-3 transition-all"
       style={{
-        background: isSelected ? `${ACCENT}10` : "rgba(0,229,255,0.02)",
-        border:     `1px solid ${isSelected ? `${ACCENT}45` : "rgba(0,229,255,0.08)"}`,
+        background: isSelected ? `${ACCENT}10` : "rgba(255,184,0,0.02)",
+        border:     `1px solid ${isSelected ? `${ACCENT}45` : "rgba(255,184,0,0.08)"}`,
         boxShadow:  isSelected ? `0 0 18px ${ACCENT}15` : "none",
       }}>
       <p className="text-[12px] font-semibold text-white/90 leading-snug mb-2">{topic.topic}</p>
@@ -71,11 +71,21 @@ function TopicCard({ topic, isSelected, onClick }) {
         )}
         {topic.subreddits?.map(s => (
           <span key={s} className="text-[9px] font-mono px-1.5 py-0.5"
-            style={{ background: "rgba(0,229,255,0.07)", color: ACCENT, border: "1px solid rgba(0,229,255,0.15)" }}>
+            style={{ background: "rgba(255,184,0,0.07)", color: ACCENT, border: "1px solid rgba(255,184,0,0.15)" }}>
             r/{s}
           </span>
         ))}
       </div>
+      {topic.example_headlines?.length > 0 && (
+        <ul className="mt-2 space-y-1">
+          {topic.example_headlines.slice(0, 3).map((h, i) => (
+            <li key={i} className="text-[9px] leading-snug truncate"
+              style={{ color: "rgba(255,255,255,0.3)", borderLeft: "2px solid rgba(255,184,0,0.15)", paddingLeft: 6 }}>
+              {h}
+            </li>
+          ))}
+        </ul>
+      )}
     </motion.button>
   );
 }
@@ -83,7 +93,7 @@ function TopicCard({ topic, isSelected, onClick }) {
 function StatBadge({ label, value, accent = ACCENT }) {
   return (
     <div className="flex flex-col px-4 py-2.5"
-      style={{ borderRight: "1px solid rgba(0,229,255,0.06)" }}>
+      style={{ borderRight: "1px solid rgba(255,184,0,0.06)" }}>
       <span className="text-lg font-black font-mono leading-none" style={{ color: accent }}>{value}</span>
       <span className="text-[9px] font-mono uppercase tracking-widest text-white/30 mt-0.5">{label}</span>
     </div>
@@ -182,7 +192,7 @@ export default function StreamPage() {
 
       {/* ── Header ─────────────────────────────────────── */}
       <header className="flex-shrink-0 px-8 py-5 flex items-center justify-between"
-        style={{ borderBottom: "1px solid rgba(0,229,255,0.07)", background: "rgba(0,0,0,0.4)" }}>
+        style={{ borderBottom: "1px solid rgba(255,184,0,0.07)", background: "rgba(0,0,0,0.4)" }}>
         <div className="flex items-center gap-5">
           <div className="relative">
             <div className="absolute -inset-2 opacity-20 blur-lg animate-pulse"
@@ -212,10 +222,10 @@ export default function StreamPage() {
       <main className="flex-1 flex flex-col gap-0">
 
         {/* ── Section 1: Timeline ─────────────────────── */}
-        <section style={{ background: "rgba(0,0,0,0.2)", borderBottom: "1px solid rgba(0,229,255,0.07)" }}>
+        <section style={{ background: "rgba(0,0,0,0.2)", borderBottom: "1px solid rgba(255,184,0,0.07)" }}>
           <SectionHeader label="Narrative Timeline" badge="TOTAL DAILY VOLUME · D3" />
           <div className="px-5 py-2 flex items-center gap-3"
-            style={{ borderBottom: "1px solid rgba(0,229,255,0.04)" }}>
+            style={{ borderBottom: "1px solid rgba(255,184,0,0.04)" }}>
             <p className="text-[9px] uppercase tracking-widest text-white/20">
               Click anywhere on the chart to extract narrative topics · spike markers show z-score anomalies
             </p>
@@ -227,7 +237,7 @@ export default function StreamPage() {
             )}
           </div>
 
-          <div className="mx-3 my-3" style={{ height: "340px", background: "rgba(0,229,255,0.01)", border: "1px solid rgba(0,229,255,0.06)" }}>
+          <div className="mx-3 my-3" style={{ height: "340px", background: "rgba(255,184,0,0.01)", border: "1px solid rgba(255,184,0,0.06)" }}>
             {loading ? (
               <div className="h-full flex items-center justify-center gap-3">
                 <Spinner />
@@ -277,7 +287,7 @@ export default function StreamPage() {
             <motion.section key="topics" ref={topicsSectionRef}
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              style={{ borderBottom: "1px solid rgba(0,229,255,0.07)" }}>
+              style={{ borderBottom: "1px solid rgba(255,184,0,0.07)" }}>
               <SectionHeader
                 label="Detected Narrative Topics"
                 badge={selectedDate ? `±10d window · ${selectedDate}` : "LLM_STAGE_1"}
@@ -401,6 +411,20 @@ export default function StreamPage() {
                               style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
                               <span className="text-[10px] text-white/55">{domain}</span>
                               <span className="text-[9px] text-white/20">{cnt}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {analysis.bridge_authors?.length > 0 && (
+                      <div>
+                        <p className="text-[9px] uppercase tracking-widest text-white/25 mb-2">Bridge Authors</p>
+                        <div className="flex flex-wrap gap-2">
+                          {analysis.bridge_authors.map(author => (
+                            <div key={author} className="flex items-center gap-1 px-2.5 py-1"
+                              style={{ background: `${GOLD}07`, border: `1px solid ${GOLD}18` }}>
+                              <span className="text-[10px] font-mono" style={{ color: GOLD }}>u/{author}</span>
                             </div>
                           ))}
                         </div>

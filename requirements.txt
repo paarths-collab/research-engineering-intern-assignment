@@ -13,10 +13,8 @@ pandas==2.2.3
 numpy==1.26.4
 scikit-learn==1.5.2
 
-# ── Embeddings / NLP ──────────────────────────────────────────
-torch==2.5.1
-sentence-transformers==3.3.1
-transformers==4.46.0
+# ── Embeddings / NLP (Heavy models removed for deployment) ─────
+faiss-cpu==1.8.0.post1
 bertopic==0.16.2
 umap-learn==0.5.7
 hdbscan==0.8.40
@@ -41,8 +39,6 @@ requests
 beautifulsoup4
 feedparser
 trafilatura
-playwright
-playwright-stealth
 ddgs
 lxml==5.3.0
 lxml_html_clean==0.2.2
@@ -54,4 +50,3 @@ youtube-transcript-api
 # ── Testing ───────────────────────────────────────────────────
 pytest
 pytest-asyncio
-

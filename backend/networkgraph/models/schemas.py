@@ -10,9 +10,18 @@ class SNTISModel(BaseModel):
     @field_validator("*", mode="before")
     @classmethod
     def _nan_to_none(cls, v):
+        # Fallback for pandas/numpy NaN to None
+        # Lists and dicts should be returned as-is
         if isinstance(v, (list, dict)):
             return v
+            
+        import numpy as np
+        # Numpy arrays and pandas Series are list-like; pd.isna on them returns an array
+        if isinstance(v, (np.ndarray, pd.Series, pd.Index)):
+            return v
+            
         try:
+            # Only call pd.isna on scalars or single values
             if pd.isna(v):
                 return None
         except Exception:
@@ -113,7 +122,36 @@ class NarrativeDetail(SNTISModel):
     # Joined from edge table
     sample_title: Optional[str] = None
     sample_url: Optional[str] = None
+    primary_domain: Optional[str] = None
     origin_subreddit: Optional[str] = None
+
+
+# ─────────────────────────────────────────────
+# NARRATIVE EXPLORER & OVERLAY
+# ─────────────────────────────────────────────
+
+class NarrativeOverlayStep(SNTISModel):
+    source: str           # subreddit node id
+    target: str           # subreddit node id
+    timestamp: Optional[str] = None
+    sequence_index: int
+
+class NarrativeOverlayResponse(SNTISModel):
+    narrative_id: str
+    edges: List[NarrativeOverlayStep]
+
+class NarrativeListEntry(SNTISModel):
+    narrative_id: str
+    representative_title: str
+    author_count: int
+    community_count: int
+    spread_score: float
+    primary_domain: Optional[str] = None
+    first_seen: Optional[str] = None
+
+class NarrativeListResponse(SNTISModel):
+    # Keys like "3+", "4+", "5+", "6+", "10+"
+    tabs: Dict[str, List[NarrativeListEntry]]
 
 
 # ─────────────────────────────────────────────
@@ -168,6 +206,21 @@ class AnalyzeResponse(SNTISModel):
     analysis: Optional[NarrativeAnalysis] = None
     raw_llm_response: Optional[str] = None
     error: Optional[str] = None
+
+
+# ─────────────────────────────────────────────
+# NODE INTELLIGENCE (Intelligence Map)
+# ─────────────────────────────────────────────
+
+class AnalyzeNodeRequest(SNTISModel):
+    node_type: str
+    node_id: str
+    context_data: Optional[Dict[str, Any]] = None
+
+class AnalyzeNodeResponse(SNTISModel):
+    analysis: str
+    risk_level: Optional[str] = None
+    key_points: Optional[List[str]] = []
 
 
 # ─────────────────────────────────────────────
