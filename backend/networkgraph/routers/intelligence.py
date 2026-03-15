@@ -848,11 +848,11 @@ def get_leaderboard(
                 p.author,
                 COUNT(*) AS post_count,
                 COUNT(DISTINCT p.subreddit) AS community_count,
-                COALESCE(a.total_relative_amplification, 0.0) AS amplification_score
+                COALESCE(a.amplification_events, 0) AS amplification_score
             FROM posts p
             LEFT JOIN amplification a ON a.author = p.author
             {where_sql}
-            GROUP BY p.author, a.total_relative_amplification
+            GROUP BY p.author, a.amplification_events
             ORDER BY post_count DESC, amplification_score DESC
             LIMIT ?
             """,
@@ -1078,7 +1078,7 @@ def get_intelligence_graph(
                 )
 
         else:  # amplifiers
-            amp_rows = con.execute("SELECT author, total_relative_amplification FROM amplification").fetchall()
+            amp_rows = con.execute("SELECT author, amplification_events FROM amplification").fetchall()
             amp_map = {str(a): float(s or 0.0) for a, s in amp_rows}
 
             rows = con.execute(
