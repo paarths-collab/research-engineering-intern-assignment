@@ -261,12 +261,19 @@ def load_latest_output() -> Optional[dict]:
     Searches multiple candidate directories so the file is found regardless
     of whether uvicorn is launched from the project root or backend/globe/.
     """
+    import os
     # Directory containing this very file: backend/globe/app/pipeline/
     _here = Path(__file__).resolve().parent
     search_dirs = [
+        # Render persistent disk (highest priority)
+        Path("/app/data"),
+        # DATA_PATH env var (set in render.yaml)
+        Path(os.getenv("DATA_PATH", "/app/data")),
         Path(settings.DATA_DIR),                    # configured (may be relative)
         _here.parent.parent.parent / "outputs",     # backend/globe/outputs/
+        _here.parent.parent.parent.parent / "data", # backend/../data/ (project root)
         _here.parent.parent.parent.parent.parent / "outputs",  # project-root/outputs/
+        _here.parent.parent.parent.parent.parent / "data",     # project-root/data/
     ]
     for data_dir in search_dirs:
         try:

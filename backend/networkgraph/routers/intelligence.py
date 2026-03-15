@@ -27,7 +27,10 @@ from networkgraph.models.schemas import AnalyzeNodeRequest, AnalyzeNodeResponse
 log = logging.getLogger("sntis.intelligence")
 router = APIRouter(prefix="/intelligence", tags=["intelligence"])
 
-DEFAULT_DATA_PATH = Path(__file__).resolve().parents[4] / "data"
+# Resolve data directory: try Render persistent disk first, then env var, then relative
+_RENDER_DATA = Path("/app/data")
+_REL_DATA = Path(__file__).resolve().parents[3] / ".." / "data"  # backend/../data
+DEFAULT_DATA_PATH = _RENDER_DATA if _RENDER_DATA.exists() else _REL_DATA
 DB_PATH = Path(os.getenv("DATA_PATH", str(DEFAULT_DATA_PATH))) / "analysis_v2.db"
 MAX_DOMAINS_PER_SUB = 10
 MAX_AUTHORS_PER_SUB = 15
