@@ -62,40 +62,12 @@ EDGE_COLORS = {
 }
 
 
-_is_db_fixed = False
-
 def _db():
-    global _is_db_fixed
     if not DB_PATH.exists():
         raise HTTPException(status_code=500, detail=f"Database not found at {DB_PATH.absolute()}")
 
-    # Recreate the views dynamically on Render to fix the hardcoded local paths
-    # from the original database creation.
-    if not _is_db_fixed:
-        try:
-            # Briefly open in write mode to patch views
-            patch_con = duckdb.connect(str(DB_PATH), read_only=False)
-            data_dir = DEFAULT_DATA_PATH
-            csvs = {
-                "narratives": "narrative_intelligence_summary.csv",
-                "topics": "narrative_topic_mapping.csv",
-                "chains": "narrative_spread_chain_table.csv",
-                "amplification": "author_amplification_summary.csv",
-                "daily_volume": "daily_volume_v2.csv",
-                "echo_chambers": "echo_chamber_scores.csv",
-                "ideological_matrix": "ideological_distance_matrix.csv"
-            }
-            for view_name, fname in csvs.items():
-                fpath = data_dir / fname
-                if fpath.exists():
-                    # Use SELECT * to ensure we get all analytical columns required by the app
-                    patch_con.execute(f"CREATE OR REPLACE VIEW {view_name} AS SELECT * FROM read_csv_auto('{fpath.resolve().as_posix()}')")
-            patch_con.close()
-            _is_db_fixed = True
-        except Exception as e:
-            log.warning(f"Failed to patch DuckDB views: {e}")
-
-    # Return a read-only connection for the request
+    # Return a read-only connection for the request.
+    # Note: Views are patched at startup via patch_db.py in entrypoint.sh
     return duckdb.connect(str(DB_PATH), read_only=True)
 
 

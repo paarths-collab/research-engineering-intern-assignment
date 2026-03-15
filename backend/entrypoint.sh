@@ -12,4 +12,8 @@ if [ -d "$SEED_PATH" ] && [ -z "$(ls -A "$DATA_PATH" 2>/dev/null)" ]; then
   cp -a "$SEED_PATH/." "$DATA_PATH/"
 fi
 
+# Patch DuckDB views to fix hardcoded local paths
+echo "[entrypoint] Patching DuckDB intelligence views..."
+python patch_db.py
+
 exec uvicorn main:app --host 0.0.0.0 --port "${PORT:-8000}"
