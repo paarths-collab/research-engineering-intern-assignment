@@ -6,9 +6,9 @@ SEED_PATH="/app/seed_data"
 
 mkdir -p "$DATA_PATH"
 
-# Seed persistent data disk only on first boot (or if empty).
-if [ -d "$SEED_PATH" ] && [ -z "$(ls -A "$DATA_PATH" 2>/dev/null)" ]; then
-  echo "[entrypoint] Initializing DATA_PATH from seed data..."
+# Seed persistent data disk if database is missing.
+if [ -d "$SEED_PATH" ] && [ ! -f "$DATA_PATH/analysis_v2.db" ]; then
+  echo "[entrypoint] Database missing in $DATA_PATH. Initializing from seed data..."
   cp -a "$SEED_PATH/." "$DATA_PATH/"
 fi
 
