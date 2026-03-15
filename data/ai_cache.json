@@ -1,0 +1,2083 @@
+{
+  "Conservative:buildremote.co": "Here's a concise intelligence summary:\n\nBuildremote.co is pushing news content in the r/Conservative community that highlights issues of racial and gender diversity in the corporate world, specifically the controversy surrounding Goldman Sachs' decision to lift its ban on underwriting companies with all-White, all-male boards. The general sentiment of these headlines is critical, implying a negative view of corporate practices that perpetuate inequality. By sharing these stories, this source is likely shaping the community's perspective to be more skeptical of mainstream corporate values and policies, and to support more conservative or libertarian views on issues of diversity and equity. This narrative contributes to a broader discourse in the community on themes of social justice and free market principles.",
+  "politics:wwno.org": "Based on the recent post titles from 'wwno.org' in the r/politics community, it appears that this source is pushing news on health and vaccination-related topics. The general sentiment of these headlines is alarmist and critical towards vaccination efforts, focusing on negative developments and policy changes. These news stories are likely to shape the community's perspective on the topic, potentially fostering debate and discussion among users on the subreddit, while possibly spreading misinformation or reinforcing existing concerns about vaccine policies.",
+  "politics:congress.gov": "Based on the recent post title from 'congress.gov' in the r/politics community, it appears that this source is primarily pushing legislation-related news. The general sentiment of these headlines is celebratory and pro-conservative in nature, as indicated by the specific bill proposal (e.g., designating Trump's Birthday as a public holiday). This type of content likely shapes the community's perspective by reinforcing existing ideological divides and potentially polarizing discussions on politics and government affairs. Overall, the sentiment is alarmist for those who oppose the proposed legislation, and neutral or celebratory for those who support it.",
+  "Liberal:thewrap.com": "Intelligence Summary:\n\nTheWrap.com is pushing opinion-driven, liberal-leaning news content in the r/Liberal community, focusing on topics that likely appeal to the community's values and interests. The general sentiment of these headlines appears celebratory, with a tone that is lighthearted and mocking of conservative figures, such as Mike Pence. This sentiment helps shape the community's perspective by reinforcing their liberal ideology and creating a sense of group solidarity through mocking and criticism of opposing views. TheWrap's content is likely to amplify the community's existing biases and perspectives, contributing to a more insulated and polarized online environment.",
+  "neoliberal:today.yougov.com": "Based on the analysis, the source \"today.yougov.com\" is pushing news that aligns with a critical or skeptical perspective on Western integration and globalization. The recent headlines, such as \"Most Canadians and many Americans oppose Canada joining the U.S.,\" suggest a focus on highlighting potential opposition or dissent to major policy changes. These headlines tend to be neutral or informative, without explicit emotional appeals, but their content has the potential to shape the community's perspective by emphasizing the complexities and challenges of global cooperation.",
+  "neoliberal:aol.com": "Based on the recent post titles from AOL.com in the r/neoliberal community, the source is pushing news related to progressive policy initiatives and critiques of the Trump administration. The general sentiment of these headlines is alarmist or critical, highlighting potential negative consequences of the administration's actions. By sharing these stories, the source is likely shaping the community's perspective by framing the administration's policies as threats to the middle class and public health, which may reinforce neoliberal values and concerns about economic inequality. Overall, the tone suggests a skeptical or oppositional stance towards the Trump administration.",
+  "cluster_geopolitics_2024-10-25_election": {
+    "event_date": "2024-10-25",
+    "cluster": "Geopolitics",
+    "topic": "Election",
+    "total_posts": 23,
+    "top_subreddits": [
+      [
+        "Liberal",
+        23
+      ]
+    ],
+    "top_domains": [
+      [
+        "self.Liberal",
+        14
+      ],
+      [
+        "thehill.com",
+        2
+      ],
+      [
+        "politico.com",
+        1
+      ],
+      [
+        "propublica.org",
+        1
+      ],
+      [
+        "latimes.com",
+        1
+      ]
+    ],
+    "headline_examples": [
+      "The election’s stakes for global health",
+      "The right and choice",
+      "Why not the right?",
+      "Inside Ziklag, the Secret Organization of Wealthy Christians Trying to Sway the Election and Change the Country",
+      "I don't understand the double standard. "
+    ],
+    "brief": "**THE CATALYST**: The spike appears to be triggered by the upcoming election, with headlines suggesting concerns about the election's impact on global health and the involvement of secret organizations trying to sway the election. The mention of \"double standard\" implies a reaction to perceived inconsistencies in political discourse or policy.\n\n**THE REACTION**: Reddit communities, specifically r/Liberal, are responding with posts that express concerns about the election's stakes and the influence of certain groups, indicating a sense of urgency and frustration. The grievances seem to be centered around perceived injustices and the need for choice, with some posts questioning the actions of opposing groups.\n\n**NARRATIVE FRAMING**: The Reddit framing of the election narrative differs from objective reporting in its pronounced liberal bias, with a focus on the perceived threats to global health and the actions of conservative or Christian organizations. The use of sources like self.Liberal and thehill.com, alongside more neutral outlets like propublica.org, suggests a mix of partisan and fact-based reporting.\n\n**DATA SIGNAL**: The data indicates a significant spike in activity, with 23 posts on the topic, all of which are from the r/Liberal community, and a dominance of self-referential links (14) alongside a few links to established news sources like thehill.com and politico.com. This suggests a highly concentrated and potentially insular discussion within the liberal community on Reddit."
+  },
+  "cluster_technology_2025-02-03_trump": {
+    "event_date": "2025-02-03",
+    "cluster": "Technology",
+    "topic": "Trump",
+    "total_posts": 1099,
+    "top_subreddits": [
+      [
+        "Republican",
+        269
+      ],
+      [
+        "neoliberal",
+        259
+      ],
+      [
+        "democrats",
+        236
+      ],
+      [
+        "Conservative",
+        173
+      ],
+      [
+        "Liberal",
+        58
+      ]
+    ],
+    "top_domains": [
+      [
+        "i.redd.it",
+        132
+      ],
+      [
+        "youtube.com",
+        73
+      ],
+      [
+        "self.Conservative",
+        45
+      ],
+      [
+        "self.Liberal",
+        40
+      ],
+      [
+        "reddit.com",
+        30
+      ]
+    ],
+    "headline_examples": [
+      "Whats the best arguement against your anarchism that you ahve ever heard?",
+      "German Mud Wizard was judged, speak about sabotage &amp; start crowdfunding",
+      "People are showing up at Tesla dealerships / showrooms on Saturday!",
+      "Eight Things You Can Do to Stop ICE",
+      "why should any mexican-american, native american, or african american fight in a potential civil war?"
+    ],
+    "brief": "**THE CATALYST**: The spike appears to be triggered by a potential event related to Tesla, as indicated by the headline \"People are showing up at Tesla dealerships / showrooms on Saturday!\", possibly a protest or a promotional event. This event may have been linked to Trump, given the topic focus.\n\n**THE REACTION**: Reddit communities are responding with a mix of political and social discussions, with some communities like r/Republican and r/democrats debating Trump-related topics, while others like r/neoliberal and r/Conservative focus on broader ideological issues. The grievances and positions expressed range from anarchism and sabotage to concerns about immigration and civil war.\n\n**NARRATIVE FRAMING**: The Reddit framing of the narrative differs from objective reporting, with a noticeable partisan angle, as communities like r/Republican and r/Conservative dominate the discussion, and headlines often reflect a biased or emotive tone. The use of self-referential sources like self.Conservative and self.Liberal also suggests a degree of insularity and reinforcement of existing beliefs.\n\n**DATA SIGNAL**: The key metrics indicate a significant spike in activity, with 1099 total posts, dominated by communities like r/Republican (269 posts) and r/neoliberal (259 posts), and sources like i.redd.it (132 links) and youtube.com (73 links) driving the narrative. These metrics provide hard evidence of the scale and composition of the online discussion."
+  },
+  "topics_extract_2025-01-24_2025-02-13": {
+    "start_date": "2025-01-24",
+    "end_date": "2025-02-13",
+    "topics": [
+      {
+        "topic": "The Trump administration's policies and actions are being widely discussed and criticized across various subreddits",
+        "subreddits": [
+          "Conservative",
+          "Liberal",
+          "Republican",
+          "democrats"
+        ],
+        "example_headlines": [
+          "Trump doubling down with inexperienced sycophants and clowns is good for us, and here is why",
+          "Trump Destroying Journalists",
+          "Trump dismisses hot inflation report as 'Biden inflation'"
+        ]
+      },
+      {
+        "topic": "Anarchist and liberal communities are discussing social and economic issues, including protests and direct action against corporations and governments",
+        "subreddits": [
+          "Anarchism",
+          "Liberal"
+        ],
+        "example_headlines": [
+          "The communes of rojava",
+          "I've noticed a recent surge in direct action against Musk/Tesla",
+          "Yesterday, members of Congress held a 'Nobody Elected Elon' protest"
+        ]
+      },
+      {
+        "topic": "The US political landscape is being shaped by various factors, including elections, pardons, and constitutional crises",
+        "subreddits": [
+          "PoliticalDiscussion",
+          "Republican",
+          "democrats"
+        ],
+        "example_headlines": [
+          "Is the current potential constitutional crisis important to average voters?",
+          "Trump Won His War on the Justice Department",
+          "Iowa Democrats flip Senate seat that went for Trump by 22 Points in special election"
+        ]
+      },
+      {
+        "topic": "Economic issues, including trade policies, taxes, and social security, are being debated across different subreddits",
+        "subreddits": [
+          "neoliberal",
+          "Republican",
+          "democrats"
+        ],
+        "example_headlines": [
+          "US eggs prices hit a record high of $4.95 and are likely to keep climbing",
+          "Trump asks GOP leaders to end tax perks for billionaire sports owners, hedge funds to cover ‘middle class’ cuts",
+          "Fixing Social Security"
+        ]
+      },
+      {
+        "topic": "Immigration and border control are contentious issues being discussed on various subreddits",
+        "subreddits": [
+          "Conservative",
+          "Republican",
+          "democrats"
+        ],
+        "example_headlines": [
+          "Since 2020, 88% of American job growth has gone to immigrants",
+          "Border Apprehensions Plummet as Trump Effect Sets In",
+          "Thousands of protesters rally in downtown Los Angeles against Trump’s aggressive immigration policies"
+        ]
+      },
+      {
+        "topic": "The role of technology and social media in shaping politics and society is being explored on several subreddits",
+        "subreddits": [
+          "Conservative",
+          "Liberal",
+          "neoliberal"
+        ],
+        "example_headlines": [
+          "Elon Musk alleges $50B in fraud at Treasury after judge blocks DOGE audit",
+          "Watch: Protesters Chant ‘Free Palestine,’ ‘Boycott Disney’ at ‘Captain America’ Premiere",
+          "Is This What Cancel Culture Achieved?"
+        ]
+      }
+    ],
+    "headline_count": 200
+  },
+  "topic_analysis_the_trump_administration's_policies_and__2025-01-29_2025-02-08": {
+    "topic": "The Trump administration's policies and actions are being widely discussed and criticized across various subreddits",
+    "start_date": "2025-01-29",
+    "end_date": "2025-02-08",
+    "total_posts": 200,
+    "top_subreddits": [
+      [
+        "democrats",
+        51
+      ],
+      [
+        "neoliberal",
+        48
+      ],
+      [
+        "Republican",
+        43
+      ],
+      [
+        "Anarchism",
+        18
+      ],
+      [
+        "Liberal",
+        18
+      ]
+    ],
+    "top_domains": [
+      [
+        "i.redd.it",
+        28
+      ],
+      [
+        "youtube.com",
+        19
+      ],
+      [
+        "self.Anarchism",
+        11
+      ],
+      [
+        "self.Liberal",
+        11
+      ],
+      [
+        "youtu.be",
+        6
+      ]
+    ],
+    "bridge_authors": [
+      "1Rab",
+      "Antique-Entrance-229",
+      "Doom_Walker",
+      "Droughtg3xfc",
+      "Equivalent-Ad8645",
+      "FreedomsPower",
+      "Healthy_Block3036",
+      "John3262005",
+      "JuhpPug",
+      "Lotus532"
+    ],
+    "brief": "**EXECUTIVE SUMMARY**\nThe Trump administration's policies and actions sparked a significant discussion across various subreddits, with a notable spike in post volume between January 29 and February 5. This surge was triggered by a combination of breaking news events, policy announcements, and real-world incidents, which were framed differently by conservatives, liberals, and moderates. The data reveals a complex narrative arc, with multiple perspectives and counter-narratives emerging across different subreddits.\n\n**VOLUME SPIKE ANALYSIS**\nThe post volume increased significantly on January 29, with 14 posts across various subreddits, including [Liberal], [Republican], and [democrats]. This surge was likely triggered by breaking news events, such as the Democrats' criticism of Trump's power grab on federal grants (January 29, [Liberal], [msnbc.com]) and Trump's cognitive decline (January 29, [Republican], [youtube.com]). The volume built gradually over the next few days, with a peak on February 3, which saw 23 posts across 7 subreddits. The earliest movers were [Liberal] and [Republican] subreddits, which were joined later by [democrats], [Anarchism], and [PoliticalDiscussion]. The relative activity across the earliest vs. peak vs. post-peak days was: January 29 (14 posts), February 3 (23 posts), and February 5 (17 posts).\n\n**TIMELINE & TREND ARC**\nFive days before the spike (January 24-28), there was minimal discussion about Trump's policies. However, on January 29, the narrative started to build, with [Liberal] and [Republican] subreddits engaging in a heated debate about Trump's power grab and cognitive decline. On January 30, [democrats] joined the discussion, criticizing Trump's policies and actions. The peak on February 3 saw a wide range of subreddits, including [Anarchism], [PoliticalDiscussion], and [neoliberal], discussing topics such as Trump's executive orders, the USAID restructuring, and Elon Musk's involvement in politics. In the 5 days after the peak (February 4-8), the narrative started to fade, with some subreddits, like [Anarchism], continuing to discuss the topic, while others, like [Liberal], moved on to new topics.\n\n**MULTI-PERSPECTIVE ANALYSIS**\nConservatives, liberals, and moderates framed the topic differently. Conservatives, primarily in the [Republican] subreddit, focused on defending Trump's policies and actions, emphasizing the need for a strong leader and criticizing the Democrats' opposition (January 29, [Republican], [redstate.com]). Liberals, in the [Liberal] and [democrats] subreddits, emphasized the dangers of Trump's authoritarian tendencies and the need for resistance (January 30, [democrats], [nytimes.com]). Moderates, in the [PoliticalDiscussion] subreddit, sought to understand the complexities of the issue, discussing the role of citizens' assemblies in governance (January 30, [PoliticalDiscussion], [self.PoliticalDiscussion]). The framings diverged on issues like Trump's executive orders, with conservatives seeing them as necessary and liberals viewing them as authoritarian.\n\n**AMPLIFICATION MECHANICS**\nThe [democrats] subreddit drove the most volume, with 34 posts, followed by [Liberal] (23 posts) and [Republican] (20 posts). The [Anarchism] subreddit played a bridge role, sharing content across ideological lines, including a post about Nestor Makno's platformism (February 1, [Anarchism], [self.Anarchism]). The [youtube.com] domain dominated the sourcing, with 14 posts, followed by [msnbc.com] (5 posts) and [nytimes.com] (4 posts). There were coordinated amplification patterns, with some subreddits, like [democrats], sharing similar content and hashtags.\n\n**KEY CLAIMS & COUNTER-NARRATIVES**\nThe dominant claims made in these posts were: (1) Trump's policies and actions are authoritarian and dangerous; (2) Trump is unfit for office due to his cognitive decline; and (3) The Democrats are obstructing Trump's agenda. Counter-narratives existed for each claim, with conservatives arguing that Trump's policies are necessary for national security and economic growth, and that his cognitive decline is not a concern. The [Republican] subreddit pushed back against the first claim, arguing that Trump's executive orders are lawful and necessary (February 3, [Republican], [cnn.com]).\n\n**INTELLIGENCE ASSESSMENT**\nThis narrative event reveals underlying social tensions and political dynamics, including the deepening polarization between conservatives and liberals. The real-world trigger for this spike was likely the combination of breaking news events and policy announcements, which were amplified by social media and online communities. This is not a one-off spike, but rather part of a longer pattern of online discourse and activism, with various subreddits and communities engaging in ongoing debates and discussions about Trump's policies and actions. The narrative arc suggests that online communities are playing an increasingly important role in shaping public opinion and influencing political discourse."
+  },
+  "topics_extract_2025-02-04_2025-02-24": {
+    "start_date": "2025-02-04",
+    "end_date": "2025-02-24",
+    "topics": [
+      {
+        "topic": "The Trump administration's policies and actions are being scrutinized and criticized by liberals and democrats, who argue that they are authoritarian, corrupt, and harmful to the country",
+        "subreddits": [
+          "democrats",
+          "Liberal",
+          "politics"
+        ],
+        "sentiment": "outrage",
+        "key_claim": "The Trump administration is undermining democracy and promoting authoritarianism",
+        "example_headlines": [
+          "This Is How Democracy Ends - And Most People Won’t See It Coming",
+          "Trump's ICE is gaming Google to create illusion of mass deportations",
+          "Even AI knows Donald Trump cannot unilaterally shut down USAID without congressional approval"
+        ]
+      },
+      {
+        "topic": "Conservatives are defending Trump's policies and actions, arguing that they are necessary to restore American greatness and protect the country from external threats",
+        "subreddits": [
+          "Conservative",
+          "Republican"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Trump's policies are making America great again and keeping the country safe",
+        "example_headlines": [
+          "Trump is crushing it ",
+          "Border Crossings Plunge 90% To Historic Lows Under Trump Crackdown",
+          "BOOM: DOGE Gets a Sweet Victory in Court"
+        ]
+      },
+      {
+        "topic": "The role of USAID and foreign aid is being debated, with some arguing that it is wasteful and corrupt, while others see it as essential for promoting American interests and values abroad",
+        "subreddits": [
+          "Conservative",
+          "democrats",
+          "neoliberal"
+        ],
+        "sentiment": "skeptical",
+        "key_claim": "USAID and foreign aid are ineffective and corrupt, and should be reformed or eliminated",
+        "example_headlines": [
+          "USAID Is Not Worth Blindly Defending",
+          "Trump-Musk Scandal at USAID Takes Unnerving Turn With Vile Leaked Memo",
+          "Majority of Americans believe foreign aid ‘wasted on corruption’, survey finds"
+        ]
+      },
+      {
+        "topic": "The Trump administration's treatment of transgender individuals and other marginalized groups is being criticized as discriminatory and harmful",
+        "subreddits": [
+          "democrats",
+          "Liberal",
+          "neoliberal"
+        ],
+        "sentiment": "outrage",
+        "key_claim": "The Trump administration is promoting discrimination and hatred against marginalized groups",
+        "example_headlines": [
+          "Trump’s Shameful Campaign Against Transgender Americans",
+          "Father of Black Hawk Pilot Killed in DC Plane Crash Slams Trump's DEI Excuse",
+          "U.S. Army bars transgender people from enlisting, ends gender-affirming care services"
+        ]
+      },
+      {
+        "topic": "The impact of Trump's policies on the economy and trade is being debated, with some arguing that they are beneficial and others seeing them as harmful and protectionist",
+        "subreddits": [
+          "Conservative",
+          "neoliberal",
+          "politics"
+        ],
+        "sentiment": "neutral",
+        "key_claim": "Trump's economic policies are having a significant impact on the country, but their effects are disputed",
+        "example_headlines": [
+          "EUREKA! Politico Admits ‘Voters Were Right About’ Biden Economy, the ‘Data Was Wrong’",
+          "Trump slaps 25% tariffs on steel and aluminum imports 'without exceptions'",
+          "January 2025 BLS jobs report: payrolls grew by 143,000 jobs"
+        ]
+      },
+      {
+        "topic": "The anarchist community is discussing the meaning and practice of anarchism, including its relationship to social ecology and personal freedom",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Anarchism offers a vision of a more free and equal society, and individuals can live anarchist values in their daily lives",
+        "example_headlines": [
+          "WTF is Social Ecology?",
+          "Living a meaningful, anarchist life vs. privilege",
+          "Aragorn! A Provocation Even in Death"
+        ]
+      },
+      {
+        "topic": "The neoliberal community is discussing the implications of Trump's policies for global trade, security, and governance, and arguing that they are promoting a new form of American imperialism",
+        "subreddits": [
+          "neoliberal"
+        ],
+        "sentiment": "alarm",
+        "key_claim": "Trump's policies are promoting a new form of American imperialism and undermining global cooperation and stability",
+        "example_headlines": [
+          "The New American Imperialism (Francis Fukuyama)",
+          "The Path to American Authoritarianism",
+          "When El Salvador agreed to put migrants in 'mega-prison,' the U.S. paved the way for nuclear power"
+        ]
+      }
+    ],
+    "headline_count": 200
+  },
+  "topic_analysis_the_trump_administration's_policies_and__2025-02-09_2025-02-19": {
+    "topic": "The Trump administration's policies and actions are being scrutinized and criticized by liberals and democrats, who argue that they are authoritarian, corrupt, and harmful to the country",
+    "start_date": "2025-02-09",
+    "end_date": "2025-02-19",
+    "total_posts": 200,
+    "top_subreddits": [
+      [
+        "Conservative",
+        55
+      ],
+      [
+        "politics",
+        55
+      ],
+      [
+        "neoliberal",
+        31
+      ],
+      [
+        "Republican",
+        19
+      ],
+      [
+        "democrats",
+        17
+      ]
+    ],
+    "top_domains": [
+      [
+        "i.redd.it",
+        12
+      ],
+      [
+        "self.Conservative",
+        11
+      ],
+      [
+        "nytimes.com",
+        9
+      ],
+      [
+        "breitbart.com",
+        6
+      ],
+      [
+        "reuters.com",
+        6
+      ]
+    ],
+    "bridge_authors": [
+      "Ask4MD",
+      "BiggieTwiggy1two3",
+      "Economy_Swim_8585",
+      "Healthy_Block3036",
+      "John3262005",
+      "La-Sauge",
+      "M_i_c_K",
+      "MilkyxDad",
+      "Possible_Shirt_4935",
+      "Quirky_Chicken_1840"
+    ],
+    "brief": "**EXECUTIVE SUMMARY**\nThe narrative surrounding the Trump administration's policies and actions being scrutinized and criticized by liberals and democrats experienced a significant surge in discussion on Reddit, with a notable spike in post volume between February 9-14, 2025. This increase in discussion was driven by a combination of factors, including breaking news events, policy announcements, and real-world incidents, which collectively contributed to a complex and multifaceted narrative arc. The data reveals a stark contrast in perspectives between conservative, liberal, and moderate communities, with each emphasizing different aspects of the Trump administration's policies and actions.\n\n**VOLUME SPIKE ANALYSIS**\nThe post volume increased significantly during this window, with a notable spike on February 11-12, 2025, when the number of posts more than doubled compared to the previous days. This surge was triggered by a combination of factors, including the Trump administration's announcement of the end of the Penny (February 10, r/neoliberal), the firing of a top FEMA official (February 11, r/neoliberal), and the revelation of a shadowy group of far-right donors funding federal employee watchlists (February 10, r/democrats). The earliest movers were subreddits such as r/democrats, r/neoliberal, and r/Republican, which started discussing the topic on February 9, 2025. The peak days (February 11-12) saw a significant increase in activity, with a total of 43 posts, compared to 15 posts on the earliest days (February 5-9). The post-peak days (February 13-17) saw a gradual decline in activity, with a total of 25 posts.\n\n**TIMELINE & TREND ARC**\nThe narrative began to take shape 5 days before the spike, on February 5, 2025, with discussions on r/Anarchism and r/Republican about the Trump administration's policies and actions. On February 9, 2025, the topic gained momentum with posts on r/democrats, r/neoliberal, and r/Republican, discussing issues such as the consumer financial watchdog, Trump's campaign against transgender Americans, and the revocation of clearances. The peak days (February 11-12) saw a significant increase in activity, with discussions on r/Conservative, r/Liberal, and r/Republican about topics such as the Trump administration's policies on immigration, healthcare, and the economy. In the 5 days after the peak, the narrative continued to evolve, with discussions on r/democrats, r/neoliberal, and r/politics about the implications of the Trump administration's policies and actions.\n\n**MULTI-PERSPECTIVE ANALYSIS**\nThe conservative perspective, as seen on subreddits such as r/Conservative and r/Republican, framed the Trump administration's policies and actions as necessary and beneficial for the country, emphasizing issues such as border security, economic growth, and deregulation. In contrast, the liberal perspective, as seen on subreddits such as r/democrats and r/Liberal, framed the Trump administration's policies and actions as authoritarian, corrupt, and harmful to the country, emphasizing issues such as social justice, environmental protection, and government accountability. The moderate perspective, as seen on subreddits such as r/neoliberal, took a more nuanced approach, emphasizing the need for bipartisan cooperation and pragmatic solutions to the country's problems. For example, on February 12, 2025, a post on r/neoliberal discussed the need for a balanced approach to healthcare reform, while a post on r/Conservative argued that the Trump administration's policies were necessary to reduce healthcare costs.\n\n**AMPLIFICATION MECHANICS**\nThe subreddits that drove the most volume were r/Conservative, r/democrats, and r/neoliberal, with a total of 63 posts between them. Bridge communities such as r/POLITICS and r/Liberal shared content across ideological lines, contributing to the amplification of the narrative. The domains that dominated the sourcing were news outlets such as CNN, Fox News, and The New York Times, as well as government websites such as usa.gov and whitehouse.gov. For example, on February 13, 2025, a post on r/Conservative shared a article from Fox News about the Trump administration's policies on immigration, while a post on r/democrats shared a article from CNN about the implications of the Trump administration's policies on healthcare.\n\n**KEY CLAIMS & COUNTER-NARRATIVES**\nThe dominant claims made in these posts were:\n1. The Trump administration's policies and actions are authoritarian and corrupt.\n2. The Trump administration's policies and actions are necessary and beneficial for the country.\n3. The Trump administration's policies and actions are harmful to the country and its citizens.\nCounter-narratives existed for each of these claims, with conservative communities pushing back against the first claim, liberal communities pushing back against the second claim, and moderate communities pushing back against the third claim. For example, on February 14, 2025, a post on r/Conservative argued that the Trump administration's policies on immigration were necessary to protect national security, while a post on r/democrats argued that the policies were inhumane and discriminatory.\n\n**INTELLIGENCE ASSESSMENT**\nThis narrative event reveals underlying social tensions and political dynamics, including the deepening polarization of the American public and the increasing distrust of government institutions. The real-world trigger for this narrative is likely the combination of the Trump administration's policies and actions, which have been highly controversial and divisive. This spike is part of a longer pattern of increasing political polarization and social unrest, which is likely to continue in the lead-up to the 2028 presidential election. The narrative also highlights the importance of social media platforms such as Reddit in shaping public discourse and influencing political opinions."
+  },
+  "event_analysis:mock-tel-aviv:2026-03-13T08:17:04.646270+00:00": {
+    "event_id": "mock-tel-aviv",
+    "generated_at": "2026-03-13T08:18:30.483744+00:00",
+    "limits": {
+      "max_reddit_posts": 50,
+      "max_news_sources": 10
+    },
+    "reddit_context": {
+      "top_posts": [],
+      "top_comments": [],
+      "related_subreddits": [
+        "worldnews",
+        "news"
+      ],
+      "reddit_post_ids": []
+    },
+    "news_context": {
+      "topic_sentences": [
+        "Israeli military forces are exchanging cross-border fire with neighboring nations, sparking a significant escalation of the regional conflict in the Middle East.",
+        "The surge in violence is disrupting global energy markets, as key oil and gas pipelines pass through the increasingly unstable region surrounding Tel Aviv.",
+        "Diplomatic channels between Israel and its neighbors are under intense strain, with international leaders scrambling to intervene and prevent further escalation of the conflict.",
+        "As the situation continues to deteriorate, humanitarian organizations are warning of a growing risk of civilian displacement and potential humanitarian crisis in Tel Aviv and surrounding areas."
+      ],
+      "articles": [
+        {
+          "title": "Hezbollah Launches Front on Israel in Joint IRGC Strike — ‘Serious Escalation Ahead’",
+          "url": "https://www.breitbart.com/politics/2026/03/11/hezbollah-launches-front-israel-joint-irgc-strike-escalation/",
+          "source": "Breitbart News",
+          "published": "2026-03-12T04:28:42Z",
+          "snippet": "Hezbollah declared a military campaign against Israel on Wednesday night in what Iran’s Islamic Revolutionary Guard Corps described as a “joint and integrated operation,” launching more than 100 rockets, drones, and miss",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Iran targets commercial ships, Dubai airport and oil facilities as concerns grow over global energy",
+          "url": "https://www.pbs.org/newshour/world/iran-targets-commercial-ships-dubai-airport-and-oil-facilities-as-concerns-grow-over-global-energy",
+          "source": "PBS",
+          "published": "2026-03-11T14:48:18Z",
+          "snippet": "Iran's joint military command also announced it would start targeting banks and financial institutions in the Middle East.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Iran’s new supreme leader may have been wounded at the start of the war, Israeli intelligence says",
+          "url": "https://fortune.com/2026/03/11/iran-new-supreme-leader-mojtaba-khamenei-wounded-dubai-airport-attack/",
+          "source": "Fortune",
+          "published": "2026-03-11T13:41:33Z",
+          "snippet": "Iran struck Dubai International Airport and threatened Gulf banks Wednesday, as speculation grew over the fate of its newly installed supreme leader.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Iran targets Dubai airport, commercial ships across the Gulf as war widens",
+          "url": "https://fortune.com/2026/03/11/iran-hits-dubai-airport-war-widens/",
+          "source": "Fortune",
+          "published": "2026-03-11T13:04:30Z",
+          "snippet": "Iran's joint military command announced it would start targeting banks and financial institutions in the Middle East.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Spain Stands Up: Toward the Internationalization of 'No a la Guerra'",
+          "url": "https://www.commondreams.org/opinion/spain-stands-up-against-war",
+          "source": "Common Dreams",
+          "published": "2026-03-11T12:28:04Z",
+          "snippet": "In a move that has sent shockwaves from Washington to Tel Aviv, passing through Berlin and Ankara, Spanish President Pedro Sánchez has positioned Spain as the primary European holdout against the escalating military conf",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Iran targets commercial ships, Dubai airport and oil facilities as concerns grow over global energy",
+          "url": "https://www.thehindubusinessline.com/news/world/iran-targets-commercial-ships-dubai-airport-and-oil-facilities-as-concerns-grow-over-global-energy/article70730831.ece",
+          "source": "BusinessLine",
+          "published": "2026-03-11T11:37:59Z",
+          "snippet": "Iran has effectively stopped cargo traffic in the narrow strait through which about a fifth of all oil is shipped. It has also targeted oil fields and refineries in Gulf Arab nations, aiming at generating enough global e",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Lebanon now equal primary front with Iran, IDF Chief of Staff Zamir says",
+          "url": "https://www.jpost.com/israel-news/article-889818",
+          "source": "jpost",
+          "published": "2026-03-12 19:34:30",
+          "snippet": "Zamir's comments came as there was a flurry of messages from top Israeli defense officials about the next stage in the conflict with Hezbollah, with some emphasizing a graduated escalation.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "‘Will Destroy Their Assets’: Key Points From Iran’s New Supreme Leader Mojtaba Khamenei’s First Message to the Nation",
+          "url": "https://www.republicworld.com/world-news/we-will-destroy-their-assets-mojtaba-khameneis-open-challenge-to-us-key-points-from-irans-new-supreme-leaders-first-message",
+          "source": "republicworld",
+          "published": "2026-03-12 19:30:15",
+          "snippet": "Iran’s new Supreme Leader Mojtaba Khamenei issues first address, warns of revenge, calls for Strait of Hormuz closure as the Iran-Israel-US war enters Day 14.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "FM Sa'ar tells Post: Iranian regime is weakening, cracking from internal disagreements",
+          "url": "https://www.jpost.com/israel-news/article-889816",
+          "source": "jpost",
+          "published": "2026-03-12 19:03:12",
+          "snippet": "“Regime change may be a consequence of the operation; it does not necessarily have to be part of the military campaign itself,” Sa'ar said.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Iran War Debunks Myth of Absolute Superiority of Western Military Technology",
+          "url": "https://english.pravda.ru/world/166159-middle-east-conflict-western-military-superiority-debate/",
+          "source": "pravda_ru",
+          "published": "2026-03-12 19:03:00",
+          "snippet": "Recent developments in the escalating confrontation in the Middle East have sparked debate among analysts about the limits of Western technological superiority in modern warfare.Former Central Intelligence Agency analyst",
+          "trusted": false,
+          "via": "api"
+        }
+      ]
+    },
+    "aggregated_context": {
+      "event": {
+        "event_id": "mock-tel-aviv",
+        "title": "Tel Aviv, Israel — Escalating",
+        "location": "Tel Aviv, Israel",
+        "timestamp": "2026-03-13T08:17:04.646270+00:00",
+        "risk_level": "High",
+        "impact_score": 0.72,
+        "sentiment": "negative",
+        "subreddit": "worldnews",
+        "reddit_post_ids": []
+      },
+      "reddit": {
+        "top_posts": [],
+        "top_comments": [],
+        "related_subreddits": [
+          "worldnews",
+          "news"
+        ],
+        "reddit_post_ids": []
+      },
+      "news": {
+        "topic_sentences": [
+          "Israeli military forces are exchanging cross-border fire with neighboring nations, sparking a significant escalation of the regional conflict in the Middle East.",
+          "The surge in violence is disrupting global energy markets, as key oil and gas pipelines pass through the increasingly unstable region surrounding Tel Aviv.",
+          "Diplomatic channels between Israel and its neighbors are under intense strain, with international leaders scrambling to intervene and prevent further escalation of the conflict.",
+          "As the situation continues to deteriorate, humanitarian organizations are warning of a growing risk of civilian displacement and potential humanitarian crisis in Tel Aviv and surrounding areas."
+        ],
+        "articles": [
+          {
+            "title": "Hezbollah Launches Front on Israel in Joint IRGC Strike — ‘Serious Escalation Ahead’",
+            "url": "https://www.breitbart.com/politics/2026/03/11/hezbollah-launches-front-israel-joint-irgc-strike-escalation/",
+            "source": "Breitbart News",
+            "published": "2026-03-12T04:28:42Z",
+            "snippet": "Hezbollah declared a military campaign against Israel on Wednesday night in what Iran’s Islamic Revolutionary Guard Corps described as a “joint and integrated operation,” launching more than 100 rockets, drones, and miss",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Iran targets commercial ships, Dubai airport and oil facilities as concerns grow over global energy",
+            "url": "https://www.pbs.org/newshour/world/iran-targets-commercial-ships-dubai-airport-and-oil-facilities-as-concerns-grow-over-global-energy",
+            "source": "PBS",
+            "published": "2026-03-11T14:48:18Z",
+            "snippet": "Iran's joint military command also announced it would start targeting banks and financial institutions in the Middle East.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Iran’s new supreme leader may have been wounded at the start of the war, Israeli intelligence says",
+            "url": "https://fortune.com/2026/03/11/iran-new-supreme-leader-mojtaba-khamenei-wounded-dubai-airport-attack/",
+            "source": "Fortune",
+            "published": "2026-03-11T13:41:33Z",
+            "snippet": "Iran struck Dubai International Airport and threatened Gulf banks Wednesday, as speculation grew over the fate of its newly installed supreme leader.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Iran targets Dubai airport, commercial ships across the Gulf as war widens",
+            "url": "https://fortune.com/2026/03/11/iran-hits-dubai-airport-war-widens/",
+            "source": "Fortune",
+            "published": "2026-03-11T13:04:30Z",
+            "snippet": "Iran's joint military command announced it would start targeting banks and financial institutions in the Middle East.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Spain Stands Up: Toward the Internationalization of 'No a la Guerra'",
+            "url": "https://www.commondreams.org/opinion/spain-stands-up-against-war",
+            "source": "Common Dreams",
+            "published": "2026-03-11T12:28:04Z",
+            "snippet": "In a move that has sent shockwaves from Washington to Tel Aviv, passing through Berlin and Ankara, Spanish President Pedro Sánchez has positioned Spain as the primary European holdout against the escalating military conf",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Iran targets commercial ships, Dubai airport and oil facilities as concerns grow over global energy",
+            "url": "https://www.thehindubusinessline.com/news/world/iran-targets-commercial-ships-dubai-airport-and-oil-facilities-as-concerns-grow-over-global-energy/article70730831.ece",
+            "source": "BusinessLine",
+            "published": "2026-03-11T11:37:59Z",
+            "snippet": "Iran has effectively stopped cargo traffic in the narrow strait through which about a fifth of all oil is shipped. It has also targeted oil fields and refineries in Gulf Arab nations, aiming at generating enough global e",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Lebanon now equal primary front with Iran, IDF Chief of Staff Zamir says",
+            "url": "https://www.jpost.com/israel-news/article-889818",
+            "source": "jpost",
+            "published": "2026-03-12 19:34:30",
+            "snippet": "Zamir's comments came as there was a flurry of messages from top Israeli defense officials about the next stage in the conflict with Hezbollah, with some emphasizing a graduated escalation.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "‘Will Destroy Their Assets’: Key Points From Iran’s New Supreme Leader Mojtaba Khamenei’s First Message to the Nation",
+            "url": "https://www.republicworld.com/world-news/we-will-destroy-their-assets-mojtaba-khameneis-open-challenge-to-us-key-points-from-irans-new-supreme-leaders-first-message",
+            "source": "republicworld",
+            "published": "2026-03-12 19:30:15",
+            "snippet": "Iran’s new Supreme Leader Mojtaba Khamenei issues first address, warns of revenge, calls for Strait of Hormuz closure as the Iran-Israel-US war enters Day 14.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "FM Sa'ar tells Post: Iranian regime is weakening, cracking from internal disagreements",
+            "url": "https://www.jpost.com/israel-news/article-889816",
+            "source": "jpost",
+            "published": "2026-03-12 19:03:12",
+            "snippet": "“Regime change may be a consequence of the operation; it does not necessarily have to be part of the military campaign itself,” Sa'ar said.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Iran War Debunks Myth of Absolute Superiority of Western Military Technology",
+            "url": "https://english.pravda.ru/world/166159-middle-east-conflict-western-military-superiority-debate/",
+            "source": "pravda_ru",
+            "published": "2026-03-12 19:03:00",
+            "snippet": "Recent developments in the escalating confrontation in the Middle East have sparked debate among analysts about the limits of Western technological superiority in modern warfare.Former Central Intelligence Agency analyst",
+            "trusted": false,
+            "via": "api"
+          }
+        ]
+      },
+      "timeline": [
+        "2026-03-11T11:37:59Z",
+        "2026-03-11T12:28:04Z",
+        "2026-03-11T13:04:30Z",
+        "2026-03-11T13:41:33Z",
+        "2026-03-11T14:48:18Z",
+        "2026-03-12 19:03:00",
+        "2026-03-12 19:03:12",
+        "2026-03-12 19:30:15",
+        "2026-03-12 19:34:30",
+        "2026-03-12T04:28:42Z"
+      ]
+    },
+    "analysis_report": "**Event Summary**\nThe situation in Tel Aviv, Israel is escalating due to a joint strike by Hezbollah and the IRGC, marking a serious escalation in the conflict. Iran has been targeting commercial ships, Dubai airport, and oil facilities, raising concerns over global energy. The Israeli intelligence suggests that Iran's new supreme leader, Mojtaba Khamenei, may have been wounded at the start of the war.\n\n**Key Developments**\n* Hezbollah has launched a front on Israel in a joint strike with the IRGC, indicating a significant escalation in the conflict.\n* Iran has targeted commercial ships, Dubai airport, and oil facilities, highlighting the widening scope of the war.\n* Lebanon is now considered an equal primary front with Iran, according to the IDF Chief of Staff Zamir.\n* Iran's new supreme leader, Mojtaba Khamenei, has issued a message to the nation, vowing to destroy the assets of their enemies.\n* The Iranian regime is reportedly weakening and cracking due to internal disagreements, according to FM Sa'ar.\n\n**Timeline of the Event**\nThe event timeline spans from March 11, 2026, to March 12, 2026, with multiple news articles and updates reported throughout this period. The specific timeline includes:\n2026-03-11T11:37:59Z, 2026-03-11T12:28:04Z, 2026-03-11T13:04:30Z, 2026-03-11T13:41:33Z, 2026-03-11T14:48:18Z, 2026-03-12 19:03:00, 2026-03-12 19:03:12, 2026-03-12 19:30:15, 2026-03-12 19:34:30, 2026-03-12T04:28:42Z.\n\n**Public Sentiment**\nSince there are no Reddit posts provided, it is challenging to gauge the public sentiment directly. However, based on the news articles, it appears that the international community is growing concerned about the escalating conflict and its potential impact on global energy.\n\n**Source Reliability**\nThe news articles provided seem to be from reputable sources, including statements from high-ranking officials such as the IDF Chief of Staff Zamir and FM Sa'ar. However, without more information about the sources, it is difficult to assess their reliability fully.\n\n**Information Spread Pattern**\nThe information about the escalating conflict in Tel Aviv, Israel, appears to be spreading rapidly through news articles and updates. The fact that multiple news articles are being published within a short timeframe suggests that the situation is developing quickly, and the international community is closely monitoring the events.\n\n**Potential Implications**\n* The escalating conflict in Tel Aviv, Israel, may lead to a wider regional war, drawing in more countries and causing significant instability in the Middle East.\n* The targeting of commercial ships, Dubai airport, and oil facilities by Iran may disrupt global energy supplies, leading to economic instability and potential shortages.\n* The reported weakening of the Iranian regime due to internal disagreements may create an opportunity for diplomatic efforts to resolve the conflict peacefully.\n* The involvement of Hezbollah and the IRGC in the conflict may indicate a growing role for proxy forces in the region, potentially leading to further escalation and instability.\n* The international community, including countries like Spain, may become more involved in the conflict, potentially leading to a more significant global response to the situation."
+  },
+  "event_analysis:1e1d80c7-ce93-475e-ae88-e5e60b8e4f78:2026-03-14T15:14:26.570722+00:00": {
+    "event_id": "1e1d80c7-ce93-475e-ae88-e5e60b8e4f78",
+    "generated_at": "2026-03-14T15:16:14.406767+00:00",
+    "limits": {
+      "max_reddit_posts": 50,
+      "max_news_sources": 10
+    },
+    "reddit_context": {
+      "top_posts": [
+        {
+          "id": "1rt72da",
+          "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show",
+          "subreddit": "news",
+          "upvote_score": 1849,
+          "comment_count": 118,
+          "timestamp": "2026-03-14T02:08:17+00:00",
+          "url": "https://reddit.com/r/news/comments/1rt72da/usowned_tanker_attacked_near_iraq_was_hit_by/"
+        }
+      ],
+      "top_comments": [
+        {
+          "post_id": "1rt72da",
+          "summary": "High discussion volume: 118 comments"
+        }
+      ],
+      "related_subreddits": [
+        "news"
+      ],
+      "reddit_post_ids": [
+        "1rt72da"
+      ]
+    },
+    "news_context": {
+      "topic_sentences": [
+        "The US-owned tanker that was attacked near Iraq is believed to have been hit by unmanned boats, according to early findings from the investigation into the incident.",
+        "Increased tensions between the US and Iran are sparking concerns that the region could be on the brink of further escalation, with the potential for other key players to become involved.",
+        "The use of unmanned boats and sea mines in the attack on the US-owned tanker has highlighted the significant threat posed to maritime security, prompting calls for enhanced countermeasures and international cooperation.",
+        "Diplomatic efforts to de-escalate tensions in the Middle East have taken on renewed urgency in the wake of the tanker attack, with officials warning that further conflict could have devastating consequences for the region."
+      ],
+      "articles": [
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "published": null,
+          "snippet": "",
+          "trusted": true,
+          "via": "pipeline"
+        },
+        {
+          "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show",
+          "url": "https://www.al-monitor.com/originals/2026/03/us-owned-tanker-attacked-near-iraq-was-hit-unmanned-boats-early-findings-show",
+          "source": "almonitor",
+          "published": "2026-03-13 21:36:36",
+          "snippet": "By Lisa BaertleinLOS ANGELES, March 13 (Reuters) - Two explosive-laden, unmanned boats rammed the Safesea Vishnu tanker in an Iraqi seaport on Wednesday, sparking a fiery blast that engulfed the vessel's port side in fla",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show",
+          "url": "https://www.straitstimes.com/world/middle-east/us-owned-tanker-attacked-near-iraq-was-hit-by-unmanned-boats-early-findings-show",
+          "source": "straitstimes",
+          "published": "2026-03-13 21:10:52",
+          "snippet": "LOS ANGELES, March 13 - Two explosive-laden, unmanned boats rammed the Safesea Vishnu tanker in an Iraqi seaport on Wednesday, sparking a fiery blast that engulfed the vessel's port side in flames and left crew only seco",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "US-Owned Tanker Attacked Near Iraq Was Hit by Unmanned Boats, Early Findings Show",
+          "url": "https://www.usnews.com/news/world/articles/2026-03-13/us-owned-tanker-attacked-near-iraq-was-hit-by-unmanned-boats-early-findings-show",
+          "source": "usnews",
+          "published": "2026-03-13 21:09:21",
+          "snippet": "By Lisa BaertleinLOS ANGELES, March 13 (Reuters) - Two explosive-laden, unmanned ⁠boats ⁠rammed the Safesea Vishnu tanker ⁠in an Iraqi seaport on...",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show - Reuters",
+          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOakRHcHRLV2EwYnFzN2hYbWhua1RUYV83d0stREdDcnJPeUw4YnVHTnd1Rkl1djlBYWx5ZzBTSHQyMGhNNGwzMVh5bUQ1Y0pVVzY4c1RBYlkzUDQtcV9Ja0Q0WkxpOVlXOElpT29qdHd0WHNMT2N1ZDFsMnNqRHhnNEt1VllJY1pvc00tREJqYjBDUWJ0TmZuMTNzcFBma0NIa1dKUHhlbGxuVUNnM2hWNjVpc3djTzJucmMydmhvcU9NbF9XejBzZ1FQRG1iYWs?oc=5",
+          "source": "Reuters",
+          "published": "Fri, 13 Mar 2026 21:09:32 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "Sweden boards cargo ship believed to be stateless in the Baltic Sea - AOL.com",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE55VWltNVRPN0x3RzZOaENMQWVVeF9pV3RzaWhRTmk1Zlg1TktMam1MeV9ILVRJTTE5X2o4dTEyS0E1Y3pKbExOMW5nSzBaVElqYmt0ODZ2OHpiYm5jMEZZUDl2aF9hTUVyaHBab3E2QUprelI5VktPVjhybkE4dw?oc=5",
+          "source": "AOL.com",
+          "published": "Tue, 10 Mar 2026 06:37:43 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "New US weapons for Taiwan could be approved after Trump's China trip, sources say, Asia News - AsiaOne",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOWTNHRmZCUldJMndtTklzaW1WUWVuN2FNVU0yelNyX1lWaFNtRG1QNEVYb01ZejdjN01sa3FQMTZCY2hlQ0lYOERFMEJjdS1CVEVhUV9VbDFmSEpSSW1hZzFmTHFLeThRaXJCdXY0eUhWZFhoTFFDTE0xR3BpWnlRNzZveU9NZ1QyU2VwcWs0Rzc3MEpSV2kyWGprYmdIVUMySHQzZldrVQ?oc=5",
+          "source": "AsiaOne",
+          "published": "Fri, 13 Mar 2026 08:18:00 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "About 10% of the global container ships caught in Gulf of Hormuz backup, ONE CEO says - AL-Monitor",
+          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPelFDR05nOTNTSU5aLUJHTUttdHBLbmtXYWE1YzlwS1VRa1NTdFFRYjZ0dHVCR1RkNXpKQkhtY0hhLW9VZDl3QmR2RERnS2hwSzRDQi1PN2VJN0RucjdZQ1M0TEI1MGowQUJiS1E0cjhQRFFGd1RHOEtBYWxUZXppcVVPMExqZEpVdVFCTldyaE9LRWZGUmJpV2pkZTdSakgzczZZSEhrakRPLVF6RUlTSmNHUUo2UQ?oc=5",
+          "source": "AL-Monitor",
+          "published": "Mon, 02 Mar 2026 08:00:00 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "Johor to ensure 'optimal border control' during Hari Raya to manage congestion, Malaysia News - AsiaOne",
+          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQT0lxdm9OaG95VF9lMWRDLW43eTdRRjZ2bHlmRnNOS2lBTENvUHduM1ZxaGtiNTlnc2x1dllJWGNMbVlQRGpKYW12MG1qVkNpcjRjN21nT1BkeVZtdnh6SWRGTktZRWNycUlud0RxbXp5cUVMZEI4dE96WjFKMzU1dS1n?oc=5",
+          "source": "AsiaOne",
+          "published": "Sat, 14 Mar 2026 04:58:59 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "'Enough food, enough petrol': Malaysia's ministers assure public before Hari Raya - AsiaOne",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBpUG9RZXBXd2ZqSHlYUGhPZEtYeXh3N2FWc2pqT21QTTNRS2M5Umg1TE9fUXR2ZmlQNW1YQlhsb2Q0bkp3SEhoX3JhN3M5NlJQYjV5WkQ1d1FFZzBtMnhvQk1ZamhSakhIdlZJOEFjSnBIdUJC?oc=5",
+          "source": "AsiaOne",
+          "published": "Fri, 13 Mar 2026 12:18:00 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        }
+      ]
+    },
+    "aggregated_context": {
+      "event": {
+        "event_id": "1e1d80c7-ce93-475e-ae88-e5e60b8e4f78",
+        "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show.",
+        "location": "Iraq",
+        "timestamp": "2026-03-14T02:08:17+00:00",
+        "risk_level": "High",
+        "impact_score": 0.6101,
+        "sentiment": "negative",
+        "subreddit": "news",
+        "reddit_post_ids": [
+          "1rt72da"
+        ]
+      },
+      "reddit": {
+        "top_posts": [
+          {
+            "id": "1rt72da",
+            "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show",
+            "subreddit": "news",
+            "upvote_score": 1849,
+            "comment_count": 118,
+            "timestamp": "2026-03-14T02:08:17+00:00",
+            "url": "https://reddit.com/r/news/comments/1rt72da/usowned_tanker_attacked_near_iraq_was_hit_by/"
+          }
+        ],
+        "top_comments": [
+          {
+            "post_id": "1rt72da",
+            "summary": "High discussion volume: 118 comments"
+          }
+        ],
+        "related_subreddits": [
+          "news"
+        ],
+        "reddit_post_ids": [
+          "1rt72da"
+        ]
+      },
+      "news": {
+        "topic_sentences": [
+          "The US-owned tanker that was attacked near Iraq is believed to have been hit by unmanned boats, according to early findings from the investigation into the incident.",
+          "Increased tensions between the US and Iran are sparking concerns that the region could be on the brink of further escalation, with the potential for other key players to become involved.",
+          "The use of unmanned boats and sea mines in the attack on the US-owned tanker has highlighted the significant threat posed to maritime security, prompting calls for enhanced countermeasures and international cooperation.",
+          "Diplomatic efforts to de-escalate tensions in the Middle East have taken on renewed urgency in the wake of the tanker attack, with officials warning that further conflict could have devastating consequences for the region."
+        ],
+        "articles": [
+          {
+            "title": "Petrol prices are rising. This map shows why",
+            "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+            "source": "ABC News (AU)",
+            "published": null,
+            "snippet": "",
+            "trusted": true,
+            "via": "pipeline"
+          },
+          {
+            "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show",
+            "url": "https://www.al-monitor.com/originals/2026/03/us-owned-tanker-attacked-near-iraq-was-hit-unmanned-boats-early-findings-show",
+            "source": "almonitor",
+            "published": "2026-03-13 21:36:36",
+            "snippet": "By Lisa BaertleinLOS ANGELES, March 13 (Reuters) - Two explosive-laden, unmanned boats rammed the Safesea Vishnu tanker in an Iraqi seaport on Wednesday, sparking a fiery blast that engulfed the vessel's port side in fla",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show",
+            "url": "https://www.straitstimes.com/world/middle-east/us-owned-tanker-attacked-near-iraq-was-hit-by-unmanned-boats-early-findings-show",
+            "source": "straitstimes",
+            "published": "2026-03-13 21:10:52",
+            "snippet": "LOS ANGELES, March 13 - Two explosive-laden, unmanned boats rammed the Safesea Vishnu tanker in an Iraqi seaport on Wednesday, sparking a fiery blast that engulfed the vessel's port side in flames and left crew only seco",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "US-Owned Tanker Attacked Near Iraq Was Hit by Unmanned Boats, Early Findings Show",
+            "url": "https://www.usnews.com/news/world/articles/2026-03-13/us-owned-tanker-attacked-near-iraq-was-hit-by-unmanned-boats-early-findings-show",
+            "source": "usnews",
+            "published": "2026-03-13 21:09:21",
+            "snippet": "By Lisa BaertleinLOS ANGELES, March 13 (Reuters) - Two explosive-laden, unmanned ⁠boats ⁠rammed the Safesea Vishnu tanker ⁠in an Iraqi seaport on...",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show - Reuters",
+            "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOakRHcHRLV2EwYnFzN2hYbWhua1RUYV83d0stREdDcnJPeUw4YnVHTnd1Rkl1djlBYWx5ZzBTSHQyMGhNNGwzMVh5bUQ1Y0pVVzY4c1RBYlkzUDQtcV9Ja0Q0WkxpOVlXOElpT29qdHd0WHNMT2N1ZDFsMnNqRHhnNEt1VllJY1pvc00tREJqYjBDUWJ0TmZuMTNzcFBma0NIa1dKUHhlbGxuVUNnM2hWNjVpc3djTzJucmMydmhvcU9NbF9XejBzZ1FQRG1iYWs?oc=5",
+            "source": "Reuters",
+            "published": "Fri, 13 Mar 2026 21:09:32 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "Sweden boards cargo ship believed to be stateless in the Baltic Sea - AOL.com",
+            "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE55VWltNVRPN0x3RzZOaENMQWVVeF9pV3RzaWhRTmk1Zlg1TktMam1MeV9ILVRJTTE5X2o4dTEyS0E1Y3pKbExOMW5nSzBaVElqYmt0ODZ2OHpiYm5jMEZZUDl2aF9hTUVyaHBab3E2QUprelI5VktPVjhybkE4dw?oc=5",
+            "source": "AOL.com",
+            "published": "Tue, 10 Mar 2026 06:37:43 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "New US weapons for Taiwan could be approved after Trump's China trip, sources say, Asia News - AsiaOne",
+            "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOWTNHRmZCUldJMndtTklzaW1WUWVuN2FNVU0yelNyX1lWaFNtRG1QNEVYb01ZejdjN01sa3FQMTZCY2hlQ0lYOERFMEJjdS1CVEVhUV9VbDFmSEpSSW1hZzFmTHFLeThRaXJCdXY0eUhWZFhoTFFDTE0xR3BpWnlRNzZveU9NZ1QyU2VwcWs0Rzc3MEpSV2kyWGprYmdIVUMySHQzZldrVQ?oc=5",
+            "source": "AsiaOne",
+            "published": "Fri, 13 Mar 2026 08:18:00 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "About 10% of the global container ships caught in Gulf of Hormuz backup, ONE CEO says - AL-Monitor",
+            "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPelFDR05nOTNTSU5aLUJHTUttdHBLbmtXYWE1YzlwS1VRa1NTdFFRYjZ0dHVCR1RkNXpKQkhtY0hhLW9VZDl3QmR2RERnS2hwSzRDQi1PN2VJN0RucjdZQ1M0TEI1MGowQUJiS1E0cjhQRFFGd1RHOEtBYWxUZXppcVVPMExqZEpVdVFCTldyaE9LRWZGUmJpV2pkZTdSakgzczZZSEhrakRPLVF6RUlTSmNHUUo2UQ?oc=5",
+            "source": "AL-Monitor",
+            "published": "Mon, 02 Mar 2026 08:00:00 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "Johor to ensure 'optimal border control' during Hari Raya to manage congestion, Malaysia News - AsiaOne",
+            "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQT0lxdm9OaG95VF9lMWRDLW43eTdRRjZ2bHlmRnNOS2lBTENvUHduM1ZxaGtiNTlnc2x1dllJWGNMbVlQRGpKYW12MG1qVkNpcjRjN21nT1BkeVZtdnh6SWRGTktZRWNycUlud0RxbXp5cUVMZEI4dE96WjFKMzU1dS1n?oc=5",
+            "source": "AsiaOne",
+            "published": "Sat, 14 Mar 2026 04:58:59 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "'Enough food, enough petrol': Malaysia's ministers assure public before Hari Raya - AsiaOne",
+            "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBpUG9RZXBXd2ZqSHlYUGhPZEtYeXh3N2FWc2pqT21QTTNRS2M5Umg1TE9fUXR2ZmlQNW1YQlhsb2Q0bkp3SEhoX3JhN3M5NlJQYjV5WkQ1d1FFZzBtMnhvQk1ZamhSakhIdlZJOEFjSnBIdUJC?oc=5",
+            "source": "AsiaOne",
+            "published": "Fri, 13 Mar 2026 12:18:00 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          }
+        ]
+      },
+      "timeline": [
+        "2026-03-13 21:09:21",
+        "2026-03-13 21:10:52",
+        "2026-03-13 21:36:36",
+        "2026-03-14T02:08:17+00:00",
+        "Fri, 13 Mar 2026 08:18:00 GMT",
+        "Fri, 13 Mar 2026 12:18:00 GMT",
+        "Fri, 13 Mar 2026 21:09:32 GMT",
+        "Mon, 02 Mar 2026 08:00:00 GMT",
+        "Sat, 14 Mar 2026 04:58:59 GMT",
+        "Tue, 10 Mar 2026 06:37:43 GMT"
+      ]
+    },
+    "analysis_report": "**Event Summary**\nA US-owned tanker was attacked near Iraq, with early findings indicating that the vessel was hit by unmanned boats. This incident has the potential to impact global oil prices and shipping routes.\n\n**Key Developments**\n* The attack on the US-owned tanker occurred near Iraq, with unmanned boats being the suspected cause.\n* The incident is likely to contribute to rising petrol prices, as evidenced by recent news articles highlighting the increase in global oil prices.\n* The attack may be related to increased tensions in the region, particularly in the Gulf of Hormuz, where a significant number of container ships are currently experiencing delays.\n* The use of unmanned boats in the attack suggests a potentially new tactic being employed by the perpetrators.\n\n**Timeline of the Event**\nThe timeline of the event is not fully clear, but based on the available information, the attack on the US-owned tanker is believed to have occurred on or around March 13, 2026. News articles and Reddit posts regarding the incident were published on March 13 and 14, 2026.\n\n**Public Sentiment**\nThe public sentiment regarding the attack on the US-owned tanker is not explicitly stated in the available Reddit posts and news articles. However, the fact that the incident is being widely reported suggests that it is of significant interest to the public and may be causing concern about the potential impact on oil prices and global shipping.\n\n**Source Reliability**\nThe sources of the information regarding the attack on the US-owned tanker appear to be reliable, with news articles being published by reputable outlets such as Reuters and AOL.com. The Reddit posts also appear to be based on credible sources, although the accuracy of the information cannot be guaranteed.\n\n**Information Spread Pattern**\nThe information regarding the attack on the US-owned tanker appears to have spread quickly through online news outlets and social media platforms, with multiple news articles and Reddit posts being published within a short timeframe. This suggests that the incident is of significant interest to the public and is being widely reported.\n\n**Potential Implications**\n* Increased tensions in the region, potentially leading to further attacks on shipping vessels.\n* Rising petrol prices, as a result of the attack and other factors contributing to global oil price increases.\n* Disruptions to global shipping routes, particularly in the Gulf of Hormuz, where a significant number of container ships are currently experiencing delays.\n* Potential escalation of conflict in the region, particularly if the attack is attributed to a specific country or group.\n* Increased use of unmanned boats in future attacks, potentially leading to a new era of maritime warfare."
+  },
+  "event_analysis:f7ee0f9c-e9ea-4e0f-895a-9b449bb74738:2026-03-14T15:14:26.570722+00:00": {
+    "event_id": "f7ee0f9c-e9ea-4e0f-895a-9b449bb74738",
+    "generated_at": "2026-03-14T15:18:59.198665+00:00",
+    "limits": {
+      "max_reddit_posts": 50,
+      "max_news_sources": 10
+    },
+    "reddit_context": {
+      "top_posts": [
+        {
+          "id": "1rt2vpb",
+          "title": "US attacks Iran's Kharg Island, Trump says",
+          "subreddit": "worldnews",
+          "upvote_score": 17624,
+          "comment_count": 5337,
+          "timestamp": "2026-03-13T23:08:44+00:00",
+          "url": "https://reddit.com/r/worldnews/comments/1rt2vpb/us_attacks_irans_kharg_island_trump_says/"
+        },
+        {
+          "id": "1rt34dg",
+          "title": "US attacks Iran's Kharg Island, Trump says",
+          "subreddit": "news",
+          "upvote_score": 3633,
+          "comment_count": 766,
+          "timestamp": "2026-03-13T23:18:14+00:00",
+          "url": "https://reddit.com/r/news/comments/1rt34dg/us_attacks_irans_kharg_island_trump_says/"
+        }
+      ],
+      "top_comments": [
+        {
+          "post_id": "1rt2vpb",
+          "summary": "High discussion volume: 5337 comments"
+        },
+        {
+          "post_id": "1rt34dg",
+          "summary": "High discussion volume: 766 comments"
+        }
+      ],
+      "related_subreddits": [
+        "news",
+        "worldnews"
+      ],
+      "reddit_post_ids": [
+        "1rt2vpb",
+        "1rt34dg"
+      ]
+    },
+    "news_context": {
+      "topic_sentences": [
+        "The United States has launched a military attack on Iran's Kharg Island, according to an announcement made by President Trump, sparking widespread concern over the escalating conflict.",
+        "Iranian officials are condemning the US attack on Kharg Island, warning that the move could lead to a wider regional war and draw in other countries, including Israel and Russia.",
+        "The US military action against Kharg Island is being seen as a demonstration of American military power, but it also risks being perceived as an aggressive move that could undermine international diplomacy and cooperation.",
+        "As news of the US attack on Kharg Island spreads, global energy markets are bracing for potential destabilization, with analysts warning that the conflict could have far-reaching consequences for international trade and security."
+      ],
+      "articles": [
+        {
+          "title": "Iran war: US strikes key Kharg Island oil export hub, Trump says",
+          "url": "https://www.dw.com/en/iran-war-us-strikes-key-kharg-island-oil-export-hub-trump-says/live-76356584?maca=en-rss-en-all-1573-rdf",
+          "source": "dw",
+          "published": "2026-03-14 02:41:00",
+          "snippet": "President Trump said US forces \"obliterated\" military targets on Iran's Kharg Island, the hub of its crude exports. He also said the navy will be escorting tankers through the Strait of Hormuz \"very soon.\" DW has more.",
+          "trusted": true,
+          "via": "api"
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "published": null,
+          "snippet": "",
+          "trusted": true,
+          "via": "pipeline"
+        },
+        {
+          "title": "Dubai, Abu Dhabi News Live Updates: Dubai’s Global Village cancels fireworks, drone shows for Eid amid regional conflict",
+          "url": "https://indianexpress.com/article/world/uae-dubai-us-iran-israel-middle-east-drones-flights-live-updates-10580967/",
+          "source": "indianexpress",
+          "published": "2026-03-14 03:17:09",
+          "snippet": "The US said it bombed “every military target” on Iran’s Kharg Island, threatening continued attacks on the island’s oil infrastructure if Iran continues to block ships from traversing the Strait of Hormuz.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "US-Israel vs Iran War News Live Updates: PM Modi says Congress creating panic over West Asia conflict",
+          "url": "https://indianexpress.com/article/world/us-news/us-israel-iran-war-live-updates-missile-drone-attacks-west-asia-crisis-middle-east-war-news-10580960/",
+          "source": "indianexpress",
+          "published": "2026-03-14 03:17:08",
+          "snippet": "US-Israel vs Iran War News Today Live Updates: Iranian military said in a statement that oil and energy infrastructure belonging to firms that cooperated with the US would ‘immediately be destroyed’",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "AP News in Brief at 11:04 p.m. EDT",
+          "url": "https://ca.news.yahoo.com/ap-news-brief-12-04-040441407.html",
+          "source": "yahoo",
+          "published": "2026-03-14 03:05:07",
+          "snippet": "Trump says US bombed military sites on an island vital to Iran's oil network",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Tucker Carlson turned political commentary into a platform for fringe ideas - opinion",
+          "url": "https://www.jpost.com/opinion/article-889681",
+          "source": "jpost",
+          "published": "2026-03-14 03:03:09",
+          "snippet": "Carlson’s platform increasingly gives space to fringe ideas, raising concerns about their impact on public discourse.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Shi’ite cells in Gulf states are cooperating with Iran, leaking data, coordinates to IRGC",
+          "url": "https://www.jpost.com/middle-east/iran-news/article-889884",
+          "source": "jpost",
+          "published": "2026-03-14 03:03:08",
+          "snippet": "The clearest evidence of the presence of IRGC agents within some Gulf states is the filming of drone or missile strikes on their targets, even before the actual attack.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "What to know about the Jones Act as Trump considers a waiver during the Iran war",
+          "url": "https://abcnews.com/US/wireStory/jones-act-trump-considers-waiver-iran-war-131052858",
+          "source": "abcnews",
+          "published": "2026-03-14 02:51:23",
+          "snippet": "As the U.S. and Israel’s war against Iran continues to upend energy markets and supply chains worldwide, the Trump administration says it might suspend maritime shipping requirements under a more than century-old law kno",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "AP Business SummaryBrief at 10:47 p.m. EDT",
+          "url": "https://www.rutlandherald.com/news/business/ap-business-summarybrief-at-10-47-p-m-edt/article_41e069b3-ea60-5205-a209-8fbc1746cbcf.html",
+          "source": "rutlandherald",
+          "published": "2026-03-14 02:47:29",
+          "snippet": "Judge quashes subpoenas in Justice Department's investigation of Fed chair Jerome Powell",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "US-Israel war on Iran day 15: Trump says bombs Kharg Island; Tehran warns of oil retaliation",
+          "url": "https://gulfnews.com/uae/us-israel-war-on-iran-day-15-trump-says-bombs-kharg-island-tehran-warns-of-oil-retaliation-1.500474056",
+          "source": "gulfnews",
+          "published": "2026-03-14 02:43:46",
+          "snippet": "US-Israel war on Iran day 15: Trump says bombs Kharg Island; Tehran warns of oil retaliation",
+          "trusted": false,
+          "via": "api"
+        }
+      ]
+    },
+    "aggregated_context": {
+      "event": {
+        "event_id": "f7ee0f9c-e9ea-4e0f-895a-9b449bb74738",
+        "title": "US attacks Iran's Kharg Island, Trump says.",
+        "location": "Kharg Island, Iran",
+        "timestamp": "2026-03-13T23:18:14+00:00",
+        "risk_level": "High",
+        "impact_score": 0.6587,
+        "sentiment": "negative",
+        "subreddit": "worldnews",
+        "reddit_post_ids": [
+          "1rt2vpb",
+          "1rt34dg"
+        ]
+      },
+      "reddit": {
+        "top_posts": [
+          {
+            "id": "1rt2vpb",
+            "title": "US attacks Iran's Kharg Island, Trump says",
+            "subreddit": "worldnews",
+            "upvote_score": 17624,
+            "comment_count": 5337,
+            "timestamp": "2026-03-13T23:08:44+00:00",
+            "url": "https://reddit.com/r/worldnews/comments/1rt2vpb/us_attacks_irans_kharg_island_trump_says/"
+          },
+          {
+            "id": "1rt34dg",
+            "title": "US attacks Iran's Kharg Island, Trump says",
+            "subreddit": "news",
+            "upvote_score": 3633,
+            "comment_count": 766,
+            "timestamp": "2026-03-13T23:18:14+00:00",
+            "url": "https://reddit.com/r/news/comments/1rt34dg/us_attacks_irans_kharg_island_trump_says/"
+          }
+        ],
+        "top_comments": [
+          {
+            "post_id": "1rt2vpb",
+            "summary": "High discussion volume: 5337 comments"
+          },
+          {
+            "post_id": "1rt34dg",
+            "summary": "High discussion volume: 766 comments"
+          }
+        ],
+        "related_subreddits": [
+          "news",
+          "worldnews"
+        ],
+        "reddit_post_ids": [
+          "1rt2vpb",
+          "1rt34dg"
+        ]
+      },
+      "news": {
+        "topic_sentences": [
+          "The United States has launched a military attack on Iran's Kharg Island, according to an announcement made by President Trump, sparking widespread concern over the escalating conflict.",
+          "Iranian officials are condemning the US attack on Kharg Island, warning that the move could lead to a wider regional war and draw in other countries, including Israel and Russia.",
+          "The US military action against Kharg Island is being seen as a demonstration of American military power, but it also risks being perceived as an aggressive move that could undermine international diplomacy and cooperation.",
+          "As news of the US attack on Kharg Island spreads, global energy markets are bracing for potential destabilization, with analysts warning that the conflict could have far-reaching consequences for international trade and security."
+        ],
+        "articles": [
+          {
+            "title": "Iran war: US strikes key Kharg Island oil export hub, Trump says",
+            "url": "https://www.dw.com/en/iran-war-us-strikes-key-kharg-island-oil-export-hub-trump-says/live-76356584?maca=en-rss-en-all-1573-rdf",
+            "source": "dw",
+            "published": "2026-03-14 02:41:00",
+            "snippet": "President Trump said US forces \"obliterated\" military targets on Iran's Kharg Island, the hub of its crude exports. He also said the navy will be escorting tankers through the Strait of Hormuz \"very soon.\" DW has more.",
+            "trusted": true,
+            "via": "api"
+          },
+          {
+            "title": "Petrol prices are rising. This map shows why",
+            "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+            "source": "ABC News (AU)",
+            "published": null,
+            "snippet": "",
+            "trusted": true,
+            "via": "pipeline"
+          },
+          {
+            "title": "Dubai, Abu Dhabi News Live Updates: Dubai’s Global Village cancels fireworks, drone shows for Eid amid regional conflict",
+            "url": "https://indianexpress.com/article/world/uae-dubai-us-iran-israel-middle-east-drones-flights-live-updates-10580967/",
+            "source": "indianexpress",
+            "published": "2026-03-14 03:17:09",
+            "snippet": "The US said it bombed “every military target” on Iran’s Kharg Island, threatening continued attacks on the island’s oil infrastructure if Iran continues to block ships from traversing the Strait of Hormuz.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "US-Israel vs Iran War News Live Updates: PM Modi says Congress creating panic over West Asia conflict",
+            "url": "https://indianexpress.com/article/world/us-news/us-israel-iran-war-live-updates-missile-drone-attacks-west-asia-crisis-middle-east-war-news-10580960/",
+            "source": "indianexpress",
+            "published": "2026-03-14 03:17:08",
+            "snippet": "US-Israel vs Iran War News Today Live Updates: Iranian military said in a statement that oil and energy infrastructure belonging to firms that cooperated with the US would ‘immediately be destroyed’",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "AP News in Brief at 11:04 p.m. EDT",
+            "url": "https://ca.news.yahoo.com/ap-news-brief-12-04-040441407.html",
+            "source": "yahoo",
+            "published": "2026-03-14 03:05:07",
+            "snippet": "Trump says US bombed military sites on an island vital to Iran's oil network",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Tucker Carlson turned political commentary into a platform for fringe ideas - opinion",
+            "url": "https://www.jpost.com/opinion/article-889681",
+            "source": "jpost",
+            "published": "2026-03-14 03:03:09",
+            "snippet": "Carlson’s platform increasingly gives space to fringe ideas, raising concerns about their impact on public discourse.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Shi’ite cells in Gulf states are cooperating with Iran, leaking data, coordinates to IRGC",
+            "url": "https://www.jpost.com/middle-east/iran-news/article-889884",
+            "source": "jpost",
+            "published": "2026-03-14 03:03:08",
+            "snippet": "The clearest evidence of the presence of IRGC agents within some Gulf states is the filming of drone or missile strikes on their targets, even before the actual attack.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "What to know about the Jones Act as Trump considers a waiver during the Iran war",
+            "url": "https://abcnews.com/US/wireStory/jones-act-trump-considers-waiver-iran-war-131052858",
+            "source": "abcnews",
+            "published": "2026-03-14 02:51:23",
+            "snippet": "As the U.S. and Israel’s war against Iran continues to upend energy markets and supply chains worldwide, the Trump administration says it might suspend maritime shipping requirements under a more than century-old law kno",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "AP Business SummaryBrief at 10:47 p.m. EDT",
+            "url": "https://www.rutlandherald.com/news/business/ap-business-summarybrief-at-10-47-p-m-edt/article_41e069b3-ea60-5205-a209-8fbc1746cbcf.html",
+            "source": "rutlandherald",
+            "published": "2026-03-14 02:47:29",
+            "snippet": "Judge quashes subpoenas in Justice Department's investigation of Fed chair Jerome Powell",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "US-Israel war on Iran day 15: Trump says bombs Kharg Island; Tehran warns of oil retaliation",
+            "url": "https://gulfnews.com/uae/us-israel-war-on-iran-day-15-trump-says-bombs-kharg-island-tehran-warns-of-oil-retaliation-1.500474056",
+            "source": "gulfnews",
+            "published": "2026-03-14 02:43:46",
+            "snippet": "US-Israel war on Iran day 15: Trump says bombs Kharg Island; Tehran warns of oil retaliation",
+            "trusted": false,
+            "via": "api"
+          }
+        ]
+      },
+      "timeline": [
+        "2026-03-13T23:08:44+00:00",
+        "2026-03-13T23:18:14+00:00",
+        "2026-03-14 02:41:00",
+        "2026-03-14 02:43:46",
+        "2026-03-14 02:47:29",
+        "2026-03-14 02:51:23",
+        "2026-03-14 03:03:08",
+        "2026-03-14 03:03:09",
+        "2026-03-14 03:05:07",
+        "2026-03-14 03:17:08",
+        "2026-03-14 03:17:09"
+      ]
+    },
+    "analysis_report": "**Event Summary**\nThe US has reportedly attacked Iran's Kharg Island, a key oil export hub, as announced by Trump. This development is part of the ongoing conflict between the US and Iran, with potential implications for global oil prices and regional stability.\n\n**Key Developments**\n* The US has struck Kharg Island, a crucial oil export hub in Iran, according to Trump's statement.\n* The attack is part of the escalating conflict between the US and Iran, with Israel also involved.\n* Petrol prices are rising globally, with a map showing the affected areas.\n* Dubai's Global Village has canceled fireworks and drone shows for Eid amid regional conflict.\n* India's PM Modi has accused Congress of creating panic over the West Asia conflict.\n\n**Timeline of the Event**\nThe event timeline is as follows:\n2026-03-13T23:08:44+00:00, 2026-03-13T23:18:14+00:00, 2026-03-14 02:41:00, 2026-03-14 02:43:46, 2026-03-14 02:47:29, 2026-03-14 02:51:23, 2026-03-14 03:03:08, 2026-03-14 03:03:09, 2026-03-14 03:05:07, 2026-03-14 03:17:08, 2026-03-14 03:17:09.\n\n**Public Sentiment**\nThe public sentiment is one of concern and uncertainty, with rising petrol prices and regional conflict affecting daily life. The cancellation of fireworks and drone shows in Dubai's Global Village for Eid is a notable example of the impact on public events.\n\n**Source Reliability**\nThe source reliability is mixed, with some news articles providing factual information and others offering opinion-based commentary. Reddit posts are limited and lack diversity, while news articles from reputable sources like AP News provide more credible information.\n\n**Information Spread Pattern**\nThe information spread pattern is primarily through online news articles and social media platforms like Reddit. The news is being shared and updated in real-time, with multiple sources providing live updates on the conflict.\n\n**Potential Implications**\n* Global oil prices may continue to rise, affecting economies worldwide.\n* The conflict between the US and Iran may escalate, involving other countries in the region.\n* Regional stability may be compromised, with potential implications for global security.\n* The Jones Act may be waived by Trump, affecting the US shipping industry.\n* Shi'ite cells in Gulf states may cooperate with Iran, leaking sensitive information and coordinates to the IRGC."
+  },
+  "topics_extract_2024-10-27_2024-11-16": {
+    "start_date": "2024-10-27",
+    "end_date": "2024-11-16",
+    "topics": [],
+    "headline_count": 200
+  },
+  "topics_extract_2024-11-09_2024-11-29": {
+    "start_date": "2024-11-09",
+    "end_date": "2024-11-29",
+    "topics": [],
+    "headline_count": 200
+  },
+  "topics_extract_2024-11-24_2024-12-14": {
+    "start_date": "2024-11-24",
+    "end_date": "2024-12-14",
+    "topics": [],
+    "headline_count": 200
+  },
+  "topics_extract_2024-12-20_2025-01-09": {
+    "start_date": "2024-12-20",
+    "end_date": "2025-01-09",
+    "topics": [],
+    "headline_count": 200
+  },
+  "topics_extract_2025-01-04_2025-01-24": {
+    "start_date": "2025-01-04",
+    "end_date": "2025-01-24",
+    "topics": [],
+    "headline_count": 200
+  },
+  "topics_extract_2025-01-22_2025-02-11": {
+    "start_date": "2025-01-22",
+    "end_date": "2025-02-11",
+    "topics": [],
+    "headline_count": 200
+  },
+  "topics_extract_2024-08-24_2024-09-13": {
+    "start_date": "2024-08-24",
+    "end_date": "2024-09-13",
+    "topics": [
+      {
+        "topic": "The Trump campaign's reliance on racist conspiracy theories to question election results is being criticized by liberals, who see this as a desperate attempt to undermine the democratic process and a sign of Trump's unfitness for office.",
+        "subreddits": [
+          "r/politics",
+          "r/liberal"
+        ],
+        "sentiment": "outrage",
+        "key_claim": "Trump is using racist conspiracy theories to question election results.",
+        "example_headlines": [
+          "How Trump is relying on a racist conspiracy theory to question election results",
+          "Trump insists he won debate, says another ‘probably won’t happen’",
+          "Trump calls Arlington ‘a made up story’"
+        ]
+      },
+      {
+        "topic": "Liberals are discussing the perceived ease with which Kamala Harris can manipulate or outmaneuver Donald Trump, with some arguing that this is a sign of Trump's weakness and unfitness for office.",
+        "subreddits": [
+          "r/KamalaHarris",
+          "r/liberal"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Kamala Harris is more intelligent and capable than Donald Trump.",
+        "example_headlines": [
+          "Harris Exposed How Easy Trump Is to Manipulate. Dictators Have Known This for a Long Time.",
+          "She is far too smart for him",
+          "This is going to be too easy for her"
+        ]
+      },
+      {
+        "topic": "The liberal community is expressing frustration and confusion over the existence of undecided voters, with some questioning their intelligence or sanity, while others are encouraging people to volunteer and participate in the democratic process.",
+        "subreddits": [
+          "r/politics",
+          "r/volunteer"
+        ],
+        "sentiment": "skeptical",
+        "key_claim": "Undecided voters are uninformed or misinformed about the candidates and issues.",
+        "example_headlines": [
+          "I don’t want to be mean, but do undecided voters have brain damage?",
+          "It's insane there are still 'undecided' voters. Especially after last night",
+          "If you're on the fence about volunteering..."
+        ]
+      },
+      {
+        "topic": "Liberals are discussing the importance of voting and participating in the democratic process, with a focus on supporting Kamala Harris and other Democratic candidates, and encouraging others to do the same.",
+        "subreddits": [
+          "r/voting",
+          "r/KamalaHarris"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Voting and participating in the democratic process are crucial for the success of liberal candidates and policies.",
+        "example_headlines": [
+          "Registration Deadlines and Early Voting Dates by State",
+          "Why Democratic voter participation from Americans overseas is more important than ever",
+          "Looking to canvass for VP Harris and Gov. Walz and get the most out of your time?"
+        ]
+      },
+      {
+        "topic": "The liberal community is criticizing Donald Trump's behavior and policies, with a focus on his debate performance, his claims about the election, and his overall fitness for office.",
+        "subreddits": [
+          "r/politics",
+          "r/liberal"
+        ],
+        "sentiment": "outrage",
+        "key_claim": "Donald Trump is unfit for office and his behavior is a threat to democracy.",
+        "example_headlines": [
+          "Everyone Is Saying: Donald Trump Lost It",
+          "Jon Stewart Unloads on Trump’s Most Shameful Debate Moment",
+          "'Struggling' Donald Trump Sparks Concern as He Forgets He's Running Against Kamala Harris in 2024 Election: 'Not Fit to"
+        ]
+      },
+      {
+        "topic": "Liberals are discussing the endorsements and support of various public figures, including Taylor Swift and Republican Liz Cheney, for Kamala Harris and other Democratic candidates.",
+        "subreddits": [
+          "r/KamalaHarris",
+          "r/celebrities"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "The endorsements of public figures like Taylor Swift and Liz Cheney are a significant boost to the campaigns of liberal candidates.",
+        "example_headlines": [
+          "Taylor Swift endorses Kamala Harris",
+          "Republican Liz Cheney endorses Kamala Harris",
+          "Harris-Walz Interview Ratings Nearly Double Trump’s Last Big CNN Sit-Down"
+        ]
+      },
+      {
+        "topic": "The liberal community is expressing concern about the climate movement and its relationship to voting and political participation, with some arguing that the movement is not doing enough to support Democratic candidates and policies.",
+        "subreddits": [
+          "r/climate",
+          "r/politics"
+        ],
+        "sentiment": "alarm",
+        "key_claim": "The climate movement is not doing enough to support Democratic candidates and policies.",
+        "example_headlines": [
+          "Why isn't the climate movement voting?",
+          "The Lever identifies Leonard Leo as main villain behind swing state voter purge",
+          "Whats your stance on improving public safety?"
+        ]
+      }
+    ],
+    "headline_count": 42,
+    "llm_error": null
+  },
+  "topics_extract_2024-10-26_2024-11-15": {
+    "start_date": "2024-10-26",
+    "end_date": "2024-11-15",
+    "topics": [
+      {
+        "topic": "Anarchist communities are discussing ways to organize and resist against fascist and authoritarian regimes, and are sharing resources and strategies for mutual aid and collective action.",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "alarm",
+        "key_claim": "Anarchist principles and practices are essential for resisting oppressive regimes and creating a more just and equitable society.",
+        "example_headlines": [
+          "Saul Williams inspires me... please listen to this speech!",
+          "Get off X/Twitter! When you use X/Twitter, you grant a far-right billionaire the role of moderator in every discussion.",
+          "What can a 13 year old do"
+        ]
+      },
+      {
+        "topic": "The anarchist community is exploring the intersection of anarchism and other social and political issues, such as climate change, disability rights, and anti-fascism, and are discussing ways to integrate these issues into their organizing and activism.",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Anarchism offers a unique perspective and set of principles for addressing a wide range of social and political issues, and can be a powerful tool for creating positive change.",
+        "example_headlines": [
+          "Climate change, diesel emissions, and anarchist solutions",
+          "Im a disabled person, and im begging you to get informed about covid.",
+          "Long Live Tranarchy!"
+        ]
+      },
+      {
+        "topic": "Liberals are expressing outrage and concern about the rise of authoritarianism and fascism in the US, and are discussing ways to resist and challenge these trends, including through electoral politics and grassroots organizing.",
+        "subreddits": [
+          "Liberal"
+        ],
+        "sentiment": "outrage",
+        "key_claim": "The rise of authoritarianism and fascism in the US poses a significant threat to democracy and human rights, and requires a strong and sustained response from liberals and progressives.",
+        "example_headlines": [
+          "Election Day Intimidation and Voter Misinformation",
+          "Trump Administration Bingo",
+          "Authoritarianism Expert Shatters A Trump ‘Illusion’: ‘One Of The Biggest Scams Of All’"
+        ]
+      },
+      {
+        "topic": "Anarchists are discussing the importance of community and mutual aid, and are sharing resources and strategies for building and supporting anarchist communities, including through online platforms and local organizing.",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Building strong and supportive anarchist communities is essential for creating a more just and equitable society, and requires a commitment to mutual aid, solidarity, and collective action.",
+        "example_headlines": [
+          "Global mutual aid platform",
+          "DIY Digital Community Library--Advice Needed",
+          "So what happens when they make mutual aid illegal?"
+        ]
+      },
+      {
+        "topic": "Liberals are reflecting on the recent election and are discussing ways to move forward, including through self-care, community-building, and strategic planning, and are seeking advice and support from others.",
+        "subreddits": [
+          "Liberal"
+        ],
+        "sentiment": "skeptical",
+        "key_claim": "The recent election has created a sense of uncertainty and unease among liberals, and requires a thoughtful and strategic response to address the challenges and opportunities that lie ahead.",
+        "example_headlines": [
+          "What’s it going to be",
+          "Seeking constructive advice on what to do now",
+          "How do I provide support and reassurance to my peers while maintaining my stance of realism?"
+        ]
+      },
+      {
+        "topic": "Anarchists are exploring the history and theory of anarchism, and are discussing the relevance and applicability of anarchist principles and practices to contemporary social and political issues.",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "neutral",
+        "key_claim": "Anarchism offers a rich and diverse tradition of thought and practice that can inform and inspire contemporary social and political movements, and requires ongoing study, reflection, and experimentation.",
+        "example_headlines": [
+          "The Dawn of Anarchism: A new IAN pamphlet",
+          "What does it mean to “become ungovernable” when you live under a government?",
+          "More recent books/essays on anarchism for the modern world"
+        ]
+      },
+      {
+        "topic": "Liberals are discussing the role of media and information in shaping public opinion and influencing political outcomes, and are critiquing the ways in which conservative and authoritarian forces are using media and propaganda to advance their agendas.",
+        "subreddits": [
+          "Liberal"
+        ],
+        "sentiment": "outrage",
+        "key_claim": "The media and information landscape play a critical role in shaping public opinion and influencing political outcomes, and require careful attention and critique to ensure that they are serving the public interest.",
+        "example_headlines": [
+          "‘… Didn’t get their news from mainstream media’: TIME Magazine reveals how Trump truly won",
+          "Trump Outrage Industrial Complex - Done?",
+          "Let's push the 'now watch him self-destruct without always talking about him' narrative."
+        ]
+      }
+    ],
+    "headline_count": 200,
+    "llm_error": null
+  },
+  "topic_analysis_the_anarchist_community_is_exploring_the_2024-10-31_2024-11-10": {
+    "topic": "The anarchist community is exploring the intersection of anarchism and other social and political issues, such as climate change, disability rights, and anti-fascism, and are discussing ways to integrate these issues into their organizing and activism.",
+    "start_date": "2024-10-31",
+    "end_date": "2024-11-10",
+    "total_posts": 126,
+    "top_subreddits": [
+      [
+        "Liberal",
+        84
+      ],
+      [
+        "Anarchism",
+        42
+      ]
+    ],
+    "top_domains": [
+      [
+        "self.Liberal",
+        70
+      ],
+      [
+        "self.Anarchism",
+        32
+      ],
+      [
+        "theanarchistlibrary.org",
+        2
+      ],
+      [
+        "politico.com",
+        2
+      ],
+      [
+        "8newsnow.com",
+        1
+      ]
+    ],
+    "bridge_authors": [
+      "Doom_Walker",
+      "FreedomsPower",
+      "Stonecutter_12-83",
+      "progress18"
+    ],
+    "brief": "**EXECUTIVE SUMMARY**\nThe narrative topic of anarchism and its intersection with social and political issues experienced a significant surge in discussion on Reddit, particularly in the r/Anarchism community, following the 2024 US election. The data reveals a shift in focus from liberal communities (r/Liberal) discussing election-related topics to anarchist communities exploring ways to integrate social and political issues into their organizing and activism. This surge in discussion highlights the growing interest in alternative political ideologies and the need for communities to adapt to changing social and political landscapes.\n\n**VOLUME SPIKE ANALYSIS**\nThe post volume increased significantly on November 7, 2024, with a surge in activity in the r/Anarchism community. This spike was triggered by the outcome of the 2024 US election, with many users discussing the implications of the election results and the need for alternative forms of activism and organizing. The volume built up gradually, with initial discussions on November 6, 2024, in the r/Liberal community, but exploded overnight with the r/Anarchism community joining the conversation on November 7, 2024. The relative activity across the earliest vs. peak vs. post-peak days shows a significant increase in posts in the r/Anarchism community, with 17 posts on November 7, 2024, compared to 0 posts on November 5, 2024.\n\n**TIMELINE & TREND ARC**\nFive days before the spike (November 2, 2024), the discussion in the r/Liberal community focused on election-related topics, such as voter suppression and the importance of voting. On November 6, 2024, the conversation shifted to the outcome of the election, with many users expressing disappointment and frustration. The peak of the discussion occurred on November 7, 2024, with the r/Anarchism community joining the conversation and exploring ways to integrate social and political issues into their organizing and activism. In the 5 days after the peak, the discussion sustained, with the r/Anarchism community continuing to explore alternative forms of activism and organizing. On November 8, 2024, the conversation shifted to more practical discussions, such as the creation of a global mutual aid platform and the importance of anarchist literature.\n\n**MULTI-PERSPECTIVE ANALYSIS**\nThe topic of anarchism and its intersection with social and political issues was framed differently by various ideological communities. The r/Liberal community focused on the election outcome and the need for democratic reforms, while the r/Anarchism community explored alternative forms of activism and organizing. The r/Anarchism community emphasized the importance of mutual aid, direct action, and community organizing, while the r/Liberal community focused on electoral politics and policy reforms. The conservative perspective was largely absent from the discussion, but some users in the r/Liberal community expressed concerns about the rise of fascist ideology and the need for a strong democratic response.\n\n**AMPLIFICATION MECHANICS**\nThe r/Anarchism community drove the most volume, with 17 posts on November 7, 2024, and 14 posts on November 8, 2024. The r/Liberal community also contributed to the discussion, with 10 posts on November 6, 2024, and 8 posts on November 7, 2024. The domain theanarchistlibrary.org was frequently cited, with 2 posts on November 8, 2024, and 1 post on November 10, 2024. There were no clear coordinated amplification patterns, but the discussion was largely organic, with users sharing their thoughts and ideas on the topic.\n\n**KEY CLAIMS & COUNTER-NARRATIVES**\nThe dominant claims made in these posts were:\n1. The need for alternative forms of activism and organizing in the face of electoral defeat.\n2. The importance of mutual aid and community organizing in creating social change.\n3. The rise of fascist ideology and the need for a strong democratic response.\nCounter-narratives existed, with some users in the r/Liberal community expressing concerns about the effectiveness of anarchist tactics and the need for more moderate approaches. However, these counter-narratives were largely absent from the r/Anarchism community, which focused on exploring alternative forms of activism and organizing.\n\n**INTELLIGENCE ASSESSMENT**\nThis narrative event reveals underlying social tensions and political dynamics, particularly the growing interest in alternative political ideologies and the need for communities to adapt to changing social and political landscapes. The most likely real-world trigger is the outcome of the 2024 US election, which highlighted the limitations of electoral politics and the need for alternative forms of activism and organizing. This surge in discussion is part of a longer pattern of growing interest in anarchist and anti-fascist ideologies, particularly among young people and marginalized communities. The intelligence assessment suggests that these communities will continue to play an important role in shaping social and political discourse, particularly in the face of rising fascist and authoritarian tendencies."
+  },
+  "topics_extract_2025-02-02_2025-02-22": {
+    "start_date": "2025-02-02",
+    "end_date": "2025-02-22",
+    "topics": [
+      {
+        "topic": "The anarchist community is discussing various topics such as social ecology, tiny mobile homes for the unhoused, and the importance of privacy, highlighting the need for alternative forms of governance and social organization.",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Anarchist principles and practices can provide a more equitable and just society.",
+        "example_headlines": [
+          "WTF is Social Ecology?",
+          "Toronto orders creator of tiny mobile homes for unhoused people to stop | CBC News",
+          "3 reasons privacy is worth taking back"
+        ]
+      },
+      {
+        "topic": "Conservative users are expressing support for Donald Trump and criticizing liberal policies, arguing that Trump's presidency has been beneficial for the country and that liberal ideologies are harmful.",
+        "subreddits": [
+          "Conservative"
+        ],
+        "sentiment": "outrage",
+        "key_claim": "Donald Trump is the best president since Abraham Lincoln and his policies are being unfairly criticized by liberals.",
+        "example_headlines": [
+          "Is Donald Trump the best President since Abraham Lincoln?",
+          "CBS Liberal says the holocaust happened because of free speech",
+          "Trump Administration Fires 400 FAA Employees Weeks After Collision"
+        ]
+      },
+      {
+        "topic": "Liberal users are criticizing Donald Trump and his policies, arguing that they are harmful to the country and its citizens, and that Trump's actions are a threat to democracy.",
+        "subreddits": [
+          "Liberal",
+          "democrats"
+        ],
+        "sentiment": "alarm",
+        "key_claim": "Donald Trump's presidency is a threat to American democracy and his policies are causing harm to the country and its citizens.",
+        "example_headlines": [
+          "51st State? Hell No!",
+          "Trump doubling down with inexperienced sycophants and clowns is good for us, and here is why:",
+          "House Democrats denied entry to the Department of Education"
+        ]
+      },
+      {
+        "topic": "Neoliberal users are discussing various topics such as economic policies, international relations, and social issues, often from a centrist or moderate perspective, highlighting the need for pragmatic solutions to complex problems.",
+        "subreddits": [
+          "neoliberal"
+        ],
+        "sentiment": "neutral",
+        "key_claim": "Pragmatic and centrist approaches to policy-making can provide effective solutions to complex social and economic issues.",
+        "example_headlines": [
+          "Obama era Budget Plan that would have fixed the Deficient",
+          "How to stop Trump’s power grab",
+          "A Proven Way to Ease L.A.’s Housing Crisis: States around the country are showing Southern California how to rebuild."
+        ]
+      },
+      {
+        "topic": "Republican users are discussing various topics such as politics, economics, and social issues, often from a conservative perspective, highlighting the need for limited government intervention and individual freedom.",
+        "subreddits": [
+          "Republican"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Conservative policies and values are essential for promoting individual freedom and prosperity.",
+        "example_headlines": [
+          "Trump Pressures Romania on Tate Brothers as Musk’s DOGE Uncovers Government Fraud | News Wrap Up",
+          "Al Sharpton Asks Maybe the DUMBEST Question Ever About Our Founders and Ted Cruz's Answer is PERFECTION",
+          "NASCAR fans cheer as Trump arrives for Daytona 500 in Air Force One"
+        ]
+      },
+      {
+        "topic": "Users across various subreddits are discussing the role of social media in shaping public opinion and influencing elections, highlighting the need for critical thinking and media literacy in the digital age.",
+        "subreddits": [
+          "Liberal",
+          "Conservative",
+          "neoliberal",
+          "politics"
+        ],
+        "sentiment": "skeptical",
+        "key_claim": "Social media has a significant impact on public opinion and elections, and users must be critical of the information they consume online.",
+        "example_headlines": [
+          "🗳️ Did social media influence the 2024 U.S. elections?",
+          "CBS Liberal says the holocaust happened because of free speech",
+          "German court orders X to hand over election data in legal blow to Musk’s platform"
+        ]
+      },
+      {
+        "topic": "The Trump administration's policies and actions are being criticized by liberal and neoliberal users, who argue that they are harmful to the country and its citizens, and that Trump's presidency is a threat to democracy.",
+        "subreddits": [
+          "Liberal",
+          "neoliberal",
+          "democrats"
+        ],
+        "sentiment": "alarm",
+        "key_claim": "The Trump administration's policies and actions are a threat to American democracy and are causing harm to the country and its citizens.",
+        "example_headlines": [
+          "Trump Openly Threatens Judges Who Blocked His Orders",
+          "Trump administration orders list of new FBI recruits, deepening fears of cuts",
+          "Trump says Nippon Steel to 'invest heavily' in, not buy U.S. Steel"
+        ]
+      },
+      {
+        "topic": "Users are discussing the importance of privacy and the need for individuals to take control of their personal data, highlighting the risks of government and corporate surveillance in the digital age.",
+        "subreddits": [
+          "Anarchism",
+          "Liberal",
+          "neoliberal"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Individuals must take control of their personal data and protect their privacy in the digital age.",
+        "example_headlines": [
+          "3 reasons privacy is worth taking back",
+          "Who the h*** has my social security number?",
+          "EU probes Shein over consumer protection"
+        ]
+      }
+    ],
+    "headline_count": 200,
+    "llm_error": null
+  },
+  "topics_extract_2025-01-19_2025-02-08": {
+    "start_date": "2025-01-19",
+    "end_date": "2025-02-08",
+    "topics": [
+      {
+        "topic": "The anarchist community is discussing various topics such as the writings of Marx and Engels, the popularity of anarchism in Malaysia, and the role of anarchism in modern society, highlighting the diversity of anarchist thought and its relevance to contemporary issues",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Anarchism is a viable and relevant ideology that can be applied to various aspects of modern society",
+        "example_headlines": [
+          "Does anyone else here actually love the writings of Marx and Engels but profoundly disagree with most Marxists/Leninists",
+          "How popular is anarchism in Malaysia?",
+          "Guide To Packing For A Protest"
+        ]
+      },
+      {
+        "topic": "The liberal community is expressing concern and outrage over the actions of the Trump administration, including the potential disenfranchisement of citizens and the erosion of democratic norms, highlighting the perceived threats to democracy and the rule of law",
+        "subreddits": [
+          "Liberal",
+          "democrats"
+        ],
+        "sentiment": "outrage",
+        "key_claim": "The Trump administration is undermining democracy and the rule of law, and its actions must be resisted and challenged",
+        "example_headlines": [
+          "The SAVE Act Would Disenfranchise Millions of Citizens",
+          "Trump wants to sell Americas Gold to buy Bitcoin? Why are conservatives silent?",
+          "Trump signs executive actions on Jan. 6, TikTok, immigration and more"
+        ]
+      },
+      {
+        "topic": "The Republican community is discussing and defending the actions of the Trump administration, including its immigration policies and its response to various crises, highlighting the perceived successes and benefits of these policies",
+        "subreddits": [
+          "Republican"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "The Trump administration is taking bold and necessary actions to address the nation's problems, and its policies are having a positive impact",
+        "example_headlines": [
+          "Man gets beaten up for supporting Trump in Los Angeles",
+          "The Offensive WASTE of Your Tax Money by USAID Revealed",
+          "Trump Was Right: FAA Turned Away Qualified Controllers Over Race"
+        ]
+      },
+      {
+        "topic": "The neoliberal community is analyzing and critiquing the actions of the Trump administration, including its trade policies and its approach to international relations, highlighting the perceived flaws and contradictions of these policies",
+        "subreddits": [
+          "neoliberal"
+        ],
+        "sentiment": "skeptical",
+        "key_claim": "The Trump administration's policies are flawed and contradictory, and they pose a threat to global stability and prosperity",
+        "example_headlines": [
+          "The populist phantom • Democracy erodes from the top",
+          "Why Donald Trump’s protectionist zeal has only grown",
+          "Trump says Nippon Steel to 'invest heavily' in, not buy U.S. Steel"
+        ]
+      },
+      {
+        "topic": "The community is discussing the geopolitical implications of the US control of Gaza, including the potential consequences for the region and the world, highlighting the perceived risks and challenges of this situation",
+        "subreddits": [
+          "PoliticalDiscussion"
+        ],
+        "sentiment": "alarm",
+        "key_claim": "The US control of Gaza has significant geopolitical implications, and it poses a threat to regional and global stability",
+        "example_headlines": [
+          "What are the geopolitical implications of the U.S. control of Gaza?",
+          "Why are so many Americans in favor of illegal immigration and opposed to deportation?",
+          "Do You Think the US is Moving in a 'Fascist' Direction?"
+        ]
+      },
+      {
+        "topic": "The community is sharing personal stories and experiences related to anarchism, including the challenges of getting involved in community organizing and the importance of supporting immigrants' rights, highlighting the human side of anarchist activism",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "neutral",
+        "key_claim": "Anarchism is a personal and collective journey that requires dedication, perseverance, and a commitment to social justice",
+        "example_headlines": [
+          "I've failed to effectively get involved with community organizing -- where do I go from here?",
+          "Seeking ways to support immigrants rights in the US since Trump's inauguration",
+          "Wikipedia is an absolute goldmine of anarchist biographies"
+        ]
+      },
+      {
+        "topic": "The community is discussing the role of anarchism in history, including the legacy of the Spanish International Brigades and the contributions of Black-led militias, highlighting the importance of learning from the past and honoring the struggles of previous generations",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "celebratory",
+        "key_claim": "Anarchism has a rich and diverse history, and it is essential to learn from and honor the struggles and achievements of previous generations",
+        "example_headlines": [
+          "Are there any places in the world today similar to the former Spanish International Brigades",
+          "Black History Month: Dynamite Hill and Smithfield Civil Defense Unit, the 50-member Black-led Militia of 'Bombingham'",
+          "A FAMOUS ANTI-AUTHORITARIAN ORGANIZATION IN GREECE WHO IS IN ANTHENS, IS KNOW COMMING TO THESSALONIKI, THE CO CAPITAL"
+        ]
+      },
+      {
+        "topic": "The community is debating the compatibility of libertarianism and capitalism, highlighting the perceived tensions and contradictions between these ideologies",
+        "subreddits": [
+          "Anarchism"
+        ],
+        "sentiment": "skeptical",
+        "key_claim": "Libertarianism and capitalism are incompatible, and the pursuit of one ideology undermines the principles of the other",
+        "example_headlines": [
+          "Meme: Another reminder that libertarianism is incompatible with capitalism",
+          "What Trump's Policies Actually Mean",
+          "The populist phantom • Democracy erodes from the top"
+        ]
+      }
+    ],
+    "headline_count": 200,
+    "llm_error": null
+  },
+  "event_analysis:1f114aee-49c8-4361-a6a2-fc83e2e324a5:2026-03-15T12:11:46.452157+00:00": {
+    "event_id": "1f114aee-49c8-4361-a6a2-fc83e2e324a5",
+    "generated_at": "2026-03-15T12:16:30.735410+00:00",
+    "limits": {
+      "max_reddit_posts": 50,
+      "max_news_sources": 10
+    },
+    "reddit_context": {
+      "top_posts": [
+        {
+          "id": "1rtmje3",
+          "title": "A simple breakfast during the (orthodox) Lent in Serbia",
+          "subreddit": "europe",
+          "upvote_score": 964,
+          "comment_count": 101,
+          "timestamp": "2026-03-14T15:38:10+00:00",
+          "url": "https://reddit.com/r/europe/comments/1rtmje3/a_simple_breakfast_during_the_orthodox_lent_in/"
+        }
+      ],
+      "top_comments": [
+        {
+          "post_id": "1rtmje3",
+          "summary": "High discussion volume: 101 comments"
+        }
+      ],
+      "related_subreddits": [
+        "europe"
+      ],
+      "reddit_post_ids": [
+        "1rtmje3"
+      ]
+    },
+    "news_context": {
+      "topic_sentences": [
+        "Serbian citizens are embracing their cultural heritage by sharing traditional breakfast dishes during Orthodox Lent, sparking a wave of interest in local cuisine across Europe.",
+        "The Reddit community is facilitating a unique platform for cultural exchange between Serbia and other European countries, with users engaging in discussions about traditional Serbian breakfasts.",
+        "In a bid to promote cross-cultural understanding, Serbian food enthusiasts are taking to social media to showcase the country's simple yet flavorful breakfast options during the Lenten period.",
+        "The r/europe subreddit is witnessing a significant surge in engagement, with over 964 users upvoting a discussion on traditional Serbian breakfasts, highlighting the community's growing interest in Serbian culture and cuisine."
+      ],
+      "articles": [
+        {
+          "title": "A simple breakfast during the (orthodox) Lent in Serbia",
+          "url": "https://www.reddit.com/r/EuropeEats/comments/1rnybq3/a_simple_breakfast_during_the_orthodox_lent_in/",
+          "source": "www.reddit.com",
+          "published": null,
+          "snippet": "I can see potatoes, spring onions and bread. But what's the red paste on the side? It is meat based or veggie?",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Foods That Are Okay to Eat for Orthodox Lent",
+          "url": "https://www.thespruceeats.com/foods-for-serbian-orthodox-lent-1136424",
+          "source": "www.thespruceeats.com",
+          "published": null,
+          "snippet": "Image 1: Foods for Orthodox Lent:max_bytes(150000):strip_icc():format(webp)/foods-for-serbian-orthodox-lent-1136424_final-01cf36cd95914c9189785c883823c9e9.png). Image 7: Polish pączki doughnuts recipe in waxed paper in a",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Unusual Must-Try Serbian Breakfast! #travel #belgrade #food",
+          "url": "https://www.youtube.com/shorts/GfGLLy-saF0",
+          "source": "www.youtube.com",
+          "published": null,
+          "snippet": "The best way to start a day in Belgrade is with a retro traditional and simple Serbian breakfast called Popara.",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "Fasting Cookbook",
+          "url": "https://www.atlantaserbs.com/learnmore/library/Fasting-Cookbook.html",
+          "source": "www.atlantaserbs.com",
+          "published": null,
+          "snippet": "Add diced pickles, apples and boiled potatoes, then oil, mayonnaise, salt, pepper, vinegar and ketchup. > Cook and drain beans, add oil while still hot. Sautee onions, mushrooms, carrots and celery and add the soya bits ",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "if I am not mistaken, it is the beginning of the orthodox lent ...",
+          "url": "https://www.facebook.com/groups/498357237188828/posts/1589890171368857/",
+          "source": "www.facebook.com",
+          "published": null,
+          "snippet": "Typical Serbian dishes include beans (prebranac), wrapped cabbage or stuffed peppers (posna sarma/posne punjene paprike), grilled vegetables (",
+          "trusted": false,
+          "via": "api"
+        },
+        {
+          "title": "TOMORROW WE CELEBRATE THE AUTUMN CROSS DAY: It is marked by strict fasting, and these customs should be respected! - Serbiantimes.info",
+          "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPVEhPeHNjd0xtWFdKZ0tCUVhrUkcteVB4cU1PWVBkZmE2SHo5a09ia2pyUHlfb0ZfeUNIQnprYzRnUnQyYjFFOU5JeXFIT2JYT1hTdTNTOFczX1VTbmJiblRKTXVmUnprU1dabXUxUVpGSkFLOEp6Qkx3dnY3Rk1HSTMtekJlQzFHQ3JmbnZzT1JseGFPYmZHVkZBVlhmbThRdmxNdzFWQ2FZT2RHb3I4ZzQ2QUpDZkhQZ1NWT3VJVnFweTBiSzdIU0xHVFVVNE83WEl4VS1lV0k?oc=5",
+          "source": "Serbiantimes.info",
+          "published": "Fri, 26 Sep 2025 07:00:00 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "Pittsburgh Fish Fry Guide for 2026: Submit your fish fry now - WTAE",
+          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5rTThTRnA3M2JhMjh0Qy1oTnd2UEM1MUw4bDRzSVhRYjVneU5CdzlqS0k3cHhyYW9WeEZFdXBfdU52bHBVTjM5NEhOMWc4UTdjY2kwenhnUVpVRjFOaVhIeHVCa2hKSUpJT2dFU0xjWkJEMlV5Y3lJ?oc=5",
+          "source": "WTAE",
+          "published": "Wed, 11 Feb 2026 15:53:47 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "Many fish in the sea: These sides can steal the spotlight during Lent - The Detroit News",
+          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxON0pxblVJSUdnVkc3eVMxVGV1VF9YUGRyRlJOUW5HeFlnd3ZjbE1Jd3c5My05X3JKU0QyR1B4bGQtVE9janI1ZWpaX29mWk5mVnVqQlJqWEdOQ3pINTd6ZlVKTHBBRDlFdERJVDlGTTJqMGJzeGFwLW54OUFxbE5BTjh2VGRSMkhjWV8wMkV6QWNBQ0d6X0FTdTYzZENkMkVQeWhIUWRuOHgxVy1ZUGY0cTVvdzVnMGxXc0lTN3Jrcy1sQ0w3QkNsQXZJSy1FMmNzUmc?oc=5",
+          "source": "The Detroit News",
+          "published": "Wed, 02 Apr 2025 07:00:00 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "Looking for a Stark County fish fry? Here's where you can find one - Canton Repository",
+          "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOQTFTSXpRcHdlNUdsNUxsbENBUDBBWEpXYkloNVdJTWE5bk0tRzVCdnpuY05ZemFzRDBNS05PM0ZZZ2k3X0dqTXp2QmNNME8zSTlEa09KNERXc1RsQ01vd3FwM1pFU1NTSFdzZ3ZyVGh6Y1RQdks2LTVGY09rOEVxUjZna0wwOERlSkhBVnJEMTZzZFRON2JMdkxkYW5GWmkxbXdpQVMtRUJvX2x6U1RHUW5tVWJIWTJqVGhpZmdUT3Q4RGt4aElBU0pQaWY2YWxkWUcxX1Rn?oc=5",
+          "source": "Canton Repository",
+          "published": "Fri, 28 Feb 2025 08:00:00 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        },
+        {
+          "title": "Must-try parish fish fries in St. Louis - St. Louis Magazine",
+          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1fTmZtb2ZvMTBTd3JpNWQzQktCaU9MdGV2Mmp0T1d2V0xmN0RQWjc2bk1KeEpRS2ZVeUUtQ0h2bkhHeHBHR255V0ZnQm56akx5OTRiSG55R25IS0dJS2ppSDVNbjY5bUFERWhKR3h4MmFWN2h1YmxCTGhGOA?oc=5",
+          "source": "St. Louis Magazine",
+          "published": "Mon, 03 Mar 2025 23:48:34 GMT",
+          "snippet": "",
+          "trusted": false,
+          "via": "rss"
+        }
+      ]
+    },
+    "aggregated_context": {
+      "event": {
+        "event_id": "1f114aee-49c8-4361-a6a2-fc83e2e324a5",
+        "title": "A simple breakfast during the (orthodox) Lent in Serbia.",
+        "location": "serbia",
+        "timestamp": "2026-03-14T15:38:10+00:00",
+        "risk_level": "Low",
+        "impact_score": 0.2689,
+        "sentiment": "positive",
+        "subreddit": "europe",
+        "reddit_post_ids": [
+          "1rtmje3"
+        ]
+      },
+      "reddit": {
+        "top_posts": [
+          {
+            "id": "1rtmje3",
+            "title": "A simple breakfast during the (orthodox) Lent in Serbia",
+            "subreddit": "europe",
+            "upvote_score": 964,
+            "comment_count": 101,
+            "timestamp": "2026-03-14T15:38:10+00:00",
+            "url": "https://reddit.com/r/europe/comments/1rtmje3/a_simple_breakfast_during_the_orthodox_lent_in/"
+          }
+        ],
+        "top_comments": [
+          {
+            "post_id": "1rtmje3",
+            "summary": "High discussion volume: 101 comments"
+          }
+        ],
+        "related_subreddits": [
+          "europe"
+        ],
+        "reddit_post_ids": [
+          "1rtmje3"
+        ]
+      },
+      "news": {
+        "topic_sentences": [
+          "Serbian citizens are embracing their cultural heritage by sharing traditional breakfast dishes during Orthodox Lent, sparking a wave of interest in local cuisine across Europe.",
+          "The Reddit community is facilitating a unique platform for cultural exchange between Serbia and other European countries, with users engaging in discussions about traditional Serbian breakfasts.",
+          "In a bid to promote cross-cultural understanding, Serbian food enthusiasts are taking to social media to showcase the country's simple yet flavorful breakfast options during the Lenten period.",
+          "The r/europe subreddit is witnessing a significant surge in engagement, with over 964 users upvoting a discussion on traditional Serbian breakfasts, highlighting the community's growing interest in Serbian culture and cuisine."
+        ],
+        "articles": [
+          {
+            "title": "A simple breakfast during the (orthodox) Lent in Serbia",
+            "url": "https://www.reddit.com/r/EuropeEats/comments/1rnybq3/a_simple_breakfast_during_the_orthodox_lent_in/",
+            "source": "www.reddit.com",
+            "published": null,
+            "snippet": "I can see potatoes, spring onions and bread. But what's the red paste on the side? It is meat based or veggie?",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Foods That Are Okay to Eat for Orthodox Lent",
+            "url": "https://www.thespruceeats.com/foods-for-serbian-orthodox-lent-1136424",
+            "source": "www.thespruceeats.com",
+            "published": null,
+            "snippet": "Image 1: Foods for Orthodox Lent:max_bytes(150000):strip_icc():format(webp)/foods-for-serbian-orthodox-lent-1136424_final-01cf36cd95914c9189785c883823c9e9.png). Image 7: Polish pączki doughnuts recipe in waxed paper in a",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Unusual Must-Try Serbian Breakfast! #travel #belgrade #food",
+            "url": "https://www.youtube.com/shorts/GfGLLy-saF0",
+            "source": "www.youtube.com",
+            "published": null,
+            "snippet": "The best way to start a day in Belgrade is with a retro traditional and simple Serbian breakfast called Popara.",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "Fasting Cookbook",
+            "url": "https://www.atlantaserbs.com/learnmore/library/Fasting-Cookbook.html",
+            "source": "www.atlantaserbs.com",
+            "published": null,
+            "snippet": "Add diced pickles, apples and boiled potatoes, then oil, mayonnaise, salt, pepper, vinegar and ketchup. > Cook and drain beans, add oil while still hot. Sautee onions, mushrooms, carrots and celery and add the soya bits ",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "if I am not mistaken, it is the beginning of the orthodox lent ...",
+            "url": "https://www.facebook.com/groups/498357237188828/posts/1589890171368857/",
+            "source": "www.facebook.com",
+            "published": null,
+            "snippet": "Typical Serbian dishes include beans (prebranac), wrapped cabbage or stuffed peppers (posna sarma/posne punjene paprike), grilled vegetables (",
+            "trusted": false,
+            "via": "api"
+          },
+          {
+            "title": "TOMORROW WE CELEBRATE THE AUTUMN CROSS DAY: It is marked by strict fasting, and these customs should be respected! - Serbiantimes.info",
+            "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPVEhPeHNjd0xtWFdKZ0tCUVhrUkcteVB4cU1PWVBkZmE2SHo5a09ia2pyUHlfb0ZfeUNIQnprYzRnUnQyYjFFOU5JeXFIT2JYT1hTdTNTOFczX1VTbmJiblRKTXVmUnprU1dabXUxUVpGSkFLOEp6Qkx3dnY3Rk1HSTMtekJlQzFHQ3JmbnZzT1JseGFPYmZHVkZBVlhmbThRdmxNdzFWQ2FZT2RHb3I4ZzQ2QUpDZkhQZ1NWT3VJVnFweTBiSzdIU0xHVFVVNE83WEl4VS1lV0k?oc=5",
+            "source": "Serbiantimes.info",
+            "published": "Fri, 26 Sep 2025 07:00:00 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "Pittsburgh Fish Fry Guide for 2026: Submit your fish fry now - WTAE",
+            "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5rTThTRnA3M2JhMjh0Qy1oTnd2UEM1MUw4bDRzSVhRYjVneU5CdzlqS0k3cHhyYW9WeEZFdXBfdU52bHBVTjM5NEhOMWc4UTdjY2kwenhnUVpVRjFOaVhIeHVCa2hKSUpJT2dFU0xjWkJEMlV5Y3lJ?oc=5",
+            "source": "WTAE",
+            "published": "Wed, 11 Feb 2026 15:53:47 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "Many fish in the sea: These sides can steal the spotlight during Lent - The Detroit News",
+            "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxON0pxblVJSUdnVkc3eVMxVGV1VF9YUGRyRlJOUW5HeFlnd3ZjbE1Jd3c5My05X3JKU0QyR1B4bGQtVE9janI1ZWpaX29mWk5mVnVqQlJqWEdOQ3pINTd6ZlVKTHBBRDlFdERJVDlGTTJqMGJzeGFwLW54OUFxbE5BTjh2VGRSMkhjWV8wMkV6QWNBQ0d6X0FTdTYzZENkMkVQeWhIUWRuOHgxVy1ZUGY0cTVvdzVnMGxXc0lTN3Jrcy1sQ0w3QkNsQXZJSy1FMmNzUmc?oc=5",
+            "source": "The Detroit News",
+            "published": "Wed, 02 Apr 2025 07:00:00 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "Looking for a Stark County fish fry? Here's where you can find one - Canton Repository",
+            "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOQTFTSXpRcHdlNUdsNUxsbENBUDBBWEpXYkloNVdJTWE5bk0tRzVCdnpuY05ZemFzRDBNS05PM0ZZZ2k3X0dqTXp2QmNNME8zSTlEa09KNERXc1RsQ01vd3FwM1pFU1NTSFdzZ3ZyVGh6Y1RQdks2LTVGY09rOEVxUjZna0wwOERlSkhBVnJEMTZzZFRON2JMdkxkYW5GWmkxbXdpQVMtRUJvX2x6U1RHUW5tVWJIWTJqVGhpZmdUT3Q4RGt4aElBU0pQaWY2YWxkWUcxX1Rn?oc=5",
+            "source": "Canton Repository",
+            "published": "Fri, 28 Feb 2025 08:00:00 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          },
+          {
+            "title": "Must-try parish fish fries in St. Louis - St. Louis Magazine",
+            "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1fTmZtb2ZvMTBTd3JpNWQzQktCaU9MdGV2Mmp0T1d2V0xmN0RQWjc2bk1KeEpRS2ZVeUUtQ0h2bkhHeHBHR255V0ZnQm56akx5OTRiSG55R25IS0dJS2ppSDVNbjY5bUFERWhKR3h4MmFWN2h1YmxCTGhGOA?oc=5",
+            "source": "St. Louis Magazine",
+            "published": "Mon, 03 Mar 2025 23:48:34 GMT",
+            "snippet": "",
+            "trusted": false,
+            "via": "rss"
+          }
+        ]
+      },
+      "timeline": [
+        "2026-03-14T15:38:10+00:00",
+        "Fri, 26 Sep 2025 07:00:00 GMT",
+        "Fri, 28 Feb 2025 08:00:00 GMT",
+        "Mon, 03 Mar 2025 23:48:34 GMT",
+        "Wed, 02 Apr 2025 07:00:00 GMT",
+        "Wed, 11 Feb 2026 15:53:47 GMT"
+      ]
+    },
+    "analysis_report": "**Event Summary**\nThe event in question is a simple breakfast during the Orthodox Lent in Serbia, which is a period of fasting and spiritual reflection in the Orthodox Christian tradition. The event has been mentioned in various online platforms, including Reddit and news articles, providing insight into the cultural and culinary practices of Serbia during this period.\n\n**Key Developments**\n* The event has been discussed on Reddit, with users sharing their experiences and thoughts on the traditional Serbian breakfast during Orthodox Lent.\n* News articles have provided information on the foods that are allowed during Orthodox Lent, as well as unique Serbian breakfast options.\n* The event has been mentioned in the context of larger cultural and religious celebrations, such as the Autumn Cross Day.\n* Fish fries have been highlighted as a popular food option during Lent, with various locations and guides being shared online.\n* The event has been covered by local news outlets, such as the Canton Repository and St. Louis Magazine, indicating a regional interest in the topic.\n\n**Timeline of the Event**\nThe timeline of the event spans from February 2025 to March 2026, with the majority of the posts and articles being published in 2026. The earliest post was on February 28, 2025, and the most recent post was on March 14, 2026. The timeline suggests that the event is an ongoing cultural and religious practice, with online discussions and news coverage being published throughout the year.\n\n**Sentiment Decomposition (Reddit vs News vs Official Narratives)**\nThe sentiment of the Reddit posts is generally positive and curious, with users asking questions and sharing their experiences about the traditional Serbian breakfast during Orthodox Lent. The tone is informal and conversational, with a low to moderate intensity. In contrast, the news articles have a more formal and informative tone, with a moderate to high intensity. The direction of the sentiment is largely de-escalatory, with a focus on cultural and culinary exchange rather than conflict. However, some news articles may be seen as promotional or agenda-driven, particularly those highlighting specific fish fry locations or guides. The sentiment appears to be largely organic on Reddit, while some news articles may be coordinated or sponsored. Confidence in this assessment is moderate, as the evidence is mixed and may be influenced by various factors, such as user demographics and article sponsorship.\n\n**Source Reliability and Confidence**\nThe reliability of the sources varies, with Reddit posts being generally less reliable than news articles due to the anonymous nature of the platform. However, the news articles are largely from reputable sources, such as local news outlets and established publications. Confidence in the accuracy of the information is moderate to high, as the sources are generally trustworthy and the information is consistent across multiple platforms.\n\n**Information Spread Pattern and Amplification Risks**\nThe information about the event has been spread through online platforms, including Reddit and news articles. The risk of amplification is moderate, as the event is largely cultural and religious in nature, and the online discussion is generally positive and respectful. However, there is a risk that the event could be hijacked or misrepresented by external actors, particularly if it is used to promote a specific agenda or ideology. Confidence in this assessment is moderate, as the evidence is mixed and may be influenced by various factors, such as user engagement and article sponsorship.\n\n**Scenario Outlook and Potential Implications**\n* The event is likely to continue to be celebrated and discussed online, with a focus on cultural and culinary exchange.\n* There is a risk that the event could be used to promote specific agendas or ideologies, particularly if it is hijacked by external actors.\n* The event could have implications for cultural and religious understanding, particularly if it is used to promote dialogue and exchange between different communities.\n* The event could also have economic implications, particularly if it is used to promote local businesses and tourism.\n* Confidence in these scenarios is moderate, as the evidence is mixed and may be influenced by various factors, such as user engagement and article sponsorship."
+  }
+}

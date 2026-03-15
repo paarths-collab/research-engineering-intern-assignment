@@ -11,13 +11,6 @@ __pycache__/
 *$py.class
 *.log
 
-# Databases and Big Data Files (DuckDB / SQLite / CSV)
-data/
-*.db
-*.sqlite3
-*.csv
-*.npy
-
 # OS Files
 .DS_Store
 Thumbs.db
@@ -66,10 +59,6 @@ backend/globe/tests/logs/
 tests/logs/
 outputs/
 backend/outputs/
-*.duckdb
-*.duckdb.wal
-analysis_v2.db
-
 # Temporary/debug outputs
 temp_tests/
 tmp.json
