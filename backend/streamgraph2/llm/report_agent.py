@@ -7,7 +7,7 @@ Determines if output is production-ready.
 """
 
 from typing import Dict
-from streamgraph2.data import db
+import streamgraph2.data.db as db
 
 
 def _confidence_score(validation: Dict, anomaly: Dict, repair: Dict) -> float:
