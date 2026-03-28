@@ -1,0 +1,155 @@
+narrative_id,spread_sequence
+0_salon.com,"['democrats', 'politics']"
+100_newrepublic.com,"['politics', 'democrats']"
+101_dailywire.com,"['Conservative', 'Republican']"
+102_politico.com,"['neoliberal', 'politics']"
+103_vox.com,"['politics', 'politics']"
+104_i.redd.it,"['democrats', 'Conservative', 'Conservative']"
+105_cbsnews.com,"['politics', 'neoliberal']"
+106_cbsnews.com,"['neoliberal', 'democrats']"
+107_bloomberg.com,"['neoliberal', 'politics']"
+108_wired.com,"['politics', 'politics']"
+109_2news.com,['Conservative']
+109_thehill.com,['neoliberal']
+10_thedailybeast.com,"['politics', 'democrats']"
+110_bbc.co.uk,['politics']
+110_bbc.com,['politics']
+111_theguardian.com,"['democrats', 'neoliberal']"
+112_apnews.com,['neoliberal']
+112_thehill.com,['politics']
+112_washingtonpost.com,['politics']
+113_thenation.com,"['politics', 'politics']"
+114_politico.eu,"['neoliberal', 'politics']"
+115_bbc.com,"['politics', 'politics']"
+116_reuters.com,"['neoliberal', 'politics']"
+117_leftvoice.org,"['socialism', 'socialism']"
+118_nytimes.com,"['politics', 'politics', 'politics']"
+119_wsj.com,"['neoliberal', 'politics']"
+11_redstate.com,"['Conservative', 'Republican']"
+120_cnn.com,['politics']
+120_edition.cnn.com,['politics']
+121_apnews.com,['politics']
+121_independent.co.uk,['politics']
+122_nytimes.com,"['politics', 'neoliberal']"
+123_nytimes.com,"['politics', 'politics']"
+124_nypost.com,"['politics', 'Republican']"
+125_msn.com,['democrats']
+125_theatlantic.com,"['politics', 'politics']"
+126_i.redd.it,"['Conservative', 'Conservative']"
+127_cnn.com,['politics']
+127_edition.cnn.com,['neoliberal']
+128_blackrosefed.org,"['Anarchism', 'Anarchism']"
+129_theguardian.com,"['politics', 'neoliberal']"
+12_i.redd.it,"['worldpolitics', 'worldpolitics', 'worldpolitics', 'worldpolitics']"
+130_time.com,"['Liberal', 'politics']"
+13_reuters.com,"['neoliberal', 'politics']"
+14_notthebee.com,"['Republican', 'Conservative', 'Conservative']"
+15_nbcnews.com,"['democrats', 'neoliberal', 'politics']"
+16_dailyboulder.com,"['Conservative', 'Republican']"
+17_cnbc.com,"['neoliberal', 'politics']"
+18_cnn.com,"['politics', 'neoliberal']"
+19_babylonbee.com,"['Conservative', 'Republican', 'Conservative']"
+1_thenerdreich.com,"['democrats', 'socialism']"
+20_babylonbee.com,"['Republican', 'Conservative']"
+21_apnews.com,"['Liberal', 'politics']"
+22_nytimes.com,"['politics', 'politics']"
+23_dailywire.com,"['Conservative', 'Republican']"
+24_huffpost.com,"['politics', 'politics']"
+25_newrepublic.com,"['politics', 'politics']"
+26_projects.propublica.org,"['democrats', 'politics']"
+27_foxnews.com,"['Republican', 'Conservative']"
+28_cnn.com,"['Liberal', 'politics']"
+29_cnn.com,['politics']
+29_edition.cnn.com,['politics']
+2_techdirt.com,"['neoliberal', 'democrats']"
+30_cbsnews.com,"['politics', 'politics', 'democrats']"
+31_apnews.com,['politics']
+31_washingtontimes.com,['politics']
+32_politico.eu,"['socialism', 'neoliberal']"
+33_nypost.com,"['Conservative', 'Conservative']"
+34_axios.com,"['democrats', 'Liberal', 'neoliberal']"
+35_i.redd.it,"['Conservative', 'Conservative']"
+36_military.com,['Republican']
+36_yahoo.com,['democrats']
+37_nytimes.com,"['neoliberal', 'democrats']"
+38_thehill.com,"['neoliberal', 'politics']"
+39_justthenews.com,"['Conservative', 'Republican']"
+3_propublica.org,"['Anarchism', 'Anarchism', 'Anarchism']"
+40_theatlantic.com,"['politics', 'politics', 'neoliberal']"
+41_wsj.com,"['politics', 'politics']"
+42_pbs.org,"['politics', 'democrats']"
+43_bbc.co.uk,['politics']
+43_bbc.com,['politics']
+44_washingtonpost.com,"['politics', 'democrats']"
+45_pbs.org,"['politics', 'neoliberal']"
+46_bbc.co.uk,['politics']
+46_bbc.com,['politics']
+47_theguardian.com,"['politics', 'neoliberal']"
+48_npr.org,"['democrats', 'democrats']"
+49_babylonbee.com,"['Republican', 'Conservative']"
+4_yesmagazine.org,"['Anarchism', 'Anarchism']"
+50_dailywire.com,"['Conservative', 'politics']"
+51_apnews.com,"['neoliberal', 'politics']"
+52_dailywire.com,"['Republican', 'Conservative']"
+53_nbcnews.com,"['democrats', 'Liberal']"
+54_notthebee.com,"['Republican', 'Republican']"
+55_apnews.com,['politics']
+55_politico.com,['neoliberal']
+56_nationalpost.com,"['neoliberal', 'politics']"
+57_cnn.com,"['neoliberal', 'democrats']"
+58_cnn.com,['politics']
+58_edition.cnn.com,['politics']
+59_apnews.com,"['neoliberal', 'politics', 'politics']"
+5_theverge.com,"['politics', 'politics']"
+60_notthebee.com,"['Conservative', 'Republican']"
+61_townhall.com,"['Conservative', 'Republican', 'Republican']"
+62_yahoo.com,"['neoliberal', 'democrats']"
+63_redstate.com,"['Republican', 'Republican']"
+64_notthebee.com,"['Republican', 'Conservative']"
+65_dailywire.com,"['Conservative', 'Republican']"
+66_nytimes.com,"['politics', 'politics', 'politics']"
+67_youtu.be,"['Anarchism', 'socialism']"
+68_ogles.house.gov,"['democrats', 'politics']"
+69_axios.com,"['democrats', 'neoliberal']"
+6_npr.org,"['neoliberal', 'politics']"
+70_nature.com,"['democrats', 'politics']"
+71_foxnews.com,"['Conservative', 'politics']"
+72_nytimes.com,"['politics', 'politics']"
+73_cnn.com,"['politics', 'neoliberal']"
+74_theatlantic.com,"['democrats', 'politics']"
+75_foreignaffairs.com,"['democrats', 'neoliberal']"
+76_nytimes.com,"['politics', 'democrats']"
+77_americanprogress.org,"['Liberal', 'neoliberal']"
+78_politico.eu,"['politics', 'neoliberal']"
+79_amp.cnn.com,['politics']
+79_cnn.com,"['politics', 'politics']"
+7_apnews.com,"['politics', 'politics']"
+80_theatlantic.com,"['politics', 'politics']"
+81_abcnews.go.com,"['politics', 'politics']"
+82_bloomberg.com,"['neoliberal', 'Republican']"
+83_propublica.org,['politics']
+84_democrats-appropriations.house.gov,"['democrats', 'democrats']"
+85_politico.com,"['neoliberal', 'democrats', 'politics']"
+86_ft.com,"['neoliberal', 'politics']"
+87_abcnews.go.com,['politics']
+87_apnews.com,"['politics', 'politics']"
+88_nbcnews.com,"['politics', 'neoliberal', 'politics']"
+89_aol.com,['neoliberal']
+89_nypost.com,['Republican']
+8_i.redd.it,"['worldpolitics', 'worldpolitics']"
+90_apnews.com,"['politics', 'democrats', 'neoliberal']"
+90_seattletimes.com,['politics']
+91_popular.info,"['neoliberal', 'democrats']"
+92_cnn.com,['politics']
+92_edition.cnn.com,['politics']
+93_cnn.com,"['politics', 'neoliberal']"
+94_nbcnews.com,"['neoliberal', 'politics']"
+95_motherjones.com,"['politics', 'democrats']"
+96_economictimes.indiatimes.com,['Conservative']
+96_reuters.com,['neoliberal']
+97_independent.co.uk,['politics']
+97_the-independent.com,"['politics', 'democrats']"
+98_politico.eu,['politics']
+98_reuters.com,['politics']
+99_cnbc.com,"['democrats', 'neoliberal']"
+9_pjmedia.com,"['Conservative', 'Republican', 'Conservative']"

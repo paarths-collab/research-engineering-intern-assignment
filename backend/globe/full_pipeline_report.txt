@@ -1,0 +1,7 @@
+2026-03-03 19:10:23 | INFO     | app.database.connection | DuckDB connected: outputs/globe.duckdb
+2026-03-03 19:10:23 | INFO     | app.database.connection | Database schema initialised
+2026-03-03 19:10:23 | INFO     | app.pipeline.orchestrator | [61585536] Layer 1 ΓÇö Checking for existing data
+2026-03-03 19:10:23 | INFO     | app.pipeline.orchestrator | [61585536] Reusing 86 posts from database
+2026-03-03 19:10:23 | INFO     | app.pipeline.orchestrator | [61585536] Layer 2 ΓÇö Fast Geo Filter
+2026-03-03 19:10:23 | INFO     | app.pipeline.geo_filter | Geo filter: 66/86 posts passed
+2026-03-03 19:10:23 | INFO     | app.pipeline.orchestrator | [61585536] Layer 3 ΓÇö LLM Geo Resolution

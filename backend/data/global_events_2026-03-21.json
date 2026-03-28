@@ -1,0 +1,1461 @@
+{
+  "run_id": "04b2d91e",
+  "generated_at": "2026-03-21T10:11:07.635715+00:00",
+  "event_count": 20,
+  "events": [
+    {
+      "id": "7db3a814-24d5-4726-b8c6-e437d472e240",
+      "title": "Iraq declares force majeure on foreign-operated oilfields over Hormuz disruption, sources say.",
+      "event_id": "7db3a814-24d5-4726-b8c6-e437d472e240",
+      "locations": [
+        {
+          "name": "iraq",
+          "lat": 33.0955793,
+          "lon": 44.1749775,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T21:39:10+00:00",
+      "impact_score": 0.6536,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rz5l9g",
+        "1rz94rb"
+      ],
+      "reddit_metrics": {
+        "total_score": 15994,
+        "total_comments": 3243,
+        "post_count": 2,
+        "subreddits": [
+          "worldnews",
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Iraq has declared force majeure on foreign-operated oilfields due to disruptions in the Hormuz region, according to multiple news sources. This move is likely a response to military operations in the area that have impacted oil production and transportation. The declaration of force majeure may have significant implications for global oil markets and the operations of foreign oil companies in Iraq. The event has garnered significant attention on social media, with over 12,000 engagements on Reddit. The situation is being closely monitored by trusted news sources, including Reuters.",
+      "strategic_implications": [
+        "Potential disruption to global oil supplies and prices",
+        "Impact on foreign investment and operations in Iraq's oil sector",
+        "Escalation of regional tensions and conflict in the Middle East"
+      ],
+      "last_updated": "2026-03-21T10:11:07.627784+00:00"
+    },
+    {
+      "id": "1b0b7803-3f69-4d94-929f-c077c6eed344",
+      "title": "Trump calls NATO \u201ccowards\u201d for lack of support for Iran war.",
+      "event_id": "1b0b7803-3f69-4d94-929f-c077c6eed344",
+      "locations": [
+        {
+          "name": "NATO",
+          "lat": -22.3090548,
+          "lon": 47.8295012,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T16:28:48+00:00",
+      "impact_score": 0.6271,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1ryzrtc",
+        "1rz0zrb"
+      ],
+      "reddit_metrics": {
+        "total_score": 13126,
+        "total_comments": 1878,
+        "post_count": 2,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "President Trump has criticized NATO members for their lack of support for a potential war with Iran, calling their decision a 'foolish mistake'. This statement has garnered significant attention on social media platforms, with a Reddit engagement score of 11738 and 1797 comments on the r/worldnews subreddit. Corroborating news articles from trusted sources, such as the BBC, confirm Trump's accusations against NATO. The situation highlights growing tensions between the US and its NATO allies regarding their stance on the Iran conflict. Trump's comments may exacerbate these tensions and impact future diplomatic relations.",
+      "strategic_implications": [
+        "Increased tensions between the US and NATO allies may lead to a decline in cooperative efforts on key global security issues",
+        "A potential war with Iran could have severe consequences for regional and global stability, including the risk of escalation and economic disruption",
+        "Trump's comments may embolden Iran and other adversaries, potentially leading to increased aggression and decreased diplomatic engagement"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "ce53393f-3501-4f61-bf6b-367957a478a3",
+      "title": "Former US general got drunk in Kyiv, suffered concussion, left classified maps on train, watchdog finds.",
+      "event_id": "ce53393f-3501-4f61-bf6b-367957a478a3",
+      "locations": [
+        {
+          "name": "kyiv",
+          "lat": 50.4500336,
+          "lon": 30.5241361,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T04:49:44+00:00",
+      "impact_score": 0.5857,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzimam"
+      ],
+      "reddit_metrics": {
+        "total_score": 3169,
+        "total_comments": 89,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A former US general got drunk in Kyiv, suffered a concussion, and left classified maps on a train, according to a watchdog report. The incident occurred on May 13, 2024, after the general consumed a significant amount of alcohol. This event raises concerns about the handling of sensitive information and the behavior of high-ranking officials. The general was overseeing Ukraine security assistance, which adds to the sensitivity of the situation. The incident has garnered significant attention, with a Reddit engagement score of 3169 and 89 comments on the r/worldnews subreddit.",
+      "strategic_implications": [
+        "Compromise of classified information could pose a risk to US and Ukrainian national security",
+        "Damage to the reputation of the US military and its officials, potentially undermining trust and cooperation with Ukraine",
+        "Potential escalation of tensions between the US and other nations if the incident is perceived as a breach of protocol or a sign of weakness"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "98dc00e9-4316-44e4-a93f-7fb6f494ffb0",
+      "title": "Report: Iran fires missiles toward Diego Garcia in rare long-range strike.",
+      "event_id": "98dc00e9-4316-44e4-a93f-7fb6f494ffb0",
+      "locations": [
+        {
+          "name": "iran",
+          "lat": 32.6475314,
+          "lon": 54.5643516,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T06:20:37+00:00",
+      "impact_score": 0.5612,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzdu5s",
+        "1rzdlqp",
+        "1rzbn9r",
+        "1rz3z5r",
+        "1ryw8h1",
+        "1rz5zb1",
+        "1rzk7pa",
+        "1rzfuha",
+        "1rzdons",
+        "1rzj846",
+        "1rz5f2e"
+      ],
+      "reddit_metrics": {
+        "total_score": 38385,
+        "total_comments": 6646,
+        "post_count": 11,
+        "subreddits": [
+          "geopolitics",
+          "worldnews",
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Iran has reportedly fired missiles toward Diego Garcia, a US-UK military base in the Indian Ocean, in a rare long-range strike. The event has garnered significant attention on social media, with a high engagement score on Reddit and multiple news articles covering the incident. The strike allegedly utilized Khorramshahr-4 missiles with a range of 4000 km, marking a notable demonstration of Iran's military capabilities. The incident may escalate tensions between Iran and the US-UK alliance, potentially destabilizing regional security. The authenticity of the reports is partially corroborated by YouTube news articles from Oneindia News and Times Of India.",
+      "strategic_implications": [
+        "Increased tensions between Iran and the US-UK alliance may lead to further military escalations and destabilization of the region",
+        "The demonstration of Iran's long-range missile capabilities may prompt a reevaluation of regional security strategies and missile defense systems",
+        "The incident may have significant implications for global oil markets and shipping lanes, particularly if the conflict escalates and affects the strategic waterways near Diego Garcia"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "d6e7a0f0-f4b5-4b02-a464-2b360dc98c78",
+      "title": "Cuba refuses to let US Embassy in Havana import diesel for its generators.",
+      "event_id": "d6e7a0f0-f4b5-4b02-a464-2b360dc98c78",
+      "locations": [
+        {
+          "name": "cuba",
+          "lat": 23.0131338,
+          "lon": -80.8328748,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T03:06:57+00:00",
+      "impact_score": 0.5512,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzgne2",
+        "1rywc6s"
+      ],
+      "reddit_metrics": {
+        "total_score": 10884,
+        "total_comments": 995,
+        "post_count": 2,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The Cuban government has refused a request by the US Embassy in Havana to import diesel for its generators, citing ongoing US sanctions and an oil blockade. This move is seen as a response to the Trump administration's continued economic pressure on the island nation. The situation has garnered significant attention on social media, with a Reddit engagement score of 7727 and 206 comments. The refusal may lead to operational challenges for the US Embassy, potentially straining diplomatic relations between the two countries. The move is part of a broader context of tense US-Cuba relations, with both sides engaging in reciprocal measures.",
+      "strategic_implications": [
+        "Deterioration of US-Cuba diplomatic relations, potentially leading to further restrictions on embassy operations",
+        "Increased operational challenges for the US Embassy in Havana, including potential power outages and reduced functionality",
+        "Escalation of economic sanctions and counter-measures between the US and Cuba, affecting bilateral trade and investment"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "b1cd8eff-2fa1-42a1-b9b9-8157bf4a3451",
+      "title": "Norway's crown princess breaks silence on Epstein links: 'I was manipulated and deceived'.",
+      "event_id": "b1cd8eff-2fa1-42a1-b9b9-8157bf4a3451",
+      "locations": [
+        {
+          "name": "norway",
+          "lat": 61.1529386,
+          "lon": 8.7876653,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T14:10:14+00:00",
+      "impact_score": 0.5452,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1ryuue3",
+        "1ryx9uy"
+      ],
+      "reddit_metrics": {
+        "total_score": 7529,
+        "total_comments": 635,
+        "post_count": 2,
+        "subreddits": [
+          "news",
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "High",
+      "summary": "Norway's crown princess has spoken out about her links to Jeffrey Epstein, stating she was manipulated and deceived. This development has sparked a political storm in Norway, with the police opening a criminal investigation into former Prime Minister Thorbjorn Jagland. The Norwegian government has also announced an investigation into potential links between Epstein and the foreign office. The situation has garnered significant attention on social media, with a high engagement score on Reddit. The event has raised questions about potential violations of the law and the need for transparency.",
+      "strategic_implications": [
+        "Potential damage to the reputation of the Norwegian royal family and government",
+        "Increased scrutiny of Norway's relationships with foreign entities and individuals",
+        "Possible legal consequences for individuals implicated in the Epstein scandal"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "bca0bf0b-96c1-4102-80f5-399b55c1c24e",
+      "title": "Putin offers to stop sharing intel with Iran if US cuts off Ukraine.",
+      "event_id": "bca0bf0b-96c1-4102-80f5-399b55c1c24e",
+      "locations": [
+        {
+          "name": "ukraine",
+          "lat": 49.4871968,
+          "lon": 31.2718321,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T19:38:17+00:00",
+      "impact_score": 0.5399,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rz0p3c",
+        "1rz60v1"
+      ],
+      "reddit_metrics": {
+        "total_score": 19710,
+        "total_comments": 1162,
+        "post_count": 2,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Russian President Vladimir Putin has proposed a deal to the US, offering to stop sharing intelligence with Iran in exchange for the US cutting off support to Ukraine. This development suggests a complex geopolitical maneuver, with Russia attempting to leverage its relationships with both Iran and the US to achieve its objectives in Ukraine. The proposal was made by Russian envoy Kirill Dmitriev to Trump administration officials, indicating a high-level diplomatic effort. The deal's implications are significant, as it could impact the balance of power in the region and influence the ongoing conflict in Ukraine. The US has not publicly responded to the proposal, leaving the outcome uncertain.",
+      "strategic_implications": [
+        "Potential shift in the balance of power in the Middle East, with Russia potentially reducing its cooperation with Iran",
+        "Escalation of the conflict in Ukraine, if the US refuses the deal and Russia responds by increasing its military support",
+        "Impact on US-Russia relations, as the proposal may be seen as a test of the US commitment to Ukraine and its willingness to negotiate with Russia"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "199295e7-e944-47a1-b7e3-5d93ee93ae75",
+      "title": "Hungary officials \u2018gave Ukrainian forced injection\u2019 after raid on bank vehicles | Hungary.",
+      "event_id": "199295e7-e944-47a1-b7e3-5d93ee93ae75",
+      "locations": [
+        {
+          "name": "hungary",
+          "lat": 47.1817585,
+          "lon": 19.5060937,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T15:08:09+00:00",
+      "impact_score": 0.5323,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1ryyt3h"
+      ],
+      "reddit_metrics": {
+        "total_score": 1380,
+        "total_comments": 76,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Hungarian officials have been accused of giving a Ukrainian individual a forced injection after a raid on bank vehicles, with sources suggesting the injection may have contained a relaxant to make the person more talkative during interrogation. The incident occurred during the detention of seven Ukrainians in early March. The news has garnered significant attention on social media, with a Reddit engagement score of 1380 and 76 comments on the r/europe subreddit. The incident may escalate tensions between Hungary and Ukraine, and its implications are being closely monitored. The use of forced injections raises serious humanitarian concerns and may violate international human rights standards.",
+      "strategic_implications": [
+        "Deterioration of Hungary-Ukraine relations, potentially affecting regional stability",
+        "Increased scrutiny of Hungarian law enforcement practices and potential human rights violations",
+        "Escalation of diplomatic tensions between Hungary and Ukraine, potentially involving other European countries or international organizations"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "91fdf99c-d27e-434f-96d6-b4e45d673de5",
+      "title": "JD Vance gloats that allies are \u2018suffering more than US\u2019 from high gas prices.",
+      "event_id": "91fdf99c-d27e-434f-96d6-b4e45d673de5",
+      "locations": [
+        {
+          "name": "US",
+          "lat": 39.7837304,
+          "lon": -100.445882,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T00:17:44+00:00",
+      "impact_score": 0.5168,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1ryu715",
+        "1rz5tsv",
+        "1ryuyx6",
+        "1rzcr0k",
+        "1ryvpgt",
+        "1ryyfht",
+        "1rzcf9i",
+        "1rz2mzl",
+        "1ryxbs0",
+        "1ryx187",
+        "1rzd0ek",
+        "1rz9zy3"
+      ],
+      "reddit_metrics": {
+        "total_score": 56923,
+        "total_comments": 5303,
+        "post_count": 12,
+        "subreddits": [
+          "worldnews",
+          "news",
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "High",
+      "summary": "The US is deploying thousands of additional troops to the Middle East, according to officials, in a move that is likely a response to regional security concerns. This development has garnered significant attention on social media, with a Reddit engagement score of 8619 and 759 comments on the r/news subreddit. Corroborating news articles from trusted sources, including Reuters, confirm the deployment. The move may be intended to bolster US military presence in the region and address potential threats. The exact nature and scope of the deployment remain unclear, but it is expected to have significant implications for regional stability.",
+      "strategic_implications": [
+        "Escalation of regional tensions and potential conflict",
+        "Impact on US relationships with Middle Eastern countries and other global powers",
+        "Increased military expenditure and resource allocation for the US"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "2fb0d073-4e3f-4a36-b0a9-442785f80915",
+      "title": "Ukrainian FPV Drone Downs $16M Russian Ka-52 Helicopter Near Pokrovsk.",
+      "event_id": "2fb0d073-4e3f-4a36-b0a9-442785f80915",
+      "locations": [
+        {
+          "name": "russia",
+          "lat": 64.6863136,
+          "lon": 97.7453061,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T02:33:28+00:00",
+      "impact_score": 0.5083,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1ryuoxp",
+        "1rzfyrt"
+      ],
+      "reddit_metrics": {
+        "total_score": 14598,
+        "total_comments": 529,
+        "post_count": 2,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A Ukrainian FPV drone has reportedly downed a Russian Ka-52 helicopter near Pokrovsk, with a value of $16 million. This event highlights the increasing use of drones in the conflict between Ukraine and Russia. The incident has garnered significant attention on social media, with a Reddit engagement score of 13655 and 513 comments. The use of FPV drones by Ukrainian forces may indicate a shift in their military strategy, leveraging low-cost and agile technology to counter Russian air power. Corroborating news articles from defence-blog.com and militarnyi.com support the claim, although the exact details of the incident may vary.",
+      "strategic_implications": [
+        "Ukraine's use of FPV drones could challenge Russia's air superiority in the conflict",
+        "The incident may lead to an escalation of drone warfare between Ukraine and Russia",
+        "The effectiveness of low-cost drones in downing high-value Russian aircraft could inspire other nations to adopt similar tactics"
+      ],
+      "last_updated": "2026-03-21T10:11:07.631450+00:00"
+    },
+    {
+      "id": "eb2183d0-a222-4a5a-9bcd-b2c2084fbbba",
+      "title": "Cypriot president demands talks with UK over military bases \u2013 branding them \u2018colonial consequences\u2019.",
+      "event_id": "eb2183d0-a222-4a5a-9bcd-b2c2084fbbba",
+      "locations": [
+        {
+          "name": "UK",
+          "lat": 54.7023545,
+          "lon": -3.2765753,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T12:54:17+00:00",
+      "impact_score": 0.4991,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1ryvgoi"
+      ],
+      "reddit_metrics": {
+        "total_score": 1414,
+        "total_comments": 661,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The Cypriot president has demanded talks with the UK over the future of British military bases on the island, citing them as 'colonial consequences'. This development comes after a drone attack on RAF Akrotiri, a UK military base in Cyprus. The president's statement suggests a desire to re-evaluate the UK's military presence in Cyprus. The demand for talks has garnered significant attention, with a high Reddit engagement score and multiple news articles covering the story. The outcome of these talks may have significant implications for UK-Cyprus relations and regional security.",
+      "strategic_implications": [
+        "Potential reduction or removal of UK military bases in Cyprus, impacting regional security and UK influence",
+        "Strained UK-Cyprus relations, potentially affecting cooperation on regional issues and economic ties",
+        "Increased tensions between Cyprus and the UK, potentially spilling over into other areas such as trade and diplomacy"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "df29224c-5a8e-4081-a260-b3d1da2d0191",
+      "title": "Woman, 80, receives probation and no jail time over San Francisco crash that killed four | San Francisco.",
+      "event_id": "df29224c-5a8e-4081-a260-b3d1da2d0191",
+      "locations": [
+        {
+          "name": "oman",
+          "lat": 21.0000287,
+          "lon": 57.0036901,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T05:21:17+00:00",
+      "impact_score": 0.4973,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Low",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rzj6t9"
+      ],
+      "reddit_metrics": {
+        "total_score": 1775,
+        "total_comments": 187,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "An 80-year-old woman received probation and no jail time for a crash in San Francisco that killed four people, sparking discussion on social media with 1775 engagement score and 187 comments on Reddit. Corroborating news articles report on similar incidents in San Francisco, including a bus stop crash that killed three and critically injured an infant, and a rollover car crash that killed one and injured two. The event highlights concerns about road safety and the justice system's handling of fatal accidents. The location mentioned as 'Oman' appears to be an error, as all other information points to San Francisco. The incident has garnered significant online attention, but its broader geopolitical implications are limited.",
+      "strategic_implications": [
+        "The incident may lead to increased scrutiny of road safety measures in San Francisco and similar urban areas.",
+        "The justice system's handling of the case may face criticism and calls for reform, particularly regarding the sentencing of elderly drivers involved in fatal accidents.",
+        "The event is unlikely to have significant geopolitical implications beyond the local or national level, but it may contribute to ongoing discussions about aging populations and their impact on public safety."
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "eaf6fc3b-0a8e-4639-8bdd-bd1771f0ae82",
+      "title": "Records shattered as summer heat hits Southwest in March; 'This is what climate change looks like'.",
+      "event_id": "eaf6fc3b-0a8e-4639-8bdd-bd1771f0ae82",
+      "locations": [
+        {
+          "name": "lima",
+          "lat": -12.0459808,
+          "lon": -77.0305912,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T18:02:07+00:00",
+      "impact_score": 0.4757,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rz3hvc"
+      ],
+      "reddit_metrics": {
+        "total_score": 949,
+        "total_comments": 76,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A historic heatwave is affecting the Southwest region of the United States, shattering March temperature records. The event is attributed to a stubborn heat dome, with temperatures expected to surge into the 90s and past 100 degrees. The heatwave is corroborated by multiple news sources, including YouTube and MSN, and has garnered significant attention on social media platforms like Reddit. The event is framed as a manifestation of climate change, highlighting its severe and record-breaking impact. The affected regions include California and Arizona, with numerous records expected to fall.",
+      "strategic_implications": [
+        "Increased risk of wildfires and droughts in the affected regions",
+        "Potential strain on regional infrastructure, including power grids and water supply systems",
+        "Heightened awareness of climate change and its severe consequences, potentially influencing environmental policies and public opinion"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "fb96b1d7-4313-4702-9ac3-623dca5cc406",
+      "title": "Sri Lanka declined ground access to two US combat aircraft, president says.",
+      "event_id": "fb96b1d7-4313-4702-9ac3-623dca5cc406",
+      "locations": [
+        {
+          "name": "sri lanka",
+          "lat": 7.5554942,
+          "lon": 80.7137847,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T03:23:03+00:00",
+      "impact_score": 0.4558,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzgytb"
+      ],
+      "reddit_metrics": {
+        "total_score": 1496,
+        "total_comments": 37,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Sri Lanka has declined ground access to two US combat aircraft, as stated by the country's president, citing the incident occurred earlier this month at a civilian airport. This decision reflects Sri Lanka's cautious approach to allowing foreign military presence on its soil. The move may impact US-Sri Lanka relations and regional dynamics. The incident has garnered moderate attention on social media, with a Reddit engagement score of 1496 and 37 comments. Corroborating news articles from trusted sources, including Reuters, confirm the president's statement.",
+      "strategic_implications": [
+        "Potential strain on US-Sri Lanka diplomatic relations due to the denied access",
+        "Sri Lanka's assertion of sovereignty and non-alignment in regional geopolitics",
+        "Possible implications for future military cooperation and strategic partnerships between the US and Sri Lanka"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "b07fdc9d-96a1-404a-9520-3c8a89f5820e",
+      "title": "DEA names Colombian president \u2018priority target\u2019 as US prosecutors probe ties to drug traffickers.",
+      "event_id": "b07fdc9d-96a1-404a-9520-3c8a89f5820e",
+      "locations": [
+        {
+          "name": "colombia",
+          "lat": 4.099917,
+          "lon": -72.9088133,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T03:03:36+00:00",
+      "impact_score": 0.4552,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rzgl0r"
+      ],
+      "reddit_metrics": {
+        "total_score": 462,
+        "total_comments": 121,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The US Drug Enforcement Administration has designated Colombian President Gustavo Petro as a 'priority target' due to alleged ties to drug traffickers, with US prosecutors probing these connections. This development may strain US-Colombia relations and impact regional counter-narcotics efforts. The news has garnered significant attention on social media platforms, including a Reddit engagement score of 462 and 121 comments on the r/news subreddit. Corroborating news articles from trusted sources, such as AP News, confirm the DEA's designation. The situation is likely to have significant implications for Colombia's political landscape and international relations.",
+      "strategic_implications": [
+        "Potential deterioration of US-Colombia diplomatic relations",
+        "Impact on regional counter-narcotics efforts and cooperation",
+        "Domestic political instability in Colombia due to the president's alleged ties to drug traffickers"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "b76930be-f38e-4469-9ddc-c017f1074956",
+      "title": "Israel deliberately targeting medical facilities in south Lebanon, say health workers.",
+      "event_id": "b76930be-f38e-4469-9ddc-c017f1074956",
+      "locations": [
+        {
+          "name": "lebanon",
+          "lat": 33.8750629,
+          "lon": 35.843409,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T07:59:36+00:00",
+      "impact_score": 0.4287,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rzlskn"
+      ],
+      "reddit_metrics": {
+        "total_score": 394,
+        "total_comments": 37,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Reports indicate that Israel is deliberately targeting medical facilities in south Lebanon, with health workers and news sources corroborating the claims. The Israeli army has threatened to target medical facilities and ambulances, which has resulted in the killing of 12 medical personnel. This escalation of violence has significant humanitarian implications and may lead to further destabilization in the region. The situation is being closely monitored by international organizations, including Doctors Without Borders. The conflict has garnered significant attention on social media platforms, with a Reddit engagement score of 394 and 37 comments on the r/news subreddit.",
+      "strategic_implications": [
+        "Escalation of the conflict may lead to increased humanitarian crises and destabilization in the region",
+        "International organizations and governments may need to intervene to prevent further violence and protect medical facilities",
+        "The targeting of medical facilities and personnel may be considered a violation of international humanitarian law, leading to potential diplomatic and legal repercussions"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "829fd95b-7a72-4269-823e-c7474433236f",
+      "title": "Russia warns Japan against remilitarization, urges adherence to pacifist principles.",
+      "event_id": "829fd95b-7a72-4269-823e-c7474433236f",
+      "locations": [
+        {
+          "name": "japan",
+          "lat": 36.5748441,
+          "lon": 139.2394179,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T21:22:32+00:00",
+      "impact_score": 0.4098,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rz8pu1"
+      ],
+      "reddit_metrics": {
+        "total_score": 1057,
+        "total_comments": 202,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Russia has warned Japan against remilitarization, urging adherence to pacifist principles, amidst rising tensions and concerns over Japan's changing military stance. The warning comes as Japan is reevaluating its military role and capabilities, with some nations, including China, expressing concerns over a potential remilitarization. The event has garnered significant attention on social media platforms, with a Reddit engagement score of 1057 and 202 comments. Corroborating news articles from academic and international sources highlight the complexities and implications of Japan's potential remilitarization. The situation is being closely monitored by nations with vested interests in the region.",
+      "strategic_implications": [
+        "Escalation of tensions between Russia and Japan, potentially affecting regional stability and security",
+        "Impact on Japan's relations with other nations, including China and the United States, as it navigates its military role and capabilities",
+        "Potential consequences for global non-proliferation efforts and international obligations, as nations respond to Japan's changing military stance"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "6e4bc512-df4c-45f8-8f6a-1a536e4cbaf5",
+      "title": "Israeli police attack journalists in Jerusalem, fracturing wrist of CNN producer.",
+      "event_id": "6e4bc512-df4c-45f8-8f6a-1a536e4cbaf5",
+      "locations": [
+        {
+          "name": "israel",
+          "lat": 30.8124247,
+          "lon": 34.8594762,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T04:37:51+00:00",
+      "impact_score": 0.3957,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rziee4"
+      ],
+      "reddit_metrics": {
+        "total_score": 335,
+        "total_comments": 45,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Israeli police have been reported to have attacked journalists in Jerusalem, resulting in physical harm, including a fractured wrist of a CNN producer. The incident has garnered significant attention on social media platforms, with a Reddit engagement score of 335 and 45 comments on the r/worldnews subreddit. Corroborating news articles from CNN and the Committee to Protect Journalists confirm the assault on at least 3 journalists. This event highlights the escalating tensions between Israeli authorities and the press, potentially indicating a restrictive environment for journalists. The international community may view this incident as a violation of press freedom and human rights.",
+      "strategic_implications": [
+        "Deterioration of press freedom in Israel, potentially leading to increased self-censorship and reduced transparency",
+        "Escalation of tensions between Israeli authorities and the international community, potentially affecting diplomatic relations and foreign policy",
+        "Increased risk of physical harm to journalists and media personnel in conflict zones, undermining the ability to report on critical events"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "93ed7ba7-c7ae-42f5-988b-97e5d180f63d",
+      "title": "Poland\u2019s right reacts with fury to same-sex marriage ruling as supporters laud \u2018milestone\u2019.",
+      "event_id": "93ed7ba7-c7ae-42f5-988b-97e5d180f63d",
+      "locations": [
+        {
+          "name": "poland",
+          "lat": 52.215933,
+          "lon": 19.134422,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T22:37:41+00:00",
+      "impact_score": 0.2737,
+      "sentiment": "mixed",
+      "sentiment_score": 0.15,
+      "risk_level": "Medium",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rzakqy",
+        "1rytirt"
+      ],
+      "reddit_metrics": {
+        "total_score": 1195,
+        "total_comments": 146,
+        "post_count": 2,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A recent ruling by Poland's Supreme Court has sparked a mixed reaction, with the country's right-wing groups expressing fury and supporters of same-sex marriage hailing it as a milestone. The ruling mandates the recognition of same-sex marriages performed in the EU, marking a significant step forward for LGBTQ+ rights in Poland. The event has garnered significant attention on social media, with a Reddit engagement score of 877 and 94 comments on the r/europe subreddit. The ruling is a notable development in Poland's gradual shift towards greater recognition of LGBTQ+ rights. The reaction from Poland's right-wing groups highlights the ongoing societal divisions within the country.",
+      "strategic_implications": [
+        "Potential for increased social unrest and protests from right-wing groups",
+        "Advancements in LGBTQ+ rights in Poland may lead to further EU integration and alignment with Western values",
+        "The ruling may exacerbate existing political tensions between liberal and conservative factions within Poland"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    },
+    {
+      "id": "a26efabb-87f5-4deb-bb51-df63f9c3e737",
+      "title": "Welcome to Paris, the City That Said No to Cars.",
+      "event_id": "a26efabb-87f5-4deb-bb51-df63f9c3e737",
+      "locations": [
+        {
+          "name": "paris",
+          "lat": 48.8534951,
+          "lon": 2.3483915,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T15:58:01+00:00",
+      "impact_score": 0.224,
+      "sentiment": "positive",
+      "sentiment_score": 0.6,
+      "risk_level": "Low",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rz05vs"
+      ],
+      "reddit_metrics": {
+        "total_score": 421,
+        "total_comments": 61,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Cuba Rejects US Embassy Request to Import Diesel - Bold News",
+          "url": "https://boldnewsonline.com/amp/cuba-rejects-us-embassy-request-to-import-diesel/",
+          "source": "boldnewsonline.com",
+          "trusted": false
+        },
+        {
+          "title": "Cuba rejects US request to import diesel for Havana embassy ...",
+          "url": "https://www.union-bulletin.com/news/national/cuba-rejects-us-request-to-import-diesel-for-havana-embassy-operations-while-trump-continues-oil/article_023fb800-4093-5314-ae3e-41ed580b921d.html",
+          "source": "www.union-bulletin.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran BOMBS US-UK Base in DIEGO GARCIA - YouTube",
+          "url": "https://www.youtube.com/watch?v=0w2GuqFVADY",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "Iran UNLEASHES FIRST Long-Range Missile Attack On ... - YouTube",
+          "url": "https://www.youtube.com/watch?v=_SmmCjwcZ8A",
+          "source": "www.youtube.com",
+          "trusted": false
+        },
+        {
+          "title": "US General Suffered Concussion in Kyiv: Details of the Incident ...",
+          "url": "https://inkorr.com/en/general-ssa-otrimav-strus-mozku-v-kievi-podrobici-incidentu-zi-zvitu-pentagonu-310653",
+          "source": "inkorr.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The city of Paris has announced a plan to restrict through traffic in the city center, with a goal of implementing a car-free zone by 2024. This effort aims to reduce traffic jams and improve the overall quality of life for Parisian residents. The plan has garnered significant attention, with a Reddit engagement score of 421 and 61 comments on the r/europe subreddit. Corroborating news articles from trusted sources, including Bloomberg, confirm the city's intentions. The move is part of a broader trend towards sustainable urban planning and reduced reliance on private vehicles.",
+      "strategic_implications": [
+        "Improved air quality and reduced noise pollution in the city center",
+        "Enhanced quality of life for Parisian residents and increased attractiveness for tourists",
+        "Potential for other cities to follow Paris' lead in implementing similar car-free zones, contributing to a global shift towards more sustainable urban planning"
+      ],
+      "last_updated": "2026-03-21T10:11:07.634518+00:00"
+    }
+  ]
+}

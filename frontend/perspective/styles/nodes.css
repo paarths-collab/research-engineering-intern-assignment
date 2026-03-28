@@ -1,0 +1,310 @@
+.perspective-node {
+  min-width: 180px;
+  max-width: 220px;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid;
+  backdrop-filter: blur(12px);
+  font-family: 'Inter', -apple-system, sans-serif;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.perspective-node:hover {
+  transform: translateY(-1px);
+}
+
+.perspective-node.selected {
+  box-shadow: 0 0 0 2px currentColor;
+}
+
+/* Persona */
+.persona-node {
+  background: rgba(124, 58, 237, 0.1);
+  border-color: rgba(124, 58, 237, 0.35);
+  box-shadow: 0 4px 24px rgba(124, 58, 237, 0.12);
+}
+.persona-node:hover {
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.22);
+}
+.persona-node.selected {
+  box-shadow: 0 0 0 2px #7c3aed, 0 8px 32px rgba(124, 58, 237, 0.3);
+}
+
+/* News */
+.news-node {
+  background: rgba(37, 99, 235, 0.1);
+  border-color: rgba(37, 99, 235, 0.35);
+  box-shadow: 0 4px 24px rgba(37, 99, 235, 0.12);
+}
+.news-node:hover {
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.22);
+}
+.news-node.selected {
+  box-shadow: 0 0 0 2px #2563eb, 0 8px 32px rgba(37, 99, 235, 0.3);
+}
+
+/* Analysis */
+.analysis-node {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 24px rgba(245, 158, 11, 0.14);
+}
+
+.analysis-node:hover {
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.24);
+}
+
+.analysis-node.selected {
+  box-shadow: 0 0 0 2px #f59e0b, 0 8px 32px rgba(245, 158, 11, 0.32);
+}
+
+/* Discussion */
+.discussion-node {
+  background: rgba(22, 163, 74, 0.1);
+  border-color: rgba(22, 163, 74, 0.35);
+  box-shadow: 0 4px 24px rgba(22, 163, 74, 0.12);
+  animation: nodeAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Debate */
+.debate-node {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.35);
+  box-shadow: 0 4px 24px rgba(220, 38, 38, 0.15);
+  animation: nodeAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes nodeAppear {
+  from { opacity: 0; transform: scale(0.7) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Node header */
+.node-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.node-delete-btn {
+  margin-left: auto;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 999px;
+  background: rgba(127, 29, 29, 0.25);
+  color: #fecaca;
+  font-size: 12px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.perspective-node:hover .node-delete-btn,
+.perspective-node.selected .node-delete-btn {
+  opacity: 1;
+}
+
+.node-delete-btn:hover {
+  background: rgba(220, 38, 38, 0.3);
+  border-color: rgba(248, 113, 113, 0.7);
+}
+
+.node-icon { font-size: 13px; }
+
+.node-type-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  color: #cbd5e1;
+}
+
+.persona-node .node-type-label { color: #c4b5fd; }
+.news-node .node-type-label { color: #93c5fd; }
+.discussion-node .node-type-label { color: #86efac; }
+.debate-node .node-type-label { color: #fca5a5; }
+.analysis-node .node-type-label { color: #fcd34d; }
+
+/* Node title */
+.node-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+/* Node description */
+.node-description {
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.45;
+  margin-top: 4px;
+}
+
+.node-analysis {
+  margin-top: 6px;
+  font-size: 10px;
+  color: #cbd5e1;
+  line-height: 1.45;
+  padding: 6px;
+  border: 1px solid rgba(255, 184, 0, 0.25);
+  background: rgba(255, 184, 0, 0.08);
+}
+
+.node-analysis-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.node-analysis-item {
+  font-size: 10px;
+  color: #e5e7eb;
+  line-height: 1.4;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.22);
+  padding: 6px;
+}
+
+.node-analysis-persona {
+  color: #fcd34d;
+  font-weight: 700;
+}
+
+.node-analysis-more {
+  font-size: 10px;
+  color: #fcd34d;
+}
+
+.node-rounds {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.node-round-card {
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  background: rgba(255, 184, 0, 0.06);
+  padding: 7px;
+}
+
+.node-round-title {
+  font-size: 10px;
+  color: #fcd34d;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.node-round-summary {
+  margin-top: 4px;
+  font-size: 10px;
+  color: #e5e7eb;
+  line-height: 1.4;
+}
+
+.node-round-turns {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Trait pills */
+.node-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.trait-pill {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  color: #c4b5fd;
+  font-weight: 500;
+}
+
+/* Ideology meter */
+.ideology-meter {
+  margin-top: 8px;
+}
+
+.meter-label {
+  font-size: 10px;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.meter-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+.discussion-fill {
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+}
+
+.debate-fill {
+  background: linear-gradient(90deg, #dc2626, #f87171);
+}
+
+/* Handles */
+.react-flow__handle {
+  width: 9px !important;
+  height: 9px !important;
+  border-radius: 50% !important;
+  border: 2px solid !important;
+}
+
+.persona-node .react-flow__handle {
+  background: rgba(124, 58, 237, 0.3) !important;
+  border-color: #7c3aed !important;
+}
+
+.news-node .react-flow__handle {
+  background: rgba(37, 99, 235, 0.3) !important;
+  border-color: #2563eb !important;
+}
+
+.discussion-node .react-flow__handle {
+  background: rgba(22, 163, 74, 0.3) !important;
+  border-color: #16a34a !important;
+}
+
+.debate-node .react-flow__handle {
+  background: rgba(220, 38, 38, 0.3) !important;
+  border-color: #dc2626 !important;
+}
+
+.analysis-node .react-flow__handle {
+  background: rgba(245, 158, 11, 0.3) !important;
+  border-color: #f59e0b !important;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.4) !important;
+}

@@ -1,0 +1,1368 @@
+{
+  "run_id": "3438ec48",
+  "generated_at": "2026-03-14T14:22:31.864148+00:00",
+  "event_count": 19,
+  "events": [
+    {
+      "id": "ab11ab8e-70ed-464d-8af9-efe4d3e088c4",
+      "title": "Drones attack one of the world's largest oil terminals in the UAE.",
+      "event_id": "ab11ab8e-70ed-464d-8af9-efe4d3e088c4",
+      "locations": [
+        {
+          "name": "UAE",
+          "lat": 24.0002488,
+          "lon": 53.9994829,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T10:50:53+00:00",
+      "impact_score": 0.719,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rtgcs8"
+      ],
+      "reddit_metrics": {
+        "total_score": 4640,
+        "total_comments": 718,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A drone attack on one of the world's largest oil terminals in the UAE has significant implications for global oil production and prices. The attack, classified as a terrorist event, has garnered substantial attention on social media platforms, including a Reddit engagement score of 4640 and 718 comments on the r/worldnews subreddit. Corroborating news articles from trusted sources, such as ABC News (AU) and The Times of India, suggest that Iran has launched similar attacks on US targets in the Middle East, damaging military bases, air defense infrastructure, and diplomatic sites. The destruction of millions of barrels of oil production is likely to lead to rising petrol prices, as evidenced by the map provided by ABC NEWS Verify. The strategic implications of this event are far-reaching and multifaceted, involving geopolitical tensions, economic instability, and global security concerns.",
+      "strategic_implications": [
+        "Escalation of geopolitical tensions between the UAE, Iran, and the US, potentially leading to further military conflicts and destabilization in the region",
+        "Significant disruption to global oil production and supply chains, resulting in increased petrol prices and potential economic instability",
+        "Heightened security concerns for critical infrastructure, including oil terminals, refineries, and military bases, requiring enhanced protective measures and intelligence gathering"
+      ],
+      "last_updated": "2026-03-14T14:22:31.857253+00:00"
+    },
+    {
+      "id": "c65d6b7a-003c-468d-9510-aedfb010807c",
+      "title": "'We don't need Ukraine's help' \u2014 Trump rebuffs Zelensky's drone defense offer.",
+      "event_id": "c65d6b7a-003c-468d-9510-aedfb010807c",
+      "locations": [
+        {
+          "name": "Kiev, Ukraine",
+          "lat": 50.4500336,
+          "lon": 30.5241361,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-13T16:27:39+00:00",
+      "impact_score": 0.7139,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rss1ik"
+      ],
+      "reddit_metrics": {
+        "total_score": 10335,
+        "total_comments": 907,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The recent statement by Donald Trump rebuffing Volodymyr Zelensky's offer of drone defense assistance highlights a significant shift in diplomatic relations between the US and Ukraine. The event has garnered substantial attention on social media platforms, with a high engagement score and numerous comments on the r/worldnews subreddit. Corroborating news articles suggest that the conflict in Ukraine has far-reaching implications for global stability, potentially leading to a reevaluation of the postwar order. The situation is further complicated by the ongoing Iran conflict, which poses a risk of nuclear escalation in the Middle East. Overall, the current geopolitical landscape is marked by increased tensions and uncertainty.",
+      "strategic_implications": [
+        "The refusal of US assistance may lead to a deterioration of US-Ukraine relations, potentially creating an opportunity for other global powers to fill the gap.",
+        "The ongoing conflict in Ukraine and the Iran crisis may contribute to a destabilization of the global security landscape, posing significant challenges for international diplomacy and cooperation.",
+        "The shattering of the postwar order illusion, as highlighted by the Foreign Policy article, may necessitate a fundamental reassessment of Western coalition strategies and priorities in the face of emerging global challenges."
+      ],
+      "last_updated": "2026-03-14T14:22:31.861261+00:00"
+    },
+    {
+      "id": "17e17b38-04c2-48af-afe2-7ee341460155",
+      "title": "Five US Air Force refueling planes hit in Iranian strike on Saudi Arabia, WSJ reports.",
+      "event_id": "17e17b38-04c2-48af-afe2-7ee341460155",
+      "locations": [
+        {
+          "name": "Saudi Arabia",
+          "lat": 25.6242618,
+          "lon": 42.3528328,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-13T23:32:27+00:00",
+      "impact_score": 0.7125,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rt3gom",
+        "1rt3gxt"
+      ],
+      "reddit_metrics": {
+        "total_score": 22555,
+        "total_comments": 3076,
+        "post_count": 2,
+        "subreddits": [
+          "news",
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A recent Iranian strike on Saudi Arabia's Prince Sultan air base has resulted in damage to five US Air Force refueling planes, as reported by the Wall Street Journal and corroborated by trusted news sources, including Reuters and The Star. This incident has garnered significant attention on social media platforms, with a Reddit engagement score of 16162 and 2024 comments on the r/news subreddit. The attack highlights escalating tensions between Iran and the US, as well as Iran's allies and proxies in the region. The incident has the potential to further destabilize the already volatile Middle East region. The damage to US military assets on Saudi soil may also strain relations between the US and Saudi Arabia, as well as other regional allies.",
+      "strategic_implications": [
+        "Escalation of US-Iran tensions, potentially leading to further military confrontations",
+        "Destabilization of the Middle East region, with potential spillover effects on global energy markets and security",
+        "Strained relations between the US and its regional allies, including Saudi Arabia, which may impact future cooperation on security and economic initiatives"
+      ],
+      "last_updated": "2026-03-14T14:22:31.861826+00:00"
+    },
+    {
+      "id": "5efca259-1ed8-4ba2-aca5-36569f9c0f00",
+      "title": "US attacks Iran's Kharg Island, Trump says.",
+      "event_id": "5efca259-1ed8-4ba2-aca5-36569f9c0f00",
+      "locations": [
+        {
+          "name": "Kharg Island, Iran",
+          "lat": 29.2405943,
+          "lon": 50.3117293,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-13T23:18:14+00:00",
+      "impact_score": 0.6594,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rt2vpb",
+        "1rt34dg"
+      ],
+      "reddit_metrics": {
+        "total_score": 20752,
+        "total_comments": 5964,
+        "post_count": 2,
+        "subreddits": [
+          "news",
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The US attack on Iran's Kharg Island, as announced by Trump, has significant geopolitical implications, with high engagement on social media platforms such as Reddit, indicating a strong public interest in the event. The corroboration from news articles suggests an escalation of hostilities between the US and Iran, with potential involvement of other countries such as Russia and Ukraine. The situation is complex, with multiple entities involved, and the risk of further conflict is high. The lack of trusted news sources corroborating the event adds to the uncertainty. The event has sparked concerns about the dangers of a war without a clear off-ramp, highlighting the need for diplomatic efforts to de-escalate tensions.",
+      "strategic_implications": [
+        "Escalation of US-Iran conflict could lead to a wider regional war, drawing in other countries and causing significant humanitarian and economic consequences",
+        "The involvement of Russia and Ukraine in providing military technology and support to Iran could further complicate the conflict and undermine regional stability",
+        "The lack of a clear diplomatic off-ramp to the conflict increases the risk of miscalculation and unintended consequences, highlighting the need for urgent diplomatic efforts to de-escalate tensions"
+      ],
+      "last_updated": "2026-03-14T14:22:31.861826+00:00"
+    },
+    {
+      "id": "6c9dc71c-0763-441e-a90c-4653edaf9c25",
+      "title": "Serbia preparing for possible attack by Croatia\u2013Albania\u2013Kosovo alliance, Vucic says.",
+      "event_id": "6c9dc71c-0763-441e-a90c-4653edaf9c25",
+      "locations": [
+        {
+          "name": "Belgrade, Serbia",
+          "lat": 44.8153318,
+          "lon": 20.4456588,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T09:27:03+00:00",
+      "impact_score": 0.6529,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rtezwc"
+      ],
+      "reddit_metrics": {
+        "total_score": 1650,
+        "total_comments": 337,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Serbian President Aleksandar Vucic has stated that Serbia is preparing for a possible attack by a Croatia-Albania-Kosovo alliance, amidst rising tensions in the region. The acquisition of Chinese hypersonic missiles has been confirmed by Vucic, making Serbia the first European country to possess such technology. This development has sparked significant discussion on social media platforms, with a Reddit engagement score of 1650 and 337 comments on the r/europe subreddit. The situation is being closely monitored, with corroborating news articles from efe and n1info providing additional context. The overall sentiment surrounding this event is one of heightened alertness and concern for regional stability.",
+      "strategic_implications": [
+        "Escalation of tensions in the Balkans, potentially drawing in other regional actors",
+        "Increased military capabilities for Serbia, potentially altering the regional balance of power",
+        "Heightened concerns for European security and stability, given the introduction of advanced hypersonic missile technology"
+      ],
+      "last_updated": "2026-03-14T14:22:31.861826+00:00"
+    },
+    {
+      "id": "bc4011b0-b792-41ab-89f6-e2d2778caad3",
+      "title": "U.S. military says all 6 airmen in refueling aircraft that crashed in Iraq are dead.",
+      "event_id": "bc4011b0-b792-41ab-89f6-e2d2778caad3",
+      "locations": [
+        {
+          "name": "Baghdad, Iraq",
+          "lat": 33.3061701,
+          "lon": 44.3872213,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T04:41:54+00:00",
+      "impact_score": 0.6057,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rsraox",
+        "1rta70j",
+        "1rt3b1p"
+      ],
+      "reddit_metrics": {
+        "total_score": 24409,
+        "total_comments": 2342,
+        "post_count": 3,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A U.S. Air Force refueling aircraft crashed in Iraq, resulting in the deaths of all 6 airmen on board. The incident occurred during operations tied to the Iran war, with the aircraft providing support for military efforts in the region. The cause of the crash is currently unknown, but it is being reported by multiple news sources, including The Washington Post and Alltoc.com. The incident has garnered significant attention on social media, with a Reddit engagement score of 20683 and 1976 comments on the r/news subreddit. The crash highlights the risks and challenges faced by military personnel involved in conflict zones.",
+      "strategic_implications": [
+        "The incident may escalate tensions between the U.S. and Iran, potentially leading to further conflict in the region",
+        "The crash highlights the importance of ensuring the safety and security of military personnel involved in conflict zones, and may lead to increased scrutiny of military operations in the region",
+        "The incident may also have implications for the global oil market, as the conflict in the region has the potential to disrupt oil supplies and impact global energy prices"
+      ],
+      "last_updated": "2026-03-14T14:22:31.861826+00:00"
+    },
+    {
+      "id": "3fb34813-55c3-432e-8472-2e1ce0e86fae",
+      "title": "Israel planning massive ground invasion of Lebanon, officials say.",
+      "event_id": "3fb34813-55c3-432e-8472-2e1ce0e86fae",
+      "locations": [
+        {
+          "name": "Lebanon",
+          "lat": 33.8750629,
+          "lon": 35.843409,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T01:50:39+00:00",
+      "impact_score": 0.6039,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rt6oci",
+        "1rt4lii"
+      ],
+      "reddit_metrics": {
+        "total_score": 7574,
+        "total_comments": 1521,
+        "post_count": 2,
+        "subreddits": [
+          "news",
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Israel is planning a massive ground invasion of Lebanon, according to officials, amidst heightened tensions in the region. The situation is being closely monitored on social media, with a high Reddit engagement score of 6875 and 1342 comments on the r/worldnews subreddit. Corroborating news articles suggest that the conflict could escalate into a broader regional crisis, with potential implications for global security. The involvement of proxy groups, such as Hezbollah, adds complexity to the situation, and the use of rocket attacks and defense systems like Iron Dome underscores the severity of the conflict. The potential for a wider war, including the involvement of Iran, is a significant concern.",
+      "strategic_implications": [
+        "Escalation of the conflict could lead to a broader regional war, drawing in other countries and potentially destabilizing the entire Middle East",
+        "The use of proxy groups and non-state actors, such as Hezbollah, increases the complexity and unpredictability of the conflict, making it more challenging to achieve a peaceful resolution",
+        "The potential involvement of Iran could lead to a significant escalation of the conflict, with implications for global security and the potential for a wider war"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "8c05d3bf-c247-4ed7-9ee7-70b52ed6633f",
+      "title": "US-owned tanker attacked near Iraq was hit by unmanned boats, early findings show.",
+      "event_id": "8c05d3bf-c247-4ed7-9ee7-70b52ed6633f",
+      "locations": [
+        {
+          "name": "Iraq",
+          "lat": 33.0955793,
+          "lon": 44.1749775,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T02:08:17+00:00",
+      "impact_score": 0.5986,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rt72da"
+      ],
+      "reddit_metrics": {
+        "total_score": 1753,
+        "total_comments": 118,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A US-owned tanker was attacked near Iraq by unmanned boats, according to early findings, sparking concerns about terrorism and global economic stability. The incident has garnered significant attention on social media, with a Reddit engagement score of 1753 and 118 comments on the r/news subreddit. Corroborating news articles suggest that Iran may be employing primitive yet effective weapons, such as sea mines and kamikaze drone boats, to blockade the Strait of Hormuz, a crucial trade route. This escalation of tensions in the region poses a significant threat to global economic stability and highlights the need for increased vigilance and cooperation among nations to prevent further attacks. The use of unmanned boats and other primitive weapons by terrorist groups or nations like Iran underscores the evolving nature of modern warfare and the need for adaptive countermeasures.",
+      "strategic_implications": [
+        "Increased risk of further terrorist attacks on global shipping lanes, potentially disrupting global trade and economic stability",
+        "Escalation of tensions between the US and Iran, with potential implications for regional and global security",
+        "Growing need for international cooperation and investment in maritime security and counter-terrorism measures to prevent and respond to such attacks"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "389e62b6-684a-4f51-bea4-5ed161ac1d6e",
+      "title": "California hit by much higher oil prices as Iran war stresses refiners.",
+      "event_id": "389e62b6-684a-4f51-bea4-5ed161ac1d6e",
+      "locations": [
+        {
+          "name": "California, USA",
+          "lat": 36.7014631,
+          "lon": -118.755997,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-13T18:19:33+00:00",
+      "impact_score": 0.5947,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rsv7lx"
+      ],
+      "reddit_metrics": {
+        "total_score": 1704,
+        "total_comments": 231,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The recent escalation of tensions with Iran has led to a significant increase in oil prices, severely impacting California's economy. With crude oil prices exceeding $100 a barrel, the average gas price in California is approaching $5.50 a gallon, causing financial strain on households and businesses. The situation is further exacerbated by California's already high gas prices, which are among the highest in the nation. The economic implications of this event are substantial, with potential long-term effects on the state's giant economy. The Reddit engagement score of 1704 and 231 comments on the r/news subreddit indicate a high level of public interest and concern about the issue.",
+      "strategic_implications": [
+        "Increased economic burden on California households and businesses, potentially leading to decreased consumer spending and economic growth",
+        "Potential for widespread protests and social unrest in response to the high gas prices and economic hardship",
+        "Long-term implications for the US economy, as California is a significant contributor to the nation's GDP, and the effects of the oil price increase may be felt across the country"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "55cab8cc-8e5d-4426-8bde-f17638e37638",
+      "title": "Brazil revokes visa of US diplomat who sought to visit Bolsonaro in prison.",
+      "event_id": "55cab8cc-8e5d-4426-8bde-f17638e37638",
+      "locations": [
+        {
+          "name": "Bras\u00edlia, Brazil",
+          "lat": -10.3333333,
+          "lon": -53.2,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T00:29:16+00:00",
+      "impact_score": 0.5323,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rt4u8o"
+      ],
+      "reddit_metrics": {
+        "total_score": 3206,
+        "total_comments": 74,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Brazil has revoked the visa of a US diplomat, Darren Beattie, who is an adviser to former US President Donald Trump, due to his intention to visit former Brazilian President Jair Bolsonaro in prison. This move has escalated diplomatic tensions between the US and Brazil, with Brazil's President Luiz Inacio Lula da Silva citing visa issues as the reason for the revocation. The incident has sparked significant online engagement, with a Reddit score of 3206 and 74 comments on the r/worldnews subreddit. The development is seen as a strain on US-Brazil relations, particularly given the historical context of Bolsonaro's far-right ideology and his imprisonment. The situation is being closely monitored by international news outlets, including Breitbart News Network and Devdiscourse.",
+      "strategic_implications": [
+        "The revocation of the US diplomat's visa may lead to further deterioration in US-Brazil relations, potentially affecting trade and economic cooperation between the two nations.",
+        "The incident could embolden other nations to take similar actions against US diplomats, potentially leading to a broader decline in US diplomatic influence globally.",
+        "The situation may also have implications for the upcoming Brazilian elections, as Bolsonaro's imprisonment and the US diplomat's attempted visit could become a rallying point for his supporters and potentially impact the electoral outcome."
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "b004c4c1-da45-4d7d-99b9-ad5d3824e079",
+      "title": "Italy ruling tells millions with Italian roots they have lost the right to citizenship | CNN.",
+      "event_id": "b004c4c1-da45-4d7d-99b9-ad5d3824e079",
+      "locations": [
+        {
+          "name": "Italy",
+          "lat": 42.6384261,
+          "lon": 12.674297,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T12:01:13+00:00",
+      "impact_score": 0.5312,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rtc99q",
+        "1rthmlq"
+      ],
+      "reddit_metrics": {
+        "total_score": 6658,
+        "total_comments": 1513,
+        "post_count": 2,
+        "subreddits": [
+          "news",
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The Italian government's ruling on citizenship has sparked controversy, with millions of people with Italian roots potentially losing their right to citizenship. The Constitutional Court's decision has been met with significant online engagement, including 1349 comments on the r/news subreddit. Corroborating news articles suggest that the court heard arguments on a case related to citizenship rights for Italian descendants worldwide. The ruling may have implications for Italy's relationships with other EU member states and its own diaspora community. The Court of Justice of the European Union's landmark ruling on legal gender recognition may also have indirect implications for Italy's citizenship laws.",
+      "strategic_implications": [
+        "Potential diplomatic tensions between Italy and other EU member states over citizenship and immigration policies",
+        "Impact on Italy's diaspora community, potentially leading to a brain drain or decreased economic investment",
+        "Increased scrutiny of Italy's human rights record, particularly with regards to gender recognition and citizenship laws"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "d3598dd5-9024-4b17-b45b-2f6ae1740966",
+      "title": "\u2018Deliberate attack\u2019: explosion damages Jewish school in Amsterdam | Netherlands.",
+      "event_id": "d3598dd5-9024-4b17-b45b-2f6ae1740966",
+      "locations": [
+        {
+          "name": "Amsterdam, Netherlands",
+          "lat": 52.3730796,
+          "lon": 4.8924534,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T08:07:20+00:00",
+      "impact_score": 0.5133,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rtdqlp"
+      ],
+      "reddit_metrics": {
+        "total_score": 623,
+        "total_comments": 635,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "An explosion has damaged a Jewish school in Amsterdam, Netherlands, with the mayor describing it as a deliberate attack against the Jewish community. No injuries have been reported. The incident has garnered significant attention on social media, with a Reddit engagement score of 623 and 635 comments on the r/europe subreddit. The attack is being classified as a terrorism incident, and its implications are being closely monitored. The corroboration of the event by multiple news sources, including tribune_pk and RT, adds to the credibility of the report.",
+      "strategic_implications": [
+        "Increased tensions between Jewish and non-Jewish communities in Amsterdam and the Netherlands as a whole",
+        "Potential for copycat attacks or retaliatory violence against other religious or ethnic groups",
+        "Heightened security measures and increased police presence at sensitive locations, such as schools and places of worship, to prevent future attacks"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "1513080e-fdeb-4672-b2f9-3d16c8bf7f69",
+      "title": "Ukrainian President Zelenskyy met with Iranian Crown Prince Reza Pahlavi in Paris.",
+      "event_id": "1513080e-fdeb-4672-b2f9-3d16c8bf7f69",
+      "locations": [
+        {
+          "name": "Paris, France",
+          "lat": 48.8534951,
+          "lon": 2.3483915,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-13T20:01:10+00:00",
+      "impact_score": 0.4891,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rsy01k"
+      ],
+      "reddit_metrics": {
+        "total_score": 1830,
+        "total_comments": 555,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Ukrainian President Volodymyr Zelenskyy met with Iranian Crown Prince Reza Pahlavi in Paris, a diplomatic meeting that may have significant implications for regional geopolitics. The meeting took place amidst the ongoing US-Israeli war on Iran, which has overshadowed the Ukrainian conflict. The Reddit engagement score of 1830 and 555 comments on the r/europe subreddit indicate a moderate level of public interest in the event. Corroborating news articles from trusted sources, including DW (English), confirm the meeting and provide context. The meeting may be an attempt by Ukraine to diversify its diplomatic relationships and reduce dependence on traditional allies.",
+      "strategic_implications": [
+        "Ukraine may be seeking to establish alternative diplomatic channels and reduce its reliance on traditional Western allies",
+        "The meeting could potentially lead to increased cooperation between Ukraine and Iran, which could have significant implications for regional security",
+        "The timing of the meeting, amidst the US-Israeli war on Iran, may indicate an attempt by Ukraine to capitalize on the shifting geopolitical landscape and secure its own interests"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "bf248811-c845-4bf1-bf7a-2f0593bd1974",
+      "title": "Ukrainian drones reportedly strike major oil refinery, key port in Russia\u2019s Krasnodar Krai.",
+      "event_id": "bf248811-c845-4bf1-bf7a-2f0593bd1974",
+      "locations": [
+        {
+          "name": "Krasnodar, Russia",
+          "lat": 45.0351532,
+          "lon": 38.9772396,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T06:17:02+00:00",
+      "impact_score": 0.4215,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rtbwgv"
+      ],
+      "reddit_metrics": {
+        "total_score": 555,
+        "total_comments": 20,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A recent incident involving Ukrainian drones striking a major oil refinery and key port in Russia's Krasnodar Krai has escalated the conflict between Russia and Ukraine. The attack has garnered significant attention on social media platforms, with a Reddit engagement score of 555 and 20 comments on the r/worldnews subreddit. Corroborating news articles suggest that Russian forces have launched retaliatory strikes on Ukraine's infrastructure, while Western Europe's focus on Ukraine may be waning due to shifting priorities in the Middle East. The situation remains volatile, with potential for further escalation. The conflict's trajectory will depend on the responses of key entities involved, including Russia, Ukraine, and Western European nations.",
+      "strategic_implications": [
+        "Escalation of the Russia-Ukraine conflict could lead to increased instability in the region and potentially draw in other global powers.",
+        "Shifts in Western Europe's priorities may impact the availability of funding and weapons for Ukraine, affecting the balance of power in the conflict.",
+        "The use of drones in the attack highlights the increasing role of unconventional warfare tactics in modern conflicts, which could have significant implications for global security and defense strategies."
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "07311e1a-be45-4777-ae02-1ff1a6c39fd0",
+      "title": "Iran envoy confirms Tehran giving safe passage to Indian ships in Strait of Hormuz, says India is a friend.",
+      "event_id": "07311e1a-be45-4777-ae02-1ff1a6c39fd0",
+      "locations": [
+        {
+          "name": "Tehran, Iran",
+          "lat": 35.6892523,
+          "lon": 51.3896004,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T10:47:17+00:00",
+      "impact_score": 0.389,
+      "sentiment": "positive",
+      "sentiment_score": 0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rsrgc6",
+        "1rtgaob",
+        "1rtdmof"
+      ],
+      "reddit_metrics": {
+        "total_score": 9152,
+        "total_comments": 889,
+        "post_count": 3,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Iran has confirmed that it is providing safe passage to Indian ships in the Strait of Hormuz, a critical waterway for global oil trade, amidst escalating regional tensions. This move is seen as a diplomatic gesture by Iran towards India, highlighting the friendly relations between the two nations. The development is significant as 28 Indian vessels carrying essential fuel are currently stranded near Hormuz, posing a risk to India's energy supply. The confirmation of safe passage is expected to alleviate some of the concerns surrounding India's energy security. The Reddit engagement on this topic is substantial, with a score of 7709 and 549 comments, indicating considerable interest in the development.",
+      "strategic_implications": [
+        "Improved diplomatic relations between Iran and India, potentially leading to increased cooperation in the energy sector",
+        "Reduced risk of disruption to India's energy supply, as Indian vessels can now safely transit through the Strait of Hormuz",
+        "Potential implications for global oil trade, as the Strait of Hormuz is a critical chokepoint, and any instability in the region could impact global energy markets"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862407+00:00"
+    },
+    {
+      "id": "17fb849e-8d91-4539-b6c8-eb8b85cafe9d",
+      "title": "Friedrich Merz: The Chancellor sends SMS messages and makes phone calls \u2014 but in Spain there is radio silence.",
+      "event_id": "17fb849e-8d91-4539-b6c8-eb8b85cafe9d",
+      "locations": [
+        {
+          "name": "Spain",
+          "lat": 39.3260685,
+          "lon": -4.8379791,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-13T15:30:36+00:00",
+      "impact_score": 0.3056,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rsqhdh"
+      ],
+      "reddit_metrics": {
+        "total_score": 458,
+        "total_comments": 202,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The current diplomatic event between Germany and Spain, involving Chancellor Friedrich Merz, indicates a potential rift in their relationship, with Spain seemingly unresponsive to German overtures. This development is set against the backdrop of broader European diplomatic challenges, including the EU's diminished influence in the Iran crisis and concerns about Germany's alignment with the US. The situation is being closely followed on social media platforms, such as Reddit, where it has garnered significant engagement. The dynamics at play suggest a complex interplay of European politics, alliances, and potential shifts in power and influence. The situation warrants close monitoring due to its implications for European unity and diplomatic effectiveness.",
+      "strategic_implications": [
+        "Potential weakening of European unity and cooperation in the face of global challenges",
+        "Shifts in the balance of power within the EU, with possible repercussions for Germany's and Spain's roles",
+        "Implications for the EU's ability to act as a cohesive and influential diplomatic entity on the international stage"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862994+00:00"
+    },
+    {
+      "id": "7fa54963-7173-4f2d-8e6f-3eb702ee3ea6",
+      "title": "Exclusive: Iran lets two gas tankers sail to India through Hormuz, sources say.",
+      "event_id": "7fa54963-7173-4f2d-8e6f-3eb702ee3ea6",
+      "locations": [
+        {
+          "name": "Hormuz, Iran",
+          "lat": 27.068024,
+          "lon": 56.4641698,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T05:58:06+00:00",
+      "impact_score": 0.2816,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rtbknu"
+      ],
+      "reddit_metrics": {
+        "total_score": 369,
+        "total_comments": 60,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Iran has allowed two gas tankers to sail to India through the Hormuz Strait, a significant development in the current geopolitical landscape. This move comes amid escalating regional tensions and a global energy crisis. The International Energy Agency (IEA) has announced the release of 400 million barrels of oil, but its impact remains uncertain. Meanwhile, 28 Indian vessels carrying critical fuel are stranded near Hormuz, jeopardizing India's energy supply. The situation highlights the complex dynamics at play in the region, with Iran, India, and global energy markets all interconnected.",
+      "strategic_implications": [
+        "Improved diplomatic relations between Iran and India could lead to increased energy cooperation and trade",
+        "The release of oil reserves by the IEA may have a limited impact on the global energy crisis, potentially leading to further price volatility",
+        "The stranding of Indian vessels near Hormuz poses a significant risk to India's energy security and highlights the need for diversified supply chains and contingency planning"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862994+00:00"
+    },
+    {
+      "id": "ff167528-63e1-4fea-b1f4-5db346c1884c",
+      "title": "British man charged with cybercrimes in Dubai for allegedly filming missile strikes, UK authorities confirm | CNN.",
+      "event_id": "ff167528-63e1-4fea-b1f4-5db346c1884c",
+      "locations": [
+        {
+          "name": "Dubai, United Arab Emirates",
+          "lat": 25.0742823,
+          "lon": 55.1885387,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T03:26:10+00:00",
+      "impact_score": 0.2533,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rt8psd"
+      ],
+      "reddit_metrics": {
+        "total_score": 401,
+        "total_comments": 80,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A British man has been charged with cybercrimes in Dubai for allegedly filming Iranian missile strikes, with UK authorities confirming the charges. The incident is part of a larger crackdown by the UAE, with 21 people charged under cybercrime laws for filming and sharing footage of missile strikes. The event has garnered significant attention on social media, with a Reddit engagement score of 401 and 80 comments on the r/worldnews subreddit. The charges highlight the UAE's strict cybercrime laws and the potential risks for individuals filming and sharing sensitive information. The incident may also strain relations between the UK and UAE, particularly if the British man is found guilty and faces severe penalties.",
+      "strategic_implications": [
+        "The incident may lead to increased tensions between the UK and UAE, potentially affecting diplomatic and economic relations between the two countries.",
+        "The UAE's strict cybercrime laws may deter tourists and businesses from visiting or operating in the country, potentially impacting the UAE's economy.",
+        "The incident highlights the importance of individuals being aware of and complying with local laws and regulations when filming and sharing information, particularly in countries with strict cybercrime laws."
+      ],
+      "last_updated": "2026-03-14T14:22:31.862994+00:00"
+    },
+    {
+      "id": "58476827-7589-4302-8540-abb53a7987ea",
+      "title": "Iran allows 2 Indian-flagged LPG carriers to cross Strait of Hormuz.",
+      "event_id": "58476827-7589-4302-8540-abb53a7987ea",
+      "locations": [
+        {
+          "name": "Iran",
+          "lat": 32.6475314,
+          "lon": 54.5643516,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-14T03:08:34+00:00",
+      "impact_score": 0.2316,
+      "sentiment": "positive",
+      "sentiment_score": 0.6,
+      "risk_level": "Low",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rt8cm6"
+      ],
+      "reddit_metrics": {
+        "total_score": 671,
+        "total_comments": 79,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "At least 17 US sites damaged in war with Iran, analysis shows",
+          "url": "https://economictimes.indiatimes.com/news/defence/at-least-17-us-sites-damaged-in-war-with-iran-analysis-shows/articleshow/129535906.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "Petrol prices are rising. This map shows why",
+          "url": "https://www.abc.net.au/news/2026-03-13/verify-oil-supplies-disrupted-across-middle-east/106448892",
+          "source": "ABC News (AU)",
+          "trusted": true
+        },
+        {
+          "title": "The Dangers of a War Without an Off-Ramp",
+          "url": "https://www.commondreams.org/opinion/iran-war-no-off-ramp",
+          "source": "Common Dreams",
+          "trusted": false
+        },
+        {
+          "title": "We\u2019re all trapped in Donald Trump\u2019s 1980s worldview",
+          "url": "https://economictimes.indiatimes.com/news/international/global-trends/iran-war-russia-sanctions-oil-were-all-trapped-in-donald-trumps-1980s-worldview/articleshow/129549804.cms",
+          "source": "The Times of India",
+          "trusted": false
+        },
+        {
+          "title": "EU court orders states to recognise trans citizens\u2019 gender in landmark ruling",
+          "url": "https://www.thepinknews.com/2026/03/13/eu-countries-trans-rights/",
+          "source": "Thepinknews.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Iran has allowed two Indian-flagged LPG carriers to cross the Strait of Hormuz, indicating a positive development in diplomatic relations between the two countries. This move is seen as a significant gesture, given the strategic importance of the Strait of Hormuz for global energy trade. The decision was reportedly made after discussions between Indian Prime Minister Modi and Iranian officials, highlighting the importance of cooperation on issues such as the safety and security of citizens and the uninterrupted flow of goods and energy. The Reddit engagement on this topic, with a score of 671 and 79 comments on the r/worldnews subreddit, suggests a moderate level of public interest in this development. Overall, this event suggests a constructive engagement between Iran and India, with potential benefits for regional stability and trade.",
+      "strategic_implications": [
+        "Improved diplomatic relations between Iran and India could lead to increased cooperation on regional security and trade issues",
+        "The safe passage of Indian-flagged vessels through the Strait of Hormuz may reduce tensions in the region and promote stability in global energy markets",
+        "This development could also have implications for India's energy security, as it relies heavily on imports of LPG and other petroleum products"
+      ],
+      "last_updated": "2026-03-14T14:22:31.862994+00:00"
+    }
+  ]
+}

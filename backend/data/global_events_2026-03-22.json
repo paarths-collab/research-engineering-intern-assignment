@@ -1,0 +1,1596 @@
+{
+  "run_id": "75bae3fe",
+  "generated_at": "2026-03-21T19:33:24.477180+00:00",
+  "event_count": 22,
+  "events": [
+    {
+      "id": "4ccf036d-a691-4371-bf69-51b244a19d7f",
+      "title": "Europe faces new wake-up call: Tehran's 4000km missile reach exposed in Diego Garcia strike.",
+      "event_id": "4ccf036d-a691-4371-bf69-51b244a19d7f",
+      "locations": [
+        {
+          "name": "tehran",
+          "lat": 35.6892523,
+          "lon": 51.3896004,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T14:21:59+00:00",
+      "impact_score": 0.719,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzspq7"
+      ],
+      "reddit_metrics": {
+        "total_score": 4659,
+        "total_comments": 1059,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A recent military movement by Tehran has exposed its capability to strike targets over 4000km away, as evidenced by a missile strike on Diego Garcia, a joint British-U.S. base. This event has significant implications for Europe and the global community, as it demonstrates Iran's ability to project power beyond the Middle East. The strike has garnered substantial attention, with a Reddit engagement score of 4659 and 1059 comments on the r/worldnews subreddit. Corroborating news articles from trusted sources, including the New York Times, confirm the incident. The attack highlights the escalating tensions between Iran and the U.S., with potential consequences for global stability.",
+      "strategic_implications": [
+        "Increased tensions between Iran and the U.S. may lead to further military escalation, potentially drawing in other global powers",
+        "Europe may need to reassess its security posture in light of Iran's demonstrated ability to strike targets at a distance, potentially threatening European interests",
+        "The incident may prompt a reevaluation of international alliances and partnerships, as countries consider the implications of Iran's growing military capabilities"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "a41f9c3c-22f3-456f-bac1-ee4ca2d30475",
+      "title": "Israel deliberately targeting medical facilities in south Lebanon, say health workers.",
+      "event_id": "a41f9c3c-22f3-456f-bac1-ee4ca2d30475",
+      "locations": [
+        {
+          "name": "lebanon",
+          "lat": 33.8750629,
+          "lon": 35.843409,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T07:59:36+00:00",
+      "impact_score": 0.666,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rzlskn"
+      ],
+      "reddit_metrics": {
+        "total_score": 4591,
+        "total_comments": 404,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Reports indicate that Israel is deliberately targeting medical facilities in south Lebanon, with health workers and news sources corroborating the claims. The Israeli army has threatened to target medical facilities and ambulances, and there have been reported strikes on healthcare centers, resulting in casualties. The situation is escalating, with multiple sources, including Doctors Without Borders, highlighting the targeting of healthcare facilities. The conflict in Lebanon is intensifying, with significant humanitarian implications. The international community is likely to be concerned about the targeting of medical facilities and personnel.",
+      "strategic_implications": [
+        "Escalation of the conflict in Lebanon, potentially drawing in other regional actors",
+        "Humanitarian crisis, with significant civilian casualties and displacement",
+        "International condemnation and potential diplomatic fallout for Israel, potentially affecting its relationships with other countries and international organizations"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "7fb3bfdd-e1cc-4e33-a39e-963added3b22",
+      "title": "Oil prices top $112 after Iraq declares force majeure, Kuwait refineries attacked.",
+      "event_id": "7fb3bfdd-e1cc-4e33-a39e-963added3b22",
+      "locations": [
+        {
+          "name": "iraq",
+          "lat": 33.0955793,
+          "lon": 44.1749775,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T21:39:10+00:00",
+      "impact_score": 0.6218,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rz94rb"
+      ],
+      "reddit_metrics": {
+        "total_score": 3931,
+        "total_comments": 310,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The declaration of force majeure by Iraq on its oilfields, coupled with the attack on Kuwait refineries, has led to a significant increase in oil prices, topping $112. This development is a result of escalating tensions in West Asia, particularly with the closure of the Strait of Hormuz. The situation is likely to have far-reaching consequences for the global energy market. Reddit engagement metrics indicate a high level of interest in the event, with a score of 3931 and 310 comments. The corroboration of the event by multiple news sources adds to the credibility of the report.",
+      "strategic_implications": [
+        "Potential disruption to global energy supplies, leading to economic instability",
+        "Escalation of tensions in West Asia, potentially drawing in other regional and global powers",
+        "Increased costs for oil-importing countries, potentially affecting their economic growth and trade balances"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "13e56e06-a47d-42b8-b66c-a7cf47673957",
+      "title": "WP: Russian Intelligence planned to stage an assassination attempt on Orban to influence the election results.",
+      "event_id": "13e56e06-a47d-42b8-b66c-a7cf47673957",
+      "locations": [
+        {
+          "name": "russia",
+          "lat": 64.6863136,
+          "lon": 97.7453061,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T17:39:14+00:00",
+      "impact_score": 0.614,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzrihg",
+        "1rznkmj",
+        "1rzxm9w",
+        "1rzfyrt"
+      ],
+      "reddit_metrics": {
+        "total_score": 25346,
+        "total_comments": 2662,
+        "post_count": 4,
+        "subreddits": [
+          "worldnews",
+          "news",
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "There are allegations that Russians proposed staging an assassination attempt to influence the Hungarian election, with Prime Minister Viktor Orban accusing the EU and US of meddling in the 2022 election. Corroborating news articles suggest foreign interference in Hungary's election is a concern. The event has garnered significant attention on Reddit, with a score of 5958 and 290 comments. The situation is complex, with multiple actors involved and accusations of interference. The outcome of the election and the implications of foreign interference are still uncertain.",
+      "strategic_implications": [
+        "Potential destabilization of the Hungarian government and political system",
+        "Increased tensions between Hungary and Western countries, particularly the EU and US",
+        "Heightened risk of further foreign interference in European elections, undermining democratic processes"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "de09dd40-e9cb-4e6e-8741-84a9e2bf492a",
+      "title": "Former US general got drunk in Kyiv, suffered concussion, left classified maps on train, watchdog finds.",
+      "event_id": "de09dd40-e9cb-4e6e-8741-84a9e2bf492a",
+      "locations": [
+        {
+          "name": "kyiv",
+          "lat": 50.4500336,
+          "lon": 30.5241361,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T04:49:44+00:00",
+      "impact_score": 0.5857,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzimam"
+      ],
+      "reddit_metrics": {
+        "total_score": 10053,
+        "total_comments": 187,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A former US general suffered a concussion after a drunken incident in Kyiv, Ukraine, and left classified maps on a train, according to a watchdog report. The incident has raised concerns about security lapses and the handling of sensitive information. The event has garnered significant attention on social media, with a high engagement score on Reddit. The incident may have implications for US-Ukraine relations and the security of classified information. The details of the incident are still emerging, with multiple news outlets reporting on the story.",
+      "strategic_implications": [
+        "Potential damage to US-Ukraine relations due to the mishandling of classified information",
+        "Increased scrutiny of US military personnel's behavior while abroad",
+        "Heightened concerns about the security of sensitive information in the context of international cooperation"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "a76298e6-1fec-4ef7-9647-b9711c463881",
+      "title": "Report: Iran fires missiles toward Diego Garcia in rare long-range strike.",
+      "event_id": "a76298e6-1fec-4ef7-9647-b9711c463881",
+      "locations": [
+        {
+          "name": "iran",
+          "lat": 32.6475314,
+          "lon": 54.5643516,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T06:20:37+00:00",
+      "impact_score": 0.5543,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzdu5s",
+        "1rzk7pa",
+        "1rzdlqp",
+        "1rzbn9r",
+        "1rzfuha",
+        "1rzj846",
+        "1rzdons",
+        "1rz9uvd"
+      ],
+      "reddit_metrics": {
+        "total_score": 47108,
+        "total_comments": 5779,
+        "post_count": 8,
+        "subreddits": [
+          "geopolitics",
+          "worldnews",
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Iran has conducted a rare long-range missile strike towards Diego Garcia, a US military base in the Indian Ocean, with neither missile hitting the base. This event marks a significant escalation of tensions between Iran and the US, with potential implications for regional and global security. The strike was reported by multiple news sources, including ynetnews.com and YouTube, with a high level of engagement on social media platforms such as Reddit. The fact that neither missile hit the base may suggest a demonstration of capability rather than a direct attack. The incident has sparked concerns about the potential for further conflict in the region.",
+      "strategic_implications": [
+        "Escalation of US-Iran tensions could lead to further military confrontations in the region",
+        "Potential disruption to global oil supplies and trade routes in the Indian Ocean",
+        "Increased risk of miscalculation or accidental conflict between the US and Iran, with potential for rapid escalation"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "d6a107ae-82bf-40ea-8bf3-18411292faa2",
+      "title": "Sri Lanka declined ground access to two US combat aircraft, president says.",
+      "event_id": "d6a107ae-82bf-40ea-8bf3-18411292faa2",
+      "locations": [
+        {
+          "name": "sri lanka",
+          "lat": 7.5554942,
+          "lon": 80.7137847,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T03:23:03+00:00",
+      "impact_score": 0.5499,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzgytb"
+      ],
+      "reddit_metrics": {
+        "total_score": 3813,
+        "total_comments": 63,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Sri Lanka has declined ground access to two US combat aircraft, as stated by the country's president, marking a notable development in the diplomatic relations between the two nations. This decision was made earlier this month when the US requested permission for the aircraft to land at a civilian airport. The move reflects Sri Lanka's cautious approach to its geopolitical alignments, particularly with major world powers. The decision has garnered significant attention, with a Reddit engagement score of 3813 and 63 comments on the r/worldnews subreddit. Corroborating news articles from trusted sources such as TradingView and Reuters confirm the details of the event.",
+      "strategic_implications": [
+        "Potential strain in US-Sri Lanka diplomatic relations due to the denial of access",
+        "Sri Lanka's move may be seen as an attempt to maintain neutrality in its foreign policy, potentially impacting its relationships with other global powers",
+        "The decision could have implications for regional security dynamics, particularly in the context of Indian Ocean strategic interests"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "92fc03cd-5890-49f3-8aee-6b93cfae7861",
+      "title": "DEA names Colombian president \u2018priority target\u2019 as US prosecutors probe ties to drug traffickers.",
+      "event_id": "92fc03cd-5890-49f3-8aee-6b93cfae7861",
+      "locations": [
+        {
+          "name": "colombia",
+          "lat": 4.099917,
+          "lon": -72.9088133,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T03:03:36+00:00",
+      "impact_score": 0.5051,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rzgl0r"
+      ],
+      "reddit_metrics": {
+        "total_score": 832,
+        "total_comments": 175,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The US Drug Enforcement Administration has designated Colombian President Gustavo Petro as a 'priority target' due to alleged ties to drug traffickers, with US prosecutors probing these connections. This development may strain relations between the US and Colombia, potentially impacting bilateral cooperation on counter-narcotics efforts. The move has garnered significant attention, with a Reddit engagement score of 832 and 175 comments on the r/news subreddit. Corroborating news articles from trusted sources, including the Washington Post, confirm the designation. The situation may lead to increased diplomatic tensions and potential sanctions.",
+      "strategic_implications": [
+        "Deterioration of US-Colombia relations, potentially affecting cooperation on regional security issues",
+        "Increased scrutiny of Colombian government officials and potential sanctions, impacting the country's economy and political stability",
+        "Heightened tensions between the US and Colombia may compromise efforts to combat drug trafficking and organized crime in the region"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "0a8f6faf-5a77-4b72-8e62-21852a3e65bc",
+      "title": "Iran prepared to let Japanese ships transit Hormuz, FM says.",
+      "event_id": "0a8f6faf-5a77-4b72-8e62-21852a3e65bc",
+      "locations": [
+        {
+          "name": "japan",
+          "lat": 36.5748441,
+          "lon": 139.2394179,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T06:18:35+00:00",
+      "impact_score": 0.4848,
+      "sentiment": "positive",
+      "sentiment_score": 0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzk6k7"
+      ],
+      "reddit_metrics": {
+        "total_score": 3222,
+        "total_comments": 176,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Iran has expressed willingness to allow Japanese ships to transit the Strait of Hormuz, a critical waterway for global oil supplies. This development is reported by multiple news sources, including Channel News Asia and The Straits Times, citing statements from the Iranian Foreign Minister. The move is seen as a diplomatic gesture, potentially easing tensions between Iran and Japan. The announcement has garnered significant attention on social media, with a Reddit engagement score of 3222 and 176 comments on the r/worldnews subreddit. The corroboration of this event by multiple news sources lends credibility to the report.",
+      "strategic_implications": [
+        "Improved diplomatic relations between Iran and Japan could lead to increased economic cooperation and trade",
+        "The agreement could help to reduce tensions in the region and promote stability in the Strait of Hormuz",
+        "The development may have implications for global oil prices and the security of international shipping lanes"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "b7119e8a-1cc8-4800-9dc5-dcf102e174c8",
+      "title": "\u2018Europe learned the wrong lesson\u2019 by doubling down on fossil fuels while India and China went green.",
+      "event_id": "b7119e8a-1cc8-4800-9dc5-dcf102e174c8",
+      "locations": [
+        {
+          "name": "india",
+          "lat": 22.3511148,
+          "lon": 78.6677428,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T12:54:51+00:00",
+      "impact_score": 0.4817,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzqr21",
+        "1rznla0",
+        "1rzm8b3"
+      ],
+      "reddit_metrics": {
+        "total_score": 4862,
+        "total_comments": 697,
+        "post_count": 3,
+        "subreddits": [
+          "worldnews",
+          "news",
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The event highlights Europe's reliance on fossil fuels while India and China are transitioning to green energy, with India having 45% of its installed capacity from renewables. This shift has significant implications for energy security and sustainability. The Reddit engagement score of 2715 and 348 comments in the r/europe subreddit indicate a notable interest in this topic. Corroborating news articles from EY and Climate Action Tracker provide further evidence of India's commitment to sustainable energy. The contrast between Europe's and India's energy strategies may impact global energy markets and geopolitical relationships.",
+      "strategic_implications": [
+        "Europe's continued reliance on fossil fuels may lead to decreased energy security and increased dependence on imported fuels",
+        "India's transition to green energy may position it as a leader in the global renewable energy market, potentially creating new economic opportunities",
+        "The divergence in energy strategies between Europe and India/China may lead to shifts in global geopolitical alliances and trade relationships"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "59783396-d6f5-4e1e-8e4e-1ff18ac2c98a",
+      "title": "Poland\u2019s right reacts with fury to same-sex marriage ruling as supporters laud \u2018milestone\u2019.",
+      "event_id": "59783396-d6f5-4e1e-8e4e-1ff18ac2c98a",
+      "locations": [
+        {
+          "name": "poland",
+          "lat": 52.215933,
+          "lon": 19.134422,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-20T22:37:41+00:00",
+      "impact_score": 0.4663,
+      "sentiment": "mixed",
+      "sentiment_score": 0.15,
+      "risk_level": "Medium",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rzakqy"
+      ],
+      "reddit_metrics": {
+        "total_score": 1304,
+        "total_comments": 174,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A recent ruling by Poland's top administrative court has sparked controversy, as it recognizes same-sex marriages from EU states, prompting a furious reaction from Poland's right and praise from supporters of same-sex marriage. The event has garnered significant attention on social media, with a Reddit engagement score of 1304 and 174 comments on the r/europe subreddit. Corroborating news articles from trusted sources, including DW News and a YouTube video from TVP WORLD, confirm the court's decision. The ruling marks a significant shift in Poland's stance on same-sex marriage, potentially paving the way for greater LGBTQ+ rights in the country. The reaction from Poland's right, however, suggests that the issue remains highly divisive.",
+      "strategic_implications": [
+        "The ruling may lead to increased tensions between Poland's conservative government and the EU, potentially straining relations and sparking further controversy.",
+        "The recognition of same-sex marriages from EU states could have significant implications for LGBTQ+ individuals in Poland, potentially improving their rights and social status.",
+        "The divisive reaction to the ruling may exacerbate existing social and political cleavages in Poland, potentially leading to further polarization and unrest."
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "c8120301-4991-424f-b401-47d86ec20f66",
+      "title": "Iran says it will allow Japanese ships to transit the Strait of Hormuz | US-Israel war on Iran News.",
+      "event_id": "c8120301-4991-424f-b401-47d86ec20f66",
+      "locations": [
+        {
+          "name": "israel",
+          "lat": 30.8124247,
+          "lon": 34.8594762,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T17:45:13+00:00",
+      "impact_score": 0.4483,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzq1no",
+        "1rziee4",
+        "1rzvj4e",
+        "1rzwg0z",
+        "1rzxrpl"
+      ],
+      "reddit_metrics": {
+        "total_score": 4621,
+        "total_comments": 829,
+        "post_count": 5,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Iran has announced its intention to allow Japanese ships to transit the Strait of Hormuz, a critical waterway for global oil supplies. This move is seen as a diplomatic gesture and may help to ease tensions in the region. The decision is reportedly a result of diplomatic efforts between Iran and Japan. The development has garnered significant attention on social media platforms, with a high engagement score on Reddit. The move may have implications for the regional balance of power and global energy security.",
+      "strategic_implications": [
+        "Reduced risk of conflict between Iran and Japan, potentially decreasing tensions in the region",
+        "Increased stability in global oil markets, as the Strait of Hormuz is a critical chokepoint for oil supplies",
+        "Potential shift in the regional balance of power, as Iran seeks to strengthen ties with other nations and counter US-Israeli influence"
+      ],
+      "last_updated": "2026-03-21T19:33:24.470619+00:00"
+    },
+    {
+      "id": "2a75996b-324b-4fb5-bc99-e3da5b632862",
+      "title": "Pentagon to adopt Palantir AI as core US military system, memo says.",
+      "event_id": "2a75996b-324b-4fb5-bc99-e3da5b632862",
+      "locations": [
+        {
+          "name": "US",
+          "lat": 39.7837304,
+          "lon": -100.445882,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T10:28:19+00:00",
+      "impact_score": 0.4442,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rzcr0k",
+        "1rz5tsv",
+        "1rz9zy3",
+        "1rzo3ss"
+      ],
+      "reddit_metrics": {
+        "total_score": 21779,
+        "total_comments": 1748,
+        "post_count": 4,
+        "subreddits": [
+          "news",
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The US is deploying thousands of additional troops to the Middle East, according to officials, in a move that is likely to increase the region's military presence. This development has garnered significant attention, with a high Reddit engagement score of 9542 and 792 comments on the r/news subreddit. Corroborating news articles from trusted sources, including Reuters, confirm the deployment. The move may be a response to regional security concerns, but its exact motivations and implications are not yet fully clear. The deployment is expected to involve additional Marines and sailors.",
+      "strategic_implications": [
+        "Increased military presence in the Middle East may escalate regional tensions and potentially lead to conflict",
+        "The deployment could be perceived as a show of force by the US, potentially deterring adversaries but also risking miscalculation",
+        "The move may have significant implications for regional stability and the balance of power in the Middle East, potentially affecting US relationships with allies and adversaries alike"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "a6dfafb0-af1d-49dd-b265-5217459a61ec",
+      "title": "Iranian man and Romanian woman charged for trying to enter UK nuclear naval base.",
+      "event_id": "a6dfafb0-af1d-49dd-b265-5217459a61ec",
+      "locations": [
+        {
+          "name": "romania",
+          "lat": 45.9852129,
+          "lon": 24.6859225,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T09:36:06+00:00",
+      "impact_score": 0.4425,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "news",
+      "reddit_post_ids": [
+        "1rzn9xy"
+      ],
+      "reddit_metrics": {
+        "total_score": 466,
+        "total_comments": 46,
+        "post_count": 1,
+        "subreddits": [
+          "news"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "An Iranian man and a Romanian woman have been charged for attempting to enter the UK's Faslane nuclear naval base, sparking concerns about potential terrorism and security breaches. The incident has been reported by multiple news sources, including BBC News and Yahoo News, with corroboration from trusted outlets. The event has garnered significant attention on social media, with a Reddit engagement score of 466 and 46 comments on the r/news subreddit. The motivations behind the attempted entry are unclear, but the involvement of an Iranian national raises questions about potential state-sponsored activities. The UK's nuclear naval base is a high-security facility, and the attempted breach highlights the need for continued vigilance and security measures.",
+      "strategic_implications": [
+        "Increased tensions between the UK and Iran due to the involvement of an Iranian national in the attempted security breach",
+        "Potential escalation of security measures at UK nuclear facilities to prevent similar incidents in the future",
+        "Heightened concerns about the potential for state-sponsored terrorism or espionage activities targeting UK critical infrastructure"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "da03a47e-d9df-4c2a-8e8b-7dc0cb23a387",
+      "title": "Cuba refuses to let US Embassy in Havana import diesel for its generators.",
+      "event_id": "da03a47e-d9df-4c2a-8e8b-7dc0cb23a387",
+      "locations": [
+        {
+          "name": "cuba",
+          "lat": 23.0131338,
+          "lon": -80.8328748,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T14:01:34+00:00",
+      "impact_score": 0.4415,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzgne2",
+        "1rzs8lg"
+      ],
+      "reddit_metrics": {
+        "total_score": 17450,
+        "total_comments": 542,
+        "post_count": 2,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Cuba has refused to allow the US Embassy in Havana to import diesel for its generators, citing the US's national emergency declaration and executive order to curb oil supplies supporting the Cuban government. This move is seen as a response to the US's efforts to restrict Cuba's access to oil and is likely to exacerbate diplomatic tensions between the two countries. The US Embassy's ability to function may be impacted by the lack of diesel, potentially disrupting diplomatic operations. The incident has garnered significant attention on social media, with a high engagement score on Reddit. The situation is likely to continue to escalate, with potential further restrictions or retaliatory measures from both sides.",
+      "strategic_implications": [
+        "Deterioration of US-Cuba diplomatic relations, potentially leading to further restrictions or closures of diplomatic missions",
+        "Increased economic pressure on Cuba, potentially destabilizing the country's economy and exacerbating humanitarian concerns",
+        "Escalation of the situation, potentially drawing in other regional or global actors and increasing the risk of miscalculation or conflict"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "5797c7f3-ef27-4a15-87f0-ac9b7a08ce71",
+      "title": "Saudi Arabia expands US base access, UAE prepares for months-long Iran war.",
+      "event_id": "5797c7f3-ef27-4a15-87f0-ac9b7a08ce71",
+      "locations": [
+        {
+          "name": "saudi arabia",
+          "lat": 25.6242618,
+          "lon": 42.3528328,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T12:55:42+00:00",
+      "impact_score": 0.3954,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "geopolitics",
+      "reddit_post_ids": [
+        "1rzqrq3"
+      ],
+      "reddit_metrics": {
+        "total_score": 324,
+        "total_comments": 74,
+        "post_count": 1,
+        "subreddits": [
+          "geopolitics"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Saudi Arabia has expanded access to US military bases, with the UAE preparing for a potential months-long conflict with Iran. This development indicates a shift towards closer US alignment among Gulf states in response to Iranian aggression. The opening of King Fahd Air Base in Taif to American forces suggests a significant escalation in military cooperation. Reddit engagement on the topic is moderate, with a score of 324 and 74 comments. The move is likely to increase tensions in the region and potentially draw in other global powers.",
+      "strategic_implications": [
+        "Increased risk of direct conflict between the US and Iran",
+        "Escalation of proxy wars in the Middle East, potentially drawing in other regional actors",
+        "Heightened tensions between Saudi Arabia, the UAE, and Iran, potentially destabilizing global energy markets"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "9e9f1c91-d048-4a11-aa69-c830ca8540f5",
+      "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1486, Part 1 (Thread #1633).",
+      "event_id": "9e9f1c91-d048-4a11-aa69-c830ca8540f5",
+      "locations": [
+        {
+          "name": "ukraine",
+          "lat": 49.4871968,
+          "lon": 31.2718321,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T04:03:15+00:00",
+      "impact_score": 0.3929,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "High",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzhrb5"
+      ],
+      "reddit_metrics": {
+        "total_score": 368,
+        "total_comments": 51,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The ongoing Russian invasion of Ukraine continues to be a significant geopolitical event, with a dedicated live thread on Reddit's r/WorldNews subreddit garnering substantial engagement. The conflict has been ongoing for 1486 days, with no clear end in sight. Corroborating news articles from CNN and Wikipedia provide additional context and analysis. The situation remains volatile, with potential for further escalation. Reddit engagement metrics indicate a moderate level of interest in the topic.",
+      "strategic_implications": [
+        "Potential for further escalation and expansion of the conflict",
+        "Humanitarian crisis and refugee flows may worsen",
+        "Global economic and security implications due to the involvement of major world powers"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "b0260162-f225-4dbf-bd5c-5930f0f3cdc1",
+      "title": "On this day in 1871, French radicals unite to establish a short-lived government known as the Paris Commune. In May, government troops will enter the city and massacre more than 6,000 of the movement's supporters.",
+      "event_id": "b0260162-f225-4dbf-bd5c-5930f0f3cdc1",
+      "locations": [
+        {
+          "name": "paris",
+          "lat": 48.8534951,
+          "lon": 2.3483915,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T06:42:15+00:00",
+      "impact_score": 0.3242,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rzkknd"
+      ],
+      "reddit_metrics": {
+        "total_score": 587,
+        "total_comments": 47,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The Paris Commune was a short-lived government established by French radicals in 1871, which was eventually suppressed by government troops, resulting in the massacre of over 6,000 supporters. The event was a significant conflict in French history, marking a period of social and political upheaval. The Commune's legacy continues to be felt, with its history and impact still being discussed and analyzed today. The event has garnered moderate attention on social media, with a Reddit engagement score of 587 and 47 comments. Corroborating news articles from reputable sources, such as Britannica, provide additional context and information about the Commune.",
+      "strategic_implications": [
+        "The Paris Commune's legacy continues to influence French politics and social movements, with potential implications for modern-day social unrest and political instability.",
+        "The event highlights the importance of addressing social and economic grievances, as the Commune was largely driven by the poverty and inequality faced by the working class in Paris.",
+        "The suppression of the Commune serves as a reminder of the potential for government overreach and violence in response to perceived threats to authority, with implications for human rights and civil liberties."
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "ba45cbc7-0940-40d0-8187-d50828adeb68",
+      "title": "Italy, Germany, and France to Secure Strait of Hormuz Passage Only After Ceasefire.",
+      "event_id": "ba45cbc7-0940-40d0-8187-d50828adeb68",
+      "locations": [
+        {
+          "name": "germany",
+          "lat": 51.1638175,
+          "lon": 10.4478313,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T13:16:38+00:00",
+      "impact_score": 0.3199,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzr8bp"
+      ],
+      "reddit_metrics": {
+        "total_score": 748,
+        "total_comments": 131,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "Italy, Germany, and France have announced their intention to secure the Strait of Hormuz passage, but only after a ceasefire is in place. This move indicates a cautious approach by European powers to address the regional tensions. The decision is likely driven by the desire to avoid escalation and promote a peaceful resolution. The announcement has garnered significant attention on social media, with a Reddit engagement score of 748 and 131 comments. The corroboration from two news articles suggests a moderate level of confidence in the report.",
+      "strategic_implications": [
+        "European powers may be seeking to assert their influence in the region while avoiding direct confrontation",
+        "A ceasefire in the region could have significant implications for global energy markets and trade",
+        "The conditional offer of support may create uncertainty and undermine the effectiveness of the proposed security measures"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "d4dbf901-414a-48df-a187-76cd9ebed2ba",
+      "title": "School book banning escalates in the UK as Greater Manchester secondary school censors scores of books.",
+      "event_id": "d4dbf901-414a-48df-a187-76cd9ebed2ba",
+      "locations": [
+        {
+          "name": "UK",
+          "lat": 54.7023545,
+          "lon": -3.2765753,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T14:22:59+00:00",
+      "impact_score": 0.2981,
+      "sentiment": "negative",
+      "sentiment_score": -0.6,
+      "risk_level": "Medium",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rzsqj1"
+      ],
+      "reddit_metrics": {
+        "total_score": 345,
+        "total_comments": 45,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "A secondary school in Greater Manchester, UK, has banned scores of books, sparking controversy and debate about censorship. The incident has garnered significant attention on social media, with a Reddit post receiving 345 upvotes and 45 comments. Corroborating news articles suggest that book banning is a growing issue in the UK, although there are currently no laws or government initiatives to ban books. The UK government's stance on the matter is unclear, but the trend of book banning may have implications for freedom of expression and education. The issue is likely to continue to be a topic of discussion and debate in the UK and beyond.",
+      "strategic_implications": [
+        "Potential erosion of freedom of expression and academic freedom in the UK",
+        "Impact on education and critical thinking skills of students in the UK",
+        "Possible escalation of censorship and book banning in other parts of the UK or Europe"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "97af8d16-eee3-4bc4-868f-18a980300bf1",
+      "title": "EU Tells Member States Not to Wait to Fill Up Gas Storage.",
+      "event_id": "97af8d16-eee3-4bc4-868f-18a980300bf1",
+      "locations": [
+        {
+          "name": "EU",
+          "lat": 50.0491699,
+          "lon": 1.4175744,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T09:45:00+00:00",
+      "impact_score": 0.2506,
+      "sentiment": "neutral",
+      "sentiment_score": 0.0,
+      "risk_level": "Medium",
+      "subreddit": "europe",
+      "reddit_post_ids": [
+        "1rznerp"
+      ],
+      "reddit_metrics": {
+        "total_score": 422,
+        "total_comments": 27,
+        "post_count": 1,
+        "subreddits": [
+          "europe"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The European Union has urged its member states to fill up gas storage to protect against potential supply disruptions, adopting a new Gas Storage Regulation in June 2022. This move aims to ensure sufficient storage levels to supply the EU, particularly during the energy crisis. The regulation has been greenlit for a 2-year extension, emphasizing the EU's commitment to energy security. With a Reddit engagement score of 422 and 27 comments, the event has garnered moderate attention on social media. The EU's proactive approach to gas storage may mitigate the risks of future supply disruptions.",
+      "strategic_implications": [
+        "Enhanced energy security for EU member states through strategic gas storage",
+        "Potential reduction in reliance on external energy sources, promoting regional self-sufficiency",
+        "Increased cooperation among EU member states to address common energy challenges and mitigate supply disruption risks"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    },
+    {
+      "id": "e7286f30-1f39-45d9-a37e-14f499782d37",
+      "title": "Rhinos return to protected Ugandan park four decades after poaching-driven extinction.",
+      "event_id": "e7286f30-1f39-45d9-a37e-14f499782d37",
+      "locations": [
+        {
+          "name": "uganda",
+          "lat": 1.5333554,
+          "lon": 32.2166578,
+          "geo_type": "unknown",
+          "display_name": ""
+        }
+      ],
+      "timestamp": "2026-03-21T07:50:24+00:00",
+      "impact_score": 0.2103,
+      "sentiment": "positive",
+      "sentiment_score": 0.6,
+      "risk_level": "Low",
+      "subreddit": "worldnews",
+      "reddit_post_ids": [
+        "1rzlnlg"
+      ],
+      "reddit_metrics": {
+        "total_score": 584,
+        "total_comments": 12,
+        "post_count": 1,
+        "subreddits": [
+          "worldnews"
+        ]
+      },
+      "news_sources": [
+        {
+          "title": "Russian invasion of Ukraine: Latest news, analysis and videos | CNN",
+          "url": "https://www.cnn.com/world/europe/ukraine",
+          "source": "www.cnn.com",
+          "trusted": false
+        },
+        {
+          "title": "2022 Russian invasion of Ukraine - Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/2022_Russian_invasion_of_Ukraine",
+          "source": "en.wikipedia.org",
+          "trusted": false
+        },
+        {
+          "title": "Russia allegedly proposed staging an assassination attempt on ...",
+          "url": "https://mezha.net/eng/bukvy/russia_allegedly_proposed_staging/",
+          "source": "mezha.net",
+          "trusted": false
+        },
+        {
+          "title": "Russian intelligence agency plans fake attack on Orb\u00e1n to influence ...",
+          "url": "https://www.pravda.com.ua/eng/news/2026/03/21/8026556/",
+          "source": "www.pravda.com.ua",
+          "trusted": false
+        },
+        {
+          "title": "Missiles Fired at Diego Garcia: Iran Pushes Conflict Beyond Middle ...",
+          "url": "https://www.youtube.com/watch?v=eivI7TqjgUc",
+          "source": "www.youtube.com",
+          "trusted": false
+        }
+      ],
+      "confidence": "Medium",
+      "summary": "The reintroduction of southern white rhinos to Kidepo Valley National Park in Uganda marks a significant conservation effort, 40 years after poaching drove them to extinction. The Ugandan government and Uganda Wildlife Authority have collaborated on this initiative, indicating a commitment to protecting the country's wildlife. The event has garnered moderate attention on social media, with a Reddit engagement score of 584 and 12 comments. Corroborating news articles from MSN and YouTube provide additional evidence of the event's occurrence. The successful reintroduction of rhinos could have positive implications for Uganda's conservation efforts and tourism industry.",
+      "strategic_implications": [
+        "Enhanced conservation efforts could lead to increased tourism revenue and economic growth for Uganda",
+        "The success of this reintroduction program could serve as a model for other conservation initiatives in the region",
+        "Improved protection of wildlife and national parks could contribute to Uganda's reputation as a responsible steward of its natural resources"
+      ],
+      "last_updated": "2026-03-21T19:33:24.474630+00:00"
+    }
+  ]
+}

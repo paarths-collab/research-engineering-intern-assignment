@@ -1,0 +1,10 @@
+subreddit,total_duplicate_posts,unique_narratives,unique_users,avg_score,domain,lift
+Anarchism,8,4,7,96.5,"['propublica.org', 'blackrosefed.org', 'yesmagazine.org']",26.704058011434945
+Conservative,31,24,20,559.1290322580645,"['i.redd.it', 'dailywire.com', 'babylonbee.com']",7.577830188679246
+Liberal,6,6,3,73.33333333333333,"['americanprogress.org', 'apnews.com', 'axios.com']",5.878826696464851
+Republican,25,22,7,70.8,"['notthebee.com', 'dailywire.com', 'babylonbee.com']",4.486713362068966
+democrats,36,34,23,337.6388888888889,"['axios.com', 'cbsnews.com', 'democrats-appropriations.house.gov']",7.8519572143832495
+neoliberal,48,48,31,293.1875,"['apnews.com', 'cnn.com', 'nbcnews.com']",5.492307692307692
+politics,120,95,101,1268.175,"['nytimes.com', 'apnews.com', 'cnn.com']",4.318548387096774
+socialism,5,4,4,651.4,"['leftvoice.org', 'politico.eu', 'thenerdreich.com']",16.14572864321608
+worldpolitics,6,2,4,157.66666666666666,['i.redd.it'],9.189150528169014

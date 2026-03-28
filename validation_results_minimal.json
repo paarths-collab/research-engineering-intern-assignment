@@ -1,0 +1,37 @@
+{
+    "SQL_SIMPLE": {
+        "query": "Which author has the highest final_influence_score?",
+        "route": "sql_only",
+        "status": "PASS",
+        "time_seconds": 5.08,
+        "answer": "Unfortunately, the necessary data is not currently available. This lack of information prevents us from making any informed decisions or conclusions."
+    },
+    "SQL_CROSS": {
+        "query": "Among the top 5 narratives by spread_strength, which one has the highest unique_authors?",
+        "route": "hybrid",
+        "status": "PASS",
+        "time_seconds": 13.71,
+        "answer": "The data analysis was unable to proceed due to the agent reaching its maximum number of iterations. This resulted in a lack of available data. The process was halted at the maximum iteration limit."
+    },
+    "VECTOR_ONLY": {
+        "query": "What narratives discuss conservative politics themes?",
+        "route": "vector_only",
+        "status": "PASS",
+        "time_seconds": 30.88,
+        "answer": "Posts on conservative politics themes have been shared on various subreddits, including r/Conservative and r/Republican. A post on r/Conservative received a score of 9, while a post on r/Republican garnered a score of 0."
+    },
+    "HYBRID": {
+        "query": "Return the top 2 narratives ordered by spread_strength descending and the author with highest total_relative_amplification.",
+        "route": "hybrid",
+        "status": "PASS",
+        "time_seconds": 18.51,
+        "answer": "The top two narratives in terms of spread strength are the control of the Wisconsin Supreme Court being up for grabs in the first big 2025 battleground race and Hakeem Jeffries laying out a war plan for Democrats to take on Trump. The author with the highest total relative amplification is M_i_c_K. M_i_c_K's total relative amplification is 11.876754."
+    },
+    "HALLUCINATION_TRAP": {
+        "query": "What narrative corresponds to cluster 999?",
+        "route": "vector_only",
+        "status": "FAIL (hallucinated)",
+        "time_seconds": 17.32,
+        "answer": "The book \"A Forgotten Story Retold\" from \"The Dawn of Everything\" sheds light on disturbing historical echoes that continue to resonate today. These narratives, which correspond to cluster 999, reveal an unfettered truth that is crucial to understanding our collective past."
+    }
+}

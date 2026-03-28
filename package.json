@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "copy-webpack-plugin": "^14.0.0"
+  },
+  "dependencies": {
+    "cesium": "^1.139.1",
+    "react-globe.gl": "^2.37.0",
+    "resium": "^1.19.4",
+    "three": "^0.183.2"
+  }
+}

@@ -1,0 +1,80 @@
+# Environments
+.env
+.venv
+.venv/
+backend/.venv/
+env/
+venv/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+mostly/
+old/
+
+# Scratch & Temporary
+tmp/
+test_request.py
+
+# Frontend & Markdown
+node_modules/
+frontend/node_modules/
+.next/
+out/
+build/
+
+# Local frontend env
+frontend/.env.local
+backend/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# Secrets and credentials
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.secret
+secrets/
+
+# IDE/editor local state
+.vscode/
+.idea/
+
+# Runtime/cache artifacts
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+logs/
+backend/logs/
+backend/globe/logs/
+backend/globe/outputs/
+backend/globe/tests/logs/
+tests/logs/
+outputs/
+backend/outputs/
+# backend/data/global_events_*.json (Removed to allow baseline data deployment)
+# Temporary/debug outputs
+temp_tests/
+tmp.json
+tmp_*.json
+output_brief.txt
+test_brief.json
+
+# Large raw data (essential small DBs are tracked)
+raw_data/
+logs/
+temp/
+*.duckdb
+*.duckdb.wal
