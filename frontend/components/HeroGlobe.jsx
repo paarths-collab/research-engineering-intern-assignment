@@ -50,7 +50,7 @@ export default function HeroGlobe() {
     <div className="flex items-center justify-center w-full h-full">
       <Globe
         ref={globeRef}
-        width={2700}
+        width={8000}
         height={1500}
         backgroundColor="rgba(0,0,0,0)"
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
