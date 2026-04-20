@@ -85,7 +85,7 @@ const NAV_ITEMS = [
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
-    const showSidebarControls = pathname !== "/";
+    const showSidebarControls = pathname !== "/" && pathname !== "/preview";
 
     if (!showSidebarControls) {
         return null;

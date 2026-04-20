@@ -1,1 +1,1 @@
-export { default } from "../components/AmbrosiaPage";
+export { default } from "../components/NarrativeSignalV2";

@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;800&family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,500&display=swap');
+
+/* ========================
+   ROOT HERO SECTION
+======================== */
+.heroSection {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #050709;
+  max-height: 100vh;
+}
+
+/* ========================
+   BACKGROUND IMAGE
+======================== */
+.bgLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bgImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(0.78) saturate(0.95);
+}
+
+/* Radial vignette so title floats above background */
+.bgLayer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 35%,
+      transparent 20%,
+      rgba(3, 5, 8, 0.6) 100%);
+}
+
+/* ========================
+   NAVBAR
+======================== */
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 18px 44px;
+  gap: 40px;
+  /* Visible dark glass strip */
+  background: rgba(4, 8, 14, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(212, 168, 71, 0.15);
+}
+
+/* brand block — top left */
+.brandBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+}
+
+.brandName {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #ffffff;
+  /* White looks cleaner for cinematic logos */
+  line-height: 1;
+}
+
+.brandSub {
+  font-size: 7.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(212, 168, 71, 0.5);
+  line-height: 1;
+}
+
+/* center nav links — ALL GOLDEN */
+.navLinks {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks a {
+  color: rgba(212, 168, 71, 0.55);
+  text-decoration: none;
+  font-size: 10.5px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  transition: color 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.navLinks a:hover {
+  color: #D4A847;
+}
+
+/* active link underline */
+.navActive {
+  color: #D4A847 !important;
+}
+
+.navActive::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #D4A847;
+}
+
+/* right side actions */
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navRight a {
+  color: rgba(212, 168, 71, 0.55);
+  text-decoration: none;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.navRight a:hover {
+  color: #D4A847;
+}
+
+.navBtn {
+  border: 1px solid rgba(212, 168, 71, 0.45);
+  color: #D4A847 !important;
+  padding: 6px 18px;
+  font-size: 9.5px !important;
+  letter-spacing: 0.2em !important;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: transparent;
+}
+
+.navBtn:hover {
+  background: rgba(212, 168, 71, 0.08);
+  border-color: #D4A847;
+  box-shadow: 0 0 14px rgba(212, 168, 71, 0.15);
+}
+
+.navAvatar {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: rgba(212, 168, 71, 0.12);
+  border: 1px solid rgba(212, 168, 71, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #D4A847;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ========================
+   HERO TITLE AREA
+   Centered horizontally; vertically in the upper third
+======================== */
+.heroContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Enough space below navbar, but before the globe */
+  padding-top: 14vh;
+  text-align: center;
+  pointer-events: none;
+}
+
+.title {
+  /* Use 'Playfair Display' for the serif look in Image 2 */
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(29px, 7vw, 103px);
+  font-weight: 500;
+  /* Reference uses a lighter serif weight */
+  letter-spacing: 0.4em;
+  /* Very wide spacing */
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+.tagline {
+  margin-top: 14px;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  /* Muted blue/grey to let the title pop */
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.titleLine {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4A847, transparent);
+  margin: 18px auto 0;
+}
+
+/* ========================
+   3D GLOBE CONTAINER
+======================== */
+.globeWrap {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  transform: translate(-50%, -50%);
+
+  /* Balanced 1200px globe container */
+  width: 1200px;
+  height: 1200px;
+
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  filter: drop-shadow(0 0 150px rgba(0, 183, 255, 0.35));
+}
+
+.scrollSection {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #050709;
+}
+
+/* Ensure the canvas is centered inside the massive wrapper */
+.globeWrap>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ========================
+   BOTTOM HUD
+======================== */
+.bottomLeft {
+  position: absolute;
+  bottom: 28px;
+  left: 44px;
+  z-index: 50;
+}
+
+.chapterLabel {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #D4A847;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chapterLabel::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: #D4A847;
+  display: block;
+}
+
+.chapterTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.scrollLabel {
+  font-size: 8px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(232, 223, 200, 0.35);
+}
+
+.scrollArrow {
+  width: 1px;
+  height: 22px;
+  background: linear-gradient(to bottom, rgba(212, 168, 71, 0.55), transparent);
+}
+
+/* ========================
+   RESPONSIVE
+======================== */
+@media (max-width: 1024px) {
+  .navLinks {
+    gap: 22px;
+  }
+
+  .nav {
+    padding: 18px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    grid-template-columns: 1fr auto;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .title {
+    font-size: 36px;
+    letter-spacing: 0.16em;
+  }
+
+  .globeWrap {
+    width: 110vw;
+    bottom: -25%;
+  }
+}

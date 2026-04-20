@@ -1,3 +1,4 @@
+const path = require('path');
 /** @type {import('next').NextConfig} */
 const backendOrigin = (
   process.env.NEXT_PUBLIC_API_URL
@@ -8,7 +9,11 @@ const backendOrigin = (
 
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ["cesium", "resium"],
+  transpilePackages: ["cesium", "resium", "@react-three/fiber", "@react-three/drei", "three"],
+  outputFileTracingRoot: path.join(__dirname, '../'),
+  images: {
+    qualities: [75, 95],
+  },
   env: {
     CESIUM_BASE_URL: "https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium",
   },
