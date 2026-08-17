@@ -41,6 +41,6 @@ services:
       - key: CURRENTS_API_KEY
         sync: true
       - key: PRIMARY_MODEL
-        sync: true
+        value: openai/gpt-oss-20b
       - key: FAST_MODEL
-        sync: true
+        value: openai/gpt-oss-20b
