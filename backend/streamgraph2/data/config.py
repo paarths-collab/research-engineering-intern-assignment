@@ -30,8 +30,8 @@ DUCKDB_PATH: Path = Path(
 
 # ── Groq ──────────────────────────────────────────────────────
 GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")   # Optional — LLM brief skipped when empty
-_raw_llm_model = os.getenv("LLM_MODEL", "groq/llama-3.3-70b-versatile")
-# LiteLLM requires provider-qualified model names (e.g. groq/llama-3.3-70b-versatile).
+_raw_llm_model = os.getenv("LLM_MODEL", "groq/openai/gpt-oss-20b")
+# LiteLLM requires provider-qualified model names (e.g. groq/openai/gpt-oss-20b).
 LLM_MODEL: str = _raw_llm_model if "/" in _raw_llm_model else f"groq/{_raw_llm_model}"
 # Used only by lightweight topic clustering post-processing (hybrid mode).
 TOPIC_REFINER_MODEL: str = os.getenv("TOPIC_REFINER_MODEL", "gemma-3-27b-it")

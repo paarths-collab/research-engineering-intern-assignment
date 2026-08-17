@@ -70,7 +70,7 @@ _RATE_LIMIT_SIGNALS = (
 # ── Shared LLM instance ────────────────────────────────────────────────────────
 _llm = ChatGroq(
     api_key=os.getenv("GROQ_API_KEY"),
-    model=os.getenv("HIGH_MODEL", "llama-3.3-70b-versatile").replace("groq/", ""),
+    model=os.getenv("HIGH_MODEL", "openai/gpt-oss-20b").replace("groq/", ""),
     temperature=0,
 )
 

@@ -11,7 +11,7 @@ _GROQ_BASE_URL = "https://api.groq.com"
 
 
 def _normalize_model(model_name: str) -> str:
-    # Accept either "llama-..." or "groq/llama-..." and always send the raw model ID.
+    # Accept either "openai/gpt-oss-20b" or "groq/openai/gpt-oss-20b" and always send the raw model ID.
     if "/" in model_name:
         provider, raw = model_name.split("/", 1)
         if provider.strip().lower() == "groq" and raw:

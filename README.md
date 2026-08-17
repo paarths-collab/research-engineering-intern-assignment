@@ -104,7 +104,7 @@ Online discussions today are not purely organic — they are shaped by narrative
 
 ### AI & LLM
 - **Orchestration**: LangChain, Multi-Agent Systems
-- **Models**: Groq (Llama 3), Gemini, LiteLLM
+- **Models**: Groq (openai/gpt-oss-20b), Gemini, LiteLLM
 - **Intelligence**: Retrieval-Augmented Generation (RAG)
 
 ### Deployment

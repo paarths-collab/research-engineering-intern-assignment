@@ -80,7 +80,7 @@ geo_cache = {}
 import re
 
 @with_rate_limit_retry()
-def _call_groq(prompt, system_message="You extract primary event locations and return only raw JSON arrays.", model="llama-3.1-8b-instant", temperature=0):
+def _call_groq(prompt, system_message="You extract primary event locations and return only raw JSON arrays.", model="openai/gpt-oss-20b", temperature=0):
     return groq_client.chat.completions.create(
         model=model,
         messages=[
@@ -310,7 +310,7 @@ def generate_narrative_intel(cluster, meta, interaction, advanced, mood):
     Return ONLY valid JSON.
     """
 
-    response = _call_groq(prompt, system_message="You extract geopolitical intelligence and return only raw JSON.", model="llama-3.3-70b-versatile", temperature=0.1)
+    response = _call_groq(prompt, system_message="You extract geopolitical intelligence and return only raw JSON.", model="openai/gpt-oss-20b", temperature=0.1)
     content = response.choices[0].message.content.strip()
 
     # Generic cleaning
@@ -343,7 +343,7 @@ def get_audience_mood(events):
     Total emotions must be 100%.
     """
 
-    response = _call_groq(prompt, system_message="Return only valid JSON.", model="llama-3.1-8b-instant", temperature=0.1)
+    response = _call_groq(prompt, system_message="Return only valid JSON.", model="openai/gpt-oss-20b", temperature=0.1)
     content = response.choices[0].message.content.strip()
     content = re.sub(r"```.*?```", "", content, flags=re.DOTALL)
     match = re.search(r"\{.*\}", content, re.DOTALL)

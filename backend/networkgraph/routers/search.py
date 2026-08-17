@@ -16,7 +16,7 @@ log = logging.getLogger("sntis.search")
 router = APIRouter()
 
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "openai/gpt-oss-20b"
 
 def _build_node_prompt(node_type: str, node_id: str, ctx: Optional[dict]) -> str:
     if not isinstance(ctx, dict):

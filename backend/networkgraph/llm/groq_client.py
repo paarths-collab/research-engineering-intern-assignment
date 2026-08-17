@@ -1,7 +1,7 @@
 """
 llm/groq_client.py — Groq API wrapper for narrative analysis.
 
-Model: llama-3.3-70b-versatile
+Model: openai/gpt-oss-20b
 Mode:  Single-shot structured inference. No agents, no chains.
 Output: Six structured fields parsed from LLM response.
 """
@@ -20,7 +20,7 @@ from networkgraph.models.schemas import NarrativeAnalysis
 log = logging.getLogger("sntis.groq")
 
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "openai/gpt-oss-20b"
 MAX_TOKENS = 1200
 TEMPERATURE = 0.3   # Low — we want factual pattern description, not creative output
 

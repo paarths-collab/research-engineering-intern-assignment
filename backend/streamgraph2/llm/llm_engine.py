@@ -83,7 +83,7 @@ async def generate_brief(
     skip_db_save: bool = False
 ) -> str:
     """
-    Build structured payload, call Groq (llama-3.3-70b-versatile), store result.
+    Build structured payload, call Groq (openai/gpt-oss-20b), store result.
     Returns brief text.
     """
     # Attach top catalysts to each topic

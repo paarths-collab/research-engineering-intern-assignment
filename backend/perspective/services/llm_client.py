@@ -15,7 +15,7 @@ class PerspectiveLLMClient:
         self.api_key = os.getenv("PERSPECTIVE_LLM_API_KEY") or os.getenv("GROQ_API_KEY", "")
         base = os.getenv("PERSPECTIVE_LLM_BASE_URL", "https://api.groq.com/openai/v1")
         self.base_url = base.rstrip("/")
-        model = os.getenv("PERSPECTIVE_LLM_MODEL") or os.getenv("LITE_MODEL") or "llama-3.1-8b-instant"
+        model = os.getenv("PERSPECTIVE_LLM_MODEL") or os.getenv("LITE_MODEL") or "openai/gpt-oss-20b"
         self.model = model.replace("groq/", "")
 
     def generate(self, prompt: str) -> tuple[str, float]:

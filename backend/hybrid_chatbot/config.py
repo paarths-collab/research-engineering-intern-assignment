@@ -46,7 +46,7 @@ LLM_MODEL = (
     os.getenv("HYBRID_LLM_MODEL")
     or os.getenv("LITE_MODEL")
     or os.getenv("LLM_MODEL")
-    or "llama-3.1-8b-instant"
+    or "openai/gpt-oss-20b"
 )
 LLM_MODEL = LLM_MODEL.replace("groq/", "")
 
