@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+from llm_models import groq_model
 import re
 import time
 from itertools import combinations
@@ -802,7 +803,7 @@ def _generate_persona_reaction_via_groq(
     reports: list[dict],
 ) -> str:
     api_key = os.getenv("GROQ_API_KEY")
-    model = os.getenv("PERSPECTIVE_GROQ_MODEL", "openai/gpt-oss-120b")
+    model = groq_model("PERSPECTIVE_GROQ_MODEL", default="openai/gpt-oss-120b")
     endpoint = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1").rstrip("/")
 
     trait_text = ", ".join(persona_traits[:8]) if persona_traits else "no explicit traits provided"

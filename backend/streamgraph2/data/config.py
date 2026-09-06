@@ -4,6 +4,7 @@ All secrets live in backend/.env — never hardcoded.
 """
 
 import os
+from llm_models import groq_model, litellm_model
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -30,11 +31,11 @@ DUCKDB_PATH: Path = Path(
 
 # ── Groq ──────────────────────────────────────────────────────
 GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")   # Optional — LLM brief skipped when empty
-_raw_llm_model = os.getenv("LLM_MODEL", "groq/openai/gpt-oss-20b")
 # LiteLLM requires provider-qualified model names (e.g. groq/openai/gpt-oss-20b).
-LLM_MODEL: str = _raw_llm_model if "/" in _raw_llm_model else f"groq/{_raw_llm_model}"
+LLM_MODEL: str = litellm_model("LLM_MODEL")
 # Used only by lightweight topic clustering post-processing (hybrid mode).
-TOPIC_REFINER_MODEL: str = os.getenv("TOPIC_REFINER_MODEL", "gemma-3-27b-it")
+# Called through the Groq SDK, so it takes the bare model id.
+TOPIC_REFINER_MODEL: str = groq_model("TOPIC_REFINER_MODEL")
 
 # ── Reddit ────────────────────────────────────────────────────
 REDDIT_CLIENT_ID: str     = os.getenv("REDDIT_CLIENT_ID", "")
