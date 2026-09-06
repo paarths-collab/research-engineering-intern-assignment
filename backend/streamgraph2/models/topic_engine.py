@@ -93,7 +93,7 @@ def _groq_refine_keywords(texts: List[str], fallback: List[str]) -> Tuple[str | 
             f"Titles:\n{sample}"
         )
         completion = client.chat.completions.create(
-            model=TOPIC_REFINER_MODEL.replace("groq/", ""),
+            model=TOPIC_REFINER_MODEL,
             temperature=0,
             messages=[
                 {"role": "system", "content": "You extract concise topic labels and keywords."},

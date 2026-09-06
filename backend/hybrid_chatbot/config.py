@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from llm_models import groq_model
 
 BACKEND_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BACKEND_DIR.parent.parent
@@ -42,13 +43,7 @@ EMBED_MODEL_NAME = os.getenv("HYBRID_EMBED_MODEL", "disabled")
 
 LLM_BASE_URL = os.getenv("HYBRID_LLM_BASE_URL", "https://api.groq.com/openai/v1")
 LLM_API_KEY = os.getenv("HYBRID_LLM_API_KEY", os.getenv("GROQ_API_KEY", ""))
-LLM_MODEL = (
-    os.getenv("HYBRID_LLM_MODEL")
-    or os.getenv("LITE_MODEL")
-    or os.getenv("LLM_MODEL")
-    or "openai/gpt-oss-20b"
-)
-LLM_MODEL = LLM_MODEL.replace("groq/", "")
+LLM_MODEL = groq_model("HYBRID_LLM_MODEL", "LITE_MODEL", "LLM_MODEL")
 
 # ── Dataset mapping (CSV -> SQL table) ───────────────────────────────────────
 CSV_TABLES: dict[str, str] = {

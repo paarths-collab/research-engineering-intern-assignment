@@ -9,7 +9,9 @@ structured metrics so the LLM interprets, not restates.
 import os
 from litellm import acompletion
 
-MODEL = os.getenv("HIGH_MODEL", "groq/openai/gpt-oss-20b")
+from llm_models import litellm_model
+
+MODEL = litellm_model("HIGH_MODEL")
 MAX_TOKENS = 2500
 
 

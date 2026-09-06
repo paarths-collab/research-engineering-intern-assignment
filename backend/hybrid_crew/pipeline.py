@@ -16,6 +16,7 @@ All agents are bounded (no recursive loops). Guardrails at tool layer.
 """
 
 import os
+from llm_models import groq_model
 import re
 import sys
 import io
@@ -70,7 +71,7 @@ _RATE_LIMIT_SIGNALS = (
 # ── Shared LLM instance ────────────────────────────────────────────────────────
 _llm = ChatGroq(
     api_key=os.getenv("GROQ_API_KEY"),
-    model=os.getenv("HIGH_MODEL", "openai/gpt-oss-20b").replace("groq/", ""),
+    model=groq_model("HIGH_MODEL"),
     temperature=0,
 )
 
