@@ -6,6 +6,7 @@ Lightweight dataset-grounding retriever for chatbot responses.
 
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -202,10 +203,18 @@ class DatasetContextStore:
             DatasetSnippet(
                 text=clean,
                 source=source,
-                metadata=metadata or {},
+                metadata=_json_safe(metadata),
                 tokens=_tokens(clean),
             )
         )
+
+
+def _json_safe(metadata: Optional[dict]) -> dict:
+    """Empty CSV cells load as NaN, which is not valid JSON — carry them as null."""
+    return {
+        k: (None if isinstance(v, float) and not math.isfinite(v) else v)
+        for k, v in (metadata or {}).items()
+    }
 
 
 def _tokens(text: str) -> set[str]:
