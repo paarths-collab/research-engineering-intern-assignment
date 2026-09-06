@@ -15,10 +15,25 @@ the Groq key to OpenAI. Anchor on the ``groq/`` prefix instead.
 
 from __future__ import annotations
 
+import logging
 import os
+
+logger = logging.getLogger("narrativesignal.llm_models")
 
 DEFAULT_MODEL = "openai/gpt-oss-20b"
 _PREFIX = "groq/"
+
+# Groq no longer serves these. A stale env var naming one fails at call time
+# with model_not_found, which reads as an outage rather than a config problem —
+# so fall back to the default and say so loudly instead.
+DECOMMISSIONED = frozenset({
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant",
+    "llama2-70b-4096",
+    "mixtral-8x7b-32768",
+    "gemma-7b-it",
+    "gemma-3-27b-it",
+})
 
 
 def _first_set(env_vars: tuple[str, ...]) -> str | None:
@@ -29,13 +44,30 @@ def _first_set(env_vars: tuple[str, ...]) -> str | None:
     return None
 
 
+def _bare(model: str) -> str:
+    return model[len(_PREFIX):] if model.startswith(_PREFIX) else model
+
+
+def _resolve(env_vars: tuple[str, ...], default: str) -> str:
+    """Bare, currently-served model id from the first env var that is set."""
+    model = _bare(_first_set(env_vars) or default)
+    if model in DECOMMISSIONED:
+        replacement = _bare(default)
+        if replacement in DECOMMISSIONED:
+            replacement = DEFAULT_MODEL
+        logger.warning(
+            "Model %r is decommissioned on Groq (from %s); using %r instead.",
+            model, " / ".join(env_vars) or "default", replacement,
+        )
+        model = replacement
+    return model
+
+
 def litellm_model(*env_vars: str, default: str = DEFAULT_MODEL) -> str:
     """Provider-qualified id for LiteLLM, e.g. ``groq/openai/gpt-oss-20b``."""
-    raw = _first_set(env_vars) or default
-    return raw if raw.startswith(_PREFIX) else f"{_PREFIX}{raw}"
+    return f"{_PREFIX}{_resolve(env_vars, default)}"
 
 
 def groq_model(*env_vars: str, default: str = DEFAULT_MODEL) -> str:
     """Bare id for the Groq SDK / ChatGroq / REST, e.g. ``openai/gpt-oss-20b``."""
-    raw = _first_set(env_vars) or default
-    return raw[len(_PREFIX):] if raw.startswith(_PREFIX) else raw
+    return _resolve(env_vars, default)
