@@ -372,7 +372,10 @@ class PerspectiveSimulatorService:
 
     def _fetch_globe_events(self, limit: int = 20) -> list[dict]:
         port = os.getenv("PORT", "8000")
-        base_url = os.getenv("PERSPECTIVE_GLOBE_API_URL", f"http://localhost:{port}/api/globe")
+        # uvicorn binds 0.0.0.0 (IPv4 only); "localhost" can resolve to ::1 first
+        # in a container and the self-call is then refused. Match the Dockerfile
+        # healthcheck and address the loopback interface explicitly.
+        base_url = os.getenv("PERSPECTIVE_GLOBE_API_URL", f"http://127.0.0.1:{port}/api/globe")
         target = f"{base_url.rstrip('/')}/events/"
 
         try:
