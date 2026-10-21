@@ -3,10 +3,10 @@
 I have verified the existing `networkgraph` backend against your **Final System Vision** and **Dataset Usage Map**. Overall, the architecture and data flow are highly aligned with the vision.
 
 ## 🟢 Layer 1 — Macro View
-*   **Nodes & Edges**: The implementation in [routers/graph.py](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/backend/networkgraph/routers/graph.py) correctly builds [SubredditNode](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/backend/networkgraph/models/schemas.py#13-23), [UserNode](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/backend/networkgraph/models/schemas.py#25-36), and [GraphEdge](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/backend/networkgraph/models/schemas.py#38-55) objects using the specified CSVs.
-*   **Subreddit Hover**: Uses [subreddit_intelligence_summary.csv](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/data/subreddit_intelligence_summary.csv) for metrics and [echo_chamber_scores.csv](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/data/echo_chamber_scores.csv) (optional).
-*   **User Profile**: Uses [user_intelligence_summary.csv](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/data/user_intelligence_summary.csv) and [author_amplification_summary.csv](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/data/author_amplification_summary.csv).
-*   **Visual Encoding**: Edges are colored by `topic_cluster` (joined from [narrative_topic_mapping.csv](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/data/narrative_topic_mapping.csv)).
+*   **Nodes & Edges**: The implementation in [routers/graph.py](../backend/networkgraph/routers/graph.py) correctly builds [SubredditNode](../backend/networkgraph/models/schemas.py#13-23), [UserNode](../backend/networkgraph/models/schemas.py#25-36), and [GraphEdge](../backend/networkgraph/models/schemas.py#38-55) objects using the specified CSVs.
+*   **Subreddit Hover**: Uses [subreddit_intelligence_summary.csv](../data/subreddit_intelligence_summary.csv) for metrics and [echo_chamber_scores.csv](../data/echo_chamber_scores.csv) (optional).
+*   **User Profile**: Uses [user_intelligence_summary.csv](../data/user_intelligence_summary.csv) and [author_amplification_summary.csv](../data/author_amplification_summary.csv).
+*   **Visual Encoding**: Edges are colored by `topic_cluster` (joined from [narrative_topic_mapping.csv](../data/narrative_topic_mapping.csv)).
 
 ## 🟡 Layer 2 — Directed Transport (Micro View)
 *   **Mechanism**: The `GETYes, this is the absolute best approach. D3 SVG mapping with a generated pattern is the hallmark of high-end intelligence dashboards. It is dramatically lighter than WebGL/Mapbox, natively supports the exact cyber-aesthetic we want with the dotted grid, and allows us to effortlessly map the impact_score and risk_level directly to SVG <circle> attributes.
@@ -97,12 +97,12 @@ Globe (D3 SVG GeoMercator, KPIs)
 We are officially ready to start building the frontend React components. Which dashboard page would you like to start scaffolding first?
 
 
- /transport/{id}` endpoint in [routers/transport.py](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/backend/networkgraph/routers/transport.py) handles this.
-*   **Data Discrepancy**: Your vision mentions `spread_sequence` as an ordered list in [narrative_spread_chain_table.csv](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/data/narrative_spread_chain_table.csv). 
-    *   **Actual Implementation**: The CSV contains `spread_sequence` as a string-serialized list (e.g., `"['democrats', 'politics']"`). The backend currently focuses on re-assembling the chain from the [graph_edge_intelligence_table.csv](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/data/graph_edge_intelligence_table.csv) using timestamps to ensure a high-fidelity directed graph.
+ /transport/{id}` endpoint in [routers/transport.py](../backend/networkgraph/routers/transport.py) handles this.
+*   **Data Discrepancy**: Your vision mentions `spread_sequence` as an ordered list in [narrative_spread_chain_table.csv](../data/narrative_spread_chain_table.csv). 
+    *   **Actual Implementation**: The CSV contains `spread_sequence` as a string-serialized list (e.g., `"['democrats', 'politics']"`). The backend currently focuses on re-assembling the chain from the [graph_edge_intelligence_table.csv](../data/graph_edge_intelligence_table.csv) using timestamps to ensure a high-fidelity directed graph.
 
 ## 🔵 Layer 3 — AI Intelligence Panel
-*   **Pipeline**: The `POST /analyze` endpoint in [routers/analyze.py](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/backend/networkgraph/routers/analyze.py) exactly matches your data flow:
+*   **Pipeline**: The `POST /analyze` endpoint in [routers/analyze.py](../backend/networkgraph/routers/analyze.py) exactly matches your data flow:
     1.  Collects metrics from `narrative_intelligence_summary` and `user_intelligence_summary`.
     2.  Invokes the 3-tier OSINT scraper.
     3.  Assembles a structured prompt for the LLM.
@@ -114,7 +114,7 @@ We are officially ready to start building the frontend React components. Which d
 
 ## 🧠 Data Flow Summary
 The backend successfully implements the **Step 1 → Step 5** flow:
-1.  **Initial Load**: [loader.py](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/backend/networkgraph/data/loader.py) populates the [DataStore](file:///c:/Users/Paarth/Coding/simppl/research-engineering-intern-assignment/backend/networkgraph/data/loader.py#48-80).
+1.  **Initial Load**: [loader.py](../backend/networkgraph/data/loader.py) populates the [DataStore](../backend/networkgraph/data/loader.py#48-80).
 2.  **Exploration**: `/graph` serves the macro pattern.
 3.  **Micro Detail**: `/transport` and `/narrative` serve the side panel.
 4.  **Deep Analysis**: `/analyze` triggers the external scraper and LLM.

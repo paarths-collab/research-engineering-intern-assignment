@@ -491,18 +491,9 @@ logging.basicConfig(
 )
 log = logging.getLogger("narrativesignal")
 
-from service_health import build_health_payload
+from service_health import EXPECTED_MODULES, build_health_payload
 
 MODULE_LOAD_ERRORS: dict[str, str] = {}
-EXPECTED_MODULES = [
-    "polarize_1",
-    "networkgraph",
-    "streamgraph2",
-    "globe",
-    "globe_pipeline",
-    "hybrid_chatbot",
-    "perspective",
-]
 
 # ── Load .env ─────────────────────────────────────────────────────────────────
 try:
