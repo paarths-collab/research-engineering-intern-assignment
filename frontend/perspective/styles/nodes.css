@@ -272,13 +272,82 @@
   background: linear-gradient(90deg, #dc2626, #f87171);
 }
 
-/* Handles */
+/* Simulation labels */
+.sim-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border: 1px solid rgba(255, 184, 0, 0.45);
+  background: rgba(255, 184, 0, 0.12);
+  color: #fcd34d;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  cursor: help;
+  white-space: nowrap;
+}
+
+.node-header .sim-badge {
+  margin-left: 4px;
+}
+
+.gen-tag {
+  display: inline-block;
+  padding: 0 5px;
+  margin: 0 2px;
+  border: 1px solid;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  vertical-align: middle;
+  cursor: help;
+  white-space: nowrap;
+}
+
+.gen-tag-llm {
+  color: #86efac;
+  border-color: rgba(74, 222, 128, 0.45);
+  background: rgba(22, 163, 74, 0.14);
+}
+
+.gen-tag-fallback {
+  color: #fdba74;
+  border-color: rgba(251, 146, 60, 0.5);
+  background: rgba(234, 88, 12, 0.14);
+}
+
+.gen-tag-template {
+  color: #cbd5e1;
+  border-color: rgba(148, 163, 184, 0.4);
+  background: rgba(148, 163, 184, 0.1);
+}
+
+/* Handles: visible dot is 16px; the ::after pseudo-element is a larger invisible hit area. */
 .react-flow__handle {
-  width: 9px !important;
-  height: 9px !important;
+  width: 16px !important;
+  height: 16px !important;
   border-radius: 50% !important;
   border: 2px solid !important;
+  z-index: 6;
+  transition: box-shadow 0.12s ease, background-color 0.12s ease, scale 0.12s ease;
 }
+
+.react-flow__handle::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+}
+
+/* Re-centre the larger handle on the node edge (React Flow defaults assume ~6px). */
+.react-flow__handle-top { top: -8px !important; }
+.react-flow__handle-bottom { bottom: -8px !important; }
+.react-flow__handle-left { left: -8px !important; }
+.react-flow__handle-right { right: -8px !important; }
 
 .persona-node .react-flow__handle {
   background: rgba(124, 58, 237, 0.3) !important;
@@ -305,6 +374,47 @@
   border-color: #f59e0b !important;
 }
 
+/* Use the independent `scale` property so the handle's positioning transform is preserved. */
 .react-flow__handle:hover {
-  transform: scale(1.4) !important;
+  scale: 1.25;
+  box-shadow: 0 0 0 4px rgba(255, 184, 0, 0.28);
+}
+
+/* While dragging a connection: highlight the handle under / near the cursor. */
+.react-flow__handle.connecting {
+  scale: 1.35;
+}
+
+.react-flow__handle.connecting.valid {
+  background: rgba(74, 222, 128, 0.85) !important;
+  border-color: #4ade80 !important;
+  box-shadow: 0 0 0 5px rgba(74, 222, 128, 0.3);
+}
+
+.react-flow__handle.connecting:not(.valid) {
+  background: rgba(248, 113, 113, 0.85) !important;
+  border-color: #f87171 !important;
+  box-shadow: 0 0 0 5px rgba(248, 113, 113, 0.3);
+}
+
+.node-reaction-sources {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: 10px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.node-reaction-sources-label {
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 9px;
+}
+
+.node-reaction-source {
+  white-space: nowrap;
 }

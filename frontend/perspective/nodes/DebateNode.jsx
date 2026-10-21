@@ -2,17 +2,20 @@
 
 import { Handle, Position } from 'reactflow';
 import useGraphStore from '../store/graphStore';
+import { SimulationBadge, GenerationTag, ReactionSources, readIdeologyDistance } from './SimulationBadge';
 
 export default function DebateNode({ id, data, selected }) {
   const deleteNode = useGraphStore((s) => s.deleteNode);
   const reactions = Array.isArray(data?.reactions) ? data.reactions : [];
   const rounds = Array.isArray(data?.rounds) ? data.rounds : [];
+  const distance = readIdeologyDistance(data);
 
   return (
     <div className={`perspective-node debate-node ${selected ? 'selected' : ''}`}>
       <div className="node-header">
         <span className="node-icon">⚔️</span>
         <span className="node-type-label">Debate</span>
+        <SimulationBadge data={data} />
         <button
           className="node-delete-btn"
           onClick={(e) => {
@@ -33,7 +36,9 @@ export default function DebateNode({ id, data, selected }) {
         <div className="node-rounds">
           {rounds.map((round) => (
             <div key={round.round} className="node-round-card">
-              <div className="node-round-title">{round.title || `Round ${round.round}`}</div>
+              <div className="node-round-title">
+                {round.title || `Round ${round.round}`} <GenerationTag item={round} />
+              </div>
               {round.summary && <div className="node-round-summary">{round.summary}</div>}
               <div className="node-round-turns">
                 {(Array.isArray(round.turns) ? round.turns : []).map((turn, idx) => (
@@ -46,32 +51,33 @@ export default function DebateNode({ id, data, selected }) {
           ))}
         </div>
       )}
+      {rounds.length > 0 && <ReactionSources reactions={reactions} />}
       {reactions.length > 0 && rounds.length === 0 && (
         <div className="node-analysis-list">
           {reactions.map((item, idx) => (
             <div key={`${item.persona}-${idx}`} className="node-analysis-item">
-              <span className="node-analysis-persona">{item.persona}:</span> {item.reaction}
+              <span className="node-analysis-persona">{item.persona}:</span> <GenerationTag item={item} /> {item.reaction}
             </div>
           ))}
         </div>
       )}
-      {data.ideology_distance !== undefined && (
+      {distance !== null && (
         <div className="ideology-meter">
           <div className="meter-label">Conflict</div>
           <div className="meter-bar">
             <div
               className="meter-fill debate-fill"
-              style={{ width: `${Math.round(data.ideology_distance * 100)}%` }}
+              style={{ width: `${Math.round(distance * 100)}%` }}
             />
           </div>
         </div>
       )}
       <Handle type="target" position={Position.Top} id="in-top" />
-      <Handle type="target" position={Position.Left} id="in-left" />
-      <Handle type="target" position={Position.Right} id="in-right" />
+      <Handle type="target" position={Position.Left} id="in-left" style={{ top: '30%' }} />
+      <Handle type="target" position={Position.Right} id="in-right" style={{ top: '30%' }} />
       <Handle type="source" position={Position.Bottom} id="out-bottom" />
-      <Handle type="source" position={Position.Left} id="out-left" />
-      <Handle type="source" position={Position.Right} id="out-right" />
+      <Handle type="source" position={Position.Left} id="out-left" style={{ top: '70%' }} />
+      <Handle type="source" position={Position.Right} id="out-right" style={{ top: '70%' }} />
     </div>
   );
 }

@@ -160,7 +160,12 @@ async function requestJson(path, init = {}, label = 'Request') {
   throw new Error(`${label} failed across all API candidates. ${lastError?.message || ''}`);
 }
 
-export async function fetchPersonaPresets() {
+/**
+ * Load persona presets and report where they came from so the UI can tell the
+ * difference between live backend data and the cached / built-in lists.
+ * source: 'live' | 'cache' | 'fallback'
+ */
+export async function loadPersonaPresets() {
   const cached = getCachedPersonaPresets();
 
   try {
@@ -169,17 +174,27 @@ export async function fetchPersonaPresets() {
     const normalized = sanitizePersonaPresets(raw);
     if (normalized.length > 0) {
       setCachedPersonaPresets(normalized);
-      return normalized;
+      return { items: normalized, source: 'live' };
     }
   } catch (error) {
-    if (cached.length > 0) return cached;
+    if (cached.length > 0) return { items: cached, source: 'cache' };
   }
 
-  if (cached.length > 0) return cached;
-  return getFallbackPersonaPresets();
+  if (cached.length > 0) return { items: cached, source: 'cache' };
+  return { items: getFallbackPersonaPresets(), source: 'fallback' };
 }
 
-export async function fetchNewsPresets(limit = 15) {
+export async function fetchPersonaPresets() {
+  const { items } = await loadPersonaPresets();
+  return items;
+}
+
+/**
+ * Load news presets and report their origin.
+ * source: 'live' | 'cache' | 'empty' (backend answered with no headlines).
+ * Rejects only when the backend is unreachable and nothing is cached.
+ */
+export async function loadNewsPresets(limit = 15) {
   const cached = getCachedNewsPresets();
 
   try {
@@ -193,16 +208,21 @@ export async function fetchNewsPresets(limit = 15) {
 
     if (normalized.length > 0) {
       setCachedNewsPresets(normalized);
-      return normalized;
+      return { items: normalized, source: 'live' };
     }
   } catch (error) {
     if (cached.length > 0) {
-      return cached;
+      return { items: cached, source: 'cache' };
     }
     throw error;
   }
 
-  return cached;
+  return cached.length > 0 ? { items: cached, source: 'cache' } : { items: [], source: 'empty' };
+}
+
+export async function fetchNewsPresets(limit = 15) {
+  const { items } = await loadNewsPresets(limit);
+  return items;
 }
 
 export async function simulateGraph(nodes, edges, options = {}) {

@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 import useGraphStore from '../store/graphStore';
 import {
-  fetchNewsPresets,
-  fetchPersonaPresets,
   getCachedNewsPresets,
   getFallbackPersonaPresets,
+  loadNewsPresets,
+  loadPersonaPresets,
   simulateGraph,
 } from '../services/perspectiveAPI';
 
@@ -16,6 +16,11 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
   const [openMenu, setOpenMenu] = useState(null);
   const [personaPresets, setPersonaPresets] = useState(() => getFallbackPersonaPresets());
   const [newsPresets, setNewsPresets] = useState([]);
+  // 'loading' | 'ready' | 'unavailable' for each preset list; the persona list always has a built-in fallback.
+  const [personaStatus, setPersonaStatus] = useState('loading');
+  const [newsStatus, setNewsStatus] = useState('loading');
+  const [presetReloadKey, setPresetReloadKey] = useState(0);
+  const [message, setMessage] = useState(null);
   const toolbarRef = useRef(null);
 
   useEffect(() => {
@@ -31,20 +36,23 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
 
   useEffect(() => {
     let cancelled = false;
-    fetchPersonaPresets()
-      .then((items) => {
-        if (!cancelled && Array.isArray(items) && items.length > 0) {
-          setPersonaPresets(items);
-        }
+    setPersonaStatus('loading');
+    loadPersonaPresets()
+      .then(({ items, source }) => {
+        if (cancelled) return;
+        if (Array.isArray(items) && items.length > 0) setPersonaPresets(items);
+        setPersonaStatus(source === 'live' ? 'ready' : 'unavailable');
       })
       .catch((error) => {
         console.error('Failed to load persona presets', error);
-        if (!cancelled) setPersonaPresets(getFallbackPersonaPresets());
+        if (cancelled) return;
+        setPersonaPresets(getFallbackPersonaPresets());
+        setPersonaStatus('unavailable');
       });
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [presetReloadKey]);
 
   useEffect(() => {
     // Hydrate cached headlines after mount to keep SSR/CSR initial HTML identical.
@@ -54,19 +62,31 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
     }
 
     let cancelled = false;
-    fetchNewsPresets(20)
-      .then((items) => {
-        if (!cancelled) setNewsPresets(items);
+    setNewsStatus('loading');
+    loadNewsPresets(20)
+      .then(({ items, source }) => {
+        if (cancelled) return;
+        setNewsPresets(items);
+        setNewsStatus(source === 'live' ? 'ready' : source === 'empty' ? 'empty' : 'unavailable');
       })
       .catch((error) => {
         console.error('Failed to load globe news presets', error);
-        if (!cancelled) setNewsPresets(getCachedNewsPresets());
+        if (cancelled) return;
+        setNewsPresets(getCachedNewsPresets());
+        setNewsStatus('unavailable');
       });
 
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [presetReloadKey]);
+
+  const presetsLoading = personaStatus === 'loading' || newsStatus === 'loading';
+  const presetsUnavailable = !presetsLoading && (personaStatus === 'unavailable' || newsStatus === 'unavailable' || newsStatus === 'empty');
+  const retryPresets = () => {
+    setMessage(null);
+    setPresetReloadKey((k) => k + 1);
+  };
 
   const handleSimulate = async () => {
     const personas = nodes.filter(n => n.type === 'persona');
@@ -118,18 +138,23 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
     );
 
     if (!hasValidNormalFlow && !hasValidDebateDiscussionFlow) {
-      alert(
-        'Valid flows:\n1) Normal: at least 1 Persona -> 1 News\n2) Debate/Discussion: at least 2 Personas -> Discussion/Debate -> News'
-      );
+      setMessage({
+        kind: 'warn',
+        text: 'Connect your nodes first. Valid flows: 1) Normal: at least 1 Persona -> 1 News. 2) Debate/Discussion: at least 2 Personas -> Discussion/Debate -> News.',
+      });
       return;
     }
+    setMessage(null);
     setSimulating(true);
     try {
       const result = await simulateGraph(nodes, edges, { debateRounds });
       applySimulationResult(result);
     } catch (e) {
       console.error(e);
-      alert('Simulation failed. Make sure the backend is running.');
+      setMessage({
+        kind: 'error',
+        text: 'Simulation failed: the backend is unreachable or did not respond in time. If it was idle, the first request can take about 30 seconds to wake up. Wait a moment and press Simulate again.',
+      });
       setSimulating(false);
     }
   };
@@ -141,7 +166,7 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
         <span className="brand-name">Perspective</span>
       </div>
 
-      <div className="toolbar-section">
+      <div className="toolbar-section toolbar-section-wrap">
         <div className="toolbar-label">Add Node</div>
         <div className="toolbar-buttons">
           <div className={`preset-group ${openMenu === 'persona' ? 'open' : ''}`}>
@@ -157,9 +182,15 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
               }}
               suppressHydrationWarning
             >
-              Persona Presets
+              {personaStatus === 'loading' ? 'Persona Presets (loading…)' : 'Persona Presets'}
             </button>
             <div className="preset-dropdown">
+              {personaStatus === 'loading' && (
+                <div className="preset-note">Loading live presets… showing the built-in list meanwhile.</div>
+              )}
+              {personaStatus === 'unavailable' && (
+                <div className="preset-note preset-note-warn">Backend unreachable: showing built-in or cached presets.</div>
+              )}
               {personaPresets.map((p, i) => (
                 <button
                   key={i}
@@ -186,9 +217,20 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
               className="toolbar-btn news-btn"
               onClick={() => setOpenMenu((m) => (m === 'news' ? null : 'news'))}
               disabled={newsPresets.length === 0}
+              title={
+                newsStatus === 'loading' && newsPresets.length === 0
+                  ? 'Loading headlines from the backend. This can take up to ~30s after a cold start.'
+                  : newsPresets.length === 0
+                    ? 'No headlines available. Use Retry.'
+                    : undefined
+              }
               suppressHydrationWarning
             >
-              News Presets
+              {newsStatus === 'loading' && newsPresets.length === 0
+                ? 'Loading presets…'
+                : newsStatus !== 'ready' && newsPresets.length === 0
+                  ? 'News unavailable'
+                  : 'News Presets'}
             </button>
             <div className="preset-dropdown">
               {newsPresets.map((n, i) => (
@@ -206,7 +248,7 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
               ))}
               {newsPresets.length === 0 && (
                 <div className="preset-item" style={{ cursor: 'default', opacity: 0.7 }}>
-                  Loading headlines...
+                  {newsStatus === 'loading' ? 'Loading headlines…' : 'No headlines available.'}
                 </div>
               )}
             </div>
@@ -228,6 +270,29 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
             Debate Node
           </button>
         </div>
+        {(presetsLoading || presetsUnavailable) && (
+          <div className={`preset-status ${presetsUnavailable ? 'preset-status-warn' : ''}`} role="status">
+            {presetsLoading ? (
+              <>
+                <span className="spinner spinner-small" />
+                <span>Loading presets… the first request can take up to ~30s.</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  {newsStatus === 'empty' && personaStatus !== 'unavailable'
+                    ? 'The backend returned no news headlines.'
+                    : newsPresets.length === 0
+                      ? 'Backend unreachable: no news headlines loaded.'
+                      : 'Backend unreachable: showing cached presets.'}
+                </span>
+                <button type="button" className="preset-retry-btn" onClick={retryPresets} suppressHydrationWarning>
+                  Retry
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="toolbar-divider" />
@@ -271,6 +336,30 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
         </button>
         <button className="reset-btn" onClick={resetGraph} suppressHydrationWarning>Reset</button>
       </div>
+
+      {(message || isSimulating) && (
+        <div
+          className={`toolbar-notice toolbar-notice-${isSimulating ? 'info' : message.kind}`}
+          role={!isSimulating && message.kind === 'error' ? 'alert' : 'status'}
+        >
+          <span>
+            {isSimulating
+              ? 'Contacting the backend… the first request after idle can take up to ~30s.'
+              : message.text}
+          </span>
+          {!isSimulating && (
+            <button
+              type="button"
+              className="toolbar-notice-close"
+              onClick={() => setMessage(null)}
+              aria-label="Dismiss message"
+              suppressHydrationWarning
+            >
+              ×
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

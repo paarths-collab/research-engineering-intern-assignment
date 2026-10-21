@@ -1,6 +1,7 @@
 .perspective-page-shell {
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background: #0a0806;
@@ -94,13 +95,40 @@
 
 @media (max-width: 1280px) {
   .perspective-header-title {
-    font-size: 44px;
+    font-size: clamp(26px, 3.4vw, 44px);
+  }
+
+  .perspective-page-header {
+    padding: 10px 20px 10px 64px;
+  }
+
+  .perspective-header-bar {
+    height: 40px;
+  }
+}
+
+/* Short viewports (e.g. 1024x768): give the canvas the space instead of the title. */
+@media (max-height: 820px) {
+  .perspective-page-header {
+    padding: 8px 20px;
+  }
+
+  .perspective-header-bar {
+    height: 30px;
+  }
+
+  .perspective-header-meta-row {
+    margin-bottom: 2px;
+  }
+
+  .perspective-header-title {
+    font-size: clamp(20px, 2.6vw, 30px);
   }
 }
 
 @media (max-width: 900px) {
   .perspective-page-header {
-    padding: 12px 14px;
+    padding: 12px 14px 12px 56px;
   }
 
   .perspective-header-left {
@@ -117,7 +145,7 @@
   }
 
   .perspective-header-title {
-    font-size: 28px;
+    font-size: 24px;
   }
 }
 
@@ -178,23 +206,24 @@
 }
 
 .canvas-watermark {
+  /* Decorative only: sits below the flow layer, never blocks clicks and sits away from the node area. */
   position: absolute;
-  right: 24px;
-  bottom: 18px;
-  z-index: 2;
+  left: 64px;
+  bottom: 12px;
+  z-index: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border: 1px solid rgba(255, 184, 0, 0.22);
-  background: rgba(0, 0, 0, 0.34);
-  backdrop-filter: blur(8px);
+  gap: 8px;
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 184, 0, 0.18);
+  background: rgba(0, 0, 0, 0.28);
+  opacity: 0.8;
   pointer-events: none;
 }
 
 .canvas-watermark-logo {
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   position: relative;
   border: 1px solid rgba(255, 184, 0, 0.55);
   transform: rotate(45deg);
@@ -209,7 +238,7 @@
 
 .canvas-watermark-logo .logo-core {
   position: absolute;
-  inset: 8px;
+  inset: 5px;
   background: rgba(255, 184, 0, 0.82);
   box-shadow: 0 0 8px rgba(255, 184, 0, 0.42);
 }
@@ -221,9 +250,9 @@
 }
 
 .watermark-kicker {
-  font-size: 11px;
+  font-size: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.24em;
   color: rgba(255, 184, 0, 0.75);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   font-weight: 700;
@@ -231,13 +260,25 @@
 
 .watermark-title {
   margin-top: 2px;
-  font-size: 20px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: rgba(255, 255, 255, 0.8);
   font-weight: 900;
   line-height: 1;
   font-family: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+}
+
+@media (max-width: 1100px) {
+  .canvas-watermark-copy {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .canvas-watermark {
+    display: none;
+  }
 }
 
 .canvas-side-panel {
@@ -474,13 +515,25 @@
   font-family: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
 }
 
+@media (max-width: 1280px) {
+  .brand-name {
+    font-size: 22px;
+  }
+
+  .perspective-toolbar {
+    gap: 8px 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
 @media (max-width: 900px) {
   .perspective-toolbar {
     padding-left: 56px;
   }
 
   .brand-name {
-    font-size: 24px;
+    font-size: 20px;
   }
 }
 
@@ -754,7 +807,10 @@
   border-radius: 12px;
   backdrop-filter: blur(20px);
   border: 1px solid;
-  max-width: 420px;
+  width: max-content;
+  max-width: min(420px, calc(100% - 32px));
+  max-height: 45%;
+  overflow: auto;
   animation: slideUp 0.3s ease;
   z-index: 50;
 }
@@ -789,6 +845,147 @@
   line-height: 1.5;
 }
 
+.toast-content { min-width: 0; }
+
+.toast-notice {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #fcd34d;
+  line-height: 1.45;
+}
+
+.toast-generation {
+  margin-top: 4px;
+  font-size: 10px;
+  color: rgba(148, 163, 184, 0.9);
+  line-height: 1.4;
+}
+
+.toast-close,
+.canvas-notice-close,
+.toolbar-notice-close {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  color: #e2e8f0;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.toast-close:hover,
+.canvas-notice-close:hover,
+.toolbar-notice-close:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.sim-badge-inline {
+  margin-left: 6px;
+}
+
+/* Inline, non-blocking message shown when a connection is rejected */
+.canvas-notice {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: min(520px, calc(100% - 32px));
+  padding: 10px 12px;
+  border: 1px solid rgba(248, 113, 113, 0.55);
+  background: rgba(40, 10, 10, 0.92);
+  color: #fecaca;
+  font-size: 12px;
+  line-height: 1.45;
+  backdrop-filter: blur(10px);
+  animation: noticeIn 0.2s ease;
+}
+
+.canvas-notice-text { min-width: 0; }
+
+@keyframes noticeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Toolbar status rows */
+.toolbar-section-wrap {
+  flex-wrap: wrap;
+}
+
+.preset-status {
+  flex: 1 1 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.95);
+}
+
+.preset-status-warn { color: #fdba74; }
+
+.spinner-small {
+  width: 10px;
+  height: 10px;
+  border-width: 2px;
+}
+
+.preset-retry-btn {
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 184, 0, 0.5);
+  background: rgba(255, 184, 0, 0.1);
+  color: #ffb800;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.preset-retry-btn:hover { background: rgba(255, 184, 0, 0.2); }
+
+.preset-note {
+  padding: 8px 14px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.9);
+  border-bottom: 1px solid rgba(255, 184, 0, 0.14);
+}
+
+.preset-note-warn { color: #fdba74; }
+
+.toolbar-notice {
+  flex: 1 1 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.toolbar-notice-info {
+  border-color: rgba(96, 165, 250, 0.45);
+  background: rgba(37, 99, 235, 0.12);
+  color: #bfdbfe;
+}
+
+.toolbar-notice-warn {
+  border-color: rgba(251, 191, 36, 0.5);
+  background: rgba(245, 158, 11, 0.12);
+  color: #fde68a;
+}
+
+.toolbar-notice-error {
+  border-color: rgba(248, 113, 113, 0.55);
+  background: rgba(220, 38, 38, 0.14);
+  color: #fecaca;
+}
+
 @keyframes slideUp {
   from { opacity: 0; transform: translateX(-50%) translateY(12px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -811,3 +1008,14 @@
 }
 
 .react-flow__minimap-mask { fill: rgba(99, 102, 241, 0.1) !important; }
+
+/* Keep overlays out of the way of nodes and their handles. */
+.canvas-flow-pane .react-flow__minimap {
+  margin: 0 10px 10px 0;
+  opacity: 0.85;
+}
+
+.canvas-flow-pane .react-flow__minimap:hover { opacity: 1; }
+
+.canvas-flow-pane .react-flow__controls { margin: 0 0 10px 10px; }
+

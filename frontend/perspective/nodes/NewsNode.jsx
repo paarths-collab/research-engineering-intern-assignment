@@ -2,6 +2,7 @@
 
 import { Handle, Position } from 'reactflow';
 import useGraphStore from '../store/graphStore';
+import { SimulationBadge } from './SimulationBadge';
 
 export default function NewsNode({ id, data, selected }) {
   const deleteNode = useGraphStore((s) => s.deleteNode);
@@ -28,7 +29,9 @@ export default function NewsNode({ id, data, selected }) {
         <div className="node-description">{data.description}</div>
       )}
       {data.analysis_summary && (
-        <div className="node-analysis">{data.analysis_summary}</div>
+        <div className="node-analysis">
+          {data.simulated && <SimulationBadge data={data} />} {data.analysis_summary}
+        </div>
       )}
       <Handle type="source" position={Position.Bottom} id="out" />
       <Handle type="target" position={Position.Top} id="in" />
