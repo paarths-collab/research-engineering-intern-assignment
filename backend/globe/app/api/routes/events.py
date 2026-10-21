@@ -176,6 +176,46 @@ def _mock_data_payload():
     }
 
 
+# ── Data provenance labelling ─────────────────────────────────────────────────
+# Every response that can be built from the event payload carries these fields so
+# clients can tell real pipeline output from the built-in demo events:
+#   data_source         "pipeline_output" | "mock_sample"
+#   is_mock             True only for the built-in sample events
+#   data_generated_at   generation time recorded in the pipeline output file
+#                       (None for mock data: its timestamp is just "now")
+# "pipeline_output" means a global_events_*.json found in settings.DATA_DIR by
+# the orchestrator's load_latest_output() (newest file name wins). That includes
+# committed snapshot files in backend/data: they have the same format and cannot
+# be told apart from a fresh run, so they are reported as pipeline_output with
+# their own generated_at.
+DATA_SOURCE_PIPELINE = "pipeline_output"
+DATA_SOURCE_MOCK = "mock_sample"
+MOCK_DATA_NOTICE = (
+    "Built-in sample events were served because no pipeline output was found. "
+    "This is demo data, not real reporting."
+)
+
+
+def _is_mock_payload(data: Optional[dict]) -> bool:
+    return bool(data and data.get("_is_mock"))
+
+
+def _data_labels(data: Optional[dict]) -> dict:
+    """Provenance fields to merge into any response built from ``data``."""
+    if _is_mock_payload(data):
+        return {
+            "data_source": DATA_SOURCE_MOCK,
+            "is_mock": True,
+            "data_generated_at": None,
+            "data_notice": MOCK_DATA_NOTICE,
+        }
+    return {
+        "data_source": DATA_SOURCE_PIPELINE,
+        "is_mock": False,
+        "data_generated_at": (data or {}).get("generated_at"),
+    }
+
+
 def _project_root() -> Path:
     # backend/globe/app/api/routes/events.py -> project root at parents[5]
     return Path(__file__).resolve().parents[5]
@@ -289,6 +329,7 @@ async def get_events(
         "generated_at": data.get("generated_at"),
         "total": len(events),
         "events": events,
+        **_data_labels(data),
     }
 
 
@@ -317,6 +358,7 @@ async def get_summary():
         "avg_impact": round(
             sum(e.get("impact_score", 0) for e in events) / len(events), 3
         ) if events else 0,
+        **_data_labels(data),
     }
 
 
@@ -350,6 +392,7 @@ async def get_map_data():
         "generated_at": data.get("generated_at"),
         "pin_count": len(map_pins),
         "pins": map_pins,
+        **_data_labels(data),
     }
 
 
@@ -359,6 +402,10 @@ async def get_location_news(payload: LocationNewsRequest):
     Fetch location-aware news based on clicked map coordinates.
     Returns normalized article fields expected by the globe frontend panel.
     """
+    # Stored event payloads consulted below (place-name lookup / news fallback);
+    # used to label the response when it is not purely external search results.
+    stored_data_used: list[dict] = []
+
     async with httpx.AsyncClient(timeout=20.0) as client:
         city = None
         state = None
@@ -392,6 +439,7 @@ async def get_location_news(payload: LocationNewsRequest):
         event_matching_name = None
         if not city and not country:
             data = load_latest_output() or _mock_data_payload()
+            stored_data_used.append(data)
             # Find closest pin
             best_dist = 2.0 # degrees tolerance
             for e in data.get("events", []):
@@ -459,6 +507,7 @@ async def get_location_news(payload: LocationNewsRequest):
     # Fallback to pipeline-attached news when external fetches return empty.
     if not dedup:
         data = load_latest_output() or _mock_data_payload()
+        stored_data_used.append(data)
         for event in data.get("events", []):
             for ns in (event.get("news_sources") or []):
                 url = (ns.get("url") or "").strip()
@@ -482,6 +531,12 @@ async def get_location_news(payload: LocationNewsRequest):
                 break
 
     articles = list(dedup.values())[: payload.limit]
+    if any(_is_mock_payload(d) for d in stored_data_used):
+        labels = _data_labels(next(d for d in stored_data_used if _is_mock_payload(d)))
+    elif stored_data_used:
+        labels = _data_labels(stored_data_used[-1])
+    else:
+        labels = {"data_source": "external_search", "is_mock": False}
     return {
         "location": {
             "city": city,
@@ -492,6 +547,7 @@ async def get_location_news(payload: LocationNewsRequest):
         "articles": articles,
         "total_count": len(articles),
         "search_priority": "location-first",
+        **labels,
     }
 
 
@@ -658,7 +714,7 @@ async def event_analysis_workflow(
     cache_key = f"event_analysis:{event_id}:{event.get('last_updated') or data.get('generated_at') or ''}"
     cache = _load_analysis_cache()
     if not refresh_cache and cache_key in cache:
-        return {"cached": True, **cache[cache_key]}
+        return {"cached": True, **cache[cache_key], **_data_labels(data)}
 
     reddit_ctx = _fetch_reddit_context_from_db(event, max_posts=max_reddit_posts)
 
@@ -745,7 +801,7 @@ Rules:
     }
     cache[cache_key] = payload
     _save_analysis_cache(cache)
-    return {"cached": False, **payload}
+    return {"cached": False, **payload, **_data_labels(data)}
 
 
 @router.get("/{event_id}")
@@ -754,7 +810,8 @@ async def get_event_detail(event_id: str):
     data = load_latest_output() or _mock_data_payload()
     for event in data.get("events", []):
         if event.get("id") == event_id:
-            return event
+            # Copy so the labels never leak into the shared mock list.
+            return {**event, **_data_labels(data)}
 
     raise HTTPException(status_code=404, detail=f"Event '{event_id}' not found.")
 
@@ -836,6 +893,7 @@ Use plain text. Bold headers with **. Bullet points with -."""
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "event_count":  len(events),
         "report":       raw,
+        **_data_labels(data),
     }
 
 
@@ -869,6 +927,7 @@ async def event_news_analysis(
     groq_available = bool(settings.GROQ_API_KEY)
     topic_sentences: list = []
     search_queries:  list = []
+    topic_sentences_source = "groq_llm"
 
     if groq_available:
         prompt = f"""You are a news intelligence analyst.
@@ -906,6 +965,8 @@ Return ONLY the 4 sentences, one per line, no numbering, no bullets, no extra te
             logger.warning("Groq topic generation failed: %s", e)
 
     if not topic_sentences:
+        # Canned template text, not model output or reporting.
+        topic_sentences_source = "template_fallback"
         topic_sentences = [
             f"Escalating tensions in {location} have drawn international attention amid ongoing conflict.",
             f"Reddit communities are amplifying coverage of the {title} situation across multiple forums.",
@@ -1009,8 +1070,10 @@ Return ONLY the 4 sentences, one per line, no numbering, no bullets, no extra te
     return {
         "event_id":        event_id,
         "topic_sentences": topic_sentences,
+        "topic_sentences_source": topic_sentences_source,
         "sources_used":    ["tavily", "newsapi", "gnews", "newsdata", "google_rss", "pipeline"],
         "articles":        unique[:12],
+        **_data_labels(data),
     }
 
 
@@ -1086,4 +1149,5 @@ If evidence is weak or conflicting, explicitly note uncertainty and confidence l
         "event_id":     event_id,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "report":       report,
+        **_data_labels(data),
     }
