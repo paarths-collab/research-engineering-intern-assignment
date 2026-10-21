@@ -34,12 +34,7 @@ _data_dir_env = (
 )
 DATA_DIR = _resolve_path(_data_dir_env) if _data_dir_env else (PROJECT_DIR / "data").resolve()
 
-# DB path override: HYBRID_SQL_DB (existing name) or HYBRID_SQL_DB_PATH.
-DUCKDB_PATH = Path(
-    os.getenv("HYBRID_SQL_DB")
-    or os.getenv("HYBRID_SQL_DB_PATH")
-    or DATA_DIR / "hybrid_chatbot.duckdb"
-)
+# The SQL DB path (HYBRID_SQL_DB / HYBRID_SQL_DB_PATH) is resolved at call time by resolve_db_path().
 VECTOR_INDEX_PATH = Path(os.getenv("HYBRID_VECTOR_INDEX", DATA_DIR / "hybrid_vector.index"))
 VECTOR_META_PATH = Path(os.getenv("HYBRID_VECTOR_META", DATA_DIR / "hybrid_vector_meta.jsonl"))
 

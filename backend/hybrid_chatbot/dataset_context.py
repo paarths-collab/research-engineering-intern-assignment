@@ -55,11 +55,15 @@ class DatasetContextStore:
         if not q_tokens:
             return []
 
+        # A record must share at least two distinct content tokens with the question
+        # (every one of them for a one- or two-word question), so a single shared word
+        # cannot make an unrelated record look relevant.
+        min_overlap = min(2, len(q_tokens))
         scored: list[tuple[float, DatasetSnippet]] = []
         q_lower = query.lower()
         for snip in self._snippets:
             overlap = len(q_tokens & snip.tokens)
-            if overlap == 0:
+            if overlap < min_overlap:
                 continue
             score = overlap / max(len(q_tokens), 1)
             narrative_id = str(snip.metadata.get("narrative_id", "")).lower()
@@ -265,8 +269,23 @@ class DatasetContextStore:
         )
 
 
+# Function words carry no topical signal: they appear in nearly every title, so counting
+# them lets an unrelated record match any question ("what", "the", "for", ...).
+_STOPWORDS = frozenset(
+    "the and for are was were has have had with from that this these those what which who whom whose "
+    "when where why how did does can could would should will shall about into onto over than then "
+    "there their they them you your our his her its not but any all been being also just some such "
+    "very out off per via".split()
+)
+
+
 def _tokens(text: str) -> set[str]:
-    return {t for t in re.findall(r"[a-zA-Z0-9_.-]+", str(text).lower()) if len(t) >= 3}
+    """Distinct lower-cased content tokens (3+ chars, stopwords removed)."""
+    return {
+        t
+        for t in re.findall(r"[a-zA-Z0-9_.-]+", str(text).lower())
+        if len(t) >= 3 and t not in _STOPWORDS
+    }
 
 
 def _rows(df: pd.DataFrame):

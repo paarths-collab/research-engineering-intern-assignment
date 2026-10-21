@@ -80,6 +80,12 @@ class SQLPlan:
     entities: list[EntityFilter] = field(default_factory=list)
     # caveats the answer must state (e.g. a time phrase that could not be applied)
     notes: list[str] = field(default_factory=list)
+    # Ranking cut-off (the template's LIMIT), the result column it ranks by and the
+    # secondary ORDER BY key(s) that make equal values order deterministically; used to
+    # tell the user when a tie straddles the cut-off.
+    limit: Optional[int] = None
+    rank_by: Optional[str] = None
+    tie_break: Optional[str] = None
 
 
 COVERAGE_FULL = "full"
@@ -721,7 +727,7 @@ class SQLTranslator:
                     f"FROM {table} "
                     f"WHERE narrative_id ILIKE ? ESCAPE '\\' {date_sql} "
                     "GROUP BY date "
-                    "ORDER BY post_count DESC "
+                    "ORDER BY post_count DESC, date ASC "
                     "LIMIT 1"
                 ),
                 description="Narrative spike date",
@@ -732,6 +738,9 @@ class SQLTranslator:
                 date_range=date_range,
                 date_source=(table, "created_datetime"),
                 entities=[EntityFilter("narrative", table, "narrative_id", like, "like", narrative_token)],
+                limit=1,
+                rank_by="post_count",
+                tie_break="date",
             )
         if _has_any(q, ["spike", "spiked", "surge", "jump"]) and not narrative_token:
             table = "daily_volume_v2"
@@ -741,7 +750,7 @@ class SQLTranslator:
                     "SELECT CAST(created_datetime AS DATE) AS date, post_count "
                     f"FROM {table} "
                     f"WHERE post_count IS NOT NULL {date_sql} "
-                    "ORDER BY post_count DESC "
+                    "ORDER BY post_count DESC, date ASC "
                     "LIMIT 1"
                 ),
                 description="Overall spike date",
@@ -751,6 +760,9 @@ class SQLTranslator:
                 metrics=["date", "post_count"],
                 date_range=date_range,
                 date_source=(table, "created_datetime"),
+                limit=1,
+                rank_by="post_count",
+                tie_break="date",
             )
 
         # Domain frequency
@@ -763,12 +775,12 @@ class SQLTranslator:
                 entities.append(EntityFilter("subreddit", table, "subreddit", subreddit))
             return SQLPlan(
                 sql=(
-                    "SELECT domain, SUM(count) AS total_count "
+                    "SELECT domain, CAST(SUM(count) AS BIGINT) AS total_count "
                     f"FROM {table} "
                     f"{where} "
                     "GROUP BY domain "
                     "HAVING SUM(count) IS NOT NULL "
-                    "ORDER BY total_count DESC "
+                    "ORDER BY total_count DESC, domain ASC "
                     "LIMIT 10"
                 ),
                 description="Top domains by frequency",
@@ -777,6 +789,9 @@ class SQLTranslator:
                 kind="ranking",
                 metrics=["total_count"],
                 entities=entities,
+                limit=10,
+                rank_by="total_count",
+                tie_break="domain",
             )
 
         # Echo chamber score
@@ -787,13 +802,16 @@ class SQLTranslator:
                     "SELECT subreddit, TRY_CAST(lift AS DOUBLE) AS lift "
                     "FROM echo_chamber_scores "
                     "WHERE isfinite(TRY_CAST(lift AS DOUBLE)) "
-                    "ORDER BY lift DESC "
+                    "ORDER BY lift DESC, subreddit ASC "
                     f"LIMIT {1 if top_only else 10}"
                 ),
                 description="Highest echo chamber score" if top_only else "Echo chamber scores",
                 tables=["echo_chamber_scores"],
                 kind="ranking",
                 metrics=["subreddit", "lift"],
+                limit=1 if top_only else 10,
+                rank_by="lift",
+                tie_break="subreddit",
             )
 
         # Dominant narratives in a subreddit
@@ -805,7 +823,7 @@ class SQLTranslator:
                     "JOIN narrative_registry nr ON nd.narrative_id = nr.narrative_id "
                     "WHERE lower(nd.subreddit) = lower(?) "
                     "GROUP BY nr.representative_title, nr.primary_domain "
-                    "ORDER BY post_count DESC "
+                    "ORDER BY post_count DESC, nr.representative_title ASC, nr.primary_domain ASC "
                     "LIMIT 10"
                 ),
                 description="Dominant narratives by subreddit",
@@ -814,6 +832,9 @@ class SQLTranslator:
                 kind="ranking",
                 metrics=["post_count"],
                 entities=[EntityFilter("subreddit", "narrative_diffusion_table", "subreddit", subreddit)],
+                limit=10,
+                rank_by="post_count",
+                tie_break="representative_title, primary_domain",
             )
 
         # Subreddit amplification for a narrative
@@ -826,7 +847,7 @@ class SQLTranslator:
                     f"FROM {table} "
                     "WHERE narrative_id ILIKE ? ESCAPE '\\' "
                     "GROUP BY subreddit "
-                    "ORDER BY post_count DESC "
+                    "ORDER BY post_count DESC, subreddit ASC "
                     "LIMIT 10"
                 ),
                 description="Subreddit amplification for narrative",
@@ -835,6 +856,9 @@ class SQLTranslator:
                 kind="ranking",
                 metrics=["subreddit", "post_count"],
                 entities=[EntityFilter("narrative", table, "narrative_id", like, "like", narrative_token)],
+                limit=10,
+                rank_by="post_count",
+                tie_break="subreddit",
             )
 
         # Narrative volume (highest)
@@ -847,7 +871,7 @@ class SQLTranslator:
                     f"FROM {table} "
                     f"WHERE narrative_id IS NOT NULL {date_sql} "
                     "GROUP BY narrative_id "
-                    "ORDER BY post_count DESC "
+                    "ORDER BY post_count DESC, narrative_id ASC "
                     "LIMIT 1"
                 ),
                 description="Highest narrative volume",
@@ -857,6 +881,9 @@ class SQLTranslator:
                 metrics=["narrative_id", "post_count"],
                 date_range=date_range,
                 date_source=(table, "created_datetime"),
+                limit=1,
+                rank_by="post_count",
+                tie_break="narrative_id",
             )
 
         # Trend over time
@@ -871,7 +898,7 @@ class SQLTranslator:
                         f"FROM {table} "
                         f"WHERE narrative_id ILIKE ? ESCAPE '\\' {date_sql} "
                         "GROUP BY date "
-                        "ORDER BY date"
+                        "ORDER BY date ASC"
                     ),
                     description="Narrative trend over time",
                     tables=[table],
@@ -890,7 +917,7 @@ class SQLTranslator:
                     "SELECT CAST(created_datetime AS DATE) AS date, post_count "
                     f"FROM {table} "
                     f"WHERE post_count IS NOT NULL {date_sql} "
-                    "ORDER BY date"
+                    "ORDER BY date ASC, post_count ASC"
                 ),
                 description="Overall volume trend",
                 tables=[table],
@@ -1110,9 +1137,14 @@ _MONTHS = (
     r"jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|jun(?:e)?|jul(?:y)?|aug(?:ust)?|"
     r"sep(?:t|tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?"
 )
+# A month word only counts as a month when it stands alone: not inside a subreddit
+# ("r/dec"), a domain or handle ("dec.gov", "@dec"), a snake/kebab-case identifier
+# ("mar-a-lago", "dec_2024") or a longer word. Guards for the start and end of a match.
+_NOT_IN_IDENT_BEFORE = r"(?<![\w/@#.\-])"
+_NOT_IN_IDENT_AFTER = r"(?![\w/@]|[.\-]\w)"
 _TIME_CUE = re.compile(
     r"\b(?:"
-    rf"(?:(?:early|mid|late)[\s-]+)?(?:{_MONTHS})"  # a month name
+    rf"{_NOT_IN_IDENT_BEFORE}(?:(?:early|mid|late)[\s-]+)?(?:{_MONTHS}){_NOT_IN_IDENT_AFTER}"  # a month name
     r"|(?:(?:early|mid|late)[\s-]+|(?:in|during|of|since|from|until|by|before|after)\s+)may"
     r"|may\s+(?:19|20)\d{2}"
     r"|(?:19|20)\d{2}-\d{2}-\d{2}|(?:19|20)\d{2}"  # a single ISO date / a year
@@ -1131,6 +1163,22 @@ def _unparsed_time_phrase(query: str) -> Optional[str]:
     return m.group(0).strip() if m else None
 
 
+_MONTH_NAME = (
+    r"jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|"
+    r"jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t|tember)?|oct(?:ober)?|"
+    r"nov(?:ember)?|dec(?:ember)?"
+)
+# "[early|mid|late][ -]<month>" ("late January", "mid-may", "early-March"), standalone.
+_MONTH_WITH_YEAR = re.compile(
+    rf"{_NOT_IN_IDENT_BEFORE}(?:(early|mid|late)[\s-]+)?({_MONTH_NAME})\s+(20\d{{2}})\b"
+)
+_MONTH_WITHOUT_YEAR = re.compile(
+    rf"{_NOT_IN_IDENT_BEFORE}(?:(early|mid|late)[\s-]+)?({_MONTH_NAME}){_NOT_IN_IDENT_AFTER}"
+)
+# "may" is the month only after one of these ("in may", "since may"); otherwise it is the modal verb.
+_MAY_AS_MONTH_CONTEXT = re.compile(r"\b(?:in|during|of|since|from|until)\s+$")
+
+
 def _parse_named_month_range(query: str, reference_date: Optional[date]) -> Optional[Tuple[str, str]]:
     month_map = {
         "jan": 1, "january": 1,
@@ -1147,35 +1195,21 @@ def _parse_named_month_range(query: str, reference_date: Optional[date]) -> Opti
         "dec": 12, "december": 12,
     }
 
-    # with year (e.g., "late January 2025")
-    m = re.search(
-        r"\b(early|mid|late)?\s*(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|"
-        r"jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t|tember)?|oct(?:ober)?|"
-        r"nov(?:ember)?|dec(?:ember)?)\s+(20\d{2})\b",
-        query,
-    )
+    # with year (e.g., "late January 2025", "mid-May 2025")
+    m = _MONTH_WITH_YEAR.search(query)
     if m:
         qualifier = (m.group(1) or "").strip()
-        month_token = m.group(2)
         year = int(m.group(3))
-        month = month_map[month_token[:3]]
+        month = month_map[m.group(2)[:3]]
         return _qualified_month_range(year, month, qualifier)
 
     # without year (fall back to reference_date year if available)
-    m = re.search(
-        r"\b(early|mid|late)?\s*(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|"
-        r"jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t|tember)?|oct(?:ober)?|"
-        r"nov(?:ember)?|dec(?:ember)?)\b",
-        query,
-    )
-    if m:
+    for m in _MONTH_WITHOUT_YEAR.finditer(query):
         qualifier = (m.group(1) or "").strip()
         month_token = m.group(2)
         month = month_map[month_token[:3]]
-        if month_token == "may" and not re.search(
-            r"\b(?:in|during|of|since|from|until|early|mid|late)\s+may\b", query
-        ):
-            return None  # the modal verb ("which narratives may have spiked"), not the month
+        if month_token == "may" and not qualifier and not _MAY_AS_MONTH_CONTEXT.search(query[: m.start()]):
+            continue  # the modal verb ("which narratives may have spiked"), not the month
         # A bare month means its most recent occurrence on or before the anchor date.
         anchor = reference_date or date.today()
         year = anchor.year if month <= anchor.month else anchor.year - 1

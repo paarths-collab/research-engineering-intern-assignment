@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+from datetime import date
+
 import pytest
 
 from conftest import FakeLLM
@@ -10,7 +12,10 @@ from hybrid_chatbot.sql_engine import (
     SQLTranslator,
     _extract_narrative_token,
     _narrative_like,
+    parse_date_range,
 )
+
+DATASET_END = date(2025, 2, 18)  # anchor for bare months: the dataset's last day
 
 # Real ids: graph_edge_intelligence_table uses "<cluster>_<domain>"; narrative_registry /
 # narrative_diffusion_table use "<cluster>.0_<domain>" (or "<domain>_<domain>").
@@ -150,12 +155,12 @@ def test_missing_narrative_message_uses_the_name_the_user_gave(built_db, pipelin
 # ── Unparseable time phrases are disclosed ───────────────────────────────────
 
 def test_unparsed_time_phrase_is_disclosed(built_db, pipeline_factory):
-    result = pipeline_factory(FakeLLM(), built_db).run("How many posts were there in mid-may?")
+    result = pipeline_factory(FakeLLM(), built_db).run("How many posts were there recently?")
 
     assert result["sql"]["date_window"] is None
     assert result["sql"]["status"] == "ok"
     assert result["sql"]["notes"] and "No date filter was applied" in result["sql"]["notes"][0]
-    assert "mid-may" in result["sql"]["notes"][0]
+    assert "recently" in result["sql"]["notes"][0]
     assert "No date filter was applied" in result["answer"]
 
 
@@ -178,4 +183,59 @@ def test_no_note_when_nothing_was_dropped(query):
 def test_other_unparsed_time_references_are_disclosed(query):
     plan = _translator().build_plan(query)
     assert plan is not None and plan.date_range is None
+    assert plan.notes and "No date filter was applied" in plan.notes[0]
+
+
+# ── Month words: only standalone ones, hyphenated qualifiers included ────────
+
+@pytest.mark.parametrize("query, window", [
+    ("How many posts in mid-may?", ("2024-05-11", "2024-05-20")),
+    ("How many posts in early-March?", ("2024-03-01", "2024-03-10")),
+    ("How many posts in late-January?", ("2025-01-21", "2025-01-31")),
+    ("How many posts in Late-January 2025?", ("2025-01-21", "2025-01-31")),
+    ("How many posts in mid May?", ("2024-05-11", "2024-05-20")),  # unhyphenated, unchanged
+    ("How many posts in May?", ("2024-05-01", "2024-05-31")),
+    ("How many posts in december 2024?", ("2024-12-01", "2024-12-31")),
+])
+def test_month_words_and_hyphenated_qualifiers_parse(query, window):
+    assert parse_date_range(query, DATASET_END) == window
+    plan = _translator().build_plan(query, DATASET_END)
+    assert plan.date_range == window
+    assert plan.notes == []
+
+
+@pytest.mark.parametrize("query", [
+    "How many posts in r/dec?",
+    "Top domains in r/Dec and r/mar",
+    "What are the top domains in r/nov?",
+    "Posts mentioning mar-a-lago",
+    "Domains like dec.gov or jan_6",
+    "Which narratives may have spiked?",  # modal verb
+    "How many posts did @aug make?",
+])
+def test_month_like_identifiers_and_modal_may_are_not_months(query):
+    assert parse_date_range(query, DATASET_END) is None
+    plan = _translator().build_plan(query, DATASET_END)
+    if plan is not None:  # no date filter and no spurious "could not be interpreted" note either
+        assert plan.date_range is None
+        assert not [n for n in plan.notes if "No date filter" in n]
+
+
+def test_subreddit_named_like_a_month_does_not_filter_by_date():
+    plan = _translator().build_plan("How many posts were there in r/dec?", DATASET_END)
+    assert plan.date_range is None and plan.date_source is None
+    assert plan.params == ["dec"] and plan.notes == []
+
+
+def test_a_real_month_still_parses_next_to_a_month_named_subreddit():
+    assert parse_date_range("How many posts in r/dec during December 2024?", DATASET_END) == (
+        "2024-12-01", "2024-12-31",
+    )
+    assert parse_date_range("How many posts in r/dec in January?", DATASET_END) == ("2025-01-01", "2025-01-31")
+
+
+@pytest.mark.parametrize("query", ["How many posts were there recently?", "how many posts in Q3 2025", "how many posts in the last quarter"])
+def test_genuinely_unparseable_time_cues_are_still_noted(query):
+    plan = _translator().build_plan(query, DATASET_END)
+    assert plan.date_range is None
     assert plan.notes and "No date filter was applied" in plan.notes[0]

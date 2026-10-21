@@ -352,6 +352,7 @@ class ChatPipeline:
                     plan=plan, status=SQL_INSUFFICIENT, coverage=coverage, reason=coverage.reason,
                 )
             df = self.sql_store.execute(plan.sql, plan.params)
+            self._note_boundary_tie(plan, df)
             raw_rows = [_clean_row(r) for r in df.head(20).to_dict(orient="records")]
         except Exception as exc:
             logger.warning("SQL execution failed: %s", exc)
@@ -367,6 +368,35 @@ class ChatPipeline:
             )
             return SQLResult(plan=plan, status=SQL_INSUFFICIENT, coverage=coverage, reason=reason)
         return SQLResult(plan=plan, rows=rows, status=SQL_OK, coverage=coverage)
+
+
+    def _note_boundary_tie(self, plan: SQLPlan, df) -> None:
+        """Add a note when the LIMIT cut-off falls inside a tie on the ranked value.
+
+        The secondary ORDER BY keys make the shown rows deterministic, but the user should
+        know that equally ranked items beyond the cut-off are not listed.
+        """
+        if not plan.limit or not plan.rank_by or len(df) < plan.limit:
+            return
+        probe_sql = re.sub(r"LIMIT\s+\d+\s*$", f"LIMIT {plan.limit + 1}", plan.sql)
+        if probe_sql == plan.sql:
+            return
+        try:
+            probe = self.sql_store.execute(probe_sql, plan.params)
+            if len(probe) <= plan.limit:
+                return
+            last = _clean_value(probe[plan.rank_by].iloc[plan.limit - 1])
+            following = _clean_value(probe[plan.rank_by].iloc[plan.limit])
+        except Exception as exc:  # noqa: BLE001 - the note is best effort, never fatal
+            logger.warning("Tie check skipped: %s", exc)
+            return
+        if last is None or last != following:
+            return
+        tie_break = f"; ties are ordered by {plan.tie_break} (ascending)" if plan.tie_break else ""
+        plan.notes.append(
+            f"Tie at the result boundary: ranks {plan.limit} and {plan.limit + 1} share the same "
+            f"{plan.rank_by} ({last}), so equally ranked items beyond the cut-off are not shown{tie_break}."
+        )
 
 
 def _build_chat_prompt(
@@ -570,12 +600,20 @@ def _insufficient_coverage_message(res: SQLResult) -> str:
 
 
 def _clean_value(value):
-    """JSON-safe, reproducible scalar: dates as ISO strings, NaN/NaT/inf as None,
-    numpy/Decimal scalars as plain Python numbers."""
+    """JSON-safe, reproducible scalar: dates as ISO strings (YYYY-MM-DD for dates and
+    midnight timestamps), NaN/NaT/inf as None, numpy/Decimal scalars as plain Python numbers."""
     if value is None:
         return None
     if isinstance(value, (datetime, date)):
-        return None if value != value else value.isoformat()  # NaT != NaT
+        if value != value:  # NaT != NaT
+            return None
+        if (
+            isinstance(value, datetime)
+            and value.tzinfo is None
+            and (value.hour, value.minute, value.second, value.microsecond, getattr(value, "nanosecond", 0)) == (0,) * 5
+        ):
+            return value.date().isoformat()  # a DATE column read back as a midnight timestamp
+        return value.isoformat()
     if isinstance(value, Decimal):
         value = float(value)
     elif hasattr(value, "item") and callable(value.item):  # numpy scalar

@@ -41,7 +41,7 @@ app = FastAPI(title="Chatbot API", version="1.0.0", lifespan=lifespan)
 def health():
     sql = sql_health()
     return {
-        "status": "ok",
+        "status": _overall_status(sql),
         "llm_ready": bool(llm_client.api_key),
         "web_search_ready": bool(pipeline.web.enabled),
         "sql": sql,
@@ -71,6 +71,17 @@ def query(payload: QueryRequest):
         result.pop("dataset_chunks", None)
         result.pop("web_articles", None)
     return result
+
+
+def _overall_status(sql: dict) -> str:
+    """Overall health: 'ok' only when SQL is fully ready, 'degraded' with some tables
+    missing, 'unavailable' when no table could be served (HTTP 200 in every case)."""
+    state = sql.get("state")
+    if state == "ready":
+        return "ok"
+    if state == "degraded":
+        return "degraded"
+    return "unavailable"
 
 
 def sql_health() -> dict:

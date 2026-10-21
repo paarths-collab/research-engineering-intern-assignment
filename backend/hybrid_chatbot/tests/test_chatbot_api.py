@@ -91,3 +91,31 @@ def test_init_resources_records_failure_instead_of_raising(tmp_path, monkeypatch
     status = api.init_resources()
     assert status["state"] == "unavailable" and status["error"]
     assert TestClient(api.app).get("/health").json()["sql"]["state"] == "unavailable"
+
+
+def test_health_status_is_degraded_when_a_table_is_missing(csv_dir_without, tmp_path, monkeypatch):
+    pipeline = make_pipeline(FakeLLM(), tmp_path / "x.duckdb", data_dir=csv_dir_without("echo_chamber_scores.csv"))
+    monkeypatch.setattr(api, "pipeline", pipeline)
+    resp = TestClient(api.app).get("/health")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["status"] == "degraded"
+    assert body["sql"]["state"] == "degraded" and body["sql"]["missing_tables"] == ["echo_chamber_scores"]
+    for key in ("llm_ready", "web_search_ready", "sql", "dataset_date_range"):
+        assert key in body
+    pipeline.sql_store.close()
+
+
+def test_health_status_is_unavailable_when_no_table_can_be_served(tmp_path, monkeypatch):
+    empty = tmp_path / "empty"
+    empty.mkdir()
+    pipeline = make_pipeline(FakeLLM(), tmp_path / "n.duckdb", data_dir=empty)
+    monkeypatch.setattr(api, "pipeline", pipeline)
+    resp = TestClient(api.app).get("/health")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["status"] == "unavailable"
+    assert body["sql"]["state"] == "unavailable" and body["sql"]["available_tables"] == []
+    for key in ("llm_ready", "web_search_ready", "sql", "dataset_date_range"):
+        assert key in body
+    pipeline.sql_store.close()
