@@ -491,7 +491,18 @@ logging.basicConfig(
 )
 log = logging.getLogger("narrativesignal")
 
+from service_health import build_health_payload
+
 MODULE_LOAD_ERRORS: dict[str, str] = {}
+EXPECTED_MODULES = [
+    "polarize_1",
+    "networkgraph",
+    "streamgraph2",
+    "globe",
+    "globe_pipeline",
+    "hybrid_chatbot",
+    "perspective",
+]
 
 # ── Load .env ─────────────────────────────────────────────────────────────────
 try:
@@ -705,6 +716,7 @@ try:
     log.info("✓ networkgraph routes registered: %s",
              [r.path for r in network_app.routes if hasattr(r, "path")])
 except Exception as e:
+    MODULE_LOAD_ERRORS["networkgraph"] = str(e)
     log.exception("✗ Could not load networkgraph (falling back to empty app):")
     network_app = FastAPI()
 
@@ -792,7 +804,8 @@ except Exception as e:
     globe_app = FastAPI()
 
 
-# hybrid_chatbot — deployable SQL + embeddings chatbot
+# hybrid_chatbot — lexical retrieval over CSV snippets + keyword-template SQL on a
+# historical DuckDB snapshot, with optional LLM synthesis
 hybrid_chat_app = None
 try:
     from hybrid_chatbot.api import app as hybrid_chat_app
@@ -834,7 +847,9 @@ async def _main_lifespan(application: FastAPI):
     except Exception as e:
         log.warning("streamgraph2 pool init error: %s", e)
 
-    # hybrid_chatbot — initialize SQL + vector index
+    # hybrid_chatbot — init_resources() initializes the SQL store (opens a prebuilt
+    # DuckDB read-only, else builds it from the CSVs; failures are recorded in the
+    # store status shown by /api/chatbot/health instead of blocking startup)
     try:
         from hybrid_chatbot.api import init_resources as _hc_init
         _hc_init()
@@ -887,7 +902,7 @@ app.add_middleware(
 
 _RATE_WINDOW_SECONDS = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", "60"))
 _RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "60"))
-_RATE_LIMIT_PATH_PREFIXES = ("/api/chatbot", "/api/globe", "/api/polar")
+_RATE_LIMIT_PATH_PREFIXES = ("/api/chatbot", "/api/globe", "/api/polar", "/api/perspective")
 _rate_limit_buckets: dict[tuple[str, str], list[float]] = {}
 
 
@@ -1009,10 +1024,8 @@ def root():
 
 @app.api_route("/health", methods=["GET", "HEAD"], include_in_schema=False)
 def unified_health():
-    return {
-        "status": "ok",
-        "module_load_errors": MODULE_LOAD_ERRORS,
-    }
+    # Always HTTP 200; "degraded" is reported in the body for platform health checks.
+    return build_health_payload(EXPECTED_MODULES, MODULE_LOAD_ERRORS)
 
 
 if __name__ == "__main__":
