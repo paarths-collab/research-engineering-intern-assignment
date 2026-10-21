@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_serializer
 
 
 class PersonaConfig(BaseModel):
@@ -31,6 +31,18 @@ class PerspectiveGraphEdge(BaseModel):
     type: str = "smoothstep"
     animated: bool = True
     style: dict[str, Any] | None = None
+    # Optional React Flow handle ids; passed through from the request so the
+    # frontend can re-attach edges to the same handles after a simulate round trip.
+    sourceHandle: str | None = None
+    targetHandle: str | None = None
+
+    @model_serializer(mode="wrap")
+    def _omit_empty_handles(self, handler):
+        data = handler(self)
+        for key in ("sourceHandle", "targetHandle"):
+            if data.get(key) is None:
+                data.pop(key, None)
+        return data
 
 
 class PerspectiveSimulateRequest(BaseModel):

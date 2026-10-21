@@ -86,6 +86,8 @@ class PerspectiveSimulatorService:
                         type="smoothstep",
                         animated=True,
                         style=e.style,
+                        sourceHandle=e.sourceHandle,
+                        targetHandle=e.targetHandle,
                     )
                 )
 
@@ -101,6 +103,7 @@ class PerspectiveSimulatorService:
         personas_by_connector: dict[str, list[PerspectiveGraphNode]] = {cid: [] for cid in connector_by_id}
         connector_to_news_ids: dict[str, set[str]] = {cid: set() for cid in connector_by_id}
         connector_modes_by_news: dict[str, set[str]] = {nid: set() for nid in news_by_id}
+        connector_ids_by_news: dict[str, list[str]] = {nid: [] for nid in news_by_id}
 
         for edge in base_edges:
             if edge.source in personas_by_id and edge.target in news_by_id:
@@ -137,6 +140,8 @@ class PerspectiveSimulatorService:
                 connected_personas_by_news[news_id].extend(personas)
                 if connector_mode in {"discussion", "debate"}:
                     connector_modes_by_news[news_id].add(connector_mode)
+                    if connector_id not in connector_ids_by_news[news_id]:
+                        connector_ids_by_news[news_id].append(connector_id)
 
         generated_nodes: list[PerspectiveGraphNode] = []
         generated_edges: list[PerspectiveGraphEdge] = []
@@ -221,16 +226,7 @@ class PerspectiveSimulatorService:
                 )
 
                 add_generated_edge_safe(f"e-{news_id}-{analysis_id}", news_id, analysis_id)
-                generated_edges.append(
-                    PerspectiveGraphEdge(
-                        id=f"e-{persona.id}-{analysis_id}",
-                        source=persona.id,
-                        target=analysis_id,
-                        type="smoothstep",
-                        animated=True,
-                        style={"strokeWidth": 2},
-                    )
-                )
+                add_generated_edge_safe(f"e-{persona.id}-{analysis_id}", persona.id, analysis_id)
 
                 generated_meta.append(
                     {
@@ -287,16 +283,7 @@ class PerspectiveSimulatorService:
                     )
                 )
 
-                generated_edges.append(
-                    PerspectiveGraphEdge(
-                        id=f"e-{news_id}-{analysis_id}",
-                        source=news_id,
-                        target=analysis_id,
-                        type="smoothstep",
-                        animated=True,
-                        style={"strokeWidth": 2},
-                    )
-                )
+                add_generated_edge_safe(f"e-{news_id}-{analysis_id}", news_id, analysis_id)
 
                 for persona in unique_personas:
                     add_generated_edge_safe(f"e-{persona.id}-{analysis_id}", persona.id, analysis_id)
@@ -338,25 +325,43 @@ class PerspectiveSimulatorService:
                 else "Multiple personas are discussing implications from different angles."
             )
 
+            # Track which requested connector node(s) produced this output so clients can
+            # map the generated node back to the node the user placed.
+            selected_connector_ids = [
+                cid for cid in connector_ids_by_news.get(news_id, []) if connector_by_id[cid].type == selected_mode
+            ]
+            node_x = float(news_node.position.get("x", 0.0)) + (220.0 if selected_mode == "debate" else 0.0)
+            node_y = float(news_node.position.get("y", 0.0)) + 240.0
+            if len(selected_connector_ids) == 1 and len(connector_to_news_ids.get(selected_connector_ids[0], ())) == 1:
+                # Unambiguous 1:1 connector -> keep the position the user gave their node.
+                requested_pos = connector_by_id[selected_connector_ids[0]].position
+                node_x = float(requested_pos.get("x", node_x))
+                node_y = float(requested_pos.get("y", node_y))
+
+            distance_value = round(disagreement, 3)
+            node_data = {
+                "label": selected_label,
+                "newsId": news_id,
+                "personaCount": len(unique_personas),
+                "ideologicalDistance": distance_value,
+                # snake_case alias: the frontend Debate/Discussion nodes read ideology_distance.
+                "ideology_distance": distance_value,
+                "summary": selected_summary,
+                "reactions": selected_reactions,
+                "rounds": selected_rounds,
+                "simulated": True,
+                "generation": generation_info,
+            }
+            if selected_connector_ids:
+                node_data["connectorId"] = selected_connector_ids[0]
+                node_data["connectorIds"] = selected_connector_ids
+
             generated_nodes.append(
                 PerspectiveGraphNode(
                     id=selected_id,
                     type=selected_mode,
-                    position={
-                        "x": float(news_node.position.get("x", 0.0)) + (220.0 if selected_mode == "debate" else 0.0),
-                        "y": float(news_node.position.get("y", 0.0)) + 240.0,
-                    },
-                    data={
-                        "label": selected_label,
-                        "newsId": news_id,
-                        "personaCount": len(unique_personas),
-                        "ideologicalDistance": round(disagreement, 3),
-                        "summary": selected_summary,
-                        "reactions": selected_reactions,
-                        "rounds": selected_rounds,
-                        "simulated": True,
-                        "generation": generation_info,
-                    },
+                    position={"x": node_x, "y": node_y},
+                    data=node_data,
                 )
             )
 
@@ -954,11 +959,18 @@ Use first-person voice throughout (I, my, me)."""
             fallback_reason = "error"
             logger.warning("Groq persona reaction generation failed for %s: %s", persona_name, exc)
 
+    persona_label = (persona_name or "").strip() or "this persona"
+    lens_text = " ".join((persona_prompt or "").split())
+    if len(lens_text) > 240:
+        lens_text = lens_text[:240].rsplit(" ", 1)[0].rstrip(" ,;:.") + "..."
+    lens_sentence = f"The lens I was given is: {lens_text}. " if lens_text else ""
+
     fallback_intro = {
         "analysis": "My immediate reaction is cautious but focused: I think this event has deeper second-order effects than the headline alone suggests.",
         "discussion": "My immediate reaction is to engage constructively: I think we can align on facts while still disagreeing on priorities.",
         "debate": "My immediate reaction is blunt: I strongly disagree with the dominant framing and I think it ignores critical risks.",
     }.get(mode, "My immediate reaction is that this headline demands closer scrutiny before anyone jumps to conclusions.")
+    fallback_intro = f"As {persona_label}, {fallback_intro[0].lower()}{fallback_intro[1:]}"
 
     source_text = "; ".join(
         [f"{str(r.get('source_name') or 'source')}: {str(r.get('title') or '')}" for r in (reports or [])[:3] if isinstance(r, dict)]
@@ -966,7 +978,7 @@ Use first-person voice throughout (I, my, me)."""
 
     fallback_text = (
         f"{fallback_intro}\n\n"
-        f"I am reading '{news_title}' through my own lens shaped by {trait_text}. My first priority is to test whether the claim is structurally credible, who benefits from this framing, and where the hidden costs will land. "
+        f"I am reading '{news_title}' through my own lens shaped by {trait_text}. {lens_sentence}My first priority is to test whether the claim is structurally credible, who benefits from this framing, and where the hidden costs will land. "
         f"I do not treat headlines as neutral: I look for strategic intent, missing context, and signs of narrative amplification.\n\n"
         f"From the available reporting, I anchor my interpretation on {source_text}. I weigh this against the event summary ({news_summary or 'limited summary available'}) and ask whether the evidence supports escalation, de-escalation, or uncertainty. "
         f"If evidence is mixed, I explicitly downgrade confidence and avoid pretending certainty.\n\n"
