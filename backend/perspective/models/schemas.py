@@ -46,6 +46,9 @@ class PerspectiveSimulateResponse(BaseModel):
     generated: list[dict[str, str]] = Field(default_factory=list)
     result_type: str = "analysis"
     summary: str = ""
+    simulated: bool = True
+    simulation_notice: str = ""
+    generation: dict[str, Any] = Field(default_factory=dict)
 
 
 class PerspectiveError(BaseModel):

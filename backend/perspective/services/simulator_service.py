@@ -20,6 +20,14 @@ from perspective.personas.default_personas import DEFAULT_PERSONAS, get_persona_
 
 logger = logging.getLogger("perspective.simulator")
 
+SIMULATION_NOTICE = (
+    "Simulated output: these are illustrative persona roleplays, not observed community data "
+    "or a validated forecast of how real audiences will react."
+)
+GENERATION_LLM = "llm"
+GENERATION_FALLBACK = "fallback_template"
+GENERATION_TEMPLATE = "template"
+
 
 class PerspectiveSimulatorService:
     def __init__(self):
@@ -134,6 +142,7 @@ class PerspectiveSimulatorService:
         generated_edges: list[PerspectiveGraphEdge] = []
         generated_meta: list[dict[str, str]] = []
         generated_modes: set[str] = set()
+        all_reactions: list[dict] = []
         overall_summary = "No valid persona-news connections found for simulation."
 
         existing_edge_ids: set[str] = {str(e.id) for e in base_edges}
@@ -172,6 +181,8 @@ class PerspectiveSimulatorService:
                 persona = unique_personas[0]
                 news_node = news_by_id[news_id]
                 detailed_reactions = _build_persona_reactions(unique_personas, news_node, "analysis", self.persona_map)
+                all_reactions.extend(detailed_reactions)
+                generation_info = _summarize_generation(detailed_reactions)
                 analysis_rounds = _build_connected_rounds(
                     personas=unique_personas,
                     mode="analysis",
@@ -184,6 +195,8 @@ class PerspectiveSimulatorService:
                 )
                 news_node.data["reactions"] = detailed_reactions
                 news_node.data["rounds"] = analysis_rounds
+                news_node.data["simulated"] = True
+                news_node.data["generation"] = generation_info
 
                 analysis_id = f"analysis-{news_id}"
                 generated_nodes.append(
@@ -201,6 +214,8 @@ class PerspectiveSimulatorService:
                             "summary": news_node.data["analysis_summary"],
                             "reactions": detailed_reactions,
                             "rounds": analysis_rounds,
+                            "simulated": True,
+                            "generation": generation_info,
                         },
                     )
                 )
@@ -235,6 +250,8 @@ class PerspectiveSimulatorService:
             # If no discussion/debate connector is used, keep this as analysis output.
             if not active_modes:
                 detailed_reactions = _build_persona_reactions(unique_personas, news_node, "analysis", self.persona_map)
+                all_reactions.extend(detailed_reactions)
+                generation_info = _summarize_generation(detailed_reactions)
                 analysis_rounds = _build_connected_rounds(
                     personas=unique_personas,
                     mode="analysis",
@@ -245,6 +262,8 @@ class PerspectiveSimulatorService:
                 news_node.data["analysis_summary"] = "Analysis view generated from direct persona-headline connections."
                 news_node.data["reactions"] = detailed_reactions
                 news_node.data["rounds"] = analysis_rounds
+                news_node.data["simulated"] = True
+                news_node.data["generation"] = generation_info
 
                 analysis_id = f"analysis-{news_id}"
                 generated_nodes.append(
@@ -262,6 +281,8 @@ class PerspectiveSimulatorService:
                             "summary": news_node.data["analysis_summary"],
                             "reactions": detailed_reactions,
                             "rounds": analysis_rounds,
+                            "simulated": True,
+                            "generation": generation_info,
                         },
                     )
                 )
@@ -299,6 +320,8 @@ class PerspectiveSimulatorService:
             disagreement = _estimate_disagreement(unique_personas, self.persona_map)
             selected_mode = "debate" if "debate" in active_modes else "discussion"
             selected_reactions = _build_persona_reactions(unique_personas, news_node, selected_mode, self.persona_map)
+            all_reactions.extend(selected_reactions)
+            generation_info = _summarize_generation(selected_reactions)
             selected_rounds = _build_connected_rounds(
                 personas=unique_personas,
                 mode=selected_mode,
@@ -331,6 +354,8 @@ class PerspectiveSimulatorService:
                         "summary": selected_summary,
                         "reactions": selected_reactions,
                         "rounds": selected_rounds,
+                        "simulated": True,
+                        "generation": generation_info,
                     },
                 )
             )
@@ -367,6 +392,9 @@ class PerspectiveSimulatorService:
             generated=generated_meta,
             result_type=result_type,
             summary=overall_summary,
+            simulated=True,
+            simulation_notice=SIMULATION_NOTICE,
+            generation=_summarize_generation(all_reactions),
         )
 
     def _fetch_globe_events(self, limit: int = 20) -> list[dict]:
@@ -770,7 +798,7 @@ def _build_persona_reactions(
         persona_name = str(persona.data.get("label") or persona.data.get("name") or persona.id).strip()
         traits = _extract_traits(persona, persona_map)
         persona_prompt = str(persona.data.get("description") or persona.data.get("persona_prompt") or "").strip()
-        reaction = _generate_persona_reaction_via_groq(
+        reaction, generation, model, fallback_reason = _generate_persona_reaction_with_source(
             persona_name=persona_name,
             persona_traits=traits,
             persona_prompt=persona_prompt,
@@ -780,14 +808,19 @@ def _build_persona_reactions(
             reports=reports,
         )
 
-        reactions.append(
-            {
-                "personaId": persona.id,
-                "persona": persona_name,
-                "mode": mode,
-                "reaction": reaction,
-            }
-        )
+        item = {
+            "personaId": persona.id,
+            "persona": persona_name,
+            "mode": mode,
+            "reaction": reaction,
+            "generation": generation,
+            "simulated": True,
+        }
+        if model:
+            item["model"] = model
+        if fallback_reason:
+            item["fallback_reason"] = fallback_reason
+        reactions.append(item)
 
     return reactions
 
@@ -801,6 +834,32 @@ def _generate_persona_reaction_via_groq(
     news_summary: str,
     reports: list[dict],
 ) -> str:
+    text, _generation, _model, _reason = _generate_persona_reaction_with_source(
+        persona_name=persona_name,
+        persona_traits=persona_traits,
+        persona_prompt=persona_prompt,
+        mode=mode,
+        news_title=news_title,
+        news_summary=news_summary,
+        reports=reports,
+    )
+    return text
+
+
+def _generate_persona_reaction_with_source(
+    persona_name: str,
+    persona_traits: list[str],
+    persona_prompt: str,
+    mode: str,
+    news_title: str,
+    news_summary: str,
+    reports: list[dict],
+) -> tuple[str, str, str | None, str | None]:
+    """Return (text, generation, model, fallback_reason).
+
+    generation is "llm" when Groq produced the text, otherwise "fallback_template".
+    model is set only for "llm"; fallback_reason is set only for "fallback_template".
+    """
     api_key = os.getenv("GROQ_API_KEY")
     model = os.getenv("PERSPECTIVE_GROQ_MODEL", "openai/gpt-oss-120b")
     endpoint = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1").rstrip("/")
@@ -857,7 +916,9 @@ Formatting requirements:
 Critical requirement:
 Use first-person voice throughout (I, my, me)."""
 
+    fallback_reason = "missing_key"
     if api_key:
+        fallback_reason = "empty"
         try:
             with httpx.Client(timeout=45.0) as client:
                 resp = client.post(
@@ -888,8 +949,9 @@ Use first-person voice throughout (I, my, me)."""
                 .strip()
             )
             if content:
-                return content
+                return content, GENERATION_LLM, model, None
         except Exception as exc:
+            fallback_reason = "error"
             logger.warning("Groq persona reaction generation failed for %s: %s", persona_name, exc)
 
     fallback_intro = {
@@ -902,7 +964,7 @@ Use first-person voice throughout (I, my, me)."""
         [f"{str(r.get('source_name') or 'source')}: {str(r.get('title') or '')}" for r in (reports or [])[:3] if isinstance(r, dict)]
     ) or "no high-confidence supporting sources"
 
-    return (
+    fallback_text = (
         f"{fallback_intro}\n\n"
         f"I am reading '{news_title}' through my own lens shaped by {trait_text}. My first priority is to test whether the claim is structurally credible, who benefits from this framing, and where the hidden costs will land. "
         f"I do not treat headlines as neutral: I look for strategic intent, missing context, and signs of narrative amplification.\n\n"
@@ -914,6 +976,20 @@ Use first-person voice throughout (I, my, me)."""
         "- I would identify the highest-impact risk pathway and define one trigger that would force me to revise my position.\n"
         "- I would communicate my stance with explicit confidence levels so decisions are calibrated to uncertainty."
     )
+    return fallback_text, GENERATION_FALLBACK, None, fallback_reason
+
+
+def _summarize_generation(reactions: list[dict]) -> dict:
+    llm_count = sum(1 for r in reactions if r.get("generation") == GENERATION_LLM)
+    models = sorted({str(r["model"]) for r in reactions if r.get("generation") == GENERATION_LLM and r.get("model")})
+    return {
+        "reactions": {
+            GENERATION_LLM: llm_count,
+            GENERATION_FALLBACK: len(reactions) - llm_count,
+        },
+        "rounds": GENERATION_TEMPLATE,
+        "model": ", ".join(models) if models else None,
+    }
 
 
 def _build_connected_rounds(
@@ -976,6 +1052,8 @@ def _build_connected_rounds(
                     "question": question,
                     "answer": answer,
                     "text": turn_text,
+                    "generation": GENERATION_TEMPLATE,
+                    "simulated": True,
                 }
             )
 
@@ -986,6 +1064,8 @@ def _build_connected_rounds(
                 "title": f"Round {round_index}",
                 "summary": round_summary,
                 "turns": turns,
+                "generation": GENERATION_TEMPLATE,
+                "simulated": True,
             }
         )
         prev_round_summary = round_summary
