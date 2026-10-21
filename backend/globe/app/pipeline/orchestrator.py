@@ -138,7 +138,7 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
 
         # ── Layer 9: Output JSON ─────────────────────────────
         logger.info(f"[{run_id}] Layer 9 — Generating Map JSON")
-        map_events = _build_map_events(clusters, posts_map, bundles_map)
+        map_events = _build_map_events(clusters, posts_map, bundles_map, events)
         _save_output(map_events, run_id)
 
         status.status = "complete"
@@ -161,7 +161,14 @@ def _build_map_events(
     clusters: List[EventCluster],
     posts_map: dict[str, RawPost],
     bundles_map: dict[str, NewsBundle],
+    events: List[StructuredEvent],
 ) -> List[MapEvent]:
+    # Clusters only carry post ids, and bundles are keyed by event id, so
+    # resolve post_id -> event ids through the structured events.
+    event_ids_by_post: dict[str, List[str]] = {}
+    for e in events:
+        event_ids_by_post.setdefault(e.post_id, []).append(e.id)
+
     map_events = []
     for cluster in clusters:
         # Aggregate reddit metrics from cluster posts
@@ -184,11 +191,13 @@ def _build_map_events(
             "subreddits": list({p.subreddit for p in cluster_posts}),
         }
 
-        # Aggregate news sources
+        # Aggregate news sources from this cluster's own events only
         all_articles = []
         for pid in cluster.post_ids:
-            # We need event_ids here — approximate via post_ids
-            for bundle in bundles_map.values():
+            for event_id in event_ids_by_post.get(pid, []):
+                bundle = bundles_map.get(event_id)
+                if bundle is None:
+                    continue
                 for art in bundle.articles[:3]:
                     all_articles.append({
                         "title": art.title,
