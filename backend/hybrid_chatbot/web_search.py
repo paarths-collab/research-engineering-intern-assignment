@@ -9,7 +9,6 @@ from __future__ import annotations
 from urllib.parse import parse_qs, quote_plus, unquote, urlparse
 
 import httpx
-import trafilatura
 from bs4 import BeautifulSoup
 
 
@@ -93,6 +92,8 @@ class WebSearchClient:
             return ""
 
         try:
+            import trafilatura  # lazy: heavy import, only needed when scraping
+
             extracted = trafilatura.extract(
                 html,
                 include_comments=False,

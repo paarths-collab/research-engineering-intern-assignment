@@ -7,12 +7,16 @@ Dataset-grounded chatbot pipeline with optional DuckDuckGo web search.
 from __future__ import annotations
 
 import logging
+import math
 import re
 import time
+from dataclasses import dataclass, field
+from datetime import date, datetime
+from decimal import Decimal
 
 from .dataset_context import DatasetContextStore
 from .llm_client import LLMClient
-from .sql_engine import SQLPlan, SQLStore, SQLTranslator
+from .sql_engine import COVERAGE_NONE, COVERAGE_PARTIAL, Coverage, SQLPlan, SQLStore, SQLTranslator
 from .web_search import WebSearchClient
 
 logger = logging.getLogger("hybrid_chatbot.pipeline")
@@ -49,18 +53,87 @@ CHAT_SYSTEM_PROMPT = (
     "If web evidence is provided, integrate it naturally."
 )
 
+ANSWER_MODES = (
+    "deterministic_sql",
+    "deterministic_dataset",
+    "llm_synthesis",
+    "fallback_template",
+    "out_of_dataset",
+    "sql_unavailable",
+    "insufficient_coverage",
+)
+
+DATASET_NAME = "NarrativeSignal Reddit narrative dataset"
+DATASET_DESCRIPTION = (
+    "Historical snapshot of Reddit posts, narratives, domains and subreddit metrics "
+    "(CSV-derived tables); it is not live data."
+)
+
+# SQL result states reported in `sql.status`.
+SQL_OK = "ok"
+SQL_NOT_APPLICABLE = "not_applicable"  # no keyword template matched the question
+SQL_UNAVAILABLE = "unavailable"  # a required table is missing / no database could be built
+SQL_INSUFFICIENT = "insufficient_coverage"  # table present but no data for the window/entity/values
+SQL_ERROR = "error"
+
+
+@dataclass
+class SQLResult:
+    plan: SQLPlan | None = None
+    rows: list[dict] = field(default_factory=list)
+    error: str | None = None
+    status: str = SQL_NOT_APPLICABLE
+    missing_tables: list[str] = field(default_factory=list)
+    coverage: Coverage | None = None
+    reason: str | None = None
+
+
 class ChatPipeline:
-    def __init__(self, llm: LLMClient):
+    def __init__(
+        self,
+        llm: LLMClient,
+        sql_store: SQLStore | None = None,
+        dataset_store: DatasetContextStore | None = None,
+        web: WebSearchClient | None = None,
+    ):
         self.llm = llm
-        self.dataset_store = DatasetContextStore()
-        self.sql_store = SQLStore()
+        self.dataset_store = dataset_store or DatasetContextStore()
+        self.sql_store = sql_store or SQLStore()
         self.sql_translator: SQLTranslator | None = None
         self._sql_ready = False
-        self.web = WebSearchClient()
+        self.web = web or WebSearchClient()
 
     def run(self, query: str, web_search: bool = False, dataset_top_k: int = 8) -> dict:
         timings: dict[str, float] = {}
         t_start = time.perf_counter()
+
+        def finish(answer, route, mode, llm_used, dataset_hits, sql_res, web_hits, evidence) -> dict:
+            if sql_res.plan is not None and sql_res.plan.notes and sql_res.status == SQL_OK:
+                answer = f"{answer} {' '.join(sql_res.plan.notes)}"
+            timings["total"] = round(time.perf_counter() - t_start, 3)
+            return {
+                "answer": answer,
+                "route": route,
+                "answer_mode": mode,
+                "llm_used": llm_used,
+                "timing": timings,
+                "dataset_chunks": dataset_hits,
+                "sql": _sql_payload(sql_res),
+                "web_articles": web_hits,
+                "dataset": self._dataset_payload(evidence),
+                "evidence": evidence,
+                "retrieval": {
+                    "method": "lexical_token_overlap",
+                    "sql": "keyword_template",
+                    "embeddings": False,
+                    "dataset_top_k": dataset_top_k,
+                    "web": "duckduckgo_html" if web_search else "disabled",
+                },
+            }
+
+        def no_llm() -> None:
+            timings["llm"] = 0.0
+            timings["route"] = 0.0
 
         # Dataset grounding (always on)
         t0 = time.perf_counter()
@@ -69,38 +142,64 @@ class ChatPipeline:
 
         # SQL grounding (best effort)
         t0 = time.perf_counter()
-        sql_plan, sql_rows, sql_error = self._run_sql(query)
+        sql_res = self._run_sql(query)
         timings["sql"] = round(time.perf_counter() - t0, 3)
+
+        # A question whose SQL template needs data we do not have must say so, never
+        # fall through to a ranking/analysis built from nothing.
+        if sql_res.status == SQL_UNAVAILABLE:
+            no_llm()
+            return finish(
+                _sql_unavailable_message(sql_res),
+                "chat_sql_unavailable",
+                "sql_unavailable",
+                False,
+                dataset_hits,
+                sql_res,
+                [],
+                [],
+            )
+
+        # Missing data is not zero: a window/entity/value with no coverage gets an
+        # explicit state, never "0 mentions" or an empty ranking presented as an answer.
+        if sql_res.status == SQL_INSUFFICIENT:
+            no_llm()
+            return finish(
+                _insufficient_coverage_message(sql_res),
+                "chat_insufficient_coverage",
+                "insufficient_coverage",
+                False,
+                dataset_hits,
+                sql_res,
+                [],
+                [],
+            )
 
         # Deterministic guardrail for known ranking queries so LLM wording cannot
         # incorrectly claim the data is missing when snippets are present.
-        direct_answer = _maybe_direct_sql_answer(query, sql_rows) or _maybe_direct_dataset_answer(query, dataset_hits)
-        if direct_answer:
-            timings["llm"] = 0.0
-            timings["route"] = 0.0
-            timings["total"] = round(time.perf_counter() - t_start, 3)
-            return {
-                "answer": direct_answer,
-                "route": "chat_sql_direct",
-                "timing": timings,
-                "dataset_chunks": dataset_hits,
-                "sql": _sql_payload(sql_plan, sql_rows, sql_error),
-                "web_articles": [],
-            }
+        sql_direct = _maybe_direct_sql_answer(query, sql_res.rows)
+        if sql_direct:
+            no_llm()
+            return finish(
+                sql_direct, "chat_sql_direct", "deterministic_sql", False,
+                dataset_hits, sql_res, [], _sql_evidence(sql_res),
+            )
+        dataset_direct = _maybe_direct_dataset_answer(query, dataset_hits)
+        if dataset_direct:
+            answer, hit = dataset_direct
+            no_llm()
+            return finish(
+                answer, "chat_sql_direct", "deterministic_dataset", False,
+                dataset_hits, sql_res, [], [_snippet_evidence(hit)],
+            )
 
-        dataset_relevant = _is_dataset_relevant(query, dataset_hits, sql_plan, sql_rows)
+        dataset_relevant = _is_dataset_relevant(query, dataset_hits, sql_res.plan, sql_res.rows)
         if not dataset_relevant and not web_search:
-            timings["llm"] = 0.0
-            timings["route"] = 0.0
-            timings["total"] = round(time.perf_counter() - t_start, 3)
-            return {
-                "answer": _not_in_dataset_message(query),
-                "route": "chat_out_of_dataset",
-                "timing": timings,
-                "dataset_chunks": dataset_hits,
-                "sql": _sql_payload(sql_plan, sql_rows, sql_error),
-                "web_articles": [],
-            }
+            no_llm()
+            return finish(
+                _not_in_dataset_message(query), "chat_out_of_dataset", "out_of_dataset", False,
+                dataset_hits, sql_res, [], [],
+            )
 
         # Optional web search + scrape
         web_hits: list[dict] = []
@@ -111,95 +210,163 @@ class ChatPipeline:
             web_hits = self.web.search_and_scrape(clean_query, max_results=4)
             timings["web_search"] = round(time.perf_counter() - t0, 3)
             if not dataset_relevant and not web_hits:
-                timings["llm"] = 0.0
-                timings["route"] = 0.0
-                timings["total"] = round(time.perf_counter() - t_start, 3)
-                return {
-                    "answer": (
+                no_llm()
+                return finish(
+                    (
                         f"This question does not appear in the current NarrativeSignal datasets, and no web results "
                         f"were retrieved for '{query}'. Try rephrasing or enabling a broader web query."
                     ),
-                    "route": "chat_web_no_results",
-                    "timing": timings,
-                    "dataset_chunks": dataset_hits,
-                    "sql": _sql_payload(sql_plan, sql_rows, sql_error),
-                    "web_articles": web_hits,
-                }
+                    "chat_web_no_results",
+                    "out_of_dataset",
+                    False,
+                    dataset_hits,
+                    sql_res,
+                    web_hits,
+                    [],
+                )
+
+        # Only claim the web route when web results were actually used.
+        route = "chat_web" if web_hits else "chat_dataset"
+        # The dataset snippets only count as evidence when the question is about the dataset.
+        used_hits = dataset_hits[:10] if dataset_relevant else []
 
         # LLM synthesis
         t0 = time.perf_counter()
+        mode = "llm_synthesis"
         try:
             user_prompt = _build_chat_prompt(
                 query=query,
-                dataset_summary=self.dataset_store.summary(),
-                dataset_hits=dataset_hits,
-                sql_plan=sql_plan,
-                sql_rows=sql_rows,
-                sql_error=sql_error,
+                dataset_summary=self._dataset_summary(),
+                dataset_hits=used_hits,
+                sql_plan=sql_res.plan,
+                sql_rows=sql_res.rows,
+                sql_error=sql_res.error,
+                sql_coverage=sql_res.coverage,
                 web_hits=web_hits,
                 web_search=web_search,
             )
             max_tokens = 900 if web_search else 500
             answer, llm_time = self.llm.generate(CHAT_SYSTEM_PROMPT, user_prompt, max_tokens=max_tokens)
             answer = _force_single_paragraph(answer)
+            if not answer:
+                raise RuntimeError("LLM returned an empty answer")
         except Exception as exc:
             logger.warning("LLM unavailable: %s", exc)
+            mode = "fallback_template"
+            used_hits = used_hits[:2]
+            web_hits_used = web_hits[:2]
             answer = _fallback_answer(
                 query=query,
-                dataset_hits=dataset_hits,
-                sql_plan=sql_plan,
-                sql_rows=sql_rows,
-                sql_error=sql_error,
+                dataset_hits=used_hits,
+                sql_plan=sql_res.plan,
+                sql_rows=sql_res.rows,
+                sql_error=sql_res.error,
+                sql_coverage=sql_res.coverage,
                 web_hits=web_hits,
                 web_search=web_search,
             )
             llm_time = 0.0
+        else:
+            web_hits_used = web_hits[:5]
         timings["llm"] = round(llm_time, 3)
         timings["route"] = round(time.perf_counter() - t0 - llm_time, 3)
 
-        timings["total"] = round(time.perf_counter() - t_start, 3)
+        evidence = (
+            _sql_evidence(sql_res)
+            + [_snippet_evidence(h) for h in used_hits]
+            + [_web_evidence(h) for h in web_hits_used if h.get("url")]
+        )
+        logger.info("Route=%s mode=%s dataset_hits=%s web_hits=%s", route, mode, len(dataset_hits), len(web_hits))
 
-        route = "chat_web" if web_search else "chat_dataset"
-        logger.info("Route=%s dataset_hits=%s web_hits=%s", route, len(dataset_hits), len(web_hits))
+        return finish(
+            answer, route, mode, mode == "llm_synthesis",
+            dataset_hits, sql_res, web_hits, evidence,
+        )
 
+    def _dataset_summary(self) -> str:
+        summary = self.dataset_store.summary()
+        start, end = self.sql_store.dataset_date_range()
+        if start and end:
+            summary += f" The data is a historical snapshot covering {start.isoformat()} to {end.isoformat()}."
+        return summary
+
+    def _dataset_payload(self, evidence: list[dict]) -> dict:
+        try:
+            start, end = self.sql_store.dataset_date_range()
+        except Exception as exc:  # noqa: BLE001 - provenance must never break an answer
+            logger.warning("Dataset date range unavailable: %s", exc)
+            start = end = None
+        tables_used: list[str] = []
+        for item in evidence:
+            names = item.get("tables") or ([item["table"]] if item.get("table") else [])
+            for name in names:
+                if name not in tables_used:
+                    tables_used.append(name)
         return {
-            "answer": answer,
-            "route": route,
-            "timing": timings,
-            "dataset_chunks": dataset_hits,
-            "sql": _sql_payload(sql_plan, sql_rows, sql_error),
-            "web_articles": web_hits,
+            "name": DATASET_NAME,
+            "description": DATASET_DESCRIPTION,
+            "date_range": {
+                "start": start.isoformat() if start else None,
+                "end": end.isoformat() if end else None,
+            },
+            "snapshot": "historical",
+            "tables_used": tables_used,
         }
 
     def _ensure_sql_ready(self) -> None:
         if self._sql_ready and self.sql_translator is not None:
             return
-        self.sql_store.initialize()
-        valid_subreddits = self.sql_store.valid_subreddits()
-        self.sql_translator = SQLTranslator(valid_subreddits=valid_subreddits)
+        self.sql_store.initialize()  # never raises; outcome is in sql_store.status
+        self.sql_translator = SQLTranslator(valid_subreddits=self.sql_store.valid_subreddits())
         self._sql_ready = True
 
-    def _run_sql(self, query: str) -> tuple[SQLPlan | None, list[dict], str | None]:
+    def _run_sql(self, query: str) -> SQLResult:
         try:
             self._ensure_sql_ready()
         except Exception as exc:
             logger.warning("SQL init unavailable: %s", exc)
-            return None, [], f"SQL init failed: {exc}"
+            return SQLResult(error=f"SQL init failed: {exc}", status=SQL_UNAVAILABLE)
 
         if self.sql_translator is None:
-            return None, [], "SQL translator unavailable."
+            return SQLResult(error="SQL translator unavailable.", status=SQL_UNAVAILABLE)
 
         plan = self.sql_translator.build_plan(query, reference_date=self.sql_store.dataset_max_date())
         if plan is None:
-            return None, [], None
+            return SQLResult()
+
+        missing = self.sql_store.missing_for(plan.tables)
+        if missing:
+            state = self.sql_store.status
+            detail = f" ({state.error})" if state.error else ""
+            return SQLResult(
+                plan=plan,
+                error=f"SQL data unavailable: required table(s) not available: {', '.join(missing)}{detail}",
+                status=SQL_UNAVAILABLE,
+                missing_tables=missing,
+            )
 
         try:
-            df = self.sql_store.execute(plan.sql)
-            rows = df.head(20).to_dict(orient="records")
-            return plan, rows, None
+            coverage = self.sql_store.check_coverage(plan)
+            if coverage.status == COVERAGE_NONE:
+                return SQLResult(
+                    plan=plan, status=SQL_INSUFFICIENT, coverage=coverage, reason=coverage.reason,
+                )
+            df = self.sql_store.execute(plan.sql, plan.params)
+            raw_rows = [_clean_row(r) for r in df.head(20).to_dict(orient="records")]
         except Exception as exc:
             logger.warning("SQL execution failed: %s", exc)
-            return plan, [], f"SQL query failed: {exc}"
+            return SQLResult(plan=plan, error=f"SQL query failed: {exc}", status=SQL_ERROR)
+
+        # NULL / NaN / inf values are missing data, never a number to rank or report.
+        rows = [r for r in raw_rows if all(r.get(m) is not None for m in plan.metrics)]
+        if not rows:
+            reason = (
+                "The query matched rows, but every value in them is missing (NULL or non-finite)."
+                if raw_rows
+                else "The query matched no rows for the requested scope, so there is nothing to rank or count."
+            )
+            return SQLResult(plan=plan, status=SQL_INSUFFICIENT, coverage=coverage, reason=reason)
+        return SQLResult(plan=plan, rows=rows, status=SQL_OK, coverage=coverage)
 
 
 def _build_chat_prompt(
@@ -209,11 +376,12 @@ def _build_chat_prompt(
     sql_plan: SQLPlan | None,
     sql_rows: list[dict],
     sql_error: str | None,
+    sql_coverage: Coverage | None,
     web_hits: list[dict],
     web_search: bool,
 ) -> str:
     dataset_context = _format_dataset_hits(dataset_hits)
-    sql_context = _format_sql_evidence(sql_plan, sql_rows, sql_error)
+    sql_context = _format_sql_evidence(sql_plan, sql_rows, sql_error, sql_coverage)
     if web_search:
         web_context = _format_web_hits(web_hits)
         return (
@@ -256,7 +424,10 @@ def _format_dataset_hits(hits: list[dict]) -> str:
         src = h.get("source", "dataset")
         score = h.get("score", 0.0)
         text = str(h.get("text", "")).strip()
-        lines.append(f"[dataset:{i}] source={src} score={score}: {text}")
+        meta = f" row={h['row_key']}" if h.get("row_key") else ""
+        if h.get("date"):
+            meta += f" date={h['date']}"
+        lines.append(f"[dataset:{i}] source={src}{meta} score={score}: {text}")
     return "\n".join(lines)
 
 
@@ -276,7 +447,12 @@ def _format_web_hits(hits: list[dict]) -> str:
     return "\n\n".join(lines)
 
 
-def _format_sql_evidence(sql_plan: SQLPlan | None, sql_rows: list[dict], sql_error: str | None) -> str:
+def _format_sql_evidence(
+    sql_plan: SQLPlan | None,
+    sql_rows: list[dict],
+    sql_error: str | None,
+    sql_coverage: Coverage | None = None,
+) -> str:
     if sql_plan is None:
         if sql_error:
             return f"SQL unavailable: {sql_error}"
@@ -285,9 +461,15 @@ def _format_sql_evidence(sql_plan: SQLPlan | None, sql_rows: list[dict], sql_err
     if sql_error:
         return f"{header}\nStatus: {sql_error}"
     if not sql_rows:
-        return f"{header}\nStatus: Query ran but returned no rows."
+        return f"{header}\nStatus: Query ran but returned no rows. This is not a count of zero."
 
     lines = [header]
+    if sql_plan.params:
+        lines.append(f"Parameters: {sql_plan.params}")
+    if sql_coverage is not None and sql_coverage.status == COVERAGE_PARTIAL:
+        lines.append(f"Coverage warning: {sql_coverage.reason}")
+    for note in sql_plan.notes:
+        lines.append(f"Note: {note}")
     for i, row in enumerate(sql_rows[:10], start=1):
         row_text = ", ".join(f"{k}={row[k]}" for k in row.keys())
         lines.append(f"[sql:{i}] {row_text}")
@@ -300,12 +482,16 @@ def _fallback_answer(
     sql_plan: SQLPlan | None,
     sql_rows: list[dict],
     sql_error: str | None,
+    sql_coverage: Coverage | None,
     web_hits: list[dict],
     web_search: bool,
 ) -> str:
     direct_sql = _maybe_direct_sql_answer(query, sql_rows)
     if direct_sql:
         return _force_single_paragraph(direct_sql)
+    coverage_note = (
+        f" Note: {sql_coverage.reason}" if sql_coverage is not None and sql_coverage.status == COVERAGE_PARTIAL else ""
+    )
 
     base = (
         "I could not reach the language model, so here is a concise dataset-and-SQL grounded summary for your question "
@@ -319,11 +505,11 @@ def _fallback_answer(
 
     if sql_plan and sql_rows:
         top_sql = "; ".join(_row_summary(r) for r in sql_rows[:2])
-        base += f"SQL results indicate: {top_sql}. "
+        base += f"SQL results indicate: {top_sql}.{coverage_note} "
     elif sql_error:
         base += f"SQL execution was unavailable ({sql_error}). "
     elif sql_plan and not sql_rows:
-        base += "A matching SQL query ran but returned no rows. "
+        base += "A matching SQL query ran but returned no rows (this is not a count of zero). "
     else:
         base += "No SQL query template matched this question. "
 
@@ -344,12 +530,106 @@ def _force_single_paragraph(text: str) -> str:
     return clean
 
 
-def _sql_payload(sql_plan: SQLPlan | None, sql_rows: list[dict], sql_error: str | None) -> dict:
+def _sql_payload(res: SQLResult) -> dict:
+    plan = res.plan
     return {
-        "description": sql_plan.description if sql_plan else None,
-        "query": sql_plan.sql if sql_plan else None,
-        "rows": sql_rows,
-        "error": sql_error,
+        "description": plan.description if plan else None,
+        "query": plan.sql if plan else None,
+        "rows": res.rows,
+        "error": res.error,
+        "status": res.status,
+        "reason": res.reason,
+        "coverage": res.coverage.to_dict() if res.coverage else None,
+        "params": list(plan.params) if plan else [],
+        "tables": plan.tables if plan else [],
+        "missing_tables": res.missing_tables,
+        "notes": list(plan.notes) if plan else [],
+        "date_window": (
+            {"start": plan.date_range[0], "end": plan.date_range[1]} if plan and plan.date_range else None
+        ),
+    }
+
+
+def _sql_unavailable_message(res: SQLResult) -> str:
+    tables = ", ".join(res.missing_tables) or "the SQL database"
+    desc = res.plan.description.lower() if res.plan else "this question"
+    return (
+        f"The data needed to answer this ({desc}) is currently unavailable: "
+        f"the NarrativeSignal table(s) {tables} could not be loaded, so no result can be given. "
+        "No figures were estimated."
+    )
+
+
+def _insufficient_coverage_message(res: SQLResult) -> str:
+    desc = res.plan.description.lower() if res.plan else "this question"
+    return (
+        f"The NarrativeSignal dataset does not have enough coverage to answer this ({desc}). "
+        f"{res.reason or 'No data is available for the requested scope.'} "
+        "Missing data is not the same as zero, so no count or ranking is reported."
+    )
+
+
+def _clean_value(value):
+    """JSON-safe, reproducible scalar: dates as ISO strings, NaN/NaT/inf as None,
+    numpy/Decimal scalars as plain Python numbers."""
+    if value is None:
+        return None
+    if isinstance(value, (datetime, date)):
+        return None if value != value else value.isoformat()  # NaT != NaT
+    if isinstance(value, Decimal):
+        value = float(value)
+    elif hasattr(value, "item") and callable(value.item):  # numpy scalar
+        try:
+            value = value.item()
+        except (TypeError, ValueError):
+            pass
+    if isinstance(value, float) and not math.isfinite(value):
+        return None
+    try:
+        if value != value:
+            return None
+    except (TypeError, ValueError):
+        pass
+    return value
+
+
+def _clean_row(row: dict) -> dict:
+    return {k: _clean_value(v) for k, v in row.items()}
+
+
+def _sql_evidence(res: SQLResult) -> list[dict]:
+    if res.plan is None or res.status != SQL_OK:
+        return []
+    return [
+        {
+            "type": "sql",
+            "tables": list(res.plan.tables),
+            "description": res.plan.description,
+            "query": res.plan.sql,
+            "rows": res.rows,
+            "row_count": len(res.rows),
+        }
+    ]
+
+
+def _snippet_evidence(hit: dict) -> dict:
+    return {
+        "type": "dataset_snippet",
+        "table": hit.get("table") or hit.get("source"),
+        "row_key": hit.get("row_key"),
+        "row_index": hit.get("row_index"),
+        "date": hit.get("date"),
+        "text": hit.get("text"),
+        "score": hit.get("score"),
+    }
+
+
+def _web_evidence(hit: dict) -> dict:
+    return {
+        "type": "web",
+        "url": hit.get("url"),
+        "title": hit.get("title"),
+        "source": hit.get("source"),
     }
 
 
@@ -409,7 +689,7 @@ def _maybe_direct_sql_answer(query: str, sql_rows: list[dict]) -> str | None:
     return f"The subreddit with the highest echo-chamber lift is {subreddit} ({lift_val:.6f})."
 
 
-def _maybe_direct_dataset_answer(query: str, dataset_hits: list[dict]) -> str | None:
+def _maybe_direct_dataset_answer(query: str, dataset_hits: list[dict]) -> tuple[str, dict] | None:
     q = query.lower()
     is_echo_extreme = (
         ("echo chamber" in q or "echo-chamber" in q or "echo" in q)
@@ -421,6 +701,7 @@ def _maybe_direct_dataset_answer(query: str, dataset_hits: list[dict]) -> str | 
 
     best_subreddit = None
     best_lift = float("-inf")
+    best_hit: dict | None = None
 
     for hit in dataset_hits:
         if hit.get("source") != "echo_chamber_scores":
@@ -438,10 +719,12 @@ def _maybe_direct_dataset_answer(query: str, dataset_hits: list[dict]) -> str | 
         if lift > best_lift:
             best_subreddit = subreddit
             best_lift = lift
+            best_hit = hit
 
-    if best_subreddit is None:
+    if best_subreddit is None or best_hit is None:
         return None
     return (
         f"The subreddit with the highest echo-chamber lift is {best_subreddit} "
-        f"({best_lift:.6f})."
+        f"({best_lift:.6f}).",
+        best_hit,
     )

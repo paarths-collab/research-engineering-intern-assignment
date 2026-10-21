@@ -34,7 +34,12 @@ _data_dir_env = (
 )
 DATA_DIR = _resolve_path(_data_dir_env) if _data_dir_env else (PROJECT_DIR / "data").resolve()
 
-DUCKDB_PATH = Path(os.getenv("HYBRID_SQL_DB", DATA_DIR / "hybrid_chatbot.duckdb"))
+# DB path override: HYBRID_SQL_DB (existing name) or HYBRID_SQL_DB_PATH.
+DUCKDB_PATH = Path(
+    os.getenv("HYBRID_SQL_DB")
+    or os.getenv("HYBRID_SQL_DB_PATH")
+    or DATA_DIR / "hybrid_chatbot.duckdb"
+)
 VECTOR_INDEX_PATH = Path(os.getenv("HYBRID_VECTOR_INDEX", DATA_DIR / "hybrid_vector.index"))
 VECTOR_META_PATH = Path(os.getenv("HYBRID_VECTOR_META", DATA_DIR / "hybrid_vector_meta.jsonl"))
 
@@ -65,6 +70,41 @@ CSV_TABLES: dict[str, str] = {
     "clean_with_clusters_v2.csv": "clean_with_clusters_v2",
     "subreddit_intelligence_summary.csv": "subreddit_intelligence_summary",
 }
+
+# Serverless platforms expose a read-only (or ephemeral) filesystem; the prebuilt
+# DB is served as-is and anything else is built into a transient location.
+SERVERLESS_ENV_VARS = ("VERCEL", "AWS_LAMBDA_FUNCTION_NAME")
+
+# Below this total CSV size a transient (non-writable destination) build lives in
+# an in-memory DuckDB; above it a file under tempfile.gettempdir() is used.
+TRANSIENT_MEMORY_MAX_BYTES = 128 * 1024 * 1024
+
+# Columns used to compute the dataset's date range (table -> date-like columns).
+DATE_COLUMNS: dict[str, list[str]] = {
+    "daily_volume_v2": ["created_datetime"],
+    "clean_posts": ["created_datetime"],
+    "clean_with_clusters_v2": ["created_datetime"],
+    "graph_edge_intelligence_table": ["created_datetime"],
+    "narrative_registry": ["first_seen"],
+    "narrative_intelligence_summary": ["first_seen_x", "last_seen"],
+}
+
+
+def resolve_db_path() -> Path:
+    """DB path resolved from the environment at call time (tests / deployments)."""
+    value = os.getenv("HYBRID_SQL_DB") or os.getenv("HYBRID_SQL_DB_PATH")
+    return Path(value) if value else resolve_data_dir() / "hybrid_chatbot.duckdb"
+
+
+def resolve_data_dir() -> Path:
+    """CSV directory resolved from the environment at call time."""
+    value = os.getenv("HYBRID_DATA_DIR") or os.getenv("DATA_PATH") or os.getenv("DATA_DIR")
+    return _resolve_path(value) if value else DATA_DIR
+
+
+def is_serverless() -> bool:
+    return any(os.getenv(name) for name in SERVERLESS_ENV_VARS)
+
 
 # ── Query routing keywords ────────────────────────────────────────────────────
 SQL_KEYWORDS = [

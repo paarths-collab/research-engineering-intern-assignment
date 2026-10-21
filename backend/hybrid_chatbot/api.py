@@ -39,10 +39,13 @@ app = FastAPI(title="Chatbot API", version="1.0.0", lifespan=lifespan)
 
 @app.get("/health")
 def health():
+    sql = sql_health()
     return {
         "status": "ok",
         "llm_ready": bool(llm_client.api_key),
         "web_search_ready": bool(pipeline.web.enabled),
+        "sql": sql,
+        "dataset_date_range": sql.get("date_range"),
     }
 
 
@@ -61,6 +64,8 @@ def query(payload: QueryRequest):
             "web_search_enabled": payload.web_search,
         }
     else:
+        # Raw internals are debug-only; provenance (dataset, evidence, answer_mode,
+        # llm_used, retrieval) and `sql` are always returned.
         result.pop("route", None)
         result.pop("timing", None)
         result.pop("dataset_chunks", None)
@@ -68,7 +73,37 @@ def query(payload: QueryRequest):
     return result
 
 
-def init_resources() -> None:
-    """Initialize chatbot resources (safe to call multiple times)."""
-    # LLM-only mode: no SQL/vector startup required.
-    return
+def sql_health() -> dict:
+    """SQL store status (initializing it if needed) plus the dataset date range."""
+    store = pipeline.sql_store
+    status = store.initialize().to_dict()
+    try:
+        start, end = store.dataset_date_range()
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Dataset date range unavailable: %s", exc)
+        start = end = None
+    status["date_range"] = {
+        "start": start.isoformat() if start else None,
+        "end": end.isoformat() if end else None,
+    }
+    return status
+
+
+def init_resources() -> dict:
+    """Initialize chatbot resources (safe to call multiple times).
+
+    Builds/opens the SQL store; failures are logged and recorded in the store status
+    (surfaced by GET /health) rather than raised, so the app still starts.
+    """
+    try:
+        status = pipeline.sql_store.initialize()
+    except Exception as exc:  # noqa: BLE001 - never block startup
+        logger.exception("Chatbot SQL initialization failed: %s", exc)
+        return {"state": "unavailable", "error": str(exc)}
+    if status.state == "ready":
+        logger.info("Chatbot SQL ready (%d tables, storage=%s)", len(status.available_tables), status.storage)
+    else:
+        logger.warning(
+            "Chatbot SQL %s: missing=%s error=%s", status.state, status.missing_tables, status.error
+        )
+    return status.to_dict()
