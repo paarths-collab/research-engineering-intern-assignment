@@ -131,15 +131,11 @@ uvicorn main:app --port 8000
 
 The interactive API docs are served at `http://localhost:8000/docs`.
 
-**User accounts.** Create an account at `/signup` and sign in at `/login` to run analysis. Accounts, hashed passwords, hashed opaque sessions, and daily quotas use the backend's persistent PostgreSQL `DATABASE_URL` (or an explicit `AUTH_DATABASE_URL`) in the private `narrative_auth` schema. No new service is required. Sessions use host-only Secure, HttpOnly, SameSite cookies, expire after 24 hours, and are revoked on sign out. The same-origin `/api` proxy carries cookies; user accounts never receive the operator secret. Signup does not create administrators. Email verification and recovery email delivery are not configured.
+**Operator access.** Set `NARRATIVE_API_TOKEN` on the backend to a random secret of at least 32 characters. Enter that token using **Operator access** in the frontend before analysis or collection. The browser keeps it only in tab memory; reload clears it. Never put it in `NEXT_PUBLIC_*` variables, source files, or URLs. Without a valid server configuration, write requests return 503; missing or invalid bearer credentials return 401. Read-only dashboards remain public. Use HTTPS outside local development.
 
-For local account development only, explicitly set `AUTH_DATABASE_URL=sqlite+aiosqlite:///./accounts.sqlite` and `AUTH_COOKIE_SECURE=false`. Render requires PostgreSQL and Secure cookies; accounts never fall back to its ephemeral filesystem. Missing or unavailable account storage fails closed.
+All API modules and Polar aliases share admission controls: 60 requests per client/module/minute, 10 operator work requests per minute across clients, and 2 active work requests. Each work request allows at most 32 downstream attempts, including retries and background work; no new attempt starts after 180 seconds. Provider calls have their own timeouts. Requests are capped at 256 KiB, with text and collection bounds. Perspective allows 64 nodes, 128 edges, 8 personas, 4 headlines, 12 persona/headline reactions, and 120 generated turns. Excess work returns 429; oversized bodies return 413 and invalid graph inputs return 422.
 
-**Private admin access.** Set `NARRATIVE_API_TOKEN` on the backend to a random secret of at least 32 characters. Enter it only at the unlinked `/admin` page for collection and diagnostics. The browser keeps it only in tab memory; reload or sign out clears it. Never put it in `NEXT_PUBLIC_*` variables, source files, or URLs. Collection, diagnostics, and unknown writes remain operator-only even for signed-in accounts. Read-only dashboards remain public. Use HTTPS outside local development.
-
-All API modules and Polar aliases share admission controls: 60 requests per client/module/minute, 10 work requests per minute across accounts and clients, and 2 active work requests. User analysis additionally permits 3 requests per minute and 20 per UTC day (`USER_DAILY_ANALYSIS_LIMIT`), with daily counts stored atomically in PostgreSQL. Sign-in/signup attempts are limited by client and account before password hashing. Each work request allows at most 32 downstream attempts, including retries and background work; no new attempt starts after 180 seconds. Provider calls have their own timeouts. Requests are capped at 256 KiB, with text and collection bounds. Perspective allows 64 nodes, 128 edges, 8 personas, 4 headlines, 12 persona/headline reactions, and 120 generated turns. Excess work returns 429; oversized bodies return 413 and invalid graph inputs return 422.
-
-**Deployment constraint:** minute counters, background slots, and pipeline locks are process-local. Run a single backend worker/instance. Serverless or horizontally scaled deployments need a shared admission store and job queue. `FRONTEND_ORIGINS` controls cross-origin browser access and allowed cookie-write origins (default: localhost and 127.0.0.1 on port 3000). Cookie-authenticated writes require the `X-Narrative-CSRF: 1` header; CORS does not replace authentication.
+**Deployment constraint:** quotas, background slots, and pipeline locks are process-local. Run a single backend worker/instance. Serverless or horizontally scaled deployments need a shared admission store and job queue before enabling operator work. `FRONTEND_ORIGINS` controls cross-origin browser access (default: localhost and 127.0.0.1 on port 3000); CORS does not replace bearer authentication.
 
 **Build the chatbot database (optional).** The API builds it on first use when it is missing. To build it ahead of time:
 
@@ -188,9 +184,9 @@ The default output is `data/hybrid_chatbot.duckdb`. `--force` rebuilds tables th
 - **Input provenance is visible.** Globe and Perspective distinguish demo samples, pipeline snapshots, cached context, and unknown sources. A backend response does not establish that a headline is live reporting.
 - **Simulation is illustrative.** Persona output is roleplay, labelled `simulated`, and not validated. `/api/perspective/simulate` fetches news context from the Globe API (`PERSPECTIVE_GLOBE_API_URL`, default localhost) and continues without it when that fails.
 - **Rate limiting is in-memory.** It is kept per process, keyed by client IP and API prefix, with a default of 60 requests per 60 seconds. Counts reset on restart and are not shared across workers or instances.
-- **Accounts require persistent PostgreSQL.** Signup and login fail closed when the account database is unavailable. User sessions do not grant collection or diagnostic access.
-- **Cross-origin sessions are not supported.** Browser account and analysis requests use the same-origin API proxy; `FRONTEND_ORIGINS` is enforced for cookie writes.
-- **Render cold starts** can take time to load modules and rebuild local analytical stores. User accounts and daily quotas remain in PostgreSQL.
+- **No authentication.** Every endpoint is open, including `POST /api/globe/pipeline/run`, which triggers collection and LLM calls.
+- **CORS is open.** The middleware allows all origins with credentials. `FRONTEND_ORIGINS` is parsed but not applied.
+- **Serverless cold starts** rebuild the chatbot SQL in memory unless a complete prebuilt database is present.
 - **Unified `/health` returns HTTP 200 when degraded.** Read the `status` field in the body.
 
 ---

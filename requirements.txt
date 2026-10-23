@@ -2,10 +2,6 @@
 fastapi==0.115.5
 uvicorn[standard]==0.32.0
 pydantic==2.9.2
-fastapi-users[sqlalchemy]==15.0.5
-fastapi-users-db-sqlalchemy==7.0.0
-sqlalchemy[asyncio]==2.0.55
-aiosqlite==0.17.0
 
 # ── Database ───────────────────────────────────────────────────
 duckdb>=0.10.0
