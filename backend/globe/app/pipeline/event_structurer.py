@@ -2,7 +2,7 @@
 Layer 4 — Event Structuring (LLM Assisted)
 Extracts structured intelligence from a geo-validated post:
 event_type, key_entities, search_queries, secondary locations.
-Uses Groq llama-3.3-70b for higher quality extraction.
+Uses Groq openai/gpt-oss-20b for higher quality extraction.
 """
 import json
 import re

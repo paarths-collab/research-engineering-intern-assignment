@@ -106,7 +106,7 @@ Online discussions today are not purely organic — they are shaped by narrative
 
 ### AI & LLM
 - **Clients**: direct OpenAI-compatible HTTP calls (chatbot, perspective), Groq SDK (globe), LiteLLM (streamgraph, polarize)
-- **Models**: Groq-hosted models (Llama 3.x and others)
+- **Models**: Groq-hosted models, default `openai/gpt-oss-20b`
 - **Retrieval**: lexical token overlap and keyword-template SQL. No embeddings, vector store, or RAG framework on the mounted API.
 
 ### Deployment

@@ -27,8 +27,8 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str = ""
     ANTHROPIC_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
-    PRIMARY_MODEL: str = "llama-3.3-70b-versatile"
-    FAST_MODEL: str = "llama-3.1-8b-instant"
+    PRIMARY_MODEL: str = "openai/gpt-oss-20b"
+    FAST_MODEL: str = "openai/gpt-oss-20b"
 
     # ── News APIs ────────────────────────────────────────────
     NEWSAPI_KEY: str = ""

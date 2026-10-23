@@ -238,13 +238,22 @@
 ======================== */
 .globeWrap {
   position: absolute;
-  top: 50%;
-  left: 15%;
-  transform: translate(-50%, -50%);
 
-  /* Balanced 1200px globe container */
-  width: 1200px;
-  height: 1200px;
+  /* "Earth rising": the sphere is centred horizontally and sits mostly below
+     the fold, so only its top arc is in frame.
+     The canvas is square and the globe renders at ~74% of its height
+     (measured), so a 93vw box yields a ~69vw sphere. Offsetting the box by
+     -12vw ((93 - 69) / 2) pins the top of the arc to `top` at any width. */
+  width: 93vw;
+  height: 93vw;
+
+  left: 50%;
+  top: 53%;
+
+  /* Positioned with margins, not transform: Framer Motion writes an inline
+     transform for the entrance animation and would overwrite a translate here. */
+  margin-left: -46.5vw;
+  margin-top: -12vw;
 
   z-index: 10;
   pointer-events: none;
@@ -252,7 +261,9 @@
   justify-content: center;
   align-items: center;
 
-  filter: drop-shadow(0 0 150px rgba(0, 183, 255, 0.35));
+  /* No CSS drop-shadow here: over a box this large the browser rasterises the
+     filtered element into an opaque layer, blacking out the nebula behind the
+     transparent WebGL canvas. The globe's own atmosphere provides the glow. */
 }
 
 .scrollSection {
@@ -263,8 +274,10 @@
   background: #050709;
 }
 
-/* Ensure the canvas is centered inside the massive wrapper */
+/* The inner div must fill the wrapper so the globe canvas can measure it */
 .globeWrap>div {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -362,7 +375,10 @@
   }
 
   .globeWrap {
-    width: 110vw;
-    bottom: -25%;
+    width: 185vw;
+    height: 185vw;
+    margin-left: -92.5vw;
+    margin-top: -24vw;
+    top: 56%;
   }
 }

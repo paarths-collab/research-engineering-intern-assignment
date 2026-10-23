@@ -4,6 +4,7 @@ from api_security import consume_provider_call
 import json
 import logging
 import os
+from llm_models import groq_model
 import time
 
 import httpx
@@ -16,8 +17,7 @@ class PerspectiveLLMClient:
         self.api_key = os.getenv("PERSPECTIVE_LLM_API_KEY") or os.getenv("GROQ_API_KEY", "")
         base = os.getenv("PERSPECTIVE_LLM_BASE_URL", "https://api.groq.com/openai/v1")
         self.base_url = base.rstrip("/")
-        model = os.getenv("PERSPECTIVE_LLM_MODEL") or os.getenv("LITE_MODEL") or "llama-3.1-8b-instant"
-        self.model = model.replace("groq/", "")
+        self.model = groq_model("PERSPECTIVE_LLM_MODEL", "LITE_MODEL")
 
     def generate(self, prompt: str) -> tuple[str, float]:
         if not self.api_key:

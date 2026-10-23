@@ -675,7 +675,7 @@ Rules:
         report = (
             await request_chat_completion(
                 messages=[{"role": "user", "content": prompt}],
-                model="llama-3.3-70b-versatile",
+                model="openai/gpt-oss-20b",
                 max_tokens=1000,
                 temperature=0.2,
             )
@@ -785,7 +785,7 @@ Rules:
         report = (
             await request_chat_completion(
                 messages=[{"role": "user", "content": prompt}],
-                model="llama-3.3-70b-versatile",
+                model="openai/gpt-oss-20b",
                 max_tokens=900,
                 temperature=0.2,
             )
@@ -885,7 +885,7 @@ Use plain text. Bold headers with **. Bullet points with -."""
         raw = (
             await request_chat_completion(
                 messages=[{"role": "user", "content": prompt}],
-                model="llama-3.3-70b-versatile",
+                model="openai/gpt-oss-20b",
                 max_tokens=900,
                 temperature=0.25,
             )
@@ -954,7 +954,7 @@ Return ONLY the 4 sentences, one per line, no numbering, no bullets, no extra te
             raw = (
                 await request_chat_completion(
                     messages=[{"role": "user", "content": prompt}],
-                    model="llama-3.3-70b-versatile",
+                    model="openai/gpt-oss-20b",
                     max_tokens=260,
                     temperature=0.3,
                 )
@@ -1143,7 +1143,7 @@ If evidence is weak or conflicting, explicitly note uncertainty and confidence l
         report = (
             await request_chat_completion(
                 messages=[{"role": "user", "content": prompt}],
-                model="llama-3.3-70b-versatile",
+                model="openai/gpt-oss-20b",
                 max_tokens=520,
                 temperature=0.2,
             )

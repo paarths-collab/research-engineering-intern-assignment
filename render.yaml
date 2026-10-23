@@ -57,6 +57,6 @@ services:
       - key: CURRENTS_API_KEY
         sync: false
       - key: PRIMARY_MODEL
-        value: llama-3.3-70b-versatile
+        value: openai/gpt-oss-20b
       - key: FAST_MODEL
-        value: llama-3.1-8b-instant
+        value: openai/gpt-oss-20b

@@ -4,6 +4,7 @@ from api_security import consume_provider_call, count_httpx_redirect
 import json
 import logging
 import os
+from llm_models import groq_model
 import re
 import time
 from itertools import combinations
@@ -447,6 +448,9 @@ class PerspectiveSimulatorService:
 
     def _fetch_globe_events(self, limit: int = 20) -> list[dict]:
         port = os.getenv("PORT", "8000")
+        # uvicorn binds 0.0.0.0 (IPv4 only); "localhost" can resolve to ::1 first
+        # in a container and the self-call is then refused. Match the Dockerfile
+        # healthcheck and address the loopback interface explicitly.
         base_url = os.getenv("PERSPECTIVE_GLOBE_API_URL", f"http://127.0.0.1:{port}/api/globe")
         target = f"{base_url.rstrip('/')}/events/"
 
@@ -920,7 +924,7 @@ def _generate_persona_reaction_with_source(
     model is set only for "llm"; fallback_reason is set only for "fallback_template".
     """
     api_key = os.getenv("GROQ_API_KEY")
-    model = os.getenv("PERSPECTIVE_GROQ_MODEL", "openai/gpt-oss-120b")
+    model = groq_model("PERSPECTIVE_GROQ_MODEL", default="openai/gpt-oss-120b")
     endpoint = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1").rstrip("/")
 
     trait_text = ", ".join(persona_traits[:8]) if persona_traits else "no explicit traits provided"

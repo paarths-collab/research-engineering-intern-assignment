@@ -10,7 +10,9 @@ from api_security import consume_provider_call
 import os
 from litellm import acompletion
 
-MODEL = os.getenv("HIGH_MODEL", "groq/llama-3.3-70b-versatile")
+from llm_models import litellm_model
+
+MODEL = litellm_model("HIGH_MODEL")
 MAX_TOKENS = 2500
 
 

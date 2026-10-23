@@ -260,7 +260,7 @@ class DatasetContextStore:
             DatasetSnippet(
                 text=clean,
                 source=source,
-                metadata=metadata or {},
+                metadata=_json_safe(metadata),
                 tokens=_tokens(clean),
                 row_key=str(key) if has_key else f"row:{row_index}",
                 row_index=int(row_index),
@@ -277,6 +277,14 @@ _STOPWORDS = frozenset(
     "there their they them you your our his her its not but any all been being also just some such "
     "very out off per via".split()
 )
+
+
+def _json_safe(metadata: Optional[dict]) -> dict:
+    """Empty CSV cells load as NaN, which is not valid JSON — carry them as null."""
+    return {
+        k: (None if isinstance(v, float) and not math.isfinite(v) else v)
+        for k, v in (metadata or {}).items()
+    }
 
 
 def _tokens(text: str) -> set[str]:
