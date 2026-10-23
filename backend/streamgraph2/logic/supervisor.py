@@ -14,6 +14,7 @@ CrewAI agents receive ONLY structured JSON — no DB access, no APIs.
 """
 
 from typing import Dict, Optional
+from api_security import work_budget_active
 
 # ── Try CrewAI — fall back to direct function calls if not installed ──────────
 try:
@@ -186,7 +187,9 @@ async def run_supervisor(job_id: str, pipeline_result: Dict) -> Dict:
     """
     print("  [Agents] Supervisor starting")
 
-    if not CREWAI_AVAILABLE:
+    # HTTP jobs use deterministic validation: CrewAI owns an internal retry loop
+    # that cannot participate in the shared request provider budget.
+    if work_budget_active() or not CREWAI_AVAILABLE:
         return await _run_direct(job_id, pipeline_result)
 
     # CrewAI mode

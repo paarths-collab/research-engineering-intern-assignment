@@ -1,4 +1,6 @@
 "use client";
+
+import { apiFetch } from '../../lib/operatorAccess.mjs';
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
@@ -120,7 +122,7 @@ export default function StreamPage() {
 
   // ── Load timeline volume ────────────────────────────────
   useEffect(() => {
-    fetch("/api/stream/api/timeline-volume")
+    apiFetch("/api/stream/api/timeline-volume")
       .then(r => r.json())
       .then(d => { setVolumeData(d); setLoading(false); })
       .catch(() => { setChartError("Failed to load timeline data."); setLoading(false); });
@@ -143,7 +145,7 @@ export default function StreamPage() {
     setAnalysis(null);
     setAnalysisError(null);
     try {
-      const res = await fetch("/api/stream/api/extract-topics", {
+      const res = await apiFetch("/api/stream/api/extract-topics", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({ start_date: addDays(dateStr, -10), end_date: addDays(dateStr, +10) }),
@@ -170,7 +172,7 @@ export default function StreamPage() {
     setAnalysisError(null);
     setAnalysisLoading(true);
     try {
-      const res = await fetch("/api/stream/api/topic-analysis", {
+      const res = await apiFetch("/api/stream/api/topic-analysis", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({

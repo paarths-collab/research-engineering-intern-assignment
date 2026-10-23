@@ -1,5 +1,7 @@
 "use client";
 
+import { apiFetch } from '../lib/operatorAccess.mjs';
+
 import { useCallback, useState } from "react";
 
 export default function useEventAnalysis() {
@@ -15,7 +17,7 @@ export default function useEventAnalysis() {
     setErrorById((prev) => ({ ...prev, [eventId]: null }));
 
     try {
-      const res = await fetch(`/api/globe/events/${eventId}/analyze?max_reddit_posts=50&max_news_sources=10`, {
+      const res = await apiFetch(`/api/globe/events/${eventId}/analyze?max_reddit_posts=50&max_news_sources=10`, {
         method: "POST",
       });
 

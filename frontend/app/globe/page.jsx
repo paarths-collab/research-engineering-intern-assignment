@@ -1,7 +1,11 @@
 "use client";
 
+import { apiFetch } from '../../lib/operatorAccess.mjs';
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { dataProvenance, sourceLabel } from "../../lib/dataProvenance.mjs";
+import { normalizePins } from "../../lib/globeData.mjs";
 
 const Globe = dynamic(() => import("react-globe.gl"), {
   ssr: false,
@@ -67,6 +71,8 @@ function isAbortLikeError(err) {
 }
 
 function apiUrl(path) {
+  // Production requests always use the same-origin rewrite to the Render backend.
+  if (process.env.NODE_ENV === "production") return path;
   const base = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
   if (!base) return path;
 
@@ -85,7 +91,7 @@ async function fetchJson(path, options = {}, timeoutMs = 20000) {
   const timer = setTimeout(() => controller.abort("timeout"), timeoutMs);
 
   try {
-    const res = await fetch(apiUrl(path), {
+    const res = await apiFetch(apiUrl(path), {
       ...options,
       signal: controller.signal,
       headers: {
@@ -185,57 +191,6 @@ function timeAgo(ts) {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
-function normalizePins(payload) {
-  const rawPins = Array.isArray(payload?.pins)
-    ? payload.pins
-    : Array.isArray(payload?.events)
-      ? payload.events.map((event) => {
-          const loc = Array.isArray(event?.locations) ? event.locations[0] : null;
-          return {
-            id: event?.id,
-            event_id: event?.event_id || event?.id,
-            lat: loc?.lat,
-            lon: loc?.lon,
-            location: loc?.name || event?.location,
-            name: loc?.name || event?.location,
-            title: event?.title,
-            risk_level: event?.risk_level,
-            sentiment: event?.sentiment,
-            impact_score: event?.impact_score,
-            timestamp: event?.timestamp || event?.last_updated,
-            summary: event?.summary,
-            subreddit: event?.subreddit,
-          };
-        })
-      : [];
-  return rawPins
-    .map((pin, idx) => {
-      const lat = Number(pin.lat);
-      const lon = Number(pin.lon);
-      if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
-
-      const summary = Array.isArray(pin.summary)
-        ? pin.summary.join(" ")
-        : String(pin.summary || "");
-
-      return {
-        id: pin.id || pin.event_id || `pin-${idx}`,
-        event_id: pin.event_id || pin.id || `pin-${idx}`,
-        lat,
-        lon,
-        location: pin.location || pin.name || "Unknown location",
-        title: pin.title || "Untitled event",
-        risk_level: pin.risk_level || "Low",
-        sentiment: pin.sentiment || "neutral",
-        impact_score: Number(pin.impact_score || 0),
-        timestamp: pin.timestamp || payload?.generated_at || null,
-        summary,
-        subreddit: pin.subreddit || "",
-      };
-    })
-    .filter(Boolean);
-}
-
 function buildPinElement(pin, onClick) {
   const root = document.createElement("button");
   root.type = "button";
@@ -284,6 +239,8 @@ export default function GlobePage() {
 
   const [viewport, setViewport] = useState({ w: 900, h: 700 });
   const [pins, setPins] = useState([]);
+  const [provenance, setProvenance] = useState(null);
+  const [newsProvenance, setNewsProvenance] = useState(null);
   const [selected, _setSelected] = useState(null);
   // Keep a ref in sync so fetchPins can read selected without being a dep
   const setSelected = (val) => {
@@ -309,13 +266,13 @@ export default function GlobePage() {
     try {
       const data = await fetchJson("/api/globe/events/map", { method: "GET" }, 30000);
       const mapped = normalizePins(data);
-      if (mapped.length > 0) {
-        setPins(mapped);
-      }
+      setPins(mapped);
+      setProvenance(dataProvenance(data));
 
       const cur = selectedRef.current;
       if (cur) {
         const stillThere = mapped.find((p) => p.id === cur.id);
+        if (!stillThere) setSelected(null);
         if (stillThere && JSON.stringify(stillThere) !== JSON.stringify(cur)) {
           setSelected(stillThere);
         }
@@ -339,6 +296,7 @@ export default function GlobePage() {
 
   const fetchNewsForPin = useCallback(async (pin) => {
     setLoadingNews(true);
+    setNewsProvenance(null);
     setNews([]);
     setErrorMsg("");
 
@@ -356,6 +314,7 @@ export default function GlobePage() {
         25000
       );
       setNews(normalizeNewsArticles(data));
+      setNewsProvenance(dataProvenance(data));
     } catch (err) {
       if (!isAbortLikeError(err)) {
         console.error("Failed to load location news", err);
@@ -368,7 +327,7 @@ export default function GlobePage() {
       }
 
       // Backward-compatible fallback: some backends expose event-level news analysis instead.
-      if (err instanceof HttpError && err.status === 405 && pin?.event_id) {
+      if (err?.status === 405 && pin?.event_id) {
         try {
           const fallback = await fetchJson(
             `/api/globe/events/${encodeURIComponent(pin.event_id)}/news-analysis?refresh_cache=true`,
@@ -377,6 +336,7 @@ export default function GlobePage() {
           );
           const normalized = normalizeNewsArticles(fallback);
           setNews(normalized);
+          setNewsProvenance(dataProvenance(fallback));
           if (normalized.length === 0) {
             setErrorMsg("No readable headlines were returned for this event.");
           }
@@ -385,10 +345,11 @@ export default function GlobePage() {
           if (!isAbortLikeError(fallbackErr)) {
             console.error("Fallback news-analysis failed", fallbackErr);
           }
+          err = fallbackErr;
         }
       }
 
-      setErrorMsg("Could not fetch location news from backend.");
+      setErrorMsg(err.message || "Could not fetch location news from backend.");
       setNews([]);
     } finally {
       setLoadingNews(false);
@@ -455,8 +416,8 @@ export default function GlobePage() {
       if (!isAbortLikeError(err)) {
         console.error("Pipeline refresh failed", err);
       }
-      setPipelineState({ status: "failed", message: isAbortLikeError(err) ? "Pipeline request timed out." : "Pipeline trigger failed." });
-      setErrorMsg(isAbortLikeError(err) ? "Pipeline request timed out. Try again." : "Could not refresh pipeline. Ensure backend service is reachable.");
+      setPipelineState({ status: "failed", message: isAbortLikeError(err) ? "Pipeline request timed out." : err.message || "Pipeline trigger failed." });
+      setErrorMsg(isAbortLikeError(err) ? "Pipeline request timed out. Try again." : err.message || "Could not refresh pipeline.");
     } finally {
       setRefreshing(false);
     }
@@ -479,7 +440,7 @@ export default function GlobePage() {
       if (!isAbortLikeError(err)) {
         console.error("AI Analysis failed", err);
       }
-      setErrorMsg(isAbortLikeError(err) ? "AI analysis request timed out. Try again." : "Failed to generate AI analysis. Check backend logs.");
+      setErrorMsg(isAbortLikeError(err) ? "AI analysis request timed out. Try again." : err.message || "Failed to generate AI analysis.");
     } finally {
       setAnalyzingEvent(false);
     }
@@ -577,7 +538,7 @@ export default function GlobePage() {
               </span>
               <div className="h-px w-12 bg-white/10" />
               <span className="text-[10px] uppercase font-bold text-white/40 font-mono">
-                Live Global Signal Network
+                Global Signal Network
               </span>
             </div>
 
@@ -612,6 +573,14 @@ export default function GlobePage() {
           </button>
         </div>
       </header>
+
+      {provenance && (
+        <div role="status" className="px-4 py-2 text-xs border-b border-white/10 text-amber-200">
+          {sourceLabel(provenance)}
+          {provenance.data_generated_at ? ` · Generated ${provenance.data_generated_at}` : ''}
+          {provenance.data_notice ? ` · ${provenance.data_notice}` : ''}
+        </div>
+      )}
 
       <main className="flex-1 min-h-0 grid grid-cols-12 gap-4 p-4">
         <section className="col-span-12 lg:col-span-8 min-h-0 flex flex-col" style={PANEL}>
@@ -739,6 +708,11 @@ export default function GlobePage() {
 
                 {!loadingNews && news.length > 0 && (
                   <div className="space-y-2">
+                    {newsProvenance && (
+                      <p role="status" className="text-xs text-amber-200">
+                        {sourceLabel(newsProvenance)}{newsProvenance.data_notice ? ` · ${newsProvenance.data_notice}` : ''}
+                      </p>
+                    )}
                     {news.map((article, idx) => (
                       <article
                         key={article.article_id || article.link || idx}

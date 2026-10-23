@@ -1,4 +1,6 @@
 "use client";
+
+import { apiFetch } from '../../lib/operatorAccess.mjs';
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
@@ -165,7 +167,7 @@ export default function SpikeAnalysisPanel({ spike, onClose }) {
     const cluster = encodeURIComponent(spike.cluster || "Geopolitics");
     const date    = encodeURIComponent(spike.date);
 
-    fetch(`/api/stream/api/event-window/${cluster}/${date}`, { signal: ac.signal })
+    apiFetch(`/api/stream/api/event-window/${cluster}/${date}`, { signal: ac.signal })
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then(data => {
         if (ac.signal.aborted) return;
@@ -189,7 +191,7 @@ export default function SpikeAnalysisPanel({ spike, onClose }) {
     setResult(null);
     setError(null);
 
-    fetch("/api/stream/api/analyze-event", {
+    apiFetch("/api/stream/api/analyze-event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

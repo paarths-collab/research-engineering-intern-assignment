@@ -1,3 +1,4 @@
+from api_security import consume_provider_call
 import os
 import hashlib
 import logging
@@ -37,10 +38,11 @@ async def analyze_node(req: AnalyzeNodeRequest):
     prompt = _build_node_prompt(req.node_type, req.node_id, req.context_data)
     try:
         async with httpx.AsyncClient(timeout=45.0) as client:
+            consume_provider_call()
             resp = await client.post(
                 GROQ_API_URL,
                 headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-                json={"model": GROQ_MODEL, "messages": [{"role": "user", "content": prompt}]},
+                json={"model": GROQ_MODEL, "max_tokens": 1000, "messages": [{"role": "user", "content": prompt}]},
             )
             resp.raise_for_status()
             raw = resp.json()["choices"][0]["message"]["content"].strip()

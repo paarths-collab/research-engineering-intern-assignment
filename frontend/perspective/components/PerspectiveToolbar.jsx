@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import useGraphStore from '../store/graphStore';
+import { sourceLabel } from '../../lib/dataProvenance.mjs';
 import {
   getCachedNewsPresets,
   getFallbackPersonaPresets,
@@ -67,7 +68,7 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
       .then(({ items, source }) => {
         if (cancelled) return;
         setNewsPresets(items);
-        setNewsStatus(source === 'live' ? 'ready' : source === 'empty' ? 'empty' : 'unavailable');
+        setNewsStatus(source === 'backend' ? 'ready' : source === 'empty' ? 'empty' : 'unavailable');
       })
       .catch((error) => {
         console.error('Failed to load globe news presets', error);
@@ -153,7 +154,7 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
       console.error(e);
       setMessage({
         kind: 'error',
-        text: 'Simulation failed: the backend is unreachable or did not respond in time. If it was idle, the first request can take about 30 seconds to wake up. Wait a moment and press Simulate again.',
+        text: e.message || 'Simulation failed. Try again after checking operator access and backend availability.',
       });
       setSimulating(false);
     }
@@ -243,7 +244,7 @@ export default function PerspectiveToolbar({ onAddPersona, onAddNews, onAddDiscu
                   }}
                   suppressHydrationWarning
                 >
-                  {n.label}
+                  {n.label} · {sourceLabel(n)}
                 </button>
               ))}
               {newsPresets.length === 0 && (

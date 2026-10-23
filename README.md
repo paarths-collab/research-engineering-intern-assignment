@@ -110,8 +110,8 @@ Online discussions today are not purely organic — they are shaped by narrative
 - **Retrieval**: lexical token overlap and keyword-template SQL. No embeddings, vector store, or RAG framework on the mounted API.
 
 ### Deployment
-- **Frontend**: Vercel (`vercel.json` builds the Next.js app and routes `/api/*` to `api/index.py`)
-- **Backend**: Render (`render.yaml`, Docker image from `backend/Dockerfile`, persistent disk at `/app/data`)
+- **Frontend**: Vercel builds only `frontend/`; Next.js forwards `/api/*` to the Render backend. `BACKEND_API_URL` overrides the verified production origin in `frontend/deployment.json`.
+- **Backend**: existing Render Python service, one instance/worker. `render.yaml` additionally describes an optional paid Docker service with a persistent disk at `/app/data`; that migration is not required for the existing free deployment.
 - **Local**: `docker-compose.yml` runs the backend container on port 8000
 
 ---
@@ -131,6 +131,12 @@ uvicorn main:app --port 8000
 
 The interactive API docs are served at `http://localhost:8000/docs`.
 
+**Operator access.** Set `NARRATIVE_API_TOKEN` on the backend to a random secret of at least 32 characters. Enter that token using **Operator access** in the frontend before analysis or collection. The browser keeps it only in tab memory; reload clears it. Never put it in `NEXT_PUBLIC_*` variables, source files, or URLs. Without a valid server configuration, write requests return 503; missing or invalid bearer credentials return 401. Read-only dashboards remain public. Use HTTPS outside local development.
+
+All API modules and Polar aliases share admission controls: 60 requests per client/module/minute, 10 operator work requests per minute across clients, and 2 active work requests. Each work request allows at most 32 downstream attempts, including retries and background work; no new attempt starts after 180 seconds. Provider calls have their own timeouts. Requests are capped at 256 KiB, with text and collection bounds. Perspective allows 64 nodes, 128 edges, 8 personas, 4 headlines, 12 persona/headline reactions, and 120 generated turns. Excess work returns 429; oversized bodies return 413 and invalid graph inputs return 422.
+
+**Deployment constraint:** quotas, background slots, and pipeline locks are process-local. Run a single backend worker/instance. Serverless or horizontally scaled deployments need a shared admission store and job queue before enabling operator work. `FRONTEND_ORIGINS` controls cross-origin browser access (default: localhost and 127.0.0.1 on port 3000); CORS does not replace bearer authentication.
+
 **Build the chatbot database (optional).** The API builds it on first use when it is missing. To build it ahead of time:
 
 ```bash
@@ -143,8 +149,9 @@ The default output is `data/hybrid_chatbot.duckdb`. `--force` rebuilds tables th
 **Tests.**
 
 ```bash
-cd backend && python -m pytest hybrid_chatbot/tests tests perspective/tests
-cd backend/globe && python -m pytest   # test_api.py fails at collection: it imports app.main, which does not exist
+(cd backend && python -m pytest hybrid_chatbot/tests tests perspective/tests)
+(cd backend/globe && python -m pytest)
+(cd frontend && npm test && npm run build)
 ```
 
 **Environment variables** (names only; `backend/.env` is loaded if present):
@@ -156,12 +163,12 @@ cd backend/globe && python -m pytest   # test_api.py fails at collection: it imp
 | Perspective | `GROQ_API_KEY`, `PERSPECTIVE_GROQ_MODEL`, `GROQ_BASE_URL`, `PERSPECTIVE_GLOBE_API_URL` |
 | Globe | `GROQ_API_KEY`, `PRIMARY_MODEL`, `FAST_MODEL`, `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USER_AGENT`, `REDDIT_SUBREDDITS`, `NEWSAPI_KEY`, `NEWSDATA_KEY`, `GNEWS_KEY`, `TAVILY_API_KEY`, `CURRENTS_API_KEY` |
 | Streamgraph | `DATABASE_URL` (optional, CSV fallback when empty), `GROQ_API_KEY`, `LLM_MODEL` |
-| Server | `PORT`, `DATA_PATH`, `FRONTEND_ORIGINS` (parsed but not applied to CORS), `RATE_LIMIT_MAX`, `RATE_LIMIT_WINDOW_SECONDS` |
+| Server | `PORT`, `DATA_PATH`, `FRONTEND_ORIGINS` (comma-separated CORS allowlist), `NARRATIVE_API_TOKEN`, `RATE_LIMIT_MAX`, `WORK_LIMIT_MAX`, `RATE_LIMIT_WINDOW_SECONDS` |
 
 **Health.**
 
-- `GET /health` returns `status` of `"ok"` when every expected module is mounted and `"degraded"` when any failed. It also returns `modules` (`mounted` or `unavailable` for each module) and `module_load_errors`. It always responds with HTTP 200 so platform health checks keep passing.
-- `GET /api/chatbot/health` reports `llm_ready`, `web_search_ready`, the SQL store state (`sql`), and `dataset_date_range`. Its `status` is always `"ok"`.
+- `GET /health` returns `status` of `"ok"` when every expected module is mounted and `"degraded"` when any failed. It also returns `modules` (`mounted`, `degraded`, or `unavailable`) and `module_load_errors`. It checks module loading, not data readiness, and always responds with HTTP 200.
+- `GET /api/chatbot/health` reports `llm_ready`, `web_search_ready`, the SQL store state (`sql`), and `dataset_date_range`. Its status is `"ok"`, `"degraded"`, or `"unavailable"` according to SQL availability, with HTTP 200 in every case.
 
 **Serverless (Vercel).** When `VERCEL` or `AWS_LAMBDA_FUNCTION_NAME` is set, the chatbot does not build into the project directory. It serves a complete prebuilt DuckDB if one is present. Otherwise it builds the SQL tables into an in-memory database on each cold start, or into a temp file when the CSVs exceed 128 MB. Nothing persists between invocations.
 
@@ -171,8 +178,10 @@ cd backend/globe && python -m pytest   # test_api.py fails at collection: it imp
 
 - **Historical snapshot.** The bundled analysis data covers 2024-07-23 to 2025-02-18. The chatbot, streamgraph, network, and polar views read these files. Current data is fetched only by on-demand calls (the Globe pipeline and news endpoints, and the streamgraph spike pipeline). Nothing is scheduled in this repository.
 - **Chatbot SQL is template-based.** Only the question shapes covered by the keyword templates in `sql_engine.py` produce SQL. Other questions use lexical snippets or are reported as outside the dataset.
+- **SQL scope must be supported.** Snapshot aggregates cannot answer dated questions; unsupported date/entity scopes and multiple-subreddit queries return `insufficient_coverage` with an explanation. No broader count or ranking is substituted. Trend evidence and synthesis prompts retain the full dated series.
 - **Chatbot retrieval is lexical.** It is token overlap over snippets generated from CSV rows. There is no semantic search.
 - **Globe news is per cluster.** Each event cluster carries only the news sources of its own events, up to five.
+- **Input provenance is visible.** Globe and Perspective distinguish demo samples, pipeline snapshots, cached context, and unknown sources. A backend response does not establish that a headline is live reporting.
 - **Simulation is illustrative.** Persona output is roleplay, labelled `simulated`, and not validated. `/api/perspective/simulate` fetches news context from the Globe API (`PERSPECTIVE_GLOBE_API_URL`, default localhost) and continues without it when that fails.
 - **Rate limiting is in-memory.** It is kept per process, keyed by client IP and API prefix, with a default of 60 requests per 60 seconds. Counts reset on restart and are not shared across workers or instances.
 - **No authentication.** Every endpoint is open, including `POST /api/globe/pipeline/run`, which triggers collection and LLM calls.
@@ -224,3 +233,13 @@ This platform demonstrates how raw, chaotic social data can be transformed into 
 
 ---
 *Created for the Research Engineering Intern Assignment.*
+
+## Releasing the existing Render and Vercel services
+
+The existing production project is `research-engineering-intern-assignment-bc9l`, serving `https://narrativesignal.vercel.app`. Its Git deployment source and the existing Render service use `paarths-collab/research-engineering-intern-assignment`. This is a separate repository from the repair checkout's `NarrativeSignal` origin; integrate the current production branch before publishing so its hero/globe changes survive.
+
+Vercel builds the frontend only. The root `vercel.json` retains compatibility with a repository-root project using `@vercel/next`; a project with Root Directory `frontend` uses `frontend/vercel.json`. Both use the Next.js external API rewrite; neither deploys the legacy Python `api/index.py`. `frontend/deployment.json` supplies the verified existing Render origin for Git-based deployments, and server-side `BACKEND_API_URL` can override it. Local development defaults to localhost. Production browser requests use the same-origin `/api` proxy, and no operator token belongs in Vercel configuration.
+
+For the existing free Python Render service, retain its native runtime/start command and set `WEB_CONCURRENCY=1`, `DATA_PATH=./data`, `STREAMGRAPH2_DUCKDB_PATH=./data/streamgraph2.duckdb`, `LOG_DIR=./logs`, `NARRATIVE_BOOTSTRAP_NETWORK_DB=1`, `FRONTEND_ORIGINS=https://narrativesignal.vercel.app`, and a random `NARRATIVE_API_TOKEN` of at least 32 characters. Update these keys by merging with existing provider secrets, not replacing the service environment. The bootstrap flag imports bundled network CSVs before serving requests. Free runtime storage is ephemeral: collection history and caches reset on restarts/deployments. Bundled datasets remain available after rebuilding. Persistent collection history requires an explicitly approved paid disk migration using the Docker Blueprint.
+
+Verify `/health`, chatbot health, all dashboard API reads, unauthenticated write rejection (401), and authenticated chatbot/simulation requests through the public frontend before treating a release as complete. Trigger a manual deploy only if Git auto-deploy did not already start one.

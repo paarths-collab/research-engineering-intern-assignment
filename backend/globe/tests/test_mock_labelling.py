@@ -200,6 +200,23 @@ class TestNoPipelineOutput:
         assert body["analysis_report"] == "stub report"
         assert_mock(body)
 
+    def test_analysis_cache_retains_sample_provenance(self, client, no_output_dir, monkeypatch):
+        saved = {}
+        monkeypatch.setattr(events_routes, "_save_analysis_cache", saved.update)
+        body = client.post(f"/events/{MOCK_EVENT_ID}/analyze").json()
+        assert_mock(body)
+        assert saved
+        for payload in saved.values():
+            assert_mock(payload)
+
+    def test_headline_analysis_still_accepts_supplied_articles(self, client, no_output_dir):
+        response = client.post("/events/headline-analysis", json={
+            "headline": "Example port headline", "scrape_news": False,
+            "scraped_articles": [{"title": "Example supporting headline", "link": "https://example.test/a"}],
+        })
+        assert response.status_code == 200
+        assert response.json()["analysis_report"] == "stub report"
+
     def test_location_news_fallback_to_mock_pipeline_news_is_labelled(self, client, no_output_dir):
         # Reverse geocoding (stubbed 404) and every news search return nothing, so the
         # route consults the stored payload for the place name => mock data was used.

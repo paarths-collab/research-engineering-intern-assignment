@@ -20,9 +20,14 @@ async def trigger_pipeline(background_tasks: BackgroundTasks):
             "status": status.status if status else "unknown",
         }
 
+    # Reserve before returning: a second request cannot queue another run.
+    await _pipeline_lock.acquire()
+
     async def _run():
-        async with _pipeline_lock:
+        try:
             await run_pipeline()
+        finally:
+            _pipeline_lock.release()
 
     background_tasks.add_task(_run)
     return {"message": "Pipeline started", "status": "running"}

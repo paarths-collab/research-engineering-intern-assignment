@@ -334,6 +334,13 @@ class ChatPipeline:
         if plan is None:
             return SQLResult()
 
+        if plan.unsupported_reason:
+            window = {"start": plan.date_range[0], "end": plan.date_range[1]} if plan.date_range else None
+            return SQLResult(
+                plan=plan, status=SQL_INSUFFICIENT, reason=plan.unsupported_reason,
+                coverage=Coverage(COVERAGE_NONE, plan.unsupported_reason, window),
+            )
+
         missing = self.sql_store.missing_for(plan.tables)
         if missing:
             state = self.sql_store.status
@@ -353,7 +360,7 @@ class ChatPipeline:
                 )
             df = self.sql_store.execute(plan.sql, plan.params)
             self._note_boundary_tie(plan, df)
-            raw_rows = [_clean_row(r) for r in df.head(20).to_dict(orient="records")]
+            raw_rows = [_clean_row(r) for r in df.to_dict(orient="records")]
         except Exception as exc:
             logger.warning("SQL execution failed: %s", exc)
             return SQLResult(plan=plan, error=f"SQL query failed: {exc}", status=SQL_ERROR)
@@ -500,7 +507,8 @@ def _format_sql_evidence(
         lines.append(f"Coverage warning: {sql_coverage.reason}")
     for note in sql_plan.notes:
         lines.append(f"Note: {note}")
-    for i, row in enumerate(sql_rows[:10], start=1):
+    prompt_rows = sql_rows if sql_plan.kind == "series" else sql_rows[:10]
+    for i, row in enumerate(prompt_rows, start=1):
         row_text = ", ".join(f"{k}={row[k]}" for k in row.keys())
         lines.append(f"[sql:{i}] {row_text}")
     return "\n".join(lines)
@@ -536,6 +544,12 @@ def _fallback_answer(
     if sql_plan and sql_rows:
         top_sql = "; ".join(_row_summary(r) for r in sql_rows[:2])
         base += f"SQL results indicate: {top_sql}.{coverage_note} "
+        if sql_plan.kind == "series":
+            peak = max(sql_rows, key=lambda row: row.get("post_count", 0))
+            base += (
+                f"The complete series contains {len(sql_rows)} observations from {sql_rows[0]['date']} "
+                f"through {sql_rows[-1]['date']}; its peak is {peak.get('post_count')} posts on {peak['date']}. "
+            )
     elif sql_error:
         base += f"SQL execution was unavailable ({sql_error}). "
     elif sql_plan and not sql_rows:

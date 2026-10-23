@@ -3,6 +3,8 @@ Pipeline Orchestrator
 Coordinates all 9 layers of the SimPPL intelligence engine.
 Manages run state, timing, and output JSON generation.
 """
+from api_security import ensure_work_budget
+
 import asyncio
 import json
 import uuid
@@ -59,6 +61,8 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
             logger.info(f"[{run_id}] No fresh posts. Checking database for existing today...")
             posts = get_existing_posts_for_today()
         
+        posts = sorted(posts, key=lambda p: p.engagement_score, reverse=True)[:240]
+        ensure_work_budget()
         status.posts_ingested = len(posts)
 
         if not posts:
@@ -71,7 +75,7 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
 
         # ── Layer 2: Fast Geo Filter ─────────────────────────
         logger.info(f"[{run_id}] Layer 2 — Fast Geo Filter")
-        candidates: List[GeoCandidate] = fast_geo_filter(posts)
+        candidates: List[GeoCandidate] = fast_geo_filter(posts)[:12]
         status.geo_candidates = len(candidates)
 
         if not candidates:
@@ -85,6 +89,7 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
         resolved_pairs: List[tuple[GeoCandidate, ResolvedLocation]] = \
             await resolve_all_candidates(candidates)
 
+        ensure_work_budget()
         geo_map: dict[str, ResolvedLocation] = {
             loc.name: loc for _, loc in resolved_pairs
         }
@@ -92,6 +97,8 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
         # ── Layer 4: Event Structuring ───────────────────────
         logger.info(f"[{run_id}] Layer 4 — Event Structuring")
         events: List[StructuredEvent] = await structure_all_events(resolved_pairs)
+        ensure_work_budget()
+        events = events[:8]
         status.events_structured = len(events)
 
         if not events:
@@ -102,6 +109,7 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
         # ── Layer 5: News Correlation ────────────────────────
         logger.info(f"[{run_id}] Layer 5 — News Correlation")
         bundles: List[NewsBundle] = await correlate_all_events(events)
+        ensure_work_budget()
         status.news_fetched = sum(b.news_count for b in bundles)
         bundles_map: dict[str, NewsBundle] = {b.event_id: b for b in bundles}
 
@@ -120,6 +128,7 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
         intel_list: List[NarrativeIntel] = await analyse_all_events(
             posts_map, events, bundles_map
         )
+        ensure_work_budget()
         intel_map: dict[str, NarrativeIntel] = {i.event_id: i for i in intel_list}
 
         # ── Layer 7: Impact Scoring ──────────────────────────
@@ -139,6 +148,7 @@ async def run_pipeline(run_id: Optional[str] = None) -> PipelineStatus:
         # ── Layer 9: Output JSON ─────────────────────────────
         logger.info(f"[{run_id}] Layer 9 — Generating Map JSON")
         map_events = _build_map_events(clusters, posts_map, bundles_map, events)
+        ensure_work_budget()
         _save_output(map_events, run_id)
 
         status.status = "complete"

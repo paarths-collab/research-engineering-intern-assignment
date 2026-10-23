@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
+import OperatorAccess from "./OperatorAccess";
 
 export default function AppShell({ children }) {
   const pathname = usePathname();
@@ -10,6 +11,7 @@ export default function AppShell({ children }) {
   return (
     <>
       <Sidebar />
+      <OperatorAccess />
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname || "initial"}

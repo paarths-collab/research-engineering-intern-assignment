@@ -7,6 +7,8 @@ import asyncio
 import time
 from typing import List
 import asyncpraw
+from asyncprawcore.requestor import Requestor
+from api_security import consume_provider_call
 
 from app.config import get_settings
 from app.database.models import RawPost
@@ -37,7 +39,7 @@ def get_existing_posts_for_today() -> List[RawPost]:
     """Check if any posts exist in the database for the current date."""
     conn = get_connection()
     # Check if there are any posts for the current UTC date
-    res = conn.execute("SELECT * FROM raw_posts WHERE run_date = CURRENT_DATE").fetchall()
+    res = conn.execute("SELECT * FROM raw_posts WHERE run_date = CURRENT_DATE ORDER BY engagement_score DESC LIMIT 240").fetchall()
     if not res:
         return []
     
@@ -54,6 +56,13 @@ def get_existing_posts_for_today() -> List[RawPost]:
     return posts
 
 
+class _BudgetedRedditRequestor(Requestor):
+    async def request(self, *args, **kwargs):
+        # Requestor is called for auth, pagination, and each SDK retry as well.
+        consume_provider_call()
+        return await super().request(*args, **kwargs)
+
+
 async def fetch_reddit_posts() -> List[RawPost]:
     """Fetch posts from all configured subreddits asynchronously."""
     posts: List[RawPost] = []
@@ -64,15 +73,17 @@ async def fetch_reddit_posts() -> List[RawPost]:
         client_id=settings.REDDIT_CLIENT_ID,
         client_secret=settings.REDDIT_CLIENT_SECRET,
         user_agent=settings.REDDIT_USER_AGENT,
+        requestor_class=_BudgetedRedditRequestor,
+        requestor_kwargs={"timeout": 20.0},
     )
 
     try:
-        for sub_name in settings.subreddit_list:
+        for sub_name in settings.subreddit_list[:8]:
             try:
                 logger.info(f"Scanning r/{sub_name} ...")
                 subreddit = await reddit.subreddit(sub_name)
 
-                async for post in subreddit.hot(limit=settings.REDDIT_POST_LIMIT):
+                async for post in subreddit.hot(limit=min(max(settings.REDDIT_POST_LIMIT, 1), 30)):
                     if post.id in seen_ids:
                         continue
                     if post.created_utc < cutoff_utc:

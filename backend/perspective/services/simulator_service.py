@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from api_security import consume_provider_call, count_httpx_redirect
 import json
 import logging
 import os
@@ -9,6 +10,7 @@ from itertools import combinations
 from pathlib import Path
 
 import httpx
+from fastapi import HTTPException
 
 from perspective.models.schemas import (
     PerspectiveGraphEdge,
@@ -29,6 +31,22 @@ GENERATION_FALLBACK = "fallback_template"
 GENERATION_TEMPLATE = "template"
 
 
+def _source_labels(payload: dict) -> dict:
+    """Keep input provenance distinct from the simulated output labels."""
+    is_mock = (
+        payload.get("is_mock") is True or payload.get("data_source") == "mock_sample"
+        or str(payload.get("event_id") or payload.get("id") or "").startswith("mock-")
+    )
+    return {
+        "is_mock": is_mock,
+        "data_source": "mock_sample" if is_mock else payload.get("data_source") or "unknown",
+        "data_generated_at": payload.get("data_generated_at"),
+        "data_notice": payload.get("data_notice") or (
+            "Built-in demo events, not real reporting." if is_mock else None
+        ),
+    }
+
+
 class PerspectiveSimulatorService:
     def __init__(self):
         self.persona_map = get_persona_map()
@@ -42,7 +60,7 @@ class PerspectiveSimulatorService:
         return DEFAULT_PERSONAS
 
     def list_news_presets(self, limit: int = 15) -> list[dict]:
-        safe_limit = max(limit, 1)
+        safe_limit = min(max(limit, 1), 30)
         cache_ttl_seconds = 300
 
         if self.news_presets_cache and (time.time() - self.news_presets_cached_at) < cache_ttl_seconds:
@@ -72,7 +90,10 @@ class PerspectiveSimulatorService:
         return self.news_presets_cache[:safe_limit] if self.news_presets_cache else []
 
     def simulate(self, payload: PerspectiveSimulateRequest) -> PerspectiveSimulateResponse:
-        base_nodes = [n for n in payload.nodes if n.type in {"persona", "news", "discussion", "debate"}]
+        base_nodes = [
+            n.model_copy(deep=True) for n in payload.nodes
+            if n.type in {"persona", "news", "discussion", "debate"} and not n.data.get("generated_output")
+        ]
         base_node_ids = {n.id for n in base_nodes}
         base_edges: list[PerspectiveGraphEdge] = []
 
@@ -94,11 +115,6 @@ class PerspectiveSimulatorService:
         personas_by_id = {n.id: n for n in base_nodes if n.type == "persona"}
         news_by_id = {n.id: n for n in base_nodes if n.type == "news"}
         connector_by_id = {n.id: n for n in base_nodes if n.type in {"discussion", "debate"}}
-        globe_events = self._fetch_globe_events(limit=30)
-
-        for news_node in news_by_id.values():
-            self._enrich_news_node(news_node, globe_events)
-
         connected_personas_by_news: dict[str, list[PerspectiveGraphNode]] = {nid: [] for nid in news_by_id}
         personas_by_connector: dict[str, list[PerspectiveGraphNode]] = {cid: [] for cid in connector_by_id}
         connector_to_news_ids: dict[str, set[str]] = {cid: set() for cid in connector_by_id}
@@ -142,6 +158,32 @@ class PerspectiveSimulatorService:
                     connector_modes_by_news[news_id].add(connector_mode)
                     if connector_id not in connector_ids_by_news[news_id]:
                         connector_ids_by_news[news_id].append(connector_id)
+
+        # Validate the expanded graph before Globe lookup or any provider call.
+        if len(personas_by_id) > 8 or len(news_by_id) > 4:
+            raise HTTPException(422, "Simulation supports at most 8 personas and 4 headlines")
+        reaction_count = 0
+        turn_count = 0
+        for news_id, personas in connected_personas_by_news.items():
+            count = len(_unique_nodes(personas))
+            reaction_count += count
+            rounds = payload.debate_rounds if count > 1 and connector_modes_by_news[news_id] else 1
+            turn_count += count * rounds
+        if reaction_count > 12 or turn_count > 120:
+            raise HTTPException(422, "Simulation exceeds 12 persona reactions or 120 generated turns; reduce connections or rounds")
+
+        globe_events = self._fetch_globe_events(limit=30)
+
+        for news_node in news_by_id.values():
+            # A repeated simulation must match against the original headline context,
+            # not against descriptions/reports injected by a previous run.
+            news_node.data.setdefault("input_description", news_node.data.get("description", ""))
+            news_node.data.setdefault("input_reports", news_node.data.get("globe_reports", []))
+            news_node.data["description"] = news_node.data["input_description"]
+            news_node.data["globe_reports"] = news_node.data["input_reports"]
+            news_node.data.pop("globe_events", None)
+            news_node.data.pop("globe_context_is_mock", None)
+            self._enrich_news_node(news_node, globe_events)
 
         generated_nodes: list[PerspectiveGraphNode] = []
         generated_edges: list[PerspectiveGraphEdge] = []
@@ -341,6 +383,7 @@ class PerspectiveSimulatorService:
             distance_value = round(disagreement, 3)
             node_data = {
                 "label": selected_label,
+                "generated_output": True,
                 "newsId": news_id,
                 "personaCount": len(unique_personas),
                 "ideologicalDistance": distance_value,
@@ -408,13 +451,15 @@ class PerspectiveSimulatorService:
         target = f"{base_url.rstrip('/')}/events/"
 
         try:
-            with httpx.Client(timeout=8.0, follow_redirects=True) as client:
+            with httpx.Client(timeout=8.0, follow_redirects=True, event_hooks={"request": [count_httpx_redirect]}) as client:
+                consume_provider_call()
                 response = client.get(target, params={"limit": max(limit, 1)})
             response.raise_for_status()
             payload = response.json() or {}
             events = payload.get("events") if isinstance(payload, dict) else []
             if isinstance(events, list):
-                return [event for event in events if isinstance(event, dict)]
+                labels = _source_labels(payload)
+                return [{**event, **labels} for event in events if isinstance(event, dict)]
         except Exception as exc:
             logger.warning("Failed to fetch Globe events for Perspective: %s", exc)
 
@@ -440,7 +485,7 @@ class PerspectiveSimulatorService:
         ranked.sort(key=lambda item: item[0], reverse=True)
         selected_events = [event for _, event in ranked[:3]]
         if not selected_events:
-            selected_events = globe_events[:2]
+            return
 
         reports: list[dict] = []
         event_summaries: list[str] = []
@@ -485,6 +530,7 @@ class PerspectiveSimulatorService:
                 node.data["description"] = f"Globe: {enrichment}"[:1200]
 
         node.data["globe_reports"] = reports
+        node.data["globe_context_is_mock"] = any(_source_labels(event)["is_mock"] for event in selected_events)
         node.data["globe_events"] = [
             {
                 "event_id": str(event.get("id") or "").strip(),
@@ -492,6 +538,7 @@ class PerspectiveSimulatorService:
                 "summary": str(event.get("summary") or "").strip(),
                 "risk_level": str(event.get("risk_level") or "").strip(),
                 "impact_score": event.get("impact_score"),
+                **_source_labels(event),
                 "strategic_implications": [
                     str(item).strip()
                     for item in (event.get("strategic_implications") or [])
@@ -669,13 +716,16 @@ def _build_presets_from_events(events: list[dict], limit: int) -> list[dict]:
                 "impact_score": event.get("impact_score"),
                 "strategic_implications": implications,
                 "reports": sources,
+                **_source_labels(event),
             }
         )
     return presets
 
 
-def _load_cached_news_presets(limit: int = 30) -> list[dict]:
-    cache_path = Path(__file__).resolve().parents[3] / "data" / "ai_cache.json"
+def _load_cached_news_presets(limit: int = 30, cache_path: Path | None = None) -> list[dict]:
+    if cache_path is None:
+        data_dir = Path(os.getenv("DATA_PATH", str(Path(__file__).resolve().parents[3] / "data")))
+        cache_path = data_dir / "ai_cache.json"
     if not cache_path.exists():
         return []
 
@@ -705,6 +755,9 @@ def _load_cached_news_presets(limit: int = 30) -> list[dict]:
             event_title = str(event.get("title") or "").strip()
             event_summary = str(event.get("summary") or "").strip()
 
+        cache_labels = _source_labels({**value, "event_id": value.get("event_id") or event_id})
+        if cache_labels["data_source"] == "unknown":
+            cache_labels["data_source"] = "cached_analysis"
         articles = []
         if isinstance(value.get("news_context"), dict):
             articles = value.get("news_context", {}).get("articles") or []
@@ -734,6 +787,7 @@ def _load_cached_news_presets(limit: int = 30) -> list[dict]:
                     "impact_score": None,
                     "strategic_implications": [],
                     "reports": [article],
+                    **cache_labels,
                 }
             )
 
@@ -926,6 +980,7 @@ Use first-person voice throughout (I, my, me)."""
         fallback_reason = "empty"
         try:
             with httpx.Client(timeout=45.0) as client:
+                consume_provider_call()
                 resp = client.post(
                     f"{endpoint}/chat/completions",
                     headers={

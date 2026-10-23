@@ -1,4 +1,5 @@
 from __future__ import annotations
+from api_security import consume_provider_call
 import logging
 from fastapi import APIRouter, HTTPException
 from streamgraph2.logic import media_ecosystem as me
@@ -106,7 +107,9 @@ Write 4–5 sentences covering:
 
 Tone: analytical, neutral, intelligence-briefing style. No bullet points. No hedging.
 Do not repeat raw numbers — translate them into meaning."""
+    consume_provider_call()
     msg = await acompletion(
+        num_retries=0, timeout=45.0, max_tokens=700,
         model=LLM_MODEL,
         messages=[{"role": "user", "content": prompt}],
         temperature=0.3,

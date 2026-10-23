@@ -1,3 +1,4 @@
+from api_security import consume_provider_call
 from functools import lru_cache
 from typing import Any, Dict, List, Optional, cast
 
@@ -25,6 +26,8 @@ def get_groq_client() -> AsyncGroq:
     return AsyncGroq(
         api_key=settings.GROQ_API_KEY,
         base_url=_GROQ_BASE_URL,
+        max_retries=0,
+        timeout=45.0,
     )
 
 
@@ -36,11 +39,12 @@ async def request_chat_completion(
     max_tokens: Optional[int] = None,
 ) -> str:
     client = get_groq_client()
+    consume_provider_call()
     response = await client.chat.completions.create(
         model=_normalize_model(model),
         messages=cast(Any, messages),
         temperature=temperature,
-        max_tokens=max_tokens,
+        max_tokens=min(max(max_tokens or 1000, 1), 2000),
     )
     content = response.choices[0].message.content if response.choices else ""
     if content is None:

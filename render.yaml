@@ -3,7 +3,11 @@ services:
     name: narrativesignal-backend
     runtime: docker
     dockerfilePath: backend/Dockerfile
+    dockerContext: .
     plan: starter
+    # API quotas, background slots, and DuckDB connections are process-local.
+    numInstances: 1
+    autoDeployTrigger: "off"
     healthCheckPath: /health
     disk:
       name: narrativesignal-data
@@ -11,36 +15,48 @@ services:
       sizeGB: 10
     envVars:
       - key: PORT
-        sync: true
+        value: "10000"
       - key: DATA_PATH
-        sync: true
+        value: /app/data
+      - key: STREAMGRAPH2_DUCKDB_PATH
+        value: /app/data/streamgraph2.duckdb
+      - key: WEB_CONCURRENCY
+        value: "1"
       - key: FRONTEND_ORIGINS
-        sync: true
+        sync: false
       - key: DEBUG
-        sync: true
+        value: "false"
+      - key: NARRATIVE_API_TOKEN
+        generateValue: true
+      - key: RATE_LIMIT_MAX
+        value: "60"
+      - key: WORK_LIMIT_MAX
+        value: "10"
+      - key: RATE_LIMIT_WINDOW_SECONDS
+        value: "60"
       - key: GROQ_API_KEY
-        sync: true
+        sync: false
       - key: GEMINI_API_KEY
-        sync: true
+        sync: false
       - key: DATABASE_URL
-        sync: true
+        sync: false
       - key: REDDIT_CLIENT_ID
-        sync: true
+        sync: false
       - key: REDDIT_CLIENT_SECRET
-        sync: true
+        sync: false
       - key: REDDIT_USER_AGENT
-        sync: true
+        value: NarrativeSignal/1.0
       - key: NEWSAPI_KEY
-        sync: true
+        sync: false
       - key: NEWSDATA_KEY
-        sync: true
+        sync: false
       - key: GNEWS_KEY
-        sync: true
+        sync: false
       - key: TAVILY_API_KEY
-        sync: true
+        sync: false
       - key: CURRENTS_API_KEY
-        sync: true
+        sync: false
       - key: PRIMARY_MODEL
-        sync: true
+        value: llama-3.3-70b-versatile
       - key: FAST_MODEL
-        sync: true
+        value: llama-3.1-8b-instant

@@ -7,6 +7,7 @@ at backend/data/streamgraph2.duckdb so background jobs and persistence still wor
 """
 
 import json
+import os
 import re
 import uuid
 import threading
@@ -31,7 +32,7 @@ except Exception:
 # ── Path to the shared CSV data directory ─────────────────────
 # db.py lives at: backend/streamgraph2/data/db.py
 # parents[3] = project root  →  project_root/data/
-_DATA_DIR = Path(__file__).resolve().parents[3] / "data"
+_DATA_DIR = Path(os.getenv("DATA_PATH", str(Path(__file__).resolve().parents[3] / "data")))
 
 # ── Connections (initialised at startup) ──────────────────────
 _pool: Optional[Any] = None
@@ -265,8 +266,34 @@ async def init_db():
     if _duck_conn is None:
         DUCKDB_PATH.parent.mkdir(parents=True, exist_ok=True)
         _duck_conn = duckdb.connect(str(DUCKDB_PATH))
-    for stmt in _DUCKDB_TABLES:
-        _duck_conn.execute(stmt)
+    with _duck_lock:
+        _duck_conn.execute("BEGIN TRANSACTION")
+        try:
+            for stmt in _DUCKDB_TABLES:
+                _duck_conn.execute(stmt)
+            _seed_ecosystem(_duck_conn)
+            _duck_conn.execute("COMMIT")
+        except Exception:
+            _duck_conn.execute("ROLLBACK")
+            raise
+
+
+def _seed_ecosystem(connection):
+    """Bootstrap only empty fallback tables; preserve persisted or ingested metrics."""
+    sources = (
+        ("echo_chamber_scores", "echo_chamber_scores.csv", "subreddit, echo_score",
+         "SELECT subreddit, lift FROM read_csv_auto(?)"),
+        ("subreddit_domain_flow", "subreddit_domain_flow_v2.csv", "subreddit, domain, post_count",
+         "SELECT subreddit, domain, SUM(count) FROM read_csv_auto(?) GROUP BY subreddit, domain"),
+        ("top_distinctive_domains", "clean_top_distinctive_domains.csv",
+         "subreddit, domain, count, category, lift, p_domain_given_sub, p_domain_global",
+         "SELECT subreddit, domain, count, category, lift, p_domain_given_sub, p_domain_global "
+         "FROM read_csv_auto(?) QUALIFY ROW_NUMBER() OVER (PARTITION BY subreddit, domain ORDER BY lift DESC) = 1"),
+    )
+    for table, filename, columns, query in sources:
+        path = _DATA_DIR / filename
+        if path.exists() and connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0] == 0:
+            connection.execute(f"INSERT INTO {table} ({columns}) {query}", [str(path)])
 
 
 async def init_pool():

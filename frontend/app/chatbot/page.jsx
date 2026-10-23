@@ -1,5 +1,7 @@
 "use client";
 
+import { apiFetch } from '../../lib/operatorAccess.mjs';
+
 import { useState } from "react";
 
 const PANEL = {
@@ -160,7 +162,7 @@ export default function ChatbotPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/chatbot/query", {
+      const res = await apiFetch("/api/chatbot/query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query, debug, web_search: webSearch }),

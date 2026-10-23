@@ -639,6 +639,7 @@ try:
         if api_key:
             try:
                 async with httpx.AsyncClient(timeout=15.0) as client:
+                    consume_provider_call()
                     resp = await client.post(
                         "https://api.groq.com/openai/v1/chat/completions",
                         headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
@@ -828,6 +829,15 @@ except Exception as e:
 
 @asynccontextmanager
 async def _main_lifespan(application: FastAPI):
+    # Native Render services do not execute the Docker entrypoint.
+    if os.getenv("NARRATIVE_BOOTSTRAP_NETWORK_DB") == "1":
+        from patch_db import patch_db as _patch_network_db, DB_PATH as _network_db_path, TABLES as _network_tables
+        import duckdb as _network_duckdb
+        _patch_network_db()
+        with _network_duckdb.connect(str(_network_db_path), read_only=True) as _network_conn:
+            for _table in _network_tables:
+                _network_conn.execute(f'SELECT COUNT(*) FROM "{_table}"').fetchone()
+
     # streamgraph2 — init DB pool
     try:
         import streamgraph2.data.db as _sg_db2
@@ -877,44 +887,23 @@ app = FastAPI(title="NarrativeSignal Unified API", lifespan=_main_lifespan)
 
 frontend_origins = [
     "http://localhost:3000",
-    "https://YOUR_FRONTEND_DOMAIN",
+    "http://127.0.0.1:3000",
 ]
 _env_origins = os.getenv("FRONTEND_ORIGINS", "")
 if _env_origins.strip():
     frontend_origins = [origin.strip() for origin in _env_origins.split(",") if origin.strip()]
 
+from api_security import APISecurityMiddleware, consume_provider_call
+
+app.add_middleware(APISecurityMiddleware)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=frontend_origins,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-_RATE_WINDOW_SECONDS = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", "60"))
-_RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "60"))
-_RATE_LIMIT_PATH_PREFIXES = ("/api/chatbot", "/api/globe", "/api/polar", "/api/perspective")
-_rate_limit_buckets: dict[tuple[str, str], list[float]] = {}
-
-
-@app.middleware("http")
-async def rate_limit_heavy_endpoints(request: Request, call_next):
-    path = request.url.path
-    if not any(path.startswith(prefix) for prefix in _RATE_LIMIT_PATH_PREFIXES):
-        return await call_next(request)
-
-    now = time.time()
-    client_host = request.client.host if request.client else "unknown"
-    key = (client_host, path.split("/", 3)[0:3][2] if path.startswith("/api/") else path)
-    bucket = _rate_limit_buckets.get(key, [])
-    bucket = [ts for ts in bucket if now - ts < _RATE_WINDOW_SECONDS]
-
-    if len(bucket) >= _RATE_LIMIT_MAX:
-        return JSONResponse(status_code=429, content={"detail": "Rate limit exceeded"})
-
-    bucket.append(now)
-    _rate_limit_buckets[key] = bucket
-    return await call_next(request)
 
 @app.get("/diag")
 def diagnostic():

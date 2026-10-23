@@ -138,22 +138,39 @@ const useGraphStore = create((set, get) => ({
   applySimulationResult: (result) => {
     const rawNodes = Array.isArray(result.nodes) ? result.nodes : [];
     const rawEdges = Array.isArray(result.edges) ? result.edges : [];
-    const resultType = String(result?.result_type || 'analysis');
-    const isConnectorResult = resultType === 'discussion' || resultType === 'debate';
-
-    const lastDiscussion = [...rawNodes].reverse().find((n) => n.type === 'discussion');
-    const lastDebate = [...rawNodes].reverse().find((n) => n.type === 'debate');
-
-    const keptNodes = rawNodes
-      .filter((n) => n.type !== 'discussion' && n.type !== 'debate')
-      .filter((n) => !(isConnectorResult && n.type === 'analysis'));
-    if (resultType === 'discussion' && lastDiscussion) keptNodes.push(lastDiscussion);
-    if (resultType === 'debate' && lastDebate) keptNodes.push(lastDebate);
-
-    const uniqueKeptNodes = dedupeNodesById(keptNodes);
+    // Replace a requested connector only when exactly one output belongs to it.
+    // Shared connectors and mixed boards keep every per-headline result.
+    const outputsByConnector = new Map();
+    rawNodes.forEach((node) => {
+      if (!node.data?.generated_output) return;
+      (node.data?.connectorIds || []).forEach((id) => {
+        const outputs = outputsByConnector.get(id) || [];
+        outputs.push(node);
+        outputsByConnector.set(id, outputs);
+      });
+    });
+    const replacements = new Map();
+    const mergedNodes = new Map();
+    rawNodes.forEach((node) => {
+      const outputs = outputsByConnector.get(node.id) || [];
+      const output = outputs[0];
+      if (outputs.length !== 1 || output?.type !== node.type || output.data?.connectorIds?.length !== 1) return;
+      replacements.set(output.id, node.id);
+      mergedNodes.set(node.id, {
+        ...node,
+        data: { ...node.data, ...output.data, generated_output: false },
+      });
+    });
+    const uniqueKeptNodes = dedupeNodesById(rawNodes
+      .filter((node) => !replacements.has(node.id))
+      .map((node) => mergedNodes.get(node.id) || node));
 
     const keptIds = new Set(uniqueKeptNodes.map((n) => n.id));
-    const keptEdges = dedupeEdges(rawEdges.filter((e) => keptIds.has(e.source) && keptIds.has(e.target)));
+    const keptEdges = dedupeEdges(rawEdges.map((edge) => ({
+      ...edge,
+      source: replacements.get(edge.source) || edge.source,
+      target: replacements.get(edge.target) || edge.target,
+    })).filter((edge) => keptIds.has(edge.source) && keptIds.has(edge.target) && edge.source !== edge.target));
 
     set({ nodes: uniqueKeptNodes, edges: keptEdges, simulationResult: result, isSimulating: false });
   }

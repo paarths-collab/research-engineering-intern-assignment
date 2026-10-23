@@ -7,6 +7,7 @@ Output: Six structured fields parsed from LLM response.
 """
 from __future__ import annotations
 
+from api_security import consume_provider_call
 import json
 import logging
 import os
@@ -143,6 +144,7 @@ async def call_groq(prompt: str) -> tuple[Optional[NarrativeAnalysis], Optional[
 
     try:
         async with httpx.AsyncClient(timeout=60.0) as client:
+            consume_provider_call()
             resp = await client.post(
                 GROQ_API_URL,
                 headers={

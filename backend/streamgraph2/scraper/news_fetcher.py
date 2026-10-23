@@ -14,6 +14,7 @@ Deduplication: lowercase headline set.
 Embeddings stored in news_cache table (date-keyed).
 """
 
+from api_security import consume_provider_call, count_async_httpx_redirect
 import asyncio
 from datetime import date
 from typing import List, Dict
@@ -35,6 +36,7 @@ async def _fetch_newsapi(client: httpx.AsyncClient, target_date: date, query: st
     if not NEWSAPI_KEY:
         return []
     try:
+        consume_provider_call()
         resp = await client.get(
             "https://newsapi.org/v2/everything",
             params={
@@ -76,6 +78,7 @@ async def _fetch_newsdata(client: httpx.AsyncClient, target_date: date, query: s
         if query:
             params_dict["q"] = query
 
+        consume_provider_call()
         resp = await client.get(
             "https://newsdata.io/api/1/news",
             params=params_dict,
@@ -113,6 +116,7 @@ async def _fetch_currents(client: httpx.AsyncClient, target_date: date, query: s
         if query:
             params_dict["keywords"] = query
             
+        consume_provider_call()
         resp = await client.get(
             "https://api.currentsapi.services/v1/search",
             params=params_dict,
@@ -142,6 +146,7 @@ async def _fetch_gnews(client: httpx.AsyncClient, target_date: date, query: str 
     if not GNEWS_KEY:
         return []
     try:
+        consume_provider_call()
         resp = await client.get(
             "https://gnews.io/api/v4/search",
             params={
@@ -184,6 +189,7 @@ async def _fetch_apitube(client: httpx.AsyncClient, target_date: date, query: st
         if query:
             params_dict["q"] = query
             
+        consume_provider_call()
         resp = await client.get(
             "https://api.apitube.io/v1/news/everything",
             params=params_dict,
@@ -208,6 +214,7 @@ async def _fetch_tavily(client: httpx.AsyncClient, target_date: date, query: str
     if not TAVILY_KEY:
         return []
     try:
+        consume_provider_call()
         resp = await client.post(
             "https://api.tavily.com/search",
             json={
@@ -239,6 +246,7 @@ async def _fetch_wikipedia(client: httpx.AsyncClient, target_date: date) -> List
     month = target_date.strftime("%B")
     url   = f"https://en.wikipedia.org/wiki/Portal:Current_events/{year}_{month}_{target_date.day}"
     try:
+        consume_provider_call()
         resp = await client.get(url, timeout=10, follow_redirects=True)
         if resp.status_code != 200:
             return []
@@ -272,7 +280,7 @@ async def fetch_and_store_news(target_date: date, query: str = None) -> List[Dic
             return cached
 
     print(f"  [News] Fetching from 7 sources for {target_date} | query='{query}'")
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(event_hooks={"request": [count_async_httpx_redirect]}) as client:
         results = await asyncio.gather(
             _fetch_newsapi(client, target_date, query),    # [0]
             _fetch_newsdata(client, target_date, query),   # [1]

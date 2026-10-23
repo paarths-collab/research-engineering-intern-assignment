@@ -12,6 +12,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
+from api_security import APISecurityMiddleware
+
 from .pipeline import ChatPipeline
 from .llm_client import LLMClient
 
@@ -23,7 +25,7 @@ pipeline = ChatPipeline(llm_client)
 
 
 class QueryRequest(BaseModel):
-    query: str = Field(..., min_length=1)
+    query: str = Field(..., min_length=1, max_length=8000)
     debug: bool = False
     web_search: bool = False
 
@@ -35,6 +37,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Chatbot API", version="1.0.0", lifespan=lifespan)
+app.add_middleware(APISecurityMiddleware, standalone=True)
 
 
 @app.get("/health")

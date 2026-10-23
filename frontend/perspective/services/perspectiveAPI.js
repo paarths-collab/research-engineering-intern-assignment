@@ -1,6 +1,11 @@
+
+import { apiFetch } from '../../lib/operatorAccess.mjs';
+import { graphRequest } from '../../lib/graphRequest.mjs';
+import { dataProvenance } from '../../lib/dataProvenance.mjs';
+
 const API_BASE = String(process.env.NEXT_PUBLIC_API_URL || '').trim().replace(/\/$/, '');
 
-const NEWS_CACHE_KEY = 'perspective.newsPresets.v1';
+const NEWS_CACHE_KEY = 'perspective.newsPresets.v2';
 const PERSONA_CACHE_KEY = 'perspective.personaPresets.v1';
 
 const FALLBACK_PERSONA_PRESETS = [
@@ -37,12 +42,13 @@ function sanitizeNewsPresets(raw) {
 
       return {
         label,
+        ...dataProvenance(n),
         description: String(n?.description || '').trim(),
         event_id: String(n?.event_id || '').trim(),
         risk_level: String(n?.risk_level || '').trim(),
         impact_score: n?.impact_score,
         strategic_implications: Array.isArray(n?.strategic_implications) ? n.strategic_implications : [],
-        globe_reports: Array.isArray(n?.reports) ? n.reports : [],
+        globe_reports: Array.isArray(n?.reports) ? n.reports : Array.isArray(n?.globe_reports) ? n.globe_reports : [],
       };
     })
     .filter(Boolean);
@@ -109,6 +115,7 @@ function setCachedPersonaPresets(items) {
 }
 
 function buildApiCandidates() {
+  if (process.env.NODE_ENV === 'production') return [''];
   const candidates = [];
 
   // Prefer same-origin proxy via Next.js rewrites to avoid CORS/network mismatches.
@@ -140,19 +147,21 @@ async function parseJsonResponse(response, label) {
 }
 
 async function requestJson(path, init = {}, label = 'Request') {
-  const candidates = buildApiCandidates();
+  const work = !['GET', 'HEAD'].includes(String(init.method || 'GET').toUpperCase());
+  const candidates = work ? [''] : buildApiCandidates();
   let lastError = null;
 
   for (const base of candidates) {
     const url = `${base}${path}`;
     try {
-      const response = await fetch(url, init);
+      const response = await apiFetch(url, init);
       if (!response.ok) {
         const text = await response.text();
         throw new Error(`${label} failed: ${response.status} ${text}`.trim());
       }
       return await parseJsonResponse(response, label);
     } catch (error) {
+      if (work || error.status) throw error;
       lastError = error;
     }
   }
@@ -191,7 +200,8 @@ export async function fetchPersonaPresets() {
 
 /**
  * Load news presets and report their origin.
- * source: 'live' | 'cache' | 'empty' (backend answered with no headlines).
+ * source: 'backend' | 'cache' | 'empty' (backend answered with no headlines).
+ * Each item's data_source describes its evidence; a backend response is not proof of live reporting.
  * Rejects only when the backend is unreachable and nothing is cached.
  */
 export async function loadNewsPresets(limit = 15) {
@@ -208,7 +218,7 @@ export async function loadNewsPresets(limit = 15) {
 
     if (normalized.length > 0) {
       setCachedNewsPresets(normalized);
-      return { items: normalized, source: 'live' };
+      return { items: normalized, source: 'backend' };
     }
   } catch (error) {
     if (cached.length > 0) {
@@ -226,12 +236,7 @@ export async function fetchNewsPresets(limit = 15) {
 }
 
 export async function simulateGraph(nodes, edges, options = {}) {
-  const payload = {
-    nodes,
-    edges,
-    debate_rounds: options.debateRounds,
-    options,
-  };
+  const payload = graphRequest(nodes, edges, options);
 
   return requestJson(
     '/api/perspective/simulate',

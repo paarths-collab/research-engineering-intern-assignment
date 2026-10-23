@@ -80,6 +80,8 @@ class SQLPlan:
     entities: list[EntityFilter] = field(default_factory=list)
     # caveats the answer must state (e.g. a time phrase that could not be applied)
     notes: list[str] = field(default_factory=list)
+    # A recognized scope that this fixed template cannot faithfully answer.
+    unsupported_reason: Optional[str] = None
     # Ranking cut-off (the template's LIMIT), the result column it ranks by and the
     # secondary ORDER BY key(s) that make equal values order deterministically; used to
     # tell the user when a tie straddles the cut-off.
@@ -447,9 +449,9 @@ class SQLStore:
         tables (no data-modifying CTEs, no file/URL table functions).
         """
         conn = self.connect()
-        _assert_single_select(sql, conn, frozenset(self.csv_tables.values()))
         cursor = conn.cursor()  # per-call cursor: DuckDB connections are not thread-safe
         try:
+            _assert_single_select(sql, cursor, frozenset(self.csv_tables.values()))
             return cursor.execute(sql, list(params or [])).df()
         finally:
             cursor.close()
@@ -692,6 +694,29 @@ class SQLTranslator:
         """Keyword-template plan. Relative windows anchor to `reference_date`
         (the dataset's max date), not the wall clock."""
         plan = self._build_plan(query, reference_date)
+        if plan is None:
+            return None
+        requested_dates = _extract_date_range(query, reference_date)
+        subreddits = _extract_subreddits(query, self.valid_subreddits)
+        narrative = _extract_narrative_token(query)
+        unsupported = []
+        if requested_dates and plan.date_range is None:
+            plan.date_range = requested_dates
+            unsupported.append(
+                f"The {plan.description.lower()} template uses snapshot aggregates and cannot apply "
+                f"the requested date window {requested_dates[0]}..{requested_dates[1]}."
+            )
+        if len(subreddits) > 1:
+            unsupported.append(
+                "This template supports one subreddit at a time; the question names "
+                + ", ".join(f"r/{sub}" for sub in subreddits) + "."
+            )
+        elif subreddits and not any(e.label == "subreddit" for e in plan.entities):
+            unsupported.append(f"This template cannot restrict its result to r/{subreddits[0]}.")
+        if narrative and not any(e.label == "narrative" for e in plan.entities):
+            unsupported.append(f"This template cannot restrict its result to narrative '{narrative}'.")
+        if unsupported:
+            plan.unsupported_reason = " ".join(unsupported) + " No broader result was substituted."
         if plan is not None and not any(e.label == "narrative" for e in plan.entities):
             topic = _NARRATIVE_TOPIC.search(query)
             if topic:
@@ -1090,15 +1115,24 @@ def _narrative_like(token: str, table: str = "narrative_diffusion_table") -> str
     return f"%{esc(token)}%"
 
 
+def _extract_subreddits(query: str, valid_subreddits: set[str]) -> list[str]:
+    """Whole entity names, in question order, with stable case-insensitive deduplication."""
+    explicit = list(re.finditer(r"(?<![\w/])r/([A-Za-z0-9_]+)", query, re.IGNORECASE))
+    matches = [(m.start(), m.group(1)) for m in explicit]
+    for sub in sorted(valid_subreddits, key=lambda s: (-len(s), s.lower(), s)):
+        for match in re.finditer(r"(?<![\w/])" + re.escape(sub) + r"(?!\w)", query, re.IGNORECASE):
+            matches.append((match.start(), sub))
+    found, seen = [], set()
+    for _, sub in sorted(matches, key=lambda item: (item[0], -len(item[1]), item[1].lower())):
+        if sub.lower() not in seen:
+            found.append(sub)
+            seen.add(sub.lower())
+    return found
+
+
 def _extract_subreddit(query: str, valid_subreddits: set[str]) -> Optional[str]:
-    m = re.search(r"r/([A-Za-z0-9_]+)", query)
-    if m:
-        return m.group(1)
-    q = query.lower()
-    for sub in valid_subreddits:
-        if sub.lower() in q:
-            return sub
-    return None
+    subreddits = _extract_subreddits(query, valid_subreddits)
+    return subreddits[0] if subreddits else None
 
 
 def _extract_date_range(query: str, reference_date: Optional[date]) -> Optional[Tuple[str, str]]:

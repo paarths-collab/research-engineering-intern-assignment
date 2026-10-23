@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, model_serializer
+from pydantic import BaseModel, Field, model_serializer, model_validator
 
 
 class PersonaConfig(BaseModel):
@@ -46,10 +46,25 @@ class PerspectiveGraphEdge(BaseModel):
 
 
 class PerspectiveSimulateRequest(BaseModel):
-    nodes: list[PerspectiveGraphNode] = Field(default_factory=list)
-    edges: list[PerspectiveGraphEdge] = Field(default_factory=list)
+    nodes: list[PerspectiveGraphNode] = Field(default_factory=list, max_length=64)
+    edges: list[PerspectiveGraphEdge] = Field(default_factory=list, max_length=128)
     debate_rounds: int = Field(default=3, ge=1, le=20)
     options: dict[str, Any] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def validate_inputs(self):
+        from api_security import _bounded_json
+        if len({n.id for n in self.nodes}) != len(self.nodes):
+            raise ValueError("Node ids must be unique")
+        if len({e.id for e in self.edges}) != len(self.edges):
+            raise ValueError("Edge ids must be unique")
+        for node in self.nodes:
+            if len(node.id) > 64 or not _bounded_json(node.data):
+                raise ValueError("Node id or data exceeds input limits")
+        for edge in self.edges:
+            if len(edge.id) > 128 or max(len(edge.source), len(edge.target)) > 64:
+                raise ValueError("Edge identifiers exceed input limits")
+        return self
 
 
 class PerspectiveSimulateResponse(BaseModel):

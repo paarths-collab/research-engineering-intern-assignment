@@ -5,6 +5,7 @@ Primary: Tavily (AI-optimised search)
 Fallbacks: NewsAPI → GNews → NewsData.io
 Deduplicates by URL, filters to last 48h.
 """
+from api_security import consume_provider_call
 import hashlib
 import asyncio
 from datetime import datetime, timedelta, timezone
@@ -46,6 +47,7 @@ async def _search_tavily(query: str, client: httpx.AsyncClient) -> List[dict]:
     if not settings.TAVILY_API_KEY:
         return []
     try:
+        consume_provider_call()
         resp = await client.post(
             "https://api.tavily.com/search",
             json={
@@ -78,6 +80,7 @@ async def _search_newsapi(query: str, client: httpx.AsyncClient) -> List[dict]:
     if not settings.NEWSAPI_KEY:
         return []
     try:
+        consume_provider_call()
         resp = await client.get(
             "https://newsapi.org/v2/everything",
             params={
@@ -111,6 +114,7 @@ async def _search_gnews(query: str, client: httpx.AsyncClient) -> List[dict]:
     if not settings.GNEWS_KEY:
         return []
     try:
+        consume_provider_call()
         resp = await client.get(
             "https://gnews.io/api/v4/search",
             params={
@@ -142,6 +146,7 @@ async def _search_newsdata(query: str, client: httpx.AsyncClient) -> List[dict]:
     if not settings.NEWSDATA_KEY:
         return []
     try:
+        consume_provider_call()
         resp = await client.get(
             "https://newsdata.io/api/1/news",
             params={
@@ -177,7 +182,7 @@ async def correlate_news_for_event(
     seen_urls: set = set()
     all_articles: List[NewsArticle] = []
 
-    for query in event.search_queries:
+    for query in event.search_queries[:3]:
         # Try sources in priority order
         raw_articles = await _search_tavily(query, client)
         if not raw_articles:

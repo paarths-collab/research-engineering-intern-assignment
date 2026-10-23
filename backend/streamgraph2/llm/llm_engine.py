@@ -10,6 +10,7 @@ It does NOT:
 It translates structured metrics into a readable intelligence brief.
 """
 
+from api_security import consume_provider_call
 import json
 from typing import Dict, List
 
@@ -29,7 +30,9 @@ async def generate_smart_search_query(representative_posts: list) -> str:
     (Example: "Trump signs reciprocal tariffs executive order")
     Do not include quotes or extra text.
     """
+    consume_provider_call()
     response = await acompletion(
+        num_retries=0, timeout=45.0,
         model=LLM_MODEL,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=30,
@@ -100,7 +103,9 @@ async def generate_brief(
         "sentiment"   : sentiment,
     }
 
+    consume_provider_call()
     response = await acompletion(
+        num_retries=0, timeout=45.0,
         model=LLM_MODEL,
         messages=[{"role": "user", "content": _build_prompt(payload)}],
         max_tokens=1200,

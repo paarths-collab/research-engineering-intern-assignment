@@ -5,6 +5,7 @@ The LLM receives ONLY a pre-processed payload (no raw posts).
 It never touches the internet or guesses events.
 """
 
+from api_security import consume_provider_call
 import asyncio
 import logging
 import json
@@ -22,7 +23,9 @@ async def _call_llm(messages: list[dict], max_tokens: int = 800, temperature: fl
     """Wrapper around acompletion with automatic rate-limit retry (waits 60 s)."""
     for attempt in range(1, _MAX_RETRIES + 1):
         try:
+            consume_provider_call()
             response = await acompletion(
+                num_retries=0, timeout=45.0,
                 model=LLM_MODEL,
                 messages=messages,
                 max_tokens=max_tokens,

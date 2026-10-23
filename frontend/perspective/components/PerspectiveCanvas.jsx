@@ -311,9 +311,9 @@ function Canvas() {
     const byType = {
       persona: nodes.filter((n) => n.type === 'persona'),
       news: nodes.filter((n) => n.type === 'news'),
-      analysis: nodes.filter((n) => n.type === 'analysis').slice(-1),
-      discussion: nodes.filter((n) => n.type === 'discussion').slice(-1),
-      debate: nodes.filter((n) => n.type === 'debate').slice(-1),
+      analysis: nodes.filter((n) => n.type === 'analysis'),
+      discussion: nodes.filter((n) => n.type === 'discussion'),
+      debate: nodes.filter((n) => n.type === 'debate'),
     };
     return byType;
   }, [nodes]);

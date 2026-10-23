@@ -6,6 +6,7 @@ DuckDuckGo web search + article extraction for deeper chatbot answers.
 
 from __future__ import annotations
 
+from api_security import consume_provider_call, count_httpx_redirect
 from urllib.parse import parse_qs, quote_plus, unquote, urlparse
 
 import httpx
@@ -38,7 +39,8 @@ class WebSearchClient:
         # HTML endpoint has richer news/web results than the instant-answer API.
         url = f"https://duckduckgo.com/html/?q={quote_plus(query)}&kl=us-en"
         try:
-            with httpx.Client(timeout=20.0, follow_redirects=True) as client:
+            with httpx.Client(timeout=20.0, follow_redirects=True, event_hooks={"request": [count_httpx_redirect]}) as client:
+                consume_provider_call()
                 resp = client.get(
                     url,
                     headers={
@@ -84,7 +86,8 @@ class WebSearchClient:
 
     def _extract_article(self, url: str) -> str:
         try:
-            with httpx.Client(timeout=20.0, follow_redirects=True) as client:
+            with httpx.Client(timeout=20.0, follow_redirects=True, event_hooks={"request": [count_httpx_redirect]}) as client:
+                consume_provider_call()
                 resp = client.get(url, headers={"User-Agent": "Mozilla/5.0"})
                 resp.raise_for_status()
                 html = resp.text

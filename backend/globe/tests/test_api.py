@@ -1,6 +1,7 @@
 """
 Tests — API Endpoints
 """
+import asyncio
 import pytest
 import json
 from unittest.mock import patch, MagicMock, AsyncMock
@@ -150,10 +151,43 @@ class TestPipelineEndpoints:
         # run_pipeline is stubbed: TestClient executes background tasks, and the
         # real pipeline would hit the network and the database.
         run_mock = AsyncMock()
-        with patch("app.api.routes.pipeline._pipeline_lock") as mock_lock, \
+        with patch("app.api.routes.pipeline._pipeline_lock", asyncio.Lock()) as pipeline_lock, \
              patch("app.api.routes.pipeline.run_pipeline", run_mock):
-            mock_lock.locked.return_value = False
             response = client.post("/pipeline/run")
             assert response.status_code == 200
             assert response.json()["status"] == "running"
             run_mock.assert_awaited_once()
+            assert not pipeline_lock.locked()
+
+
+@pytest.mark.asyncio
+async def test_pipeline_reserves_slot_before_background_execution(monkeypatch):
+    from fastapi import BackgroundTasks
+    from app.api.routes import pipeline
+    lock = asyncio.Lock()
+    run = AsyncMock()
+    monkeypatch.setattr(pipeline, "_pipeline_lock", lock)
+    monkeypatch.setattr(pipeline, "run_pipeline", run)
+    tasks = BackgroundTasks()
+    assert (await pipeline.trigger_pipeline(tasks))["status"] == "running"
+    assert lock.locked()
+    second_tasks = BackgroundTasks()
+    assert (await pipeline.trigger_pipeline(second_tasks))["message"] == "Pipeline already running"
+    assert not second_tasks.tasks
+    await tasks()
+    run.assert_awaited_once()
+    assert not lock.locked()
+
+
+@pytest.mark.asyncio
+async def test_pipeline_slot_released_after_background_failure(monkeypatch):
+    from fastapi import BackgroundTasks
+    from app.api.routes import pipeline
+    lock = asyncio.Lock()
+    monkeypatch.setattr(pipeline, "_pipeline_lock", lock)
+    monkeypatch.setattr(pipeline, "run_pipeline", AsyncMock(side_effect=RuntimeError("fake failure")))
+    tasks = BackgroundTasks()
+    await pipeline.trigger_pipeline(tasks)
+    with pytest.raises(RuntimeError, match="fake failure"):
+        await tasks()
+    assert not lock.locked()

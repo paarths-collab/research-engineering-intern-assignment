@@ -1,4 +1,6 @@
 "use client";
+
+import { apiFetch } from '../../lib/operatorAccess.mjs';
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -123,8 +125,8 @@ export default function IntelligencePage() {
     async function loadMeta() {
       try {
         const [spreadRes, reachRes] = await Promise.all([
-          fetch("/api/network/intelligence/spread-levels"),
-          fetch("/api/network/intelligence/subreddit-reach"),
+          apiFetch("/api/network/intelligence/spread-levels"),
+          apiFetch("/api/network/intelligence/subreddit-reach"),
         ]);
 
         if (spreadRes.ok) setSpreadLevels(await spreadRes.json());
@@ -155,7 +157,7 @@ export default function IntelligencePage() {
         if (selectedAuthorFilter) q.set("author", String(selectedAuthorFilter));
 
         console.log(`[GraphFetch] Requesting mode=${viewMode}...`);
-        const res = await fetch(`/api/network/intelligence/graph?${q.toString()}`);
+        const res = await apiFetch(`/api/network/intelligence/graph?${q.toString()}`);
         if (res.ok) {
           const data = await res.json();
           console.log(`[GraphFetch] Received ${data.nodes?.length || 0} nodes, ${data.edges?.length || 0} edges`);
@@ -190,7 +192,7 @@ export default function IntelligencePage() {
           limit: "300",
         });
 
-        const res = await fetch(`/api/network/intelligence/narratives?${q.toString()}`);
+        const res = await apiFetch(`/api/network/intelligence/narratives?${q.toString()}`);
         if (res.ok) {
           const data = await res.json();
           setNarratives(data.items || []);
@@ -206,7 +208,7 @@ export default function IntelligencePage() {
       try {
         const q = new URLSearchParams({ limit: "30" });
 
-        const res = await fetch(`/api/network/intelligence/leaderboard?${q.toString()}`);
+        const res = await apiFetch(`/api/network/intelligence/leaderboard?${q.toString()}`);
         if (res.ok) {
           const data = await res.json();
           setLeaderboard(data.items || []);
@@ -228,7 +230,7 @@ export default function IntelligencePage() {
     setSelectedNarrativeId(narrativeId);
     setAnalysisReport("");
     try {
-        const res = await fetch(`/api/network/intelligence/narrative/${narrativeId}/overlay`);
+        const res = await apiFetch(`/api/network/intelligence/narrative/${narrativeId}/overlay`);
         if (res.ok) {
             const data = await res.json();
             setOverlayEdges(data.edges || []);
@@ -246,7 +248,7 @@ export default function IntelligencePage() {
     if (!selectedNarrativeId) return;
     setAnalysisLoading(true);
     try {
-      const res = await fetch(`/api/network/intelligence/narrative/${selectedNarrativeId}/analyze`, { method: "POST" });
+      const res = await apiFetch(`/api/network/intelligence/narrative/${selectedNarrativeId}/analyze`, { method: "POST" });
       const payload = await res.json();
       if (res.ok) {
         setAnalysisReport(payload.report || "No analysis returned.");
@@ -254,7 +256,7 @@ export default function IntelligencePage() {
         setAnalysisReport(payload?.detail || "Analysis failed.");
       }
     } catch (e) {
-      setAnalysisReport("Analysis failed.");
+      setAnalysisReport(e.message || "Analysis failed.");
       console.error(e);
     } finally {
       setAnalysisLoading(false);
@@ -281,10 +283,10 @@ export default function IntelligencePage() {
           min_subreddits: String(minSubreddits),
         });
         const [detailRes, ecoRes] = await Promise.all([
-          fetch(
+          apiFetch(
             `/api/network/intelligence/subreddit/${encodeURIComponent(label)}/details?${q.toString()}`
           ),
-          fetch(`/api/network/intelligence/subreddit/${encodeURIComponent(label)}/ecosystem?${q.toString()}`),
+          apiFetch(`/api/network/intelligence/subreddit/${encodeURIComponent(label)}/ecosystem?${q.toString()}`),
         ]);
 
         if (detailRes.ok) {

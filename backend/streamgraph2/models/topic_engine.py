@@ -8,6 +8,8 @@ Rules:
   - Optionally use Groq to refine cluster keywords/labels
 """
 
+from api_security import consume_provider_call
+
 import json
 import re
 from collections import Counter
@@ -85,14 +87,16 @@ def _groq_refine_keywords(texts: List[str], fallback: List[str]) -> Tuple[str | 
     try:
         from groq import Groq
 
-        client = Groq(api_key=GROQ_API_KEY)
+        client = Groq(api_key=GROQ_API_KEY, max_retries=0, timeout=45.0)
         sample = "\n".join(f"- {t}" for t in texts[:20])
         prompt = (
             "Given the following post titles from one detected cluster, return JSON with a short label and up to 8 keywords. "
             "Return only JSON with this schema: {\"label\": string, \"keywords\": string[]}.\n\n"
             f"Titles:\n{sample}"
         )
+        consume_provider_call()
         completion = client.chat.completions.create(
+            max_tokens=250,
             model=TOPIC_REFINER_MODEL.replace("groq/", ""),
             temperature=0,
             messages=[

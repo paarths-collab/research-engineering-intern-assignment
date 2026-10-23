@@ -17,6 +17,8 @@ All steps persist to Neon.
 No JSON file cache.
 """
 
+from api_security import ensure_work_budget
+
 import asyncio
 from datetime import date, timedelta
 from typing import Optional
@@ -60,6 +62,8 @@ async def run_spike_pipeline(job_id: str, spike_date: date):
             print("\n[1/6] Topic modeling")
             topics = await topic_engine.run_topic_modeling(job_id, spike_date, current_min_topic_size)
 
+            ensure_work_budget()
+            topics = topics[:8]
             if not topics:
                 if attempt == max_retries:
                     await db.update_job_status(job_id, "failed", "No topics detected after retries")
@@ -76,6 +80,7 @@ async def run_spike_pipeline(job_id: str, spike_date: date):
                 print(f"      Smart query: '{query}'")
                 topic_news = await news_fetcher.fetch_and_store_news(spike_date, query)
                 matches = await matcher.run_similarity_matching(job_id, [topic], topic_news)
+                ensure_work_budget()
                 all_matches.extend(matches)
 
             # ── Step 4: Volume acceleration ───────────────────────
@@ -169,10 +174,12 @@ async def run_spike_pipeline(job_id: str, spike_date: date):
                 )
                 combined_briefs.append(f"### Cluster ({topic['size_percent']}%): {', '.join(topic['keywords'][:3])}\n{topic_brief}")
             
+            ensure_work_budget()
             await db.save_brief(job_id, "\n\n".join(combined_briefs))
         else:
             print(f"  [Brief] Skipped — confidence too low ({confidence})")
 
+        ensure_work_budget()
         await db.update_job_status(job_id, "done")
         print(f"\n✓ Pipeline complete | job={job_id}")
 

@@ -1,4 +1,6 @@
 "use client";
+
+import { apiFetch } from '../../lib/operatorAccess.mjs';
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -23,7 +25,7 @@ export default function SourceDetailModal({ source, isOpen, subreddit, onClose }
         setIntelLoading(true);
         setIntelResult(null);
         try {
-            const res = await fetch("/api/ai-analysis", {
+            const res = await apiFetch("/api/ai-analysis", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -39,8 +41,8 @@ export default function SourceDetailModal({ source, isOpen, subreddit, onClose }
             } else {
                 setIntelResult(generateFallback());
             }
-        } catch {
-            setIntelResult(generateFallback());
+        } catch (error) {
+            setIntelResult(error.message || "Analysis failed. Check operator access and try again.");
         } finally {
             setIntelLoading(false);
         }

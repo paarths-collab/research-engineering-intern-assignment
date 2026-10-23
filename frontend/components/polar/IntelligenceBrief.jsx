@@ -1,50 +1,43 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { apiFetch } from '../../lib/operatorAccess.mjs';
+import { useEffect, useState, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
-
-const MOCK_BRIEF = `Narrative polarization analysis reveals distinct ideological clusters across communities. Several subreddits act as bridge nodes that facilitate narrative diffusion between otherwise separated information groups.
-
-### Key Observations
-
-• Strong ideological separation between major clusters
-• Bridge communities enabling cross-cluster narrative spread
-• Amplification hubs increasing narrative velocity
-`;
 
 export default function IntelligenceBrief({ subreddit = "politics" }) {
   const [brief, setBrief] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [expanded, setExpanded] = useState(false);
 
-  useEffect(() => {
-    const fetchBrief = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/intelligence-brief", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subreddit }),
-        });
-        const json = await res.json();
-        setBrief(json.brief || MOCK_BRIEF);
-      } catch {
-        setBrief(MOCK_BRIEF);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBrief();
+  useEffect(() => { setBrief(""); setError(""); }, [subreddit]);
+
+  const fetchBrief = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await apiFetch("/api/intelligence-brief", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subreddit }),
+      });
+      const json = await res.json();
+      setBrief(json.brief || "No brief returned.");
+    } catch (err) {
+      setError(err.message || "Brief generation failed.");
+    } finally {
+      setLoading(false);
+    }
   }, [subreddit]);
 
   return (
     <div className="h-full flex flex-col">
       {/* Header Controls */}
       <div className="border-b border-[#1B2330] pb-4 mb-2 flex items-center justify-between">
-        <div />
+        <button type="button" disabled={loading} onClick={fetchBrief} className="text-xs text-blue-300 disabled:opacity-50">Generate brief</button>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 border border-[#1d4ed8]/30 px-2 py-1">
             <span className="w-1.5 h-1.5 bg-[#3b82f6] rounded-full" />
-            <span className="text-[9px] font-mono text-[#3b82f6]">AI GENERATED</span>
+            <span className="text-[9px] font-mono text-[#3b82f6]">{brief ? "AI GENERATED" : "BRIEF"}</span>
           </div>
           <button
             onClick={() => setExpanded(!expanded)}
@@ -60,6 +53,8 @@ export default function IntelligenceBrief({ subreddit = "politics" }) {
         className={`px-6 py-5 overflow-hidden transition-all duration-500 ${expanded ? "max-h-[9999px]" : "max-h-96"
           }`}
       >
+        {error && <p role="alert" className="mb-3 text-sm text-red-300">{error}</p>}
+        {!brief && !loading && !error && <p className="text-sm text-slate-400">Generate a brief using operator access.</p>}
         {loading ? (
           <div className="flex items-center gap-3 py-8">
             <div className="w-4 h-4 border border-[#3b82f6] border-t-transparent rounded-full animate-spin flex-shrink-0" />

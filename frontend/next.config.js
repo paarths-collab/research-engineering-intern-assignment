@@ -1,11 +1,8 @@
 const path = require('path');
 /** @type {import('next').NextConfig} */
-const backendOrigin = (
-  process.env.NEXT_PUBLIC_API_URL
-  || process.env.NEXT_PUBLIC_API_BASE_URL
-  || process.env.BACKEND_API_URL
-  || "http://127.0.0.1:8000"
-).replace(/\/$/, "");
+const { resolveBackendOrigin } = require('./lib/deploymentConfig.cjs');
+const { backendOrigin: deploymentOrigin } = require('./deployment.json');
+const backendOrigin = resolveBackendOrigin(process.env, deploymentOrigin);
 
 const nextConfig = {
   reactStrictMode: true,

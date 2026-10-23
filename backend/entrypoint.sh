@@ -7,9 +7,12 @@ set -e
 #   SEED_FORCE  set to 1 to overwrite existing files on DATA_PATH with the seed
 #               copy. Unset (default) only copies seed files that are missing.
 #   PORT        uvicorn port (default 8000).
+#   STREAMGRAPH2_DUCKDB_PATH defaults to the persistent data directory.
 
 DATA_PATH="${DATA_PATH:-/app/data}"
 SEED_PATH="${SEED_PATH:-/app/seed_data}"
+STREAMGRAPH2_DUCKDB_PATH="${STREAMGRAPH2_DUCKDB_PATH:-$DATA_PATH/streamgraph2.duckdb}"
+export DATA_PATH STREAMGRAPH2_DUCKDB_PATH
 
 mkdir -p "$DATA_PATH"
 
@@ -43,4 +46,6 @@ fi
 echo "[entrypoint] Patching DuckDB intelligence views..."
 python patch_db.py
 
-exec uvicorn main:app --host 0.0.0.0 --port "${PORT:-8000}"
+# Keep admission quotas, background-job slots, and database connections in one
+# process even when the platform supplies a larger WEB_CONCURRENCY value.
+exec uvicorn main:app --host 0.0.0.0 --port "${PORT:-8000}" --workers 1

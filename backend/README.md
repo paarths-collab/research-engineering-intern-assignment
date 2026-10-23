@@ -30,6 +30,8 @@ Each sub-app that fails to import is replaced with an empty `FastAPI()` and reco
 
 The DuckDB file is built by `build_db.py` or lazily by the API. Its date range is derived from the dated tables. It currently spans 2024-07-23 to 2025-02-18.
 
+The planner rejects recognized scopes that its template cannot apply (including dates on snapshot aggregates, narrative-scoped generic counts, and multiple subreddit names). These return `insufficient_coverage` with the reason and requested date window, without running a broader query or calling the LLM. Bare subreddit names match whole names deterministically. SQL validation and execution use a cursor per request. Dated series are preserved in full in API evidence and synthesis prompts; template fallbacks also summarize the complete interval and peak.
+
 ### Response provenance
 
 Non-debug responses include:
@@ -74,16 +76,18 @@ The simulator is an illustrative persona roleplay sandbox. Its output is labelle
 
 Reactions come from one sequential Groq call per persona, using `PERSPECTIVE_GROQ_MODEL`. The call is made only when `GROQ_API_KEY` is set. Before simulating, the service calls the Globe API at `PERSPECTIVE_GLOBE_API_URL` for news context. If that call fails, the simulation continues without it.
 
+Globe input provenance (`is_mock`, `data_source`, `data_notice`, `data_generated_at`) survives preset generation, analysis caches, and frontend caches. Input source labels are separate from the reaction's `simulated` label. Unrelated events are not added as supporting context. Connector outputs carry `generated_output` and `connectorIds`; the board retains all branches and reconciles a one-to-one result to its requested connector. Derived connectors are excluded from subsequent simulation inputs.
+
 ## Other mounted apps
 
-`polarize_1/`, `networkgraph/`, and `streamgraph2/` are mounted as they are. Their routes are listed in their own modules. `streamgraph2` reads `DATABASE_URL` when it is set and falls back to CSVs when it is not.
+`polarize_1/`, `networkgraph/`, and `streamgraph2/` expose the routes in their own modules. `streamgraph2` uses `DATABASE_URL` when available, otherwise a local DuckDB (`STREAMGRAPH2_DUCKDB_PATH`). Fallback startup transactionally seeds empty echo-score, domain-flow and distinctive-domain tables from bundled CSVs in `DATA_PATH` (default project `data/`). Nonempty persisted tables are preserved on restart. Timeline helpers also read CSV data.
 
 ## Deployment files
 
 - `backend/Dockerfile`: `python:3.12-slim`. Copies `data/` to `/app/seed_data`. Its HEALTHCHECK calls `/health`.
-- `backend/entrypoint.sh`: copies the seed data into `$DATA_PATH` when `analysis_v2.db` is missing, runs `patch_db.py`, and starts uvicorn.
+- `backend/entrypoint.sh`: copies missing seed files into `$DATA_PATH` on every boot, preserving existing files unless `SEED_FORCE=1`; runs `patch_db.py`, then starts uvicorn.
 - `render.yaml`: Docker web service with a disk at `/app/data` and `healthCheckPath: /health`.
-- `vercel.json` and `api/index.py`: Vercel builds the Next.js frontend and routes `/api/*` to `api/index.py`, which imports `main.app`.
+- `vercel.json` and `frontend/vercel.json`: frontend-only Vercel builds. Next.js rewrites `/api/*` to the Render origin from server-side `BACKEND_API_URL` or `frontend/deployment.json`; the legacy `api/index.py` is not deployed.
 - `docker-compose.yml`: local backend container on port 8000.
 
 ## Tests
@@ -91,6 +95,24 @@ Reactions come from one sequential Groq call per persona, using `PERSPECTIVE_GRO
 - `hybrid_chatbot/tests/`: API, pipeline, coverage, and SQL bootstrap tests.
 - `tests/test_service_health.py`: the `/health` payload helper.
 - `perspective/tests/test_simulate_labels.py`: labelling and fallback behaviour, with the provider call stubbed.
-- `globe/tests/` (run from `backend/globe`, see `pytest.ini`): `test_api.py` currently fails at collection because it imports `app.main`, which does not exist.
+- `globe/tests/` (run from `backend/globe`, see `pytest.ini`): builds a test app from the actual routers, with provider calls stubbed.
+- `tests/test_streamgraph_bootstrap.py`: fresh fallback startup and preservation of persisted ecosystem metrics.
+- `frontend/tests/` (`cd frontend && npm test`): board branch retention, connector handles, and provenance through map normalization and preset caching.
 
 Run commands are in the root README.
+
+## Operator access and work admission
+
+`api_security.py` wraps the unified API and standalone chatbot. All unsafe methods under `/api`, including `/api/polar` aliases, network, stream, Globe and Perspective, require `Authorization: Bearer <NARRATIVE_API_TOKEN>`. The token must be at least 32 characters; unset/weak configuration fails closed with 503. `/diag` also requires authentication. GET/HEAD dashboards are public, and every API module is rate limited. CORS applies `FRONTEND_ORIGINS` and does not allow credentialed wildcard access.
+
+Defaults: `RATE_LIMIT_MAX=60` per client/module, `WORK_LIMIT_MAX=10` across authenticated work requests and client addresses, `RATE_LIMIT_WINDOW_SECONDS=60`, and 2 active work requests. Polar aliases share one bucket. State expires and client buckets are capped. Forwarded IP headers are not used by this middleware. Configure your trusted proxy separately; counters, locks and slots require one worker/instance. Shared persistent admission and a queue are required before horizontal or serverless scaling.
+
+Work requests are capped at 256 KiB of actual received JSON, 8,000 characters per string, 512 array items, 128 object keys, and 12 levels of nesting. A shared, locked context budget permits 32 downstream attempts and stops starting new attempts after 180 seconds. Sync threads and async child tasks share it; provider retries and fallbacks consume it too. LLM SDK automatic retries are disabled and LLM outputs/timeouts are bounded. Reddit SDK HTTP attempts and automatic HTTP redirects also reserve a unit before each attempt. Background tasks retain the active slot through completion; budget failure marks collection jobs failed rather than publishing a complete result. HTTP spike jobs use deterministic supervision so CrewAI's internal calls cannot bypass the budget. These controls do not apply to independently launched CLI jobs.
+
+Perspective validates graph expansion before any context/provider lookup: 64 nodes, 128 edges, unique identifiers, 8 personas, 4 headlines, 12 reactions, and 120 turns. News preset requests allow 1–30 entries. The frontend sends original inputs on repeated runs, excluding generated text. Globe collection scans at most 8 subreddits × 30 posts, reuses at most 240 stored posts, resolves at most 12 candidates, and correlates at most 8 structured events. Existing caches and persisted datasets remain available to public reads.
+
+The frontend's **Operator access** control holds the token only in tab memory and attaches it only to same-origin API writes or an explicitly configured backend origin. Analysis failures show server errors; rejected writes are never automatically retried against alternate origins. Tokens never belong in public environment variables, browser storage, query parameters, or logs. Use HTTPS for nonlocal traffic.
+
+`tests/test_api_security.py` covers mount/alias protection, global work admission, chunked body limits, background concurrency, quota expiry, and atomic provider budgets. Perspective and frontend regressions cover graph expansion and credential forwarding.
+
+The existing free native Render service can keep its Python runtime and start command. Set `WEB_CONCURRENCY=1`, `DATA_PATH=./data`, `STREAMGRAPH2_DUCKDB_PATH=./data/streamgraph2.duckdb`, `LOG_DIR=./logs`, and `NARRATIVE_BOOTSTRAP_NETWORK_DB=1`. This flag runs the network database CSV bootstrap in the unified lifespan and verifies all required tables before startup succeeds. Native free storage is ephemeral; the optional paid Docker Blueprint supplies persistence. Keep existing provider secrets when updating deployment environment variables.

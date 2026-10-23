@@ -3,6 +3,7 @@
 import { Handle, Position } from 'reactflow';
 import useGraphStore from '../store/graphStore';
 import { SimulationBadge } from './SimulationBadge';
+import { sourceLabel } from '../../lib/dataProvenance.mjs';
 
 export default function NewsNode({ id, data, selected }) {
   const deleteNode = useGraphStore((s) => s.deleteNode);
@@ -25,6 +26,11 @@ export default function NewsNode({ id, data, selected }) {
         </button>
       </div>
       <div className="node-title">{data.label}</div>
+      <div className="node-description" role="status">
+        {sourceLabel(data)}{data.data_generated_at ? ` · ${data.data_generated_at}` : ''}
+        {data.data_notice && <div>{data.data_notice}</div>}
+        {data.globe_context_is_mock && <div>Supporting Globe context includes demo sample events.</div>}
+      </div>
       {data.description && (
         <div className="node-description">{data.description}</div>
       )}

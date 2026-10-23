@@ -1,3 +1,4 @@
+from api_security import consume_provider_call
 import os
 import json
 import logging
@@ -188,6 +189,7 @@ Timeline:
 """
 
         async with httpx.AsyncClient(timeout=45.0) as client:
+            consume_provider_call()
             resp = await client.post(
                 GROQ_API_URL,
                 headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},

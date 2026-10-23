@@ -1,3 +1,4 @@
+from api_security import consume_provider_call
 import asyncio
 import time
 from typing import Optional
@@ -50,6 +51,7 @@ async def geocode_location(name: str) -> Optional[dict]:
 
     try:
         async with httpx.AsyncClient(timeout=10) as client:
+            consume_provider_call()
             resp = await client.get(
                 "https://nominatim.openstreetmap.org/search",
                 params={"q": normalized, "format": "json", "limit": 1},

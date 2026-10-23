@@ -1,3 +1,4 @@
+from api_security import consume_provider_call, count_async_httpx_redirect
 from fastapi import APIRouter, HTTPException, Query
 from typing import Optional
 from datetime import date, datetime, timezone
@@ -413,6 +414,7 @@ async def get_location_news(payload: LocationNewsRequest):
         country_code = None
 
         try:
+            consume_provider_call()
             reverse = await client.get(
                 "https://nominatim.openstreetmap.org/reverse",
                 params={
@@ -576,6 +578,7 @@ async def headline_analysis_workflow(
             async with httpx.AsyncClient(
                 timeout=18.0,
                 follow_redirects=True,
+                event_hooks={"request": [count_async_httpx_redirect]},
                 headers={"User-Agent": "Mozilla/5.0 (compatible; NarrativeSignal/1.0)"},
             ) as client:
                 for q in list(dict.fromkeys(queries))[:2]:
@@ -798,6 +801,7 @@ Rules:
         "news_context": {"topic_sentences": news_payload.get("topic_sentences") or [], "articles": articles},
         "aggregated_context": aggregation,
         "analysis_report": report,
+        **_data_labels(data),
     }
     cache[cache_key] = payload
     _save_analysis_cache(cache)
@@ -983,6 +987,7 @@ Return ONLY the 4 sentences, one per line, no numbering, no bullets, no extra te
         results = []
         try:
             url = f"https://news.google.com/rss/search?q={quote_plus(query)}&hl=en-US&gl=US&ceid=US:en"
+            consume_provider_call()
             r   = await client.get(url)
             if r.status_code == 200:
                 root = ET.fromstring(r.content)
@@ -1014,6 +1019,7 @@ Return ONLY the 4 sentences, one per line, no numbering, no bullets, no extra te
     async with httpx.AsyncClient(
         timeout=15.0,
         follow_redirects=True,
+        event_hooks={"request": [count_async_httpx_redirect]},
         headers={"User-Agent": "Mozilla/5.0 (compatible; NarrativeSignal/1.0)"},
     ) as client:
         tasks = []

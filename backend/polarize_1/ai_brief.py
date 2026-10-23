@@ -6,6 +6,7 @@ and returns a clean, analytical paragraph. No raw data passed — only
 structured metrics so the LLM interprets, not restates.
 """
 
+from api_security import consume_provider_call
 import os
 from litellm import acompletion
 
@@ -85,7 +86,9 @@ async def generate_brief(payload: dict, api_key: str) -> str:
     """
     Async call to Groq via LiteLLM. Returns the brief as a plain string.
     """
+    consume_provider_call()
     response = await acompletion(
+        num_retries=0, timeout=45.0,
         model=MODEL,
         messages=[{"role": "user", "content": _build_prompt(payload)}],
         max_tokens=MAX_TOKENS,

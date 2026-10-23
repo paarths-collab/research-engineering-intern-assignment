@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from api_security import consume_provider_call
 import json
 import logging
 import os
@@ -40,6 +41,7 @@ class PerspectiveLLMClient:
 
         t0 = time.perf_counter()
         with httpx.Client(timeout=40.0) as client:
+            consume_provider_call()
             resp = client.post(
                 f"{self.base_url}/chat/completions",
                 headers={"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"},

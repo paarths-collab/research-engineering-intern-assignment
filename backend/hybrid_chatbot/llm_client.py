@@ -6,6 +6,7 @@ Lightweight LLM client (Groq/OpenAI-compatible).
 
 from __future__ import annotations
 
+from api_security import consume_provider_call
 import json
 import logging
 import time
@@ -41,6 +42,7 @@ class LLMClient:
         t0 = time.perf_counter()
         url = f"{self.base_url}/chat/completions"
         with httpx.Client(timeout=30.0) as client:
+            consume_provider_call()
             resp = client.post(
                 url,
                 headers={"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"},
