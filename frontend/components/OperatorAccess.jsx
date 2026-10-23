@@ -20,7 +20,7 @@ export default function OperatorAccess() {
   return (
     <>
       <button type="button" onClick={() => dialog.current?.showModal()}
-        className="fixed bottom-4 left-4 z-[200] rounded-lg border border-white/20 bg-slate-950 px-3 py-2 text-xs text-white shadow-lg">
+        className="border border-[#FFB800]/40 bg-[#FFB800]/10 px-4 py-3 text-sm text-[#FFB800]">
         {configured ? 'Operator token set' : 'Operator access'}
       </button>
       <dialog ref={dialog} onClose={() => { setValue(''); setError(''); }}
@@ -28,7 +28,7 @@ export default function OperatorAccess() {
         className="m-auto w-[min(92vw,420px)] rounded-xl border border-slate-600 bg-slate-950 p-6 text-white backdrop:bg-black/70">
         <form onSubmit={save}>
           <h2 id="operator-access-title" className="text-lg font-semibold">Operator access</h2>
-          <p className="my-3 text-sm text-slate-300">Read-only dashboards are public. Analysis and collection require the server operator token. It stays in this tab’s memory and clears on reload.</p>
+          <p className="my-3 text-sm text-slate-300">Collection and diagnostics are admin only. This private token stays in this tab’s memory and clears on reload or sign out. Regular accounts do not need it to run analysis.</p>
           <label htmlFor="operator-token" className="block text-sm">Operator token</label>
           <input id="operator-token" type="password" autoComplete="off" spellCheck={false}
             value={value} onChange={(event) => setValue(event.target.value)} required minLength={32}

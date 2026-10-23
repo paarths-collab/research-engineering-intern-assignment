@@ -3,15 +3,16 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
-import OperatorAccess from "./OperatorAccess";
+import AccountAccess from "./AccountAccess";
+import { AuthProvider } from "./AuthProvider";
 
 export default function AppShell({ children }) {
   const pathname = usePathname();
 
   return (
-    <>
+    <AuthProvider>
       <Sidebar />
-      <OperatorAccess />
+      <AccountAccess />
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname || "initial"}
@@ -23,6 +24,6 @@ export default function AppShell({ children }) {
           {children}
         </motion.div>
       </AnimatePresence>
-    </>
+    </AuthProvider>
   );
 }

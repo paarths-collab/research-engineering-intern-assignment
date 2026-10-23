@@ -829,6 +829,10 @@ except Exception as e:
 
 @asynccontextmanager
 async def _main_lifespan(application: FastAPI):
+    if await initialize_auth():
+        log.info("✓ user account database ready")
+    else:
+        log.warning("User accounts unavailable: configure a persistent authentication database")
     # Native Render services do not execute the Docker entrypoint.
     if os.getenv("NARRATIVE_BOOTSTRAP_NETWORK_DB") == "1":
         from patch_db import patch_db as _patch_network_db, DB_PATH as _network_db_path, TABLES as _network_tables
@@ -876,6 +880,7 @@ async def _main_lifespan(application: FastAPI):
     yield
 
     # Cleanup
+    await close_auth()
     try:
         import streamgraph2.data.db as _sg_db2
         await _sg_db2.close_pool()
@@ -883,7 +888,14 @@ async def _main_lifespan(application: FastAPI):
         pass
 
 
+from user_auth import router as auth_router, initialize_auth, close_auth, resolve_session, reserve_analysis
+
 app = FastAPI(title="NarrativeSignal Unified API", lifespan=_main_lifespan)
+app.include_router(auth_router)
+
+from fastapi.exceptions import RequestValidationError
+from api_security import api_validation_error
+app.add_exception_handler(RequestValidationError, api_validation_error)
 
 frontend_origins = [
     "http://localhost:3000",
@@ -895,7 +907,7 @@ if _env_origins.strip():
 
 from api_security import APISecurityMiddleware, consume_provider_call
 
-app.add_middleware(APISecurityMiddleware)
+app.add_middleware(APISecurityMiddleware, user_authenticator=resolve_session, analysis_reserver=reserve_analysis)
 
 app.add_middleware(
     CORSMiddleware,

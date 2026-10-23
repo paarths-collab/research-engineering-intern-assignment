@@ -1,8 +1,8 @@
 "use client";
 
-import { apiFetch } from '../../lib/operatorAccess.mjs';
+import { apiFetch, hasOperatorToken, subscribeOperatorAccess } from '../../lib/operatorAccess.mjs';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import { dataProvenance, sourceLabel } from "../../lib/dataProvenance.mjs";
 import { normalizePins } from "../../lib/globeData.mjs";
@@ -45,6 +45,7 @@ const STATUS_COLORS = {
   failed: "#FF4500",
   idle: "rgba(255,255,255,0.45)",
 };
+const noOperatorOnServer = () => false;
 
 class HttpError extends Error {
   constructor(status, body) {
@@ -233,6 +234,7 @@ function buildPinElement(pin, onClick) {
 }
 
 export default function GlobePage() {
+  const operator = useSyncExternalStore(subscribeOperatorAccess, hasOperatorToken, noOperatorOnServer);
   const globeRef = useRef(null);
   const wrapRef = useRef(null);
   const selectedRef = useRef(null);
@@ -560,7 +562,7 @@ export default function GlobePage() {
             {pipelineState.status || "idle"}
           </div>
 
-          <button
+          {operator ? <button
             onClick={refreshFromPipeline}
             disabled={refreshing}
             className="group relative px-5 py-2.5 bg-transparent border transition-all overflow-hidden disabled:opacity-60 disabled:cursor-not-allowed"
@@ -570,7 +572,7 @@ export default function GlobePage() {
             <span className="relative text-xs font-black uppercase tracking-widest text-[#FFB800] group-hover:text-black transition-colors">
               {refreshing ? "Refreshing..." : "Refresh Pipeline"}
             </span>
-          </button>
+          </button> : null}
         </div>
       </header>
 
