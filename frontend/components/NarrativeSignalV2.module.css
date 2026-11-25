@@ -204,11 +204,12 @@
 .title {
   /* Use 'Playfair Display' for the serif look in Image 2 */
   font-family: 'Playfair Display', serif;
-  font-size: clamp(29px, 7vw, 103px);
+  font-size: min(6.3vw, 103px);
   font-weight: 500;
   /* Reference uses a lighter serif weight */
   letter-spacing: 0.4em;
-  /* Very wide spacing */
+  /* Balance the trailing letter spacing so the visible letters are centered. */
+  padding-inline-start: 0.4em;
   text-transform: uppercase;
   color: #ffffff;
   margin: 0;
@@ -370,8 +371,9 @@
   }
 
   .title {
-    font-size: 36px;
+    font-size: min(7.5vw, 36px);
     letter-spacing: 0.16em;
+    padding-inline-start: 0.16em;
   }
 
   .globeWrap {
