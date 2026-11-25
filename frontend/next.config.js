@@ -6,6 +6,7 @@ const backendOrigin = resolveBackendOrigin(process.env, deploymentOrigin);
 
 const nextConfig = {
   reactStrictMode: true,
+  devIndicators: false,
   transpilePackages: ["cesium", "resium", "@react-three/fiber", "@react-three/drei", "three"],
   outputFileTracingRoot: path.join(__dirname, '../'),
   images: {

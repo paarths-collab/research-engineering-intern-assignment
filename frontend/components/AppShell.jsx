@@ -11,7 +11,7 @@ export default function AppShell({ children }) {
   return (
     <>
       <Sidebar />
-      <OperatorAccess />
+      {pathname !== "/" && pathname !== "/preview" && <OperatorAccess />}
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname || "initial"}
